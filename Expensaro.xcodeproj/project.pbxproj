@@ -7,18 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351839AE2AAF94C3008216F3 /* GoalsListView.swift */; };
 		3590948F2AAD3EC300428B39 /* ExpensaroApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590948E2AAD3EC300428B39 /* ExpensaroApp.swift */; };
 		359094912AAD3EC300428B39 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094902AAD3EC300428B39 /* ContentView.swift */; };
 		359094932AAD3EC400428B39 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 359094922AAD3EC400428B39 /* Assets.xcassets */; };
 		359094962AAD3EC400428B39 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 359094952AAD3EC400428B39 /* Preview Assets.xcassets */; };
+		3590949E2AAE33FD00428B39 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590949D2AAE33FD00428B39 /* Router.swift */; };
+		359094A02AAE340D00428B39 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590949F2AAE340D00428B39 /* RootNavigationController.swift */; };
+		359094A22AAE341E00428B39 /* NavigationViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094A12AAE341E00428B39 /* NavigationViewBuilder.swift */; };
+		359094A42AAE342F00428B39 /* NavigationControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094A32AAE342F00428B39 /* NavigationControllers.swift */; };
+		359094A62AAE344000428B39 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094A52AAE344000428B39 /* HostingController.swift */; };
+		359094AB2AAE365900428B39 /* ExpensaroUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 359094AA2AAE365900428B39 /* ExpensaroUIKit */; };
+		359094AD2AAE390500428B39 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094AC2AAE390500428B39 /* HomeView.swift */; };
+		359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094B62AAE575D00428B39 /* View+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		351839AE2AAF94C3008216F3 /* GoalsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsListView.swift; sourceTree = "<group>"; };
 		3590948B2AAD3EC300428B39 /* Expensaro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Expensaro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3590948E2AAD3EC300428B39 /* ExpensaroApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensaroApp.swift; sourceTree = "<group>"; };
 		359094902AAD3EC300428B39 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		359094922AAD3EC400428B39 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		359094952AAD3EC400428B39 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3590949D2AAE33FD00428B39 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		3590949F2AAE340D00428B39 /* RootNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
+		359094A12AAE341E00428B39 /* NavigationViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewBuilder.swift; sourceTree = "<group>"; };
+		359094A32AAE342F00428B39 /* NavigationControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllers.swift; sourceTree = "<group>"; };
+		359094A52AAE344000428B39 /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
+		359094AC2AAE390500428B39 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		359094B62AAE575D00428B39 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,12 +43,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				359094AB2AAE365900428B39 /* ExpensaroUIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		351839AC2AAF9451008216F3 /* Goals Module */ = {
+			isa = PBXGroup;
+			children = (
+				351839AE2AAF94C3008216F3 /* GoalsListView.swift */,
+			);
+			path = "Goals Module";
+			sourceTree = "<group>";
+		};
+		351839AD2AAF9461008216F3 /* Overview Module */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Overview Module";
+			sourceTree = "<group>";
+		};
+		351839B02AAF9BD9008216F3 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				359094AC2AAE390500428B39 /* HomeView.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		359094822AAD3EC300428B39 = {
 			isa = PBXGroup;
 			children = (
@@ -51,9 +92,13 @@
 		3590948D2AAD3EC300428B39 /* Expensaro */ = {
 			isa = PBXGroup;
 			children = (
+				3590949C2AAD404400428B39 /* Navigation */,
+				359094A72AAE353100428B39 /* Modules */,
+				359094AF2AAE4A6A00428B39 /* Elements */,
+				359094B82AAE5A4F00428B39 /* Resources */,
+				359094922AAD3EC400428B39 /* Assets.xcassets */,
 				3590948E2AAD3EC300428B39 /* ExpensaroApp.swift */,
 				359094902AAD3EC300428B39 /* ContentView.swift */,
-				359094922AAD3EC400428B39 /* Assets.xcassets */,
 				359094942AAD3EC400428B39 /* Preview Content */,
 			);
 			path = Expensaro;
@@ -65,6 +110,67 @@
 				359094952AAD3EC400428B39 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3590949C2AAD404400428B39 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				3590949D2AAE33FD00428B39 /* Router.swift */,
+				3590949F2AAE340D00428B39 /* RootNavigationController.swift */,
+				359094A12AAE341E00428B39 /* NavigationViewBuilder.swift */,
+				359094A32AAE342F00428B39 /* NavigationControllers.swift */,
+				359094A52AAE344000428B39 /* HostingController.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		359094A72AAE353100428B39 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				359094AE2AAE390900428B39 /* Home Module */,
+				351839AD2AAF9461008216F3 /* Overview Module */,
+				351839AC2AAF9451008216F3 /* Goals Module */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		359094AE2AAE390900428B39 /* Home Module */ = {
+			isa = PBXGroup;
+			children = (
+				351839B02AAF9BD9008216F3 /* Core */,
+			);
+			path = "Home Module";
+			sourceTree = "<group>";
+		};
+		359094AF2AAE4A6A00428B39 /* Elements */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Elements;
+			sourceTree = "<group>";
+		};
+		359094B52AAE574000428B39 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				359094B62AAE575D00428B39 /* View+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		359094B82AAE5A4F00428B39 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				359094B92AAE5A7300428B39 /* Enums */,
+				359094B52AAE574000428B39 /* Extensions */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		359094B92AAE5A7300428B39 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +189,9 @@
 			dependencies = (
 			);
 			name = Expensaro;
+			packageProductDependencies = (
+				359094AA2AAE365900428B39 /* ExpensaroUIKit */,
+			);
 			productName = Expensaro;
 			productReference = 3590948B2AAD3EC300428B39 /* Expensaro.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +220,9 @@
 				Base,
 			);
 			mainGroup = 359094822AAD3EC300428B39;
+			packageReferences = (
+				359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */,
+			);
 			productRefGroup = 3590948C2AAD3EC300428B39 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -138,6 +250,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				359094912AAD3EC300428B39 /* ContentView.swift in Sources */,
+				359094A42AAE342F00428B39 /* NavigationControllers.swift in Sources */,
+				359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */,
+				359094A22AAE341E00428B39 /* NavigationViewBuilder.swift in Sources */,
+				359094A02AAE340D00428B39 /* RootNavigationController.swift in Sources */,
+				359094A62AAE344000428B39 /* HostingController.swift in Sources */,
+				359094AD2AAE390500428B39 /* HomeView.swift in Sources */,
+				3590949E2AAE33FD00428B39 /* Router.swift in Sources */,
+				351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */,
 				3590948F2AAD3EC300428B39 /* ExpensaroApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,6 +395,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -308,6 +429,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -347,6 +469,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mireabot/ExpensaroUIKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		359094AA2AAE365900428B39 /* ExpensaroUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */;
+			productName = ExpensaroUIKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 359094832AAD3EC300428B39 /* Project object */;
 }

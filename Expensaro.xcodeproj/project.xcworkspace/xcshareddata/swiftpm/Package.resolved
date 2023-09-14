@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "expensarouikit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mireabot/ExpensaroUIKit",
+      "state" : {
+        "revision" : "8ba1100c5133b8d00966d8561a9e8869b808f0d7",
+        "version" : "1.1.0"
+      }
+    }
+  ],
+  "version" : 2
+}
