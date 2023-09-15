@@ -20,6 +20,11 @@
 		359094AB2AAE365900428B39 /* ExpensaroUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 359094AA2AAE365900428B39 /* ExpensaroUIKit */; };
 		359094AD2AAE390500428B39 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094AC2AAE390500428B39 /* HomeView.swift */; };
 		359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094B62AAE575D00428B39 /* View+Extensions.swift */; };
+		35ACB7E82AB3EDB800F7ECE5 /* OverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB7E72AB3EDB800F7ECE5 /* OverviewView.swift */; };
+		35BEF35D2AB378DB005D1138 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BEF35C2AB378DB005D1138 /* Source.swift */; };
+		35BEF3602AB37AA6005D1138 /* AddBudgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BEF35F2AB37AA6005D1138 /* AddBudgetView.swift */; };
+		35BEF3632AB38088005D1138 /* BottomSheetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BEF3622AB38088005D1138 /* BottomSheetModifier.swift */; };
+		35BEF3652AB38814005D1138 /* AddRecurrentPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BEF3642AB38814005D1138 /* AddRecurrentPaymentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +41,11 @@
 		359094A52AAE344000428B39 /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 		359094AC2AAE390500428B39 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		359094B62AAE575D00428B39 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		35ACB7E72AB3EDB800F7ECE5 /* OverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewView.swift; sourceTree = "<group>"; };
+		35BEF35C2AB378DB005D1138 /* Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
+		35BEF35F2AB37AA6005D1138 /* AddBudgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBudgetView.swift; sourceTree = "<group>"; };
+		35BEF3622AB38088005D1138 /* BottomSheetModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetModifier.swift; sourceTree = "<group>"; };
+		35BEF3642AB38814005D1138 /* AddRecurrentPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecurrentPaymentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +71,7 @@
 		351839AD2AAF9461008216F3 /* Overview Module */ = {
 			isa = PBXGroup;
 			children = (
+				35ACB7E72AB3EDB800F7ECE5 /* OverviewView.swift */,
 			);
 			path = "Overview Module";
 			sourceTree = "<group>";
@@ -94,7 +105,6 @@
 			children = (
 				3590949C2AAD404400428B39 /* Navigation */,
 				359094A72AAE353100428B39 /* Modules */,
-				359094AF2AAE4A6A00428B39 /* Elements */,
 				359094B82AAE5A4F00428B39 /* Resources */,
 				359094922AAD3EC400428B39 /* Assets.xcassets */,
 				3590948E2AAD3EC300428B39 /* ExpensaroApp.swift */,
@@ -137,16 +147,10 @@
 		359094AE2AAE390900428B39 /* Home Module */ = {
 			isa = PBXGroup;
 			children = (
+				35BEF35E2AB37A8C005D1138 /* Helpers */,
 				351839B02AAF9BD9008216F3 /* Core */,
 			);
 			path = "Home Module";
-			sourceTree = "<group>";
-		};
-		359094AF2AAE4A6A00428B39 /* Elements */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Elements;
 			sourceTree = "<group>";
 		};
 		359094B52AAE574000428B39 /* Extensions */ = {
@@ -160,8 +164,10 @@
 		359094B82AAE5A4F00428B39 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				35BEF3612AB38065005D1138 /* ViewModifiers */,
 				359094B92AAE5A7300428B39 /* Enums */,
 				359094B52AAE574000428B39 /* Extensions */,
+				35BEF35C2AB378DB005D1138 /* Source.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -171,6 +177,23 @@
 			children = (
 			);
 			path = Enums;
+			sourceTree = "<group>";
+		};
+		35BEF35E2AB37A8C005D1138 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				35BEF35F2AB37AA6005D1138 /* AddBudgetView.swift */,
+				35BEF3642AB38814005D1138 /* AddRecurrentPaymentView.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		35BEF3612AB38065005D1138 /* ViewModifiers */ = {
+			isa = PBXGroup;
+			children = (
+				35BEF3622AB38088005D1138 /* BottomSheetModifier.swift */,
+			);
+			path = ViewModifiers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,15 +272,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35BEF3632AB38088005D1138 /* BottomSheetModifier.swift in Sources */,
 				359094912AAD3EC300428B39 /* ContentView.swift in Sources */,
+				35BEF3652AB38814005D1138 /* AddRecurrentPaymentView.swift in Sources */,
 				359094A42AAE342F00428B39 /* NavigationControllers.swift in Sources */,
 				359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */,
 				359094A22AAE341E00428B39 /* NavigationViewBuilder.swift in Sources */,
+				35BEF35D2AB378DB005D1138 /* Source.swift in Sources */,
+				35BEF3602AB37AA6005D1138 /* AddBudgetView.swift in Sources */,
 				359094A02AAE340D00428B39 /* RootNavigationController.swift in Sources */,
 				359094A62AAE344000428B39 /* HostingController.swift in Sources */,
 				359094AD2AAE390500428B39 /* HomeView.swift in Sources */,
 				3590949E2AAE33FD00428B39 /* Router.swift in Sources */,
 				351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */,
+				35ACB7E82AB3EDB800F7ECE5 /* OverviewView.swift in Sources */,
 				3590948F2AAD3EC300428B39 /* ExpensaroApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -396,7 +424,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -430,7 +458,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

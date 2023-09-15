@@ -19,9 +19,10 @@ struct GoalsListView: View {
       }
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
-        ToolbarItem(placement: .principal) {
+        ToolbarItem(placement: .navigationBarLeading) {
           Text("Goals")
-            .font(.mukta(.medium, size: .title))
+            .font(.mukta(.medium, size: 24))
+            .padding(.bottom, 20)
         }
       }
     }

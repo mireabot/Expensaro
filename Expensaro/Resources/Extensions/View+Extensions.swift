@@ -12,4 +12,9 @@ extension View {
   func applyMargins() -> some View {
     self.padding([.leading, .trailing], 16)
   }
+  
+  /// Checks height of view
+  func readHeight() -> some View {
+    self.modifier(ReadHeightModifier())
+  }
 }
