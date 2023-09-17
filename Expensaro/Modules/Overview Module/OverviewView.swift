@@ -17,7 +17,7 @@ struct OverviewView: View {
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
-          Text("Overview")
+          Text(Appearance.shared.title)
             .font(.mukta(.medium, size: 24))
             .padding(.bottom, 20)
         }
@@ -29,5 +29,13 @@ struct OverviewView: View {
 struct OverviewView_Previews: PreviewProvider {
   static var previews: some View {
     OverviewView()
+  }
+}
+
+// MARK: - Apperance
+extension OverviewView {
+  struct Appearance {
+    static let shared = Appearance()
+    let title = "Overview"
   }
 }

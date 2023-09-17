@@ -1,14 +1,13 @@
 //
-//  ContentView.swift
+//  TabBarView.swift
 //  Expensaro
 //
-//  Created by Mikhail Kolkov on 9/9/23.
+//  Created by Mikhail Kolkov on 9/15/23.
 //
 
 import SwiftUI
-import ExpensaroUIKit
 
-struct ContentView: View {
+struct TabBarView: View {
   let nav = NavigationControllers()
   let router = EXNavigationViewsRouter()
   var body: some View {
@@ -52,8 +51,8 @@ struct ContentView: View {
   }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct TabBarView_Previews: PreviewProvider {
   static var previews: some View {
-    ContentView()
+    TabBarView()
   }
 }

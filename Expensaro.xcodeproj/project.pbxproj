@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351839AE2AAF94C3008216F3 /* GoalsListView.swift */; };
 		3590948F2AAD3EC300428B39 /* ExpensaroApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590948E2AAD3EC300428B39 /* ExpensaroApp.swift */; };
-		359094912AAD3EC300428B39 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094902AAD3EC300428B39 /* ContentView.swift */; };
 		359094932AAD3EC400428B39 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 359094922AAD3EC400428B39 /* Assets.xcassets */; };
 		359094962AAD3EC400428B39 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 359094952AAD3EC400428B39 /* Preview Assets.xcassets */; };
 		3590949E2AAE33FD00428B39 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590949D2AAE33FD00428B39 /* Router.swift */; };
@@ -20,6 +19,11 @@
 		359094AB2AAE365900428B39 /* ExpensaroUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 359094AA2AAE365900428B39 /* ExpensaroUIKit */; };
 		359094AD2AAE390500428B39 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094AC2AAE390500428B39 /* HomeView.swift */; };
 		359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094B62AAE575D00428B39 /* View+Extensions.swift */; };
+		359CDC542AB4C69600DFFDC7 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC532AB4C69600DFFDC7 /* OnboardingView.swift */; };
+		359CDC592AB4C8BA00DFFDC7 /* iPages in Frameworks */ = {isa = PBXBuildFile; productRef = 359CDC582AB4C8BA00DFFDC7 /* iPages */; };
+		359CDC5C2AB4DE3300DFFDC7 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC5B2AB4DE3300DFFDC7 /* TabBarView.swift */; };
+		359CDC602AB4DF4400DFFDC7 /* InitialPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC5F2AB4DF4400DFFDC7 /* InitialPermissionView.swift */; };
+		359CDC622AB50C0000DFFDC7 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC612AB50C0000DFFDC7 /* AddTransactionView.swift */; };
 		35ACB7E82AB3EDB800F7ECE5 /* OverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB7E72AB3EDB800F7ECE5 /* OverviewView.swift */; };
 		35BEF35D2AB378DB005D1138 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BEF35C2AB378DB005D1138 /* Source.swift */; };
 		35BEF3602AB37AA6005D1138 /* AddBudgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BEF35F2AB37AA6005D1138 /* AddBudgetView.swift */; };
@@ -31,7 +35,6 @@
 		351839AE2AAF94C3008216F3 /* GoalsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsListView.swift; sourceTree = "<group>"; };
 		3590948B2AAD3EC300428B39 /* Expensaro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Expensaro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3590948E2AAD3EC300428B39 /* ExpensaroApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensaroApp.swift; sourceTree = "<group>"; };
-		359094902AAD3EC300428B39 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		359094922AAD3EC400428B39 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		359094952AAD3EC400428B39 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3590949D2AAE33FD00428B39 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
@@ -41,6 +44,10 @@
 		359094A52AAE344000428B39 /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 		359094AC2AAE390500428B39 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		359094B62AAE575D00428B39 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		359CDC532AB4C69600DFFDC7 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		359CDC5B2AB4DE3300DFFDC7 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		359CDC5F2AB4DF4400DFFDC7 /* InitialPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialPermissionView.swift; sourceTree = "<group>"; };
+		359CDC612AB50C0000DFFDC7 /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
 		35ACB7E72AB3EDB800F7ECE5 /* OverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewView.swift; sourceTree = "<group>"; };
 		35BEF35C2AB378DB005D1138 /* Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		35BEF35F2AB37AA6005D1138 /* AddBudgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBudgetView.swift; sourceTree = "<group>"; };
@@ -54,6 +61,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				359094AB2AAE365900428B39 /* ExpensaroUIKit in Frameworks */,
+				359CDC592AB4C8BA00DFFDC7 /* iPages in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,7 +116,6 @@
 				359094B82AAE5A4F00428B39 /* Resources */,
 				359094922AAD3EC400428B39 /* Assets.xcassets */,
 				3590948E2AAD3EC300428B39 /* ExpensaroApp.swift */,
-				359094902AAD3EC300428B39 /* ContentView.swift */,
 				359094942AAD3EC400428B39 /* Preview Content */,
 			);
 			path = Expensaro;
@@ -137,6 +144,8 @@
 		359094A72AAE353100428B39 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				359CDC5A2AB4DE2100DFFDC7 /* Tab Bar Module */,
+				359CDC522AB4C49C00DFFDC7 /* Onboarding Module */,
 				359094AE2AAE390900428B39 /* Home Module */,
 				351839AD2AAF9461008216F3 /* Overview Module */,
 				351839AC2AAF9451008216F3 /* Goals Module */,
@@ -147,8 +156,8 @@
 		359094AE2AAE390900428B39 /* Home Module */ = {
 			isa = PBXGroup;
 			children = (
-				35BEF35E2AB37A8C005D1138 /* Helpers */,
 				351839B02AAF9BD9008216F3 /* Core */,
+				35BEF35E2AB37A8C005D1138 /* Helpers */,
 			);
 			path = "Home Module";
 			sourceTree = "<group>";
@@ -179,11 +188,45 @@
 			path = Enums;
 			sourceTree = "<group>";
 		};
+		359CDC522AB4C49C00DFFDC7 /* Onboarding Module */ = {
+			isa = PBXGroup;
+			children = (
+				359CDC5D2AB4DF1E00DFFDC7 /* Core */,
+				359CDC5E2AB4DF2500DFFDC7 /* Helpers */,
+			);
+			path = "Onboarding Module";
+			sourceTree = "<group>";
+		};
+		359CDC5A2AB4DE2100DFFDC7 /* Tab Bar Module */ = {
+			isa = PBXGroup;
+			children = (
+				359CDC5B2AB4DE3300DFFDC7 /* TabBarView.swift */,
+			);
+			path = "Tab Bar Module";
+			sourceTree = "<group>";
+		};
+		359CDC5D2AB4DF1E00DFFDC7 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				359CDC532AB4C69600DFFDC7 /* OnboardingView.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		359CDC5E2AB4DF2500DFFDC7 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				359CDC5F2AB4DF4400DFFDC7 /* InitialPermissionView.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		35BEF35E2AB37A8C005D1138 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				35BEF35F2AB37AA6005D1138 /* AddBudgetView.swift */,
 				35BEF3642AB38814005D1138 /* AddRecurrentPaymentView.swift */,
+				359CDC612AB50C0000DFFDC7 /* AddTransactionView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -214,6 +257,7 @@
 			name = Expensaro;
 			packageProductDependencies = (
 				359094AA2AAE365900428B39 /* ExpensaroUIKit */,
+				359CDC582AB4C8BA00DFFDC7 /* iPages */,
 			);
 			productName = Expensaro;
 			productReference = 3590948B2AAD3EC300428B39 /* Expensaro.app */;
@@ -245,6 +289,7 @@
 			mainGroup = 359094822AAD3EC300428B39;
 			packageReferences = (
 				359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */,
+				359CDC572AB4C8BA00DFFDC7 /* XCRemoteSwiftPackageReference "iPages" */,
 			);
 			productRefGroup = 3590948C2AAD3EC300428B39 /* Products */;
 			projectDirPath = "";
@@ -273,7 +318,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				35BEF3632AB38088005D1138 /* BottomSheetModifier.swift in Sources */,
-				359094912AAD3EC300428B39 /* ContentView.swift in Sources */,
 				35BEF3652AB38814005D1138 /* AddRecurrentPaymentView.swift in Sources */,
 				359094A42AAE342F00428B39 /* NavigationControllers.swift in Sources */,
 				359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */,
@@ -281,9 +325,13 @@
 				35BEF35D2AB378DB005D1138 /* Source.swift in Sources */,
 				35BEF3602AB37AA6005D1138 /* AddBudgetView.swift in Sources */,
 				359094A02AAE340D00428B39 /* RootNavigationController.swift in Sources */,
+				359CDC602AB4DF4400DFFDC7 /* InitialPermissionView.swift in Sources */,
+				359CDC622AB50C0000DFFDC7 /* AddTransactionView.swift in Sources */,
+				359CDC5C2AB4DE3300DFFDC7 /* TabBarView.swift in Sources */,
 				359094A62AAE344000428B39 /* HostingController.swift in Sources */,
 				359094AD2AAE390500428B39 /* HomeView.swift in Sources */,
 				3590949E2AAE33FD00428B39 /* Router.swift in Sources */,
+				359CDC542AB4C69600DFFDC7 /* OnboardingView.swift in Sources */,
 				351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */,
 				35ACB7E82AB3EDB800F7ECE5 /* OverviewView.swift in Sources */,
 				3590948F2AAD3EC300428B39 /* ExpensaroApp.swift in Sources */,
@@ -507,6 +555,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		359CDC572AB4C8BA00DFFDC7 /* XCRemoteSwiftPackageReference "iPages" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/benjaminsage/iPages.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.13;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -514,6 +570,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */;
 			productName = ExpensaroUIKit;
+		};
+		359CDC582AB4C8BA00DFFDC7 /* iPages */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 359CDC572AB4C8BA00DFFDC7 /* XCRemoteSwiftPackageReference "iPages" */;
+			productName = iPages;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

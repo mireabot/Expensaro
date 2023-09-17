@@ -23,7 +23,7 @@ struct AddRecurrentPaymentView: View {
         EXSegmentControl(currentTab: $paymentTag, type: .transactionType).padding(.top, 20)
         VStack(spacing: 20) {
           EXLargeCurrencyTextField(text: $amountValue, bottomView: EmptyView())
-          EXTextField(text: $paymentName, placeholder: "Ex. House Rent")
+          EXTextField(text: $paymentName, placeholder: Appearance.shared.textFieldPlaceholder)
           HStack {
             EXSmallSelector(activeText: paymentDate, icon: .init(systemName: "globe"), type: .date)
             EXSmallSelector(activeText: paymentCategory, icon: .init(systemName: "globe"), type: .category)
@@ -35,24 +35,24 @@ struct AddRecurrentPaymentView: View {
         Button {
           print(paymentTag)
         } label: {
-          Text("Add recurrent payment")
+          Text(Appearance.shared.buttonText)
             .font(.mukta(.semibold, size: 17))
         }
         .applyMargins()
-        .padding(.bottom, 20)
+        .padding(.bottom, 15)
         .buttonStyle(PrimaryButtonStyle())
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
-          Text("Add recurrent payment")
+          Text(Appearance.shared.title)
             .font(.mukta(.medium, size: 17))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
             makeDismiss()
           } label: {
-            Source.Images.Navigation.close
+            Appearance.shared.closeIcon
               .resizable()
               .frame(width: 24, height: 24)
               .foregroundColor(.black)
@@ -66,5 +66,17 @@ struct AddRecurrentPaymentView: View {
 struct AddRecurrentPaymentView_Previews: PreviewProvider {
   static var previews: some View {
     AddRecurrentPaymentView()
+  }
+}
+
+// MARK: - Apperance
+extension AddRecurrentPaymentView {
+  struct Appearance {
+    static let shared = Appearance()
+    let title = "Add recurrent payment"
+    let buttonText = "Add payment"
+    let textFieldPlaceholder = "Ex. House Rent"
+    
+    let closeIcon = Source.Images.Navigation.close
   }
 }

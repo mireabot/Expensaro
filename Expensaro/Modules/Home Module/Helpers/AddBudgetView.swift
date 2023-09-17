@@ -48,24 +48,24 @@ struct AddBudgetView: View {
         Button {
           showSuccess.toggle()
         } label: {
-          Text("Add budget")
+          Text(Appearance.shared.buttonText)
             .font(.mukta(.semibold, size: 17))
         }
         .applyMargins()
-        .padding(.bottom, 20)
+        .padding(.bottom, 15)
         .buttonStyle(PrimaryButtonStyle())
         
       })
       .toolbar {
         ToolbarItem(placement: .principal) {
-          Text("Add budget")
+          Text(Appearance.shared.title)
             .font(.mukta(.medium, size: 17))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
             makeDismiss()
           } label: {
-            Source.Images.Navigation.close
+            Appearance.shared.closeIcon
               .resizable()
               .frame(width: 24, height: 24)
               .foregroundColor(.black)
@@ -79,5 +79,16 @@ struct AddBudgetView: View {
 struct AddBudgetView_Previews: PreviewProvider {
   static var previews: some View {
     AddBudgetView()
+  }
+}
+
+// MARK: - Apperance
+extension AddBudgetView {
+  struct Appearance {
+    static let shared = Appearance()
+    let title = "Add budget"
+    let buttonText = "Add budget"
+    
+    let closeIcon = Source.Images.Navigation.close
   }
 }

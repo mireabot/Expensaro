@@ -5,8 +5,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mireabot/ExpensaroUIKit",
       "state" : {
-        "revision" : "7b95387bdff5b95a9224de4421eeb6cb834ed2f9",
-        "version" : "1.1.3"
+        "revision" : "17d1d66a9a40f6d1fcb987099fb5cb8d3178c817",
+        "version" : "1.1.4"
+      }
+    },
+    {
+      "identity" : "ipages",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/benjaminsage/iPages.git",
+      "state" : {
+        "revision" : "f57e3cba2cf4bd0a689236254cde361e54315720",
+        "version" : "0.0.13"
       }
     }
   ],

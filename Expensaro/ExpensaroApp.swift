@@ -13,7 +13,7 @@ struct ExpensaroApp: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
   var body: some Scene {
     WindowGroup {
-      ContentView()
+      TabBarView()
     }
   }
 }
@@ -21,7 +21,6 @@ struct ExpensaroApp: App {
 class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    // Override point for customization after application launch.
     MuktaFont.registerFonts()
     return true
   }
