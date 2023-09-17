@@ -1,18 +1,21 @@
 //
-//  OverviewView.swift
+//  GoalsListView.swift
 //  Expensaro
 //
-//  Created by Mikhail Kolkov on 9/14/23.
+//  Created by Mikhail Kolkov on 9/11/23.
 //
 
 import SwiftUI
 import ExpensaroUIKit
 
-struct OverviewView: View {
+struct GoalsListView: View {
+  @State private var showAddGoalView = false
   var body: some View {
     NavigationView {
-      ScrollView(.vertical, showsIndicators: false) {
-        
+      VStack {
+        EXEmptyStateWithImage(type: .noGoals, image: Source.Images.EmptyStates.noGoals, buttonIcon: Source.Images.ButtonIcons.add, action: {
+          showAddGoalView.toggle()
+        }).applyMargins()
       }
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -26,16 +29,16 @@ struct OverviewView: View {
   }
 }
 
-struct OverviewView_Previews: PreviewProvider {
+struct GoalsListView_Previews: PreviewProvider {
   static var previews: some View {
-    OverviewView()
+    GoalsListView()
   }
 }
 
 // MARK: - Apperance
-extension OverviewView {
+extension GoalsListView {
   struct Appearance {
     static let shared = Appearance()
-    let title = "Overview"
+    let title = "Goals"
   }
 }

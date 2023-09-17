@@ -20,6 +20,7 @@ enum Source {
     enum EmptyStates {
       static let noBudget = Image("noBudget")
       static let noExpenses = Image("noExpenses")
+      static let noGoals = Image("noGoals")
     }
     enum Onboarding {
       static let onb1 = Image("onb1")
@@ -33,6 +34,14 @@ enum Source {
       static let notifications = Image("notifications")
       static let analytics = Image("analytics")
       static let scan = Image("scan")
+    }
+    enum ButtonIcons {
+      static let add = Image("buttonAdd")
+      static let how = Image("buttonHow")
+    }
+    enum InfoCardIcon {
+      static let month2month = Image("month2month")
+      static let topCategory = Image("topCategory")
     }
   }
 }

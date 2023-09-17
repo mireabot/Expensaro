@@ -71,7 +71,7 @@
 		351839AC2AAF9451008216F3 /* Goals Module */ = {
 			isa = PBXGroup;
 			children = (
-				351839AE2AAF94C3008216F3 /* GoalsListView.swift */,
+				358773CA2AB772D50078B297 /* Core */,
 			);
 			path = "Goals Module";
 			sourceTree = "<group>";
@@ -79,7 +79,7 @@
 		351839AD2AAF9461008216F3 /* Overview Module */ = {
 			isa = PBXGroup;
 			children = (
-				35ACB7E72AB3EDB800F7ECE5 /* OverviewView.swift */,
+				358773C92AB772C30078B297 /* Core */,
 			);
 			path = "Overview Module";
 			sourceTree = "<group>";
@@ -90,6 +90,40 @@
 				359094AC2AAE390500428B39 /* HomeView.swift */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		358773C92AB772C30078B297 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				35ACB7E72AB3EDB800F7ECE5 /* OverviewView.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		358773CA2AB772D50078B297 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				351839AE2AAF94C3008216F3 /* GoalsListView.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		358773CB2AB772E80078B297 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				358773CC2AB772F20078B297 /* Adding Views */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		358773CC2AB772F20078B297 /* Adding Views */ = {
+			isa = PBXGroup;
+			children = (
+				35BEF35F2AB37AA6005D1138 /* AddBudgetView.swift */,
+				35BEF3642AB38814005D1138 /* AddRecurrentPaymentView.swift */,
+				359CDC612AB50C0000DFFDC7 /* AddTransactionView.swift */,
+			);
+			path = "Adding Views";
 			sourceTree = "<group>";
 		};
 		359094822AAD3EC300428B39 = {
@@ -112,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				3590949C2AAD404400428B39 /* Navigation */,
+				358773CB2AB772E80078B297 /* Views */,
 				359094A72AAE353100428B39 /* Modules */,
 				359094B82AAE5A4F00428B39 /* Resources */,
 				359094922AAD3EC400428B39 /* Assets.xcassets */,
@@ -224,9 +259,6 @@
 		35BEF35E2AB37A8C005D1138 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				35BEF35F2AB37AA6005D1138 /* AddBudgetView.swift */,
-				35BEF3642AB38814005D1138 /* AddRecurrentPaymentView.swift */,
-				359CDC612AB50C0000DFFDC7 /* AddTransactionView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
