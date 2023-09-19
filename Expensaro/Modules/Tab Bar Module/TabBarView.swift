@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import SwiftUIIntrospect
+import ExpensaroUIKit
 
 struct TabBarView: View {
   let nav = NavigationControllers()
@@ -37,6 +39,9 @@ struct TabBarView: View {
           router.nav = nav.overviewModuleNavigationController
         }
     }
+    .introspect(.tabView, on: .iOS(.v16,.v17), customize: { tabView in
+      tabView.tabBar.unselectedItemTintColor = UIColor(red: 0.5, green: 0.55, blue: 0.57, alpha: 1)
+    })
     .accentColor(.primaryGreen)
     .onAppear() {
       if #available(iOS 15.0, *) {

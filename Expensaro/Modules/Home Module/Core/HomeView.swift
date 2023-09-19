@@ -26,8 +26,10 @@ struct HomeView: View {
             showAddTransaction.toggle()
           })
         }
+        .padding(.top, 16)
         .applyMargins()
       }
+      .scrollDisabled(true)
       .sheet(isPresented: $showAddBudget, content: {
         AddBudgetView()
           .presentationDetents([.large])
@@ -45,7 +47,17 @@ struct HomeView: View {
         ToolbarItem(placement: .navigationBarLeading) {
           Text(Appearance.shared.title)
             .font(.mukta(.medium, size: 24))
-            .padding(.bottom, 20)
+        }
+        
+        ToolbarItem(placement: .navigationBarTrailing) {
+          Button {
+            
+          } label: {
+            Appearance.shared.settingsIcon
+              .resizable()
+              .frame(width: 24, height: 24)
+              .foregroundColor(.primaryGreen)
+          }
         }
       }
     }
@@ -63,5 +75,7 @@ extension HomeView {
   struct Appearance {
     static let shared = Appearance()
     let title = "Home"
+    
+    let settingsIcon = Source.Images.System.settings
   }
 }

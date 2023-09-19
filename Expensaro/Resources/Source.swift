@@ -11,6 +11,8 @@ enum Source {
   enum Images {
     enum Navigation {
       static let close = Image("close")
+      static let checkmark = Image("checkmark")
+      static let back = Image("back")
     }
     enum Tabs {
       static let home = "home"
@@ -34,6 +36,8 @@ enum Source {
       static let notifications = Image("notifications")
       static let analytics = Image("analytics")
       static let scan = Image("scan")
+      static let timer = Image("timer")
+      static let settings = Image("settings")
     }
     enum ButtonIcons {
       static let add = Image("buttonAdd")
@@ -42,6 +46,17 @@ enum Source {
     enum InfoCardIcon {
       static let month2month = Image("month2month")
       static let topCategory = Image("topCategory")
+    }
+  }
+  
+  enum Functions {
+    /// Function which convertes date to string with format "MMM d, yyyy"
+    /// - Parameter date: input date
+    /// - Returns: string date
+    static func showString(from date: Date) -> String {
+      let formatter = DateFormatter()
+      formatter.dateFormat = "MMM d, yyyy"
+      return formatter.string(from: date)
     }
   }
 }

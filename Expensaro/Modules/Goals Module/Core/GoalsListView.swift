@@ -17,12 +17,16 @@ struct GoalsListView: View {
           showAddGoalView.toggle()
         }).applyMargins()
       }
+      .padding(.top, 16)
       .navigationBarTitleDisplayMode(.inline)
+      .sheet(isPresented: $showAddGoalView, content: {
+        AddGoalView()
+          .presentationDetents([.large])
+      })
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
           Text(Appearance.shared.title)
             .font(.mukta(.medium, size: 24))
-            .padding(.bottom, 20)
         }
       }
     }

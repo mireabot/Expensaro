@@ -1,0 +1,66 @@
+//
+//  DateSelectorView.swift
+//  Expensaro
+//
+//  Created by Mikhail Kolkov on 9/18/23.
+//
+
+import SwiftUI
+import ExpensaroUIKit
+
+struct DateSelectorView: View {
+  @Environment(\.dismiss) var makeDismiss
+  var title: String
+  @State private var date: Date = .now
+  @Binding var selectedDate: String
+  var body: some View {
+    NavigationView {
+      ScrollView {
+        DatePicker(
+          "Start Date",
+          selection: $date,
+          displayedComponents: [.date]
+        )
+        .tint(.primaryGreen)
+        .datePickerStyle(.graphical)
+      }
+      .scrollDisabled(true)
+      .applyMargins()
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar {
+        ToolbarItem(placement: .principal) {
+          Text(title)
+            .font(.mukta(.medium, size: 17))
+        }
+        ToolbarItem(placement: .navigationBarTrailing) {
+          Button {
+            selectedDate = Source.Functions.showString(from: date)
+            makeDismiss()
+          } label: {
+            Appearance.shared.closeIcon
+              .resizable()
+              .frame(width: 30, height: 30)
+              .foregroundColor(.black)
+          }
+        }
+      }
+    }
+  }
+}
+
+struct DateSelectorView_Previews: PreviewProvider {
+  static var previews: some View {
+    DateSelectorView(title: "fff", selectedDate: .constant("gg"))
+  }
+}
+
+//MARK: - Appearance
+extension DateSelectorView {
+  struct Appearance {
+    static let shared = Appearance()
+    
+    let buttonText = ""
+    
+    let closeIcon = Source.Images.Navigation.checkmark
+  }
+}

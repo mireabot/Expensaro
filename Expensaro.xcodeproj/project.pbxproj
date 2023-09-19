@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351839AE2AAF94C3008216F3 /* GoalsListView.swift */; };
+		354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B042AB8C860002516F1 /* AddGoalView.swift */; };
+		354F2B0B2AB8D24B002516F1 /* DateSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */; };
+		354F2B122AB90443002516F1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B112AB90443002516F1 /* SettingsView.swift */; };
+		354F2B152AB9F189002516F1 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 354F2B142AB9F189002516F1 /* SwiftUIIntrospect */; };
 		3590948F2AAD3EC300428B39 /* ExpensaroApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590948E2AAD3EC300428B39 /* ExpensaroApp.swift */; };
 		359094932AAD3EC400428B39 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 359094922AAD3EC400428B39 /* Assets.xcassets */; };
 		359094962AAD3EC400428B39 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 359094952AAD3EC400428B39 /* Preview Assets.xcassets */; };
@@ -33,6 +37,9 @@
 
 /* Begin PBXFileReference section */
 		351839AE2AAF94C3008216F3 /* GoalsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsListView.swift; sourceTree = "<group>"; };
+		354F2B042AB8C860002516F1 /* AddGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalView.swift; sourceTree = "<group>"; };
+		354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectorView.swift; sourceTree = "<group>"; };
+		354F2B112AB90443002516F1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		3590948B2AAD3EC300428B39 /* Expensaro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Expensaro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3590948E2AAD3EC300428B39 /* ExpensaroApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensaroApp.swift; sourceTree = "<group>"; };
 		359094922AAD3EC400428B39 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -60,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				354F2B152AB9F189002516F1 /* SwiftUIIntrospect in Frameworks */,
 				359094AB2AAE365900428B39 /* ExpensaroUIKit in Frameworks */,
 				359CDC592AB4C8BA00DFFDC7 /* iPages in Frameworks */,
 			);
@@ -92,6 +100,48 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
+		352CB2752ABA40F8006C1CEF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		354F2B062AB8CD9B002516F1 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		354F2B092AB8D229002516F1 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				35BEF35F2AB37AA6005D1138 /* AddBudgetView.swift */,
+				35BEF3642AB38814005D1138 /* AddRecurrentPaymentView.swift */,
+				359CDC612AB50C0000DFFDC7 /* AddTransactionView.swift */,
+				354F2B042AB8C860002516F1 /* AddGoalView.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		354F2B0F2AB9040C002516F1 /* Settings Module */ = {
+			isa = PBXGroup;
+			children = (
+				354F2B102AB9043A002516F1 /* Core */,
+			);
+			path = "Settings Module";
+			sourceTree = "<group>";
+		};
+		354F2B102AB9043A002516F1 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				354F2B112AB90443002516F1 /* SettingsView.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		358773C92AB772C30078B297 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,9 +169,8 @@
 		358773CC2AB772F20078B297 /* Adding Views */ = {
 			isa = PBXGroup;
 			children = (
-				35BEF35F2AB37AA6005D1138 /* AddBudgetView.swift */,
-				35BEF3642AB38814005D1138 /* AddRecurrentPaymentView.swift */,
-				359CDC612AB50C0000DFFDC7 /* AddTransactionView.swift */,
+				354F2B092AB8D229002516F1 /* Core */,
+				354F2B062AB8CD9B002516F1 /* Helpers */,
 			);
 			path = "Adding Views";
 			sourceTree = "<group>";
@@ -145,6 +194,7 @@
 		3590948D2AAD3EC300428B39 /* Expensaro */ = {
 			isa = PBXGroup;
 			children = (
+				352CB2752ABA40F8006C1CEF /* Models */,
 				3590949C2AAD404400428B39 /* Navigation */,
 				358773CB2AB772E80078B297 /* Views */,
 				359094A72AAE353100428B39 /* Modules */,
@@ -180,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				359CDC5A2AB4DE2100DFFDC7 /* Tab Bar Module */,
+				354F2B0F2AB9040C002516F1 /* Settings Module */,
 				359CDC522AB4C49C00DFFDC7 /* Onboarding Module */,
 				359094AE2AAE390900428B39 /* Home Module */,
 				351839AD2AAF9461008216F3 /* Overview Module */,
@@ -290,6 +341,7 @@
 			packageProductDependencies = (
 				359094AA2AAE365900428B39 /* ExpensaroUIKit */,
 				359CDC582AB4C8BA00DFFDC7 /* iPages */,
+				354F2B142AB9F189002516F1 /* SwiftUIIntrospect */,
 			);
 			productName = Expensaro;
 			productReference = 3590948B2AAD3EC300428B39 /* Expensaro.app */;
@@ -322,6 +374,7 @@
 			packageReferences = (
 				359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */,
 				359CDC572AB4C8BA00DFFDC7 /* XCRemoteSwiftPackageReference "iPages" */,
+				354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
 			);
 			productRefGroup = 3590948C2AAD3EC300428B39 /* Products */;
 			projectDirPath = "";
@@ -349,8 +402,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				354F2B122AB90443002516F1 /* SettingsView.swift in Sources */,
 				35BEF3632AB38088005D1138 /* BottomSheetModifier.swift in Sources */,
 				35BEF3652AB38814005D1138 /* AddRecurrentPaymentView.swift in Sources */,
+				354F2B0B2AB8D24B002516F1 /* DateSelectorView.swift in Sources */,
 				359094A42AAE342F00428B39 /* NavigationControllers.swift in Sources */,
 				359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */,
 				359094A22AAE341E00428B39 /* NavigationViewBuilder.swift in Sources */,
@@ -358,6 +413,7 @@
 				35BEF3602AB37AA6005D1138 /* AddBudgetView.swift in Sources */,
 				359094A02AAE340D00428B39 /* RootNavigationController.swift in Sources */,
 				359CDC602AB4DF4400DFFDC7 /* InitialPermissionView.swift in Sources */,
+				354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */,
 				359CDC622AB50C0000DFFDC7 /* AddTransactionView.swift in Sources */,
 				359CDC5C2AB4DE3300DFFDC7 /* TabBarView.swift in Sources */,
 				359094A62AAE344000428B39 /* HostingController.swift in Sources */,
@@ -579,6 +635,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/swiftui-introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mireabot/ExpensaroUIKit";
@@ -598,6 +662,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		354F2B142AB9F189002516F1 /* SwiftUIIntrospect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */;
+			productName = SwiftUIIntrospect;
+		};
 		359094AA2AAE365900428B39 /* ExpensaroUIKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */;

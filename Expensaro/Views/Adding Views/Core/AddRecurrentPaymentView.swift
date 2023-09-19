@@ -10,27 +10,37 @@ import ExpensaroUIKit
 
 struct AddRecurrentPaymentView: View {
   @Environment(\.dismiss) var makeDismiss
-  @FocusState private var amountFieldFocused: Bool
-  @FocusState private var nameFieldFocused: Bool
+  @FocusState private var isFieldFocused: Bool
   @State private var amountValue: String = ""
   @State private var paymentName: String = ""
-  @State private var paymentDate: String = "Oct 2024"
+  @State private var paymentDate: String = Source.Functions.showString(from: .now)
   @State private var paymentCategory: String = "Travel"
   @State private var paymentTag: String = ""
+  
+  @State private var showDateSelector = false
   var body: some View {
     NavigationView {
       ScrollView {
-        EXSegmentControl(currentTab: $paymentTag, type: .transactionType).padding(.top, 20)
+        EXSegmentControl(currentTab: $paymentTag, type: .transactionType).padding(.top, 16)
         VStack(spacing: 20) {
-          EXLargeCurrencyTextField(text: $amountValue, bottomView: EmptyView())
-          EXTextField(text: $paymentName, placeholder: Appearance.shared.textFieldPlaceholder)
+          EXLargeCurrencyTextField(text: $amountValue, bottomView: EmptyView()).focused($isFieldFocused)
+          EXTextField(text: $paymentName, placeholder: Appearance.shared.textFieldPlaceholder).focused($isFieldFocused)
           HStack {
-            EXSmallSelector(activeText: paymentDate, icon: .init(systemName: "globe"), type: .date)
-            EXSmallSelector(activeText: paymentCategory, icon: .init(systemName: "globe"), type: .category)
+            EXSmallSelector(activeText: $paymentDate, type: .date).onTapGesture {
+              showDateSelector.toggle()
+            }
+            EXSmallSelector(activeText: $paymentCategory, type: .category)
           }
         }
       }
       .applyMargins()
+      .onTapGesture {
+        isFieldFocused = false
+      }
+      .sheet(isPresented: $showDateSelector, content: {
+        DateSelectorView(title: Appearance.shared.dateSelectorTitle, selectedDate: $paymentDate)
+          .presentationDetents([.medium])
+      })
       .safeAreaInset(edge: .bottom, content: {
         Button {
           print(paymentTag)
@@ -76,6 +86,7 @@ extension AddRecurrentPaymentView {
     let title = "Add recurrent payment"
     let buttonText = "Add payment"
     let textFieldPlaceholder = "Ex. House Rent"
+    let dateSelectorTitle = "Select pay date"
     
     let closeIcon = Source.Images.Navigation.close
   }

@@ -10,8 +10,7 @@ import ExpensaroUIKit
 
 struct AddTransactionView: View {
   @Environment(\.dismiss) var makeDismiss
-  @FocusState private var amountFieldFocused: Bool
-  @FocusState private var nameFieldFocused: Bool
+  @FocusState private var isFieldFocused: Bool
   @State private var amountValue: String = ""
   @State private var transactionName: String = ""
   @State private var transactionCategory: String = "Travel"
@@ -20,11 +19,11 @@ struct AddTransactionView: View {
   var body: some View {
     NavigationView {
       ScrollView {
-        EXSegmentControl(currentTab: $transactionTag, type: .transactionType).padding(.top, 20)
+        EXSegmentControl(currentTab: $transactionTag, type: .transactionType).padding(.top, 16)
         VStack(spacing: 20) {
-          EXLargeCurrencyTextField(text: $amountValue, bottomView: EmptyView()).focused($amountFieldFocused)
-          EXTextField(text: $transactionName, placeholder: Appearance.shared.textFieldPlaceholder)
-          EXLargeSelector(text: transactionCategory, icon: transactionImage, buttonText: "Change", action: {})
+          EXLargeCurrencyTextField(text: $amountValue, bottomView: EmptyView()).focused($isFieldFocused)
+          EXTextField(text: $transactionName, placeholder: Appearance.shared.textFieldPlaceholder).focused($isFieldFocused)
+          EXLargeSelector(text: $transactionCategory, icon: $transactionImage, buttonText: "Change", action: {})
           Text(Appearance.shared.infoText)
             .font(.mukta(.regular, size: 13))
             .foregroundColor(.darkGrey)
@@ -32,7 +31,7 @@ struct AddTransactionView: View {
         }
       }
       .onTapGesture {
-        amountFieldFocused = false
+        isFieldFocused = false
       }
       .applyMargins()
       .safeAreaInset(edge: .bottom, content: {

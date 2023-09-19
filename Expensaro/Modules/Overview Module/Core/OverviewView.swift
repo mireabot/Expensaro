@@ -17,6 +17,7 @@ struct OverviewView: View {
           EXInfoCardWithButton(type: .topCategory, icon: Source.Images.InfoCardIcon.topCategory, buttonIcon: Source.Images.ButtonIcons.how, buttonAction: {})
           EXInfoCard(type: .overviewUpdates)
         }
+        .padding(.top, 16)
       }
       .applyMargins()
       .scrollDisabled(true)
@@ -25,7 +26,6 @@ struct OverviewView: View {
         ToolbarItem(placement: .navigationBarLeading) {
           Text(Appearance.shared.title)
             .font(.mukta(.medium, size: 24))
-            .padding(.bottom, 20)
         }
       }
     }
