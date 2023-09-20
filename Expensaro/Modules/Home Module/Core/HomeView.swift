@@ -9,6 +9,7 @@ import SwiftUI
 import ExpensaroUIKit
 
 struct HomeView: View {
+  @EnvironmentObject var router: EXNavigationViewsRouter
   @State private var showAddBudget = false
   @State private var showAddRecurrentPayment = false
   @State private var showAddTransaction = false
@@ -51,7 +52,7 @@ struct HomeView: View {
         
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
-            
+            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(SettingsView()))
           } label: {
             Appearance.shared.settingsIcon
               .resizable()

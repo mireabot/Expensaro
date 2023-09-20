@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351839AE2AAF94C3008216F3 /* GoalsListView.swift */; };
+		35293ACB2ABB5D7900BC993B /* OffsetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35293ACA2ABB5D7900BC993B /* OffsetModifier.swift */; };
+		352CB27A2ABA41C0006C1CEF /* Category.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 352CB2782ABA41C0006C1CEF /* Category.xcdatamodeld */; };
+		352CB27C2ABA41EC006C1CEF /* CategoryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352CB27B2ABA41EC006C1CEF /* CategoryProvider.swift */; };
 		354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B042AB8C860002516F1 /* AddGoalView.swift */; };
 		354F2B0B2AB8D24B002516F1 /* DateSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */; };
 		354F2B122AB90443002516F1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B112AB90443002516F1 /* SettingsView.swift */; };
@@ -37,6 +40,9 @@
 
 /* Begin PBXFileReference section */
 		351839AE2AAF94C3008216F3 /* GoalsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsListView.swift; sourceTree = "<group>"; };
+		35293ACA2ABB5D7900BC993B /* OffsetModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetModifier.swift; sourceTree = "<group>"; };
+		352CB2792ABA41C0006C1CEF /* Category.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Category.xcdatamodel; sourceTree = "<group>"; };
+		352CB27B2ABA41EC006C1CEF /* CategoryProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryProvider.swift; sourceTree = "<group>"; };
 		354F2B042AB8C860002516F1 /* AddGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalView.swift; sourceTree = "<group>"; };
 		354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectorView.swift; sourceTree = "<group>"; };
 		354F2B112AB90443002516F1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -103,8 +109,26 @@
 		352CB2752ABA40F8006C1CEF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				352CB2762ABA4194006C1CEF /* System */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		352CB2762ABA4194006C1CEF /* System */ = {
+			isa = PBXGroup;
+			children = (
+				352CB2772ABA419D006C1CEF /* Category */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		352CB2772ABA419D006C1CEF /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				352CB2782ABA41C0006C1CEF /* Category.xcdatamodeld */,
+				352CB27B2ABA41EC006C1CEF /* CategoryProvider.swift */,
+			);
+			path = Category;
 			sourceTree = "<group>";
 		};
 		354F2B062AB8CD9B002516F1 /* Helpers */ = {
@@ -318,6 +342,7 @@
 			isa = PBXGroup;
 			children = (
 				35BEF3622AB38088005D1138 /* BottomSheetModifier.swift */,
+				35293ACA2ABB5D7900BC993B /* OffsetModifier.swift */,
 			);
 			path = ViewModifiers;
 			sourceTree = "<group>";
@@ -407,15 +432,18 @@
 				35BEF3652AB38814005D1138 /* AddRecurrentPaymentView.swift in Sources */,
 				354F2B0B2AB8D24B002516F1 /* DateSelectorView.swift in Sources */,
 				359094A42AAE342F00428B39 /* NavigationControllers.swift in Sources */,
+				35293ACB2ABB5D7900BC993B /* OffsetModifier.swift in Sources */,
 				359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */,
 				359094A22AAE341E00428B39 /* NavigationViewBuilder.swift in Sources */,
 				35BEF35D2AB378DB005D1138 /* Source.swift in Sources */,
 				35BEF3602AB37AA6005D1138 /* AddBudgetView.swift in Sources */,
+				352CB27A2ABA41C0006C1CEF /* Category.xcdatamodeld in Sources */,
 				359094A02AAE340D00428B39 /* RootNavigationController.swift in Sources */,
 				359CDC602AB4DF4400DFFDC7 /* InitialPermissionView.swift in Sources */,
 				354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */,
 				359CDC622AB50C0000DFFDC7 /* AddTransactionView.swift in Sources */,
 				359CDC5C2AB4DE3300DFFDC7 /* TabBarView.swift in Sources */,
+				352CB27C2ABA41EC006C1CEF /* CategoryProvider.swift in Sources */,
 				359094A62AAE344000428B39 /* HostingController.swift in Sources */,
 				359094AD2AAE390500428B39 /* HomeView.swift in Sources */,
 				3590949E2AAE33FD00428B39 /* Router.swift in Sources */,
@@ -678,6 +706,19 @@
 			productName = iPages;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		352CB2782ABA41C0006C1CEF /* Category.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				352CB2792ABA41C0006C1CEF /* Category.xcdatamodel */,
+			);
+			currentVersion = 352CB2792ABA41C0006C1CEF /* Category.xcdatamodel */;
+			path = Category.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 359094832AAD3EC300428B39 /* Project object */;
 }
