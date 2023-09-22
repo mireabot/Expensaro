@@ -38,8 +38,7 @@ struct DateSelectorView: View {
             makeDismiss()
           } label: {
             Appearance.shared.closeIcon
-              .resizable()
-              .frame(width: 30, height: 30)
+              .font(.callout)
               .foregroundColor(.black)
           }
         }

@@ -61,8 +61,7 @@ struct AddGoalView: View {
             makeDismiss()
           } label: {
             Appearance.shared.closeIcon
-              .resizable()
-              .frame(width: 24, height: 24)
+              .font(.callout)
               .foregroundColor(.black)
           }
         }

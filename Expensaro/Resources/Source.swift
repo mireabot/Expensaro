@@ -10,18 +10,18 @@ import SwiftUI
 enum Source {
   enum Images {
     enum Navigation {
-      static let close = Image("close")
-      static let checkmark = Image("checkmark")
-      static let back = Image("back")
+      static let close = Image(systemName: "xmark")
+      static let checkmark = Image(systemName: "checkmark")
+      static let back = Image(systemName: "arrow.backward")
     }
     enum Tabs {
-      static let home = "home"
-      static let goals = "goals"
-      static let overview = "overview"
+      static let home = "tray.full"
+      static let goals = "target"
+      static let overview = "chart.bar.xaxis"
     }
     enum EmptyStates {
-      static let noBudget = Image("noBudget")
-      static let noExpenses = Image("noExpenses")
+      static let noBudget = Image(systemName: "dollarsign")
+      static let noExpenses = Image(systemName: "list.bullet")
       static let noGoals = Image("noGoals")
     }
     enum Onboarding {
@@ -33,19 +33,19 @@ enum Source {
       static let goals = Image("goals")
     }
     enum System {
-      static let notifications = Image("notifications")
-      static let analytics = Image("analytics")
-      static let scan = Image("scan")
+      static let notifications = Image(systemName: " app.badge")
+      static let analytics = Image(systemName: "chart.xyaxis.line")
+      static let scan = Image(systemName: "doc.viewfinder")
       static let timer = Image("timer")
-      static let settings = Image("settings")
+      static let settings = Image(systemName: "gearshape")
     }
     enum ButtonIcons {
       static let add = Image("buttonAdd")
       static let how = Image("buttonHow")
     }
     enum InfoCardIcon {
-      static let month2month = Image("month2month")
-      static let topCategory = Image("topCategory")
+      static let month2month = Image(systemName: "chart.line.uptrend.xyaxis")
+      static let topCategory = Image(systemName: "trophy")
     }
   }
   

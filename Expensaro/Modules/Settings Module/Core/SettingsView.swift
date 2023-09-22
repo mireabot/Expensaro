@@ -32,15 +32,15 @@ struct SettingsView: View {
           
           VStack {
             HStack {
-              EXSettingsCell(category: $selectedCategory, type: .categories)
-              EXSettingsCell(category: $selectedCategory, type: .reminders)
+              EXSettingsCell(category: $selectedCategory, type: .categories, action: {navigateTo()})
+              EXSettingsCell(category: $selectedCategory, type: .reminders, action: {navigateTo()})
             }
             HStack {
-              EXSettingsCell(category: $selectedCategory, type: .exportData)
-              EXSettingsCell(category: $selectedCategory, type: .resetAccount)
+              EXSettingsCell(category: $selectedCategory, type: .exportData, action: {navigateTo()})
+              EXSettingsCell(category: $selectedCategory, type: .resetAccount, action: {navigateTo()})
             }
             HStack {
-              EXSettingsCell(category: $selectedCategory, type: .contact)
+              EXSettingsCell(category: $selectedCategory, type: .contact, action: {navigateTo()})
             }
           }
           .disabled(nameField)
@@ -57,8 +57,7 @@ struct SettingsView: View {
             router.nav?.popViewController(animated: true)
           } label: {
             Appearance.shared.backIcon
-              .resizable()
-              .frame(width: 24, height: 24)
+              .font(.callout)
               .foregroundColor(.black)
           }
         }
@@ -68,8 +67,7 @@ struct SettingsView: View {
             nameField = false
           } label: {
             Source.Images.Navigation.checkmark
-              .resizable()
-              .frame(width: 24, height: 24)
+              .font(.callout)
               .foregroundColor(.primaryGreen)
           }
           .frame(maxWidth: .infinity, alignment: .trailing)
@@ -126,5 +124,18 @@ extension SettingsView {
         .foregroundColor(.black)
         .tint(.primaryGreen)
     }.padding(.bottom, 20)
+  }
+}
+
+extension SettingsView {
+  private func navigateTo() {
+    switch selectedCategory {
+    case "Categories": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(AddCategoryView()))
+    case "Reminders": print("Navigation error")
+    case "Export Data": print("Navigation error")
+    case "Reset Data": print("Navigation error")
+    case "Contact": print("Navigation error")
+    default: print("Navigation error")
+    }
   }
 }

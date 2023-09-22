@@ -30,7 +30,7 @@ struct AddBudgetView: View {
       }
       .applyMargins()
       .scrollDisabled(true)
-      .sheet(isPresented: self.$showSuccess) {
+      .sheet(isPresented: $showSuccess) {
         SuccessBottomAlert(type: .budgetAdded)
           .padding(35)
           .onDisappear {
@@ -66,8 +66,7 @@ struct AddBudgetView: View {
             makeDismiss()
           } label: {
             Appearance.shared.closeIcon
-              .resizable()
-              .frame(width: 24, height: 24)
+              .font(.callout)
               .foregroundColor(.black)
           }
         }

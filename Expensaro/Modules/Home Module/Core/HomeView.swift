@@ -20,7 +20,7 @@ struct HomeView: View {
           EXLargeEmptyState(type: .noBudget, icon: Source.Images.EmptyStates.noBudget, action: {
             showAddBudget.toggle()
           })
-          EXSmallEmptyState(type: .noRecurrentPayments, icon: .init(systemName: "globe"), action: {
+          EXSmallEmptyState(type: .noRecurrentPayments, action: {
             showAddRecurrentPayment.toggle()
           })
           EXLargeEmptyState(type: .noExpenses, icon: Source.Images.EmptyStates.noExpenses, action: {
