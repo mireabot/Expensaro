@@ -14,7 +14,7 @@ struct CategoriesSettingsView: View {
   @FetchRequest(fetchRequest: Category.fetchAll()) private var categories
   var body: some View {
     NavigationView {
-      ScrollView {
+      VStack {
         Button {
           router.pushTo(view: EXNavigationViewBuilder.builder.makeView(AddCategoryView(categoryVM: .init(provider: provider))))
         } label: {
@@ -25,9 +25,31 @@ struct CategoriesSettingsView: View {
         .padding(.top, 20)
         .applyMargins()
         
-        customCategoriesList()
-          .padding(.vertical, 15)
+        Text("All categories")
+          .font(.mukta(.regular, size: 13))
+          .foregroundColor(.darkGrey)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .applyMargins()
         
+        List {
+          ForEach(categories) { category in
+            EXCategoryListCell(icon: Image(systemName: category.icon), title: category.name)
+              .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                Button(role: .destructive) {
+                  do {
+                    try provider.delete(category, in: provider.newContext)
+                  } catch {
+                    print(error.localizedDescription)
+                  }
+                } label: {
+                  Label("Delete", systemImage: "trash")
+                }
+                .tint(.primaryGreen)
+              }
+          }
+          .listRowSeparator(.hidden)
+        }
+        .listStyle(.plain)
       }
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -51,7 +73,10 @@ struct CategoriesSettingsView: View {
 
 struct CategoriesSettingsView_Previews: PreviewProvider {
   static var previews: some View {
-    CategoriesSettingsView()
+    let preview = CategoriesProvider.shared
+    CategoriesSettingsView(provider: preview)
+      .environment(\.managedObjectContext, preview.viewContext)
+      .onAppear { Category.makePreview(in: preview.viewContext) }
   }
 }
 
@@ -78,42 +103,6 @@ extension CategoriesSettingsView {
       VStack(spacing: 10) {
         ForEach(DefaultCategory.defaultSet) { category in
           EXCategoryListCell(icon: Image(systemName: category.icon), title: category.name)
-        }
-      }
-    }
-    .applyMargins()
-  }
-  
-  @ViewBuilder
-  func customCategoriesList() -> some View {
-    VStack(alignment: .leading, spacing: 10) {
-      Text("All categories")
-        .font(.mukta(.regular, size: 13))
-        .foregroundColor(.darkGrey)
-        .frame(maxWidth: .infinity, alignment: .leading)
-      if categories.isEmpty {
-        Text("You haven't created any category")
-          .font(.mukta(.medium, size: 15))
-          .frame(maxWidth: .infinity, alignment: .center)
-      } else {
-        VStack(spacing: 10) {
-          ForEach(categories) { category in
-            HStack {
-              EXCategoryListCell(icon: Image(systemName: category.icon), title: category.name)
-              Button {
-                do {
-                  try provider.delete(category,
-                                      in: provider.newContext)
-                } catch {
-                  print(error.localizedDescription)
-                }
-              } label: {
-                Source.Images.Navigation.close
-                  .font(.body)
-                  .foregroundColor(.red)
-              }
-            }
-          }
         }
       }
     }

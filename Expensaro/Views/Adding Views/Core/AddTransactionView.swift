@@ -22,7 +22,9 @@ struct AddTransactionView: View {
         EXSegmentControl(currentTab: $transactionTag, type: .transactionType).padding(.top, 16)
         VStack(spacing: 20) {
           EXLargeCurrencyTextField(text: $amountValue, bottomView: EmptyView()).focused($isFieldFocused)
-          EXTextField(text: $transactionName, placeholder: Appearance.shared.textFieldPlaceholder).focused($isFieldFocused)
+          EXTextField(text: $transactionName, placeholder: Appearance.shared.textFieldPlaceholder)
+            .keyboardType(.alphabet)
+            .focused($isFieldFocused)
           EXLargeSelector(text: $transactionCategory, icon: $transactionImage, buttonText: "Change", action: {})
           Text(Appearance.shared.infoText)
             .font(.mukta(.regular, size: 13))

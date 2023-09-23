@@ -26,8 +26,7 @@ struct InitialPermissionView: View {
       .padding(.top)
       
       VStack(spacing: 20) {
-        EXToggleCard(isSelected: $notificationsSelected, icon: Source.Images.System.notifications, type: .notifications)
-        EXToggleCard(isSelected: $analyticsSelected, icon: Source.Images.System.analytics, type: .analytics)
+        EXToggleCard(type: .notifications, isOn: $notificationsSelected)
       }
       .padding(.top, 30)
     }

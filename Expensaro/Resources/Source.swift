@@ -42,6 +42,7 @@ enum Source {
     enum ButtonIcons {
       static let add = Image(systemName: "plus")
       static let how = Image("buttonHow")
+      static let send = Image(systemName: "paperplane.fill")
     }
     enum InfoCardIcon {
       static let month2month = Image(systemName: "chart.line.uptrend.xyaxis")

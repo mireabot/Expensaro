@@ -42,6 +42,7 @@ struct AddCategoryView: View {
               .foregroundColor(.darkGrey)
               .font(.mukta(.regular, size: 13))
             EXTextField(text: $categoryVM.newCategory.name, placeholder: "Required")
+              .keyboardType(.alphabet)
               .focused($isFocused)
           }
         }

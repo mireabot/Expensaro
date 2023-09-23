@@ -24,7 +24,9 @@ struct AddRecurrentPaymentView: View {
         EXSegmentControl(currentTab: $paymentTag, type: .transactionType).padding(.top, 16)
         VStack(spacing: 20) {
           EXLargeCurrencyTextField(text: $amountValue, bottomView: EmptyView()).focused($isFieldFocused)
-          EXTextField(text: $paymentName, placeholder: Appearance.shared.textFieldPlaceholder).focused($isFieldFocused)
+          EXTextField(text: $paymentName, placeholder: Appearance.shared.textFieldPlaceholder)
+            .keyboardType(.alphabet)
+            .focused($isFieldFocused)
           HStack {
             EXSmallSelector(activeText: $paymentDate, type: .date).onTapGesture {
               showDateSelector.toggle()

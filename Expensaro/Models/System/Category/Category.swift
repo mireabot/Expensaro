@@ -34,3 +34,26 @@ extension Category {
     return request
   }
 }
+
+extension Category {
+  
+  @discardableResult
+  static func makePreview(in context: NSManagedObjectContext) -> [Category] {
+    var categories = [Category]()
+    for i in DefaultCategory.defaultSet {
+      let category = Category(context: context)
+      category.name = i.name
+      category.icon = i.icon
+      categories.append(category)
+    }
+    return categories
+  }
+  
+  static func preview(context: NSManagedObjectContext = CategoriesProvider.shared.viewContext) -> [Category] {
+    return makePreview(in: context)
+  }
+  
+  static func empty(context: NSManagedObjectContext = CategoriesProvider.shared.viewContext) -> Category {
+    return Category(context: context)
+  }
+}

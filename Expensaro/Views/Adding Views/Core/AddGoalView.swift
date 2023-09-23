@@ -23,7 +23,9 @@ struct AddGoalView: View {
       ScrollView {
         VStack(spacing: 20) {
           EXTextField(text: $goalName, placeholder: Appearance.shared.placeholder).focused($isFieldFocused)
-          EXLargeCurrencyTextField(text: $amountValue, bottomView: Appearance.shared.bottomView).focused($isFieldFocused)
+          EXLargeCurrencyTextField(text: $amountValue, bottomView: Appearance.shared.bottomView)
+            .keyboardType(.alphabet)
+            .focused($isFieldFocused)
           EXLargeSelector(text: $goalDue, icon: .constant(Appearance.shared.timerIcon), buttonText: "Change", action: {
             showDateSheet.toggle()
           })
