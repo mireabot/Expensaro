@@ -9,8 +9,7 @@
 /* Begin PBXBuildFile section */
 		351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351839AE2AAF94C3008216F3 /* GoalsListView.swift */; };
 		35293ACB2ABB5D7900BC993B /* OffsetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35293ACA2ABB5D7900BC993B /* OffsetModifier.swift */; };
-		352CB27A2ABA41C0006C1CEF /* Category.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 352CB2782ABA41C0006C1CEF /* Category.xcdatamodeld */; };
-		352CB27C2ABA41EC006C1CEF /* CategoryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352CB27B2ABA41EC006C1CEF /* CategoryProvider.swift */; };
+		354A7C0B2ABDE57900934E4E /* CategoriesSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354A7C0A2ABDE57900934E4E /* CategoriesSettingsView.swift */; };
 		354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B042AB8C860002516F1 /* AddGoalView.swift */; };
 		354F2B0B2AB8D24B002516F1 /* DateSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */; };
 		354F2B122AB90443002516F1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B112AB90443002516F1 /* SettingsView.swift */; };
@@ -38,13 +37,15 @@
 		35BEF3602AB37AA6005D1138 /* AddBudgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BEF35F2AB37AA6005D1138 /* AddBudgetView.swift */; };
 		35BEF3632AB38088005D1138 /* BottomSheetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BEF3622AB38088005D1138 /* BottomSheetModifier.swift */; };
 		35BEF3652AB38814005D1138 /* AddRecurrentPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BEF3642AB38814005D1138 /* AddRecurrentPaymentView.swift */; };
+		35D7D4582ABE0EDC002EB654 /* Expensaro.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35D7D4562ABE0EDC002EB654 /* Expensaro.xcdatamodeld */; };
+		35D7D45A2ABE1004002EB654 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D7D4592ABE1004002EB654 /* Category.swift */; };
+		35FC566C2ABE01FC009CB36C /* CategoryDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FC566B2ABE01FC009CB36C /* CategoryDataProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		351839AE2AAF94C3008216F3 /* GoalsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsListView.swift; sourceTree = "<group>"; };
 		35293ACA2ABB5D7900BC993B /* OffsetModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetModifier.swift; sourceTree = "<group>"; };
-		352CB2792ABA41C0006C1CEF /* Category.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Category.xcdatamodel; sourceTree = "<group>"; };
-		352CB27B2ABA41EC006C1CEF /* CategoryProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryProvider.swift; sourceTree = "<group>"; };
+		354A7C0A2ABDE57900934E4E /* CategoriesSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesSettingsView.swift; sourceTree = "<group>"; };
 		354F2B042AB8C860002516F1 /* AddGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalView.swift; sourceTree = "<group>"; };
 		354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectorView.swift; sourceTree = "<group>"; };
 		354F2B112AB90443002516F1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -70,6 +71,9 @@
 		35BEF35F2AB37AA6005D1138 /* AddBudgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBudgetView.swift; sourceTree = "<group>"; };
 		35BEF3622AB38088005D1138 /* BottomSheetModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetModifier.swift; sourceTree = "<group>"; };
 		35BEF3642AB38814005D1138 /* AddRecurrentPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecurrentPaymentView.swift; sourceTree = "<group>"; };
+		35D7D4572ABE0EDC002EB654 /* Expensaro.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Expensaro.xcdatamodel; sourceTree = "<group>"; };
+		35D7D4592ABE1004002EB654 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		35FC566B2ABE01FC009CB36C /* CategoryDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDataProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,9 +133,10 @@
 		352CB2772ABA419D006C1CEF /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				352CB2782ABA41C0006C1CEF /* Category.xcdatamodeld */,
-				352CB27B2ABA41EC006C1CEF /* CategoryProvider.swift */,
 				355BB4092ABCB7BE00A71834 /* DefaultCategory.swift */,
+				35FC566B2ABE01FC009CB36C /* CategoryDataProvider.swift */,
+				35D7D4562ABE0EDC002EB654 /* Expensaro.xcdatamodeld */,
+				35D7D4592ABE1004002EB654 /* Category.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -176,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				355BB4072ABCB1DE00A71834 /* AddCategoryView.swift */,
+				354A7C0A2ABDE57900934E4E /* CategoriesSettingsView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -452,21 +458,23 @@
 				35BEF35D2AB378DB005D1138 /* Source.swift in Sources */,
 				355BB40A2ABCB7BE00A71834 /* DefaultCategory.swift in Sources */,
 				35BEF3602AB37AA6005D1138 /* AddBudgetView.swift in Sources */,
-				352CB27A2ABA41C0006C1CEF /* Category.xcdatamodeld in Sources */,
 				359094A02AAE340D00428B39 /* RootNavigationController.swift in Sources */,
 				359CDC602AB4DF4400DFFDC7 /* InitialPermissionView.swift in Sources */,
 				354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */,
 				359CDC622AB50C0000DFFDC7 /* AddTransactionView.swift in Sources */,
 				359CDC5C2AB4DE3300DFFDC7 /* TabBarView.swift in Sources */,
-				352CB27C2ABA41EC006C1CEF /* CategoryProvider.swift in Sources */,
+				35FC566C2ABE01FC009CB36C /* CategoryDataProvider.swift in Sources */,
 				359094A62AAE344000428B39 /* HostingController.swift in Sources */,
 				359094AD2AAE390500428B39 /* HomeView.swift in Sources */,
+				354A7C0B2ABDE57900934E4E /* CategoriesSettingsView.swift in Sources */,
 				3590949E2AAE33FD00428B39 /* Router.swift in Sources */,
 				359CDC542AB4C69600DFFDC7 /* OnboardingView.swift in Sources */,
+				35D7D4582ABE0EDC002EB654 /* Expensaro.xcdatamodeld in Sources */,
 				355BB4082ABCB1DE00A71834 /* AddCategoryView.swift in Sources */,
 				351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */,
 				35ACB7E82AB3EDB800F7ECE5 /* OverviewView.swift in Sources */,
 				3590948F2AAD3EC300428B39 /* ExpensaroApp.swift in Sources */,
+				35D7D45A2ABE1004002EB654 /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -724,13 +732,13 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		352CB2782ABA41C0006C1CEF /* Category.xcdatamodeld */ = {
+		35D7D4562ABE0EDC002EB654 /* Expensaro.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				352CB2792ABA41C0006C1CEF /* Category.xcdatamodel */,
+				35D7D4572ABE0EDC002EB654 /* Expensaro.xcdatamodel */,
 			);
-			currentVersion = 352CB2792ABA41C0006C1CEF /* Category.xcdatamodel */;
-			path = Category.xcdatamodeld;
+			currentVersion = 35D7D4572ABE0EDC002EB654 /* Expensaro.xcdatamodel */;
+			path = Expensaro.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

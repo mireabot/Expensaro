@@ -33,14 +33,14 @@ enum Source {
       static let goals = Image("goals")
     }
     enum System {
-      static let notifications = Image(systemName: " app.badge")
+      static let notifications = Image(systemName: "app.badge")
       static let analytics = Image(systemName: "chart.xyaxis.line")
       static let scan = Image(systemName: "doc.viewfinder")
       static let timer = Image("timer")
       static let settings = Image(systemName: "gearshape")
     }
     enum ButtonIcons {
-      static let add = Image("buttonAdd")
+      static let add = Image(systemName: "plus")
       static let how = Image("buttonHow")
     }
     enum InfoCardIcon {

@@ -130,7 +130,7 @@ extension SettingsView {
 extension SettingsView {
   private func navigateTo() {
     switch selectedCategory {
-    case "Categories": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(AddCategoryView()))
+    case "Categories": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(CategoriesSettingsView()))
     case "Reminders": print("Navigation error")
     case "Export Data": print("Navigation error")
     case "Reset Data": print("Navigation error")

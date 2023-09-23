@@ -11,9 +11,16 @@ import ExpensaroUIKit
 @main
 struct ExpensaroApp: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+  @AppStorage("isUserLoggedIn") private var isUserLoggedIn = false
   var body: some Scene {
     WindowGroup {
-      TabBarView()
+      if isUserLoggedIn {
+        TabBarView()
+          .environment(\.managedObjectContext, CategoriesProvider.shared.viewContext)
+      }
+      else {
+        OnboardingView()
+      }
     }
   }
 }

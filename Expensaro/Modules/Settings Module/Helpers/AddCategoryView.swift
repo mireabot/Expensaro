@@ -10,8 +10,8 @@ import ExpensaroUIKit
 
 struct AddCategoryView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
+  @ObservedObject var categoryVM: CategoryStore
   @FocusState var isFocused: Bool
-  @State var text = ""
   @State private var categoryIcon: String = "archivebox.fill"
   @State private var changeIcon = false
   @State var detentHeight: CGFloat = 0
@@ -41,7 +41,7 @@ struct AddCategoryView: View {
             Text("Name")
               .foregroundColor(.darkGrey)
               .font(.mukta(.regular, size: 13))
-            EXTextField(text: $text, placeholder: "Required")
+            EXTextField(text: $categoryVM.newCategory.name, placeholder: "Required")
               .focused($isFocused)
           }
         }
@@ -79,13 +79,18 @@ struct AddCategoryView: View {
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
-            
+            do {
+              try categoryVM.saveCategory()
+              router.nav?.popViewController(animated: true)
+            } catch {
+              print(error.localizedDescription)
+            }
           } label: {
             Appearance.shared.submitIcon
               .font(.callout)
-              .foregroundColor(text.isEmpty ? .border : .black)
+              .foregroundColor(categoryVM.newCategory.name.isEmpty ? .border : .black)
           }
-          .disabled(text.isEmpty)
+          .disabled(categoryVM.newCategory.name.isEmpty)
         }
       }
     }
@@ -94,7 +99,7 @@ struct AddCategoryView: View {
 
 struct AddCategory_Previews: PreviewProvider {
   static var previews: some View {
-    AddCategoryView()
+    AddCategoryView(categoryVM: .init(provider: .shared))
   }
 }
 
@@ -136,6 +141,7 @@ extension AddCategoryView {
             .foregroundColor(.primaryGreen)
             .onTapGesture {
               categoryIcon = item.icon
+              categoryVM.newCategory.icon = item.icon
               changeIcon.toggle()
             }
         }

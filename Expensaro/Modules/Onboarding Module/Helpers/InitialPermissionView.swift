@@ -11,6 +11,8 @@ import ExpensaroUIKit
 struct InitialPermissionView: View {
   @State private var notificationsSelected = false
   @State private var analyticsSelected = false
+  @AppStorage("isUserLoggedIn") private var isUserLoggedIn = false
+  @StateObject var categoryVM : CategoryStore = .init(provider: .shared)
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: 0) {
@@ -32,7 +34,12 @@ struct InitialPermissionView: View {
     .interactiveDismissDisabled(true)
     .safeAreaInset(edge: .bottom, content: {
       Button {
-        
+        do {
+          try categoryVM.loadCategories(in: CategoriesProvider.shared.newContext)
+        } catch {
+          print(error.localizedDescription)
+        }
+        isUserLoggedIn = true
       } label: {
         Text("Finish")
           .font(.mukta(.semibold, size: 17))
