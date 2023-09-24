@@ -15,22 +15,25 @@ struct HomeView: View {
   @State private var showAddTransaction = false
   var body: some View {
     NavigationView {
-      ScrollView(.vertical, showsIndicators: false) {
-        VStack(spacing: 10) {
-          EXLargeEmptyState(type: .noBudget, icon: Source.Images.EmptyStates.noBudget, action: {
-            showAddBudget.toggle()
-          })
-          EXSmallEmptyState(type: .noRecurrentPayments, action: {
-            showAddRecurrentPayment.toggle()
-          })
-          EXLargeEmptyState(type: .noExpenses, icon: Source.Images.EmptyStates.noExpenses, action: {
-            showAddTransaction.toggle()
-          })
+      ZStack(alignment: .bottomTrailing) {
+        ScrollView(.vertical, showsIndicators: false) {
+          VStack(spacing: 10) {
+            EXLargeEmptyState(type: .noBudget, icon: Source.Images.EmptyStates.noBudget, action: {
+              showAddBudget.toggle()
+            })
+            EXSmallEmptyState(type: .noRecurrentPayments, action: {
+              showAddRecurrentPayment.toggle()
+            })
+            EXLargeEmptyState(type: .noExpenses, icon: Source.Images.EmptyStates.noExpenses, action: {
+              showAddTransaction.toggle()
+            })
+          }
+          .padding(.top, 16)
+          .applyMargins()
         }
-        .padding(.top, 16)
-        .applyMargins()
+        bottomActionButton()
+          .padding(16)
       }
-      .scrollDisabled(true)
       .sheet(isPresented: $showAddBudget, content: {
         AddBudgetView()
           .presentationDetents([.large])
@@ -78,5 +81,36 @@ extension HomeView {
     let title = "Home"
     
     let settingsIcon = Source.Images.System.settings
+  }
+}
+
+// MARK: - Helper Views
+extension HomeView {
+  @ViewBuilder
+  func bottomActionButton() -> some View {
+    VStack {
+      Menu {
+        Button(action: { showAddTransaction.toggle() }) {
+          Label("Add transaction", systemImage: "dollarsign")
+        }
+        
+        Button(action: { showAddRecurrentPayment.toggle() }) {
+          Label("Add recurrent payment", systemImage: "arrow.triangle.2.circlepath")
+        }
+        
+      } label: {
+        ZStack {
+          Circle()
+            .fill(Color.secondaryYellow)
+            .frame(width: 60, height: 60)
+          Source.Images.ButtonIcons.add
+            .font(.body)
+            .fontWeight(.semibold)
+            .foregroundColor(.primaryGreen)
+        }
+      }
+      .font(.mukta(.regular, size: 15))
+      .menuOrder(.fixed)
+    }
   }
 }

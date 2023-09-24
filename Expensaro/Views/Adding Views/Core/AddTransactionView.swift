@@ -13,9 +13,10 @@ struct AddTransactionView: View {
   @FocusState private var isFieldFocused: Bool
   @State private var amountValue: String = ""
   @State private var transactionName: String = ""
-  @State private var transactionCategory: String = "Travel"
-  @State private var transactionImage: Image = Source.Images.System.analytics
+  @State private var transactionCategory: String = "Other"
+  @State private var transactionImage: Image = Source.Images.System.defaultCategory
   @State private var transactionTag: String = ""
+  @State private var showCategoriesSelector = false
   var body: some View {
     NavigationView {
       ScrollView {
@@ -25,7 +26,9 @@ struct AddTransactionView: View {
           EXTextField(text: $transactionName, placeholder: Appearance.shared.textFieldPlaceholder)
             .keyboardType(.alphabet)
             .focused($isFieldFocused)
-          EXLargeSelector(text: $transactionCategory, icon: $transactionImage, buttonText: "Change", action: {})
+          EXLargeSelector(text: $transactionCategory, icon: $transactionImage, buttonText: "Change", action: {
+            showCategoriesSelector.toggle()
+          })
           Text(Appearance.shared.infoText)
             .font(.mukta(.regular, size: 13))
             .foregroundColor(.darkGrey)
@@ -36,6 +39,11 @@ struct AddTransactionView: View {
         isFieldFocused = false
       }
       .applyMargins()
+      .sheet(isPresented: $showCategoriesSelector, content: {
+        CategorySelectorView(title: $transactionCategory, icon: $transactionImage)
+          .presentationDetents([.medium,.fraction(0.9)])
+          .presentationDragIndicator(.visible)
+      })
       .safeAreaInset(edge: .bottom, content: {
         Button {
           print(transactionTag)
@@ -94,4 +102,18 @@ extension AddTransactionView {
     let closeIcon = Source.Images.Navigation.close
     let cameraIcon = Source.Images.System.scan
   }
+}
+
+struct BlurView: UIViewRepresentable {
+    let style: UIBlurEffect.Style
+    
+    func makeUIView(context: Context) -> UIVisualEffectView {
+        let blurEffect = UIBlurEffect(style: style)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        return blurView
+    }
+    
+    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
+        // Update the view if needed
+    }
 }

@@ -19,6 +19,7 @@ struct DateSelectorView: View {
         DatePicker(
           "Start Date",
           selection: $date,
+          in: Date()...,
           displayedComponents: [.date]
         )
         .tint(.primaryGreen)

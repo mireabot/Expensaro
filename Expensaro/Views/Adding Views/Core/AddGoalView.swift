@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import FloatingButton
 
 struct AddGoalView: View {
   @Environment(\.dismiss) var makeDismiss
@@ -26,10 +27,17 @@ struct AddGoalView: View {
           EXLargeCurrencyTextField(text: $amountValue, bottomView: Appearance.shared.bottomView)
             .keyboardType(.alphabet)
             .focused($isFieldFocused)
-          EXLargeSelector(text: $goalDue, icon: .constant(Appearance.shared.timerIcon), buttonText: "Change", action: {
-            showDateSheet.toggle()
-          })
-        }.padding(.top, 16)
+          VStack(alignment: .leading, spacing: 5) {
+            Text(Appearance.shared.infoText)
+              .font(.mukta(.regular, size: 13))
+              .foregroundColor(.darkGrey)
+            EXLargeSelector(text: $goalDue, icon: .constant(Appearance.shared.timerIcon), buttonText: "Change", action: {
+              showDateSheet.toggle()
+            })
+          }
+        }
+        .padding(.top, 16)
+        
       }
       .onTapGesture {
         DispatchQueue.main.async {
@@ -85,7 +93,8 @@ extension AddGoalView {
     let title = "Add goal"
     let placeholder = "Ex.Trip to Paris"
     let buttonText = "Create goal"
-    let dateSelectorTitle = "Set goal date"
+    let dateSelectorTitle = "Set completion date"
+    let infoText = "Set a goal completion date"
     
     let closeIcon = Source.Images.Navigation.close
     let timerIcon = Source.Images.System.timer

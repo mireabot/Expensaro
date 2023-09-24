@@ -38,6 +38,7 @@ enum Source {
       static let scan = Image(systemName: "doc.viewfinder")
       static let timer = Image("timer")
       static let settings = Image(systemName: "gearshape")
+      static let defaultCategory = Image(systemName: "archivebox.fill")
     }
     enum ButtonIcons {
       static let add = Image(systemName: "plus")

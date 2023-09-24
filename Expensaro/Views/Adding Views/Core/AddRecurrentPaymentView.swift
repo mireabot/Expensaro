@@ -18,6 +18,7 @@ struct AddRecurrentPaymentView: View {
   @State private var paymentTag: String = ""
   
   @State private var showDateSelector = false
+  @State private var showCategoryelector = false
   var body: some View {
     NavigationView {
       ScrollView {
@@ -31,7 +32,9 @@ struct AddRecurrentPaymentView: View {
             EXSmallSelector(activeText: $paymentDate, type: .date).onTapGesture {
               showDateSelector.toggle()
             }
-            EXSmallSelector(activeText: $paymentCategory, type: .category)
+            EXSmallSelector(activeText: $paymentCategory, type: .category).onTapGesture {
+              showCategoryelector.toggle()
+            }
           }
         }
       }
@@ -42,6 +45,11 @@ struct AddRecurrentPaymentView: View {
       .sheet(isPresented: $showDateSelector, content: {
         DateSelectorView(title: Appearance.shared.dateSelectorTitle, selectedDate: $paymentDate)
           .presentationDetents([.medium])
+      })
+      .sheet(isPresented: $showCategoryelector, content: {
+        CategorySelectorView(title: $paymentCategory, icon: .constant(.init(systemName: "globe")))
+          .presentationDetents([.medium, .fraction(0.9)])
+          .presentationDragIndicator(.visible)
       })
       .safeAreaInset(edge: .bottom, content: {
         Button {

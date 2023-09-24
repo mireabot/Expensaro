@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "floatingbutton",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/FloatingButton.git",
+      "state" : {
+        "revision" : "0fcbf6c1eed0450382fb8b0efd07f3d82a35da6d",
+        "version" : "1.1.5"
+      }
+    },
+    {
       "identity" : "ipages",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/benjaminsage/iPages.git",
