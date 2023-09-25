@@ -40,9 +40,7 @@ struct AddGoalView: View {
         
       }
       .onTapGesture {
-        DispatchQueue.main.async {
-          isFieldFocused = false
-        }
+        isFieldFocused = false
       }
       .applyMargins()
       .sheet(isPresented: $showDateSheet, content: {

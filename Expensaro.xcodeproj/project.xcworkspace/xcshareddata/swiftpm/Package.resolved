@@ -5,17 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mireabot/ExpensaroUIKit",
       "state" : {
-        "revision" : "4b2eddf2012c27836b177b71b9b1fe46fe7c6231",
-        "version" : "1.1.16"
-      }
-    },
-    {
-      "identity" : "floatingbutton",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/exyte/FloatingButton.git",
-      "state" : {
-        "revision" : "0fcbf6c1eed0450382fb8b0efd07f3d82a35da6d",
-        "version" : "1.1.5"
+        "revision" : "e2672fd150021721c2116b80e3250b1552c810a5",
+        "version" : "1.1.17"
       }
     },
     {

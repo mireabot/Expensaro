@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351839AE2AAF94C3008216F3 /* GoalsListView.swift */; };
+		351A14F92AC1F21300BCBD07 /* OverviewInfoBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A14F82AC1F21300BCBD07 /* OverviewInfoBottomView.swift */; };
 		35293ACB2ABB5D7900BC993B /* OffsetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35293ACA2ABB5D7900BC993B /* OffsetModifier.swift */; };
 		354A7C0B2ABDE57900934E4E /* CategoriesSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354A7C0A2ABDE57900934E4E /* CategoriesSettingsView.swift */; };
 		354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B042AB8C860002516F1 /* AddGoalView.swift */; };
@@ -17,7 +18,6 @@
 		355BB4082ABCB1DE00A71834 /* AddCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BB4072ABCB1DE00A71834 /* AddCategoryView.swift */; };
 		355BB40A2ABCB7BE00A71834 /* DefaultCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BB4092ABCB7BE00A71834 /* DefaultCategory.swift */; };
 		358E6B7F2AC0840900ABA818 /* CategorySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E6B7E2AC0840900ABA818 /* CategorySelectorView.swift */; };
-		358E6B822AC0A3CB00ABA818 /* FloatingButton in Frameworks */ = {isa = PBXBuildFile; productRef = 358E6B812AC0A3CB00ABA818 /* FloatingButton */; };
 		3590948F2AAD3EC300428B39 /* ExpensaroApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590948E2AAD3EC300428B39 /* ExpensaroApp.swift */; };
 		359094932AAD3EC400428B39 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 359094922AAD3EC400428B39 /* Assets.xcassets */; };
 		359094962AAD3EC400428B39 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 359094952AAD3EC400428B39 /* Preview Assets.xcassets */; };
@@ -48,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		351839AE2AAF94C3008216F3 /* GoalsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsListView.swift; sourceTree = "<group>"; };
+		351A14F82AC1F21300BCBD07 /* OverviewInfoBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewInfoBottomView.swift; sourceTree = "<group>"; };
 		35293ACA2ABB5D7900BC993B /* OffsetModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetModifier.swift; sourceTree = "<group>"; };
 		354A7C0A2ABDE57900934E4E /* CategoriesSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesSettingsView.swift; sourceTree = "<group>"; };
 		354F2B042AB8C860002516F1 /* AddGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalView.swift; sourceTree = "<group>"; };
@@ -90,7 +91,6 @@
 			files = (
 				354F2B152AB9F189002516F1 /* SwiftUIIntrospect in Frameworks */,
 				359094AB2AAE365900428B39 /* ExpensaroUIKit in Frameworks */,
-				358E6B822AC0A3CB00ABA818 /* FloatingButton in Frameworks */,
 				359CDC592AB4C8BA00DFFDC7 /* iPages in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -110,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				358773C92AB772C30078B297 /* Core */,
+				351A14F72AC1F1C400BCBD07 /* Helpers */,
 			);
 			path = "Overview Module";
 			sourceTree = "<group>";
@@ -120,6 +121,14 @@
 				359094AC2AAE390500428B39 /* HomeView.swift */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		351A14F72AC1F1C400BCBD07 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				351A14F82AC1F21300BCBD07 /* OverviewInfoBottomView.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		352CB2752ABA40F8006C1CEF /* Models */ = {
@@ -398,7 +407,6 @@
 				359094AA2AAE365900428B39 /* ExpensaroUIKit */,
 				359CDC582AB4C8BA00DFFDC7 /* iPages */,
 				354F2B142AB9F189002516F1 /* SwiftUIIntrospect */,
-				358E6B812AC0A3CB00ABA818 /* FloatingButton */,
 			);
 			productName = Expensaro;
 			productReference = 3590948B2AAD3EC300428B39 /* Expensaro.app */;
@@ -432,7 +440,6 @@
 				359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */,
 				359CDC572AB4C8BA00DFFDC7 /* XCRemoteSwiftPackageReference "iPages" */,
 				354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
-				358E6B802AC0A3CB00ABA818 /* XCRemoteSwiftPackageReference "FloatingButton" */,
 			);
 			productRefGroup = 3590948C2AAD3EC300428B39 /* Products */;
 			projectDirPath = "";
@@ -470,6 +477,7 @@
 				359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */,
 				359094A22AAE341E00428B39 /* NavigationViewBuilder.swift in Sources */,
 				35BEF35D2AB378DB005D1138 /* Source.swift in Sources */,
+				351A14F92AC1F21300BCBD07 /* OverviewInfoBottomView.swift in Sources */,
 				355BB40A2ABCB7BE00A71834 /* DefaultCategory.swift in Sources */,
 				35BEF3602AB37AA6005D1138 /* AddBudgetView.swift in Sources */,
 				359094A02AAE340D00428B39 /* RootNavigationController.swift in Sources */,
@@ -711,14 +719,6 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		358E6B802AC0A3CB00ABA818 /* XCRemoteSwiftPackageReference "FloatingButton" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/exyte/FloatingButton.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 		359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mireabot/ExpensaroUIKit";
@@ -742,11 +742,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */;
 			productName = SwiftUIIntrospect;
-		};
-		358E6B812AC0A3CB00ABA818 /* FloatingButton */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 358E6B802AC0A3CB00ABA818 /* XCRemoteSwiftPackageReference "FloatingButton" */;
-			productName = FloatingButton;
 		};
 		359094AA2AAE365900428B39 /* ExpensaroUIKit */ = {
 			isa = XCSwiftPackageProductDependency;

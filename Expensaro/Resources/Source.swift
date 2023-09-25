@@ -49,6 +49,10 @@ enum Source {
       static let month2month = Image(systemName: "chart.line.uptrend.xyaxis")
       static let topCategory = Image(systemName: "trophy")
     }
+    enum BottomInfo {
+      static let spendings = Image("spendingsInfo")
+      static let topCategory = Image("topCategoryInfo")
+    }
   }
   
   enum Functions {

@@ -15,6 +15,14 @@ struct SettingsView: View {
   @State var text = ""
   @State private var selectedCategory = ""
   @FocusState private var nameField: Bool
+  @State var detentHeight: CGFloat = 0
+  let items: [GridItem] = [
+    GridItem(.fixed(50), spacing: 20),
+    GridItem(.fixed(50), spacing: 20),
+  ]
+  @State private var profileEmoji: String = "👤"
+  
+  @State private var showEmojiSelector = false
   var body: some View {
     NavigationView {
       ScrollView {
@@ -22,10 +30,10 @@ struct SettingsView: View {
           GeometryReader { proxy in
             
             topBar(topEndge: proxy.safeAreaInsets.top, offset: $offset, text: $text)
-            .frame(maxWidth: .infinity, alignment: .top)
-            .frame(height: maxHeight + offset, alignment: .bottom)
-            .background(.white)
-            .shadowXS()
+              .frame(maxWidth: .infinity, alignment: .top)
+              .frame(height: maxHeight + offset, alignment: .bottom)
+              .background(.white)
+              .shadowXS()
           }
           .frame(height: maxHeight)
           .offset(y: -offset)
@@ -48,6 +56,16 @@ struct SettingsView: View {
         }
         .modifier(OffsetModifier(offset: $offset))
       }
+      .sheet(isPresented: $showEmojiSelector, content: {
+        emojiGrid()
+          .readHeight()
+          .onPreferenceChange(HeightPreferenceKey.self) { height in
+            if let height {
+              self.detentHeight = height
+            }
+          }
+          .presentationDetents([.height(self.detentHeight)])
+      })
       .coordinateSpace(name: "SCROLL")
       .navigationBarTitleDisplayMode(.inline)
       .toolbarBackground(.white, for: .bottomBar)
@@ -96,6 +114,8 @@ extension SettingsView {
     let title = "Settings"
     
     let backIcon = Source.Images.Navigation.back
+    
+    let emojis = ["👷", "💂‍♀️","🕵️", "🧑‍⚕️", "👨‍⚕️", "👩‍🌾", "👨‍🌾", "👩‍🍳", "👨‍🍳", "👩‍🎓", "👨‍🎓", "🧑‍🎤", "👨‍🎤", "👩‍🏫", "👨‍🏫", "👩‍🏭", "👨‍🏭", "👩‍💻", "👨‍💻", "🫅", "🤴", "👰‍♀️"]
   }
 }
 
@@ -105,14 +125,12 @@ extension SettingsView {
   func topBar(topEndge: CGFloat, offset: Binding<CGFloat>, text: Binding<String>) -> some View {
     VStack(spacing: 10) {
       Button {
-        
+        showEmojiSelector.toggle()
       } label: {
-        Source.Images.System.scan
-          .resizable()
-          .frame(width: 30, height: 30)
-          .foregroundColor(.primaryGreen)
+        Text(profileEmoji)
+          .font(.largeTitle)
           .padding(20)
-          .background(Color.border)
+          .background(Color.backgroundGrey)
           .cornerRadius(60)
       }
       TextField("Your name", text: $text)
@@ -124,6 +142,39 @@ extension SettingsView {
         .foregroundColor(.black)
         .tint(.primaryGreen)
     }.padding(.bottom, 20)
+  }
+  
+  @ViewBuilder
+  func emojiGrid() -> some View {
+    VStack(spacing: 0) {
+      Button {
+        showEmojiSelector.toggle()
+      } label: {
+        Source.Images.Navigation.checkmark
+          .font(.callout)
+          .foregroundColor(.black)
+          .frame(maxWidth: .infinity, alignment: .trailing)
+          .applyMargins()
+          .padding(.vertical, 10)
+      }
+      
+      Divider()
+      
+      ScrollView(.horizontal, showsIndicators: false, content: {
+        LazyHGrid(rows: items, spacing: 20) {
+          ForEach(Appearance.shared.emojis, id: \.self) { emoji in
+            Text(emoji)
+              .font(.largeTitle)
+              .onTapGesture {
+                profileEmoji = emoji
+                showEmojiSelector.toggle()
+              }
+          }
+        }
+        .applyMargins()
+      })
+      .padding(.top, 20)
+    }
   }
 }
 

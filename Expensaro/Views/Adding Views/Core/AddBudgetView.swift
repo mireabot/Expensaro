@@ -12,8 +12,9 @@ struct AddBudgetView: View {
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var budgetFieldFocused: Bool
   @State private var budgetValue: String = ""
-  @State private var showSuccess = false
   @State var detentHeight: CGFloat = 0
+  
+  @State private var showSuccess = false
   var body: some View {
     NavigationView {
       ScrollView {

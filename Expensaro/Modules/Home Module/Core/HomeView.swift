@@ -58,8 +58,7 @@ struct HomeView: View {
             router.pushTo(view: EXNavigationViewBuilder.builder.makeView(SettingsView()))
           } label: {
             Appearance.shared.settingsIcon
-              .resizable()
-              .frame(width: 24, height: 24)
+              .font(.callout)
               .foregroundColor(.primaryGreen)
           }
         }

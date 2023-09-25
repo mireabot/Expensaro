@@ -16,6 +16,7 @@ struct AddTransactionView: View {
   @State private var transactionCategory: String = "Other"
   @State private var transactionImage: Image = Source.Images.System.defaultCategory
   @State private var transactionTag: String = ""
+  
   @State private var showCategoriesSelector = false
   var body: some View {
     NavigationView {
