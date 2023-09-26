@@ -19,6 +19,9 @@ struct AddRecurrentPaymentView: View {
   
   @State private var showDateSelector = false
   @State private var showCategoryelector = false
+  @State private var showReminderAlert = false
+  
+  @State private var showAnimation = false
   var body: some View {
     NavigationView {
       ScrollView {
@@ -46,6 +49,10 @@ struct AddRecurrentPaymentView: View {
         DateSelectorView(title: Appearance.shared.dateSelectorTitle, selectedDate: $paymentDate)
           .presentationDetents([.medium])
       })
+      .sheet(isPresented: $showReminderAlert, content: {
+        reminderBottomView()
+          .presentationDetents([.fraction(0.3)])
+      })
       .sheet(isPresented: $showCategoryelector, content: {
         CategorySelectorView(title: $paymentCategory, icon: .constant(.init(systemName: "globe")))
           .presentationDetents([.medium, .fraction(0.9)])
@@ -53,14 +60,14 @@ struct AddRecurrentPaymentView: View {
       })
       .safeAreaInset(edge: .bottom, content: {
         Button {
-          print(paymentTag)
+          showReminderAlert.toggle()
         } label: {
           Text(Appearance.shared.buttonText)
             .font(.mukta(.semibold, size: 17))
         }
         .applyMargins()
         .padding(.bottom, 15)
-        .buttonStyle(PrimaryButtonStyle())
+        .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -89,7 +96,7 @@ struct AddRecurrentPaymentView_Previews: PreviewProvider {
 }
 
 // MARK: - Apperance
-extension AddRecurrentPaymentView {
+private extension AddRecurrentPaymentView {
   struct Appearance {
     static let shared = Appearance()
     let title = "Add recurrent payment"
@@ -98,5 +105,67 @@ extension AddRecurrentPaymentView {
     let dateSelectorTitle = "Select pay date"
     
     let closeIcon = Source.Images.Navigation.close
+    
+    let reminderTitle = "Do you want to create reminder?"
+    let reminderText = "You will receive a notification 3 days in advance of your upcoming payment"
+    let successTitle = "You are all set!"
+    let successText = "You will get a reminder 3 days before the date of payment"
+  }
+}
+
+
+// MARK: - Helper Views
+extension AddRecurrentPaymentView {
+  @ViewBuilder
+  func reminderBottomView() -> some View {
+    VStack(spacing: 10) {
+      Text(showAnimation ? Appearance.shared.successTitle : Appearance.shared.reminderTitle)
+        .font(.mukta(.semibold, size: 20))
+      Text(showAnimation ? Appearance.shared.successText : Appearance.shared.reminderText)
+        .multilineTextAlignment(.center)
+        .font(.mukta(.regular, size: 17))
+        .foregroundColor(.darkGrey)
+        .padding(.bottom, 25)
+    }
+    .safeAreaInset(edge: .bottom, content: {
+      ZStack {
+        if showAnimation {
+          Button {
+            showReminderAlert.toggle()
+          } label: {
+            Text("Done")
+              .font(.mukta(.semibold, size: 17))
+          }
+          .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+          .zIndex(1)
+          .transition(.move(edge: .trailing))
+        }
+        
+        HStack {
+          Button {
+            
+            showReminderAlert.toggle()
+          } label: {
+            Text("No, thank you")
+              .font(.mukta(.semibold, size: 17))
+          }
+          .buttonStyle(SmallPrimaryButtonStyle(showLoader: .constant(false)))
+          Button {
+            withAnimation(.interactiveSpring(response: 0.5,dampingFraction: 0.9, blendDuration: 0.9)) {
+              showAnimation.toggle()
+            }
+          } label: {
+            Text("Yes, I'm in")
+              .font(.mukta(.semibold, size: 17))
+          }
+          .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+        }
+        .background(.white)
+        .zIndex(showAnimation ? 0 : 1)
+
+      }
+    })
+    .applyMargins()
+    .interactiveDismissDisabled()
   }
 }

@@ -54,7 +54,7 @@ struct AddBudgetView: View {
         }
         .applyMargins()
         .padding(.bottom, 15)
-        .buttonStyle(PrimaryButtonStyle())
+        .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
         
       })
       .toolbar {

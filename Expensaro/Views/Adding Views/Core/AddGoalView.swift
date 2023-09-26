@@ -7,7 +7,6 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import FloatingButton
 
 struct AddGoalView: View {
   @Environment(\.dismiss) var makeDismiss
@@ -56,7 +55,7 @@ struct AddGoalView: View {
         }
         .applyMargins()
         .padding(.bottom, 15)
-        .buttonStyle(PrimaryButtonStyle())
+        .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {

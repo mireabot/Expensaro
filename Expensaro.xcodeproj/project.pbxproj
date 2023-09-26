@@ -43,6 +43,7 @@
 		35C80C6F2ABF84880063553E /* ContactSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C80C6E2ABF84880063553E /* ContactSettingsView.swift */; };
 		35D7D4582ABE0EDC002EB654 /* Expensaro.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35D7D4562ABE0EDC002EB654 /* Expensaro.xcdatamodeld */; };
 		35D7D45A2ABE1004002EB654 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D7D4592ABE1004002EB654 /* Category.swift */; };
+		35DFA06A2AC385F10008246A /* EraseDataSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */; };
 		35FC566C2ABE01FC009CB36C /* CategoryDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FC566B2ABE01FC009CB36C /* CategoryDataProvider.swift */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +82,7 @@
 		35C80C6E2ABF84880063553E /* ContactSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSettingsView.swift; sourceTree = "<group>"; };
 		35D7D4572ABE0EDC002EB654 /* Expensaro.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Expensaro.xcdatamodel; sourceTree = "<group>"; };
 		35D7D4592ABE1004002EB654 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EraseDataSettingsView.swift; sourceTree = "<group>"; };
 		35FC566B2ABE01FC009CB36C /* CategoryDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDataProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -202,6 +204,7 @@
 				354A7C0A2ABDE57900934E4E /* CategoriesSettingsView.swift */,
 				35C80C6C2ABF59DE0063553E /* RemindersSettingsView.swift */,
 				35C80C6E2ABF84880063553E /* ContactSettingsView.swift */,
+				35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -467,6 +470,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35DFA06A2AC385F10008246A /* EraseDataSettingsView.swift in Sources */,
 				354F2B122AB90443002516F1 /* SettingsView.swift in Sources */,
 				35BEF3632AB38088005D1138 /* BottomSheetModifier.swift in Sources */,
 				35C80C6F2ABF84880063553E /* ContactSettingsView.swift in Sources */,

@@ -34,7 +34,7 @@ struct OnboardingView: View {
         Text("Get started")
           .font(.mukta(.semibold, size: 17))
       }
-      .buttonStyle(PrimaryButtonStyle())
+      .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
       .padding(.bottom, 20)
 
     })

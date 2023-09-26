@@ -43,7 +43,7 @@ struct InitialPermissionView: View {
         Text("Finish")
           .font(.mukta(.semibold, size: 17))
       }
-      .buttonStyle(PrimaryButtonStyle())
+      .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
       .padding(.bottom, 20)
 
     })

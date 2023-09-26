@@ -184,7 +184,7 @@ extension SettingsView {
     case "Categories": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(CategoriesSettingsView()))
     case "Reminders": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RemindersSettingsView()))
     case "Export Data": print("Navigation error")
-    case "Reset Data": print("Navigation error")
+    case "Reset Data": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(EraseDataSettingsView()))
     case "Contact": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(ContactSettingsView()))
     default: print("Navigation error")
     }
