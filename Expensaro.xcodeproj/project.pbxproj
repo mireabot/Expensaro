@@ -83,6 +83,7 @@
 		35D7D4572ABE0EDC002EB654 /* Expensaro.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Expensaro.xcdatamodel; sourceTree = "<group>"; };
 		35D7D4592ABE1004002EB654 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EraseDataSettingsView.swift; sourceTree = "<group>"; };
+		35DFA06B2AC397870008246A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		35FC566B2ABE01FC009CB36C /* CategoryDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDataProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -261,6 +262,7 @@
 		3590948D2AAD3EC300428B39 /* Expensaro */ = {
 			isa = PBXGroup;
 			children = (
+				35DFA06B2AC397870008246A /* Info.plist */,
 				352CB2752ABA40F8006C1CEF /* Models */,
 				3590949C2AAD404400428B39 /* Navigation */,
 				358773CB2AB772E80078B297 /* Views */,
@@ -634,6 +636,7 @@
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Expensaro/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -668,6 +671,7 @@
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Expensaro/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
