@@ -10,6 +10,7 @@ import ExpensaroUIKit
 
 struct AddBudgetView: View {
   @Environment(\.dismiss) var makeDismiss
+  let type: ScreenType
   @FocusState private var budgetFieldFocused: Bool
   @State private var budgetValue: String = ""
   @State var detentHeight: CGFloat = 0
@@ -18,8 +19,15 @@ struct AddBudgetView: View {
   var body: some View {
     NavigationView {
       ScrollView {
-        EXTextFieldWithCurrency(text: $budgetValue)
-          .focused($budgetFieldFocused)
+        VStack(alignment: .leading, spacing: 10) {
+          EXTextFieldWithCurrency(text: $budgetValue)
+            .focused($budgetFieldFocused)
+          if type == .updateBudget {
+            Text(Appearance.shared.infoText)
+              .font(.mukta(.regular, size: 13))
+              .foregroundColor(.darkGrey)
+          }
+        }
       }
       .onTapGesture {
         budgetFieldFocused = false
@@ -49,7 +57,7 @@ struct AddBudgetView: View {
         Button {
           showSuccess.toggle()
         } label: {
-          Text(Appearance.shared.buttonText)
+          Text(type == .addBudget ? Appearance.shared.addBudgetButtonText : Appearance.shared.updateBudgetButtonText)
             .font(.mukta(.semibold, size: 17))
         }
         .applyMargins()
@@ -59,7 +67,7 @@ struct AddBudgetView: View {
       })
       .toolbar {
         ToolbarItem(placement: .principal) {
-          Text(Appearance.shared.title)
+          Text(type == .addBudget ? Appearance.shared.addBudgetTitle : Appearance.shared.updateBudgetTitle)
             .font(.mukta(.medium, size: 17))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -78,7 +86,7 @@ struct AddBudgetView: View {
 
 struct AddBudgetView_Previews: PreviewProvider {
   static var previews: some View {
-    AddBudgetView()
+    AddBudgetView(type: .addBudget)
   }
 }
 
@@ -86,9 +94,21 @@ struct AddBudgetView_Previews: PreviewProvider {
 extension AddBudgetView {
   struct Appearance {
     static let shared = Appearance()
-    let title = "Add budget"
-    let buttonText = "Add budget"
+    let addBudgetTitle = "Add budget"
+    let addBudgetButtonText = "Add budget"
+    
+    let updateBudgetTitle = "Update your budget"
+    let updateBudgetButtonText = "Update budget"
+    
+    let infoText = "Enter amount which you want to add to your current budget"
     
     let closeIcon = Source.Images.Navigation.close
+  }
+}
+
+extension AddBudgetView {
+  enum ScreenType {
+    case addBudget
+    case updateBudget
   }
 }

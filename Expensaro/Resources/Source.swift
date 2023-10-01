@@ -10,9 +10,9 @@ import SwiftUI
 enum Source {
   enum Images {
     enum Navigation {
-      static let close = Image(systemName: "xmark")
+      static let close = Image("close")
       static let checkmark = Image(systemName: "checkmark")
-      static let back = Image(systemName: "arrow.backward")
+      static let back = Image("back")
     }
     enum Tabs {
       static let home = "tray.full"
@@ -35,7 +35,7 @@ enum Source {
     enum System {
       static let notifications = Image(systemName: "app.badge")
       static let analytics = Image(systemName: "chart.xyaxis.line")
-      static let scan = Image(systemName: "doc.viewfinder")
+      static let scan = Image("scan")
       static let timer = Image("timer")
       static let settings = Image(systemName: "gearshape")
       static let defaultCategory = Image(systemName: "archivebox.fill")
@@ -64,5 +64,17 @@ enum Source {
       formatter.dateFormat = "MMM d, yyyy"
       return formatter.string(from: date)
     }
+    
+    /// Function which gets current month
+    /// - Returns: String with current month
+    static func currentMonth() -> String {
+      let currentDate = Date()
+      
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "MMMM"
+      
+      return dateFormatter.string(from: currentDate)
+    }
+
   }
 }
