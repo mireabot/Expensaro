@@ -22,11 +22,9 @@ struct AddBudgetView: View {
         VStack(alignment: .leading, spacing: 10) {
           EXTextFieldWithCurrency(text: $budgetValue)
             .focused($budgetFieldFocused)
-          if type == .updateBudget {
-            Text(Appearance.shared.infoText)
-              .font(.mukta(.regular, size: 13))
-              .foregroundColor(.darkGrey)
-          }
+          Text(type.infoText)
+            .font(.mukta(.regular, size: 13))
+            .foregroundColor(.darkGrey)
         }
       }
       .onTapGesture {
@@ -57,7 +55,7 @@ struct AddBudgetView: View {
         Button {
           showSuccess.toggle()
         } label: {
-          Text(type == .addBudget ? Appearance.shared.addBudgetButtonText : Appearance.shared.updateBudgetButtonText)
+          Text(type.buttonText)
             .font(.mukta(.semibold, size: 17))
         }
         .applyMargins()
@@ -67,7 +65,7 @@ struct AddBudgetView: View {
       })
       .toolbar {
         ToolbarItem(placement: .principal) {
-          Text(type == .addBudget ? Appearance.shared.addBudgetTitle : Appearance.shared.updateBudgetTitle)
+          Text(type.title)
             .font(.mukta(.medium, size: 17))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -86,7 +84,7 @@ struct AddBudgetView: View {
 
 struct AddBudgetView_Previews: PreviewProvider {
   static var previews: some View {
-    AddBudgetView(type: .addBudget)
+    AddBudgetView(type: .addToGoal)
   }
 }
 
@@ -94,21 +92,49 @@ struct AddBudgetView_Previews: PreviewProvider {
 extension AddBudgetView {
   struct Appearance {
     static let shared = Appearance()
-    let addBudgetTitle = "Add budget"
-    let addBudgetButtonText = "Add budget"
-    
-    let updateBudgetTitle = "Update your budget"
-    let updateBudgetButtonText = "Update budget"
-    
-    let infoText = "Enter amount which you want to add to your current budget"
     
     let closeIcon = Source.Images.Navigation.close
   }
 }
 
+// MARK: - Helper Enum
 extension AddBudgetView {
   enum ScreenType {
     case addBudget
     case updateBudget
+    case addToGoal
+    
+    var title: String {
+      switch self {
+      case .addBudget:
+        return "Add budget"
+      case .updateBudget:
+        return "Update your budget"
+      case .addToGoal:
+        return "Add money towards goal"
+      }
+    }
+    
+    var buttonText: String {
+      switch self {
+      case .addBudget:
+        return "Add budget"
+      case .updateBudget:
+        return "Update budget"
+      case .addToGoal:
+        return "Add money"
+      }
+    }
+    
+    var infoText: String {
+      switch self {
+      case .addBudget:
+        return ""
+      case .updateBudget:
+        return "Enter amount which you want to add to your current budget"
+      case .addToGoal:
+        return ""
+      }
+    }
   }
 }

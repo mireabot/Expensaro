@@ -200,9 +200,9 @@ extension HomeView {
       }
       Divider()
       VStack {
-        TransactionCell(icon: Image(systemName: "globe"), name: "Gas station", date: .now, amount: 15.78, type: "Credit")
-        TransactionCell(icon: Image(systemName: "cart.fill"), name: "Groceries", date: .now, amount: 50.25, type: "Debit")
-        TransactionCell(icon: Image(systemName: "wallet.pass"), name: "Monthly Subscription", date: .now, amount: 9.99, type: "Debit")
+        TransactionCell(icon: Image(Source.Strings.Categories.Images.car), name: "Gas station", date: .now, amount: 15.78, type: "Credit")
+        TransactionCell(icon: Image(Source.Strings.Categories.Images.groceries), name: "Groceries", date: .now, amount: 50.25, type: "Debit")
+        TransactionCell(icon: Image(Source.Strings.Categories.Images.subscriptions), name: "Monthly Subscription", date: .now, amount: 9.99, type: "Debit")
       }
       .padding(.bottom, 5)
     }

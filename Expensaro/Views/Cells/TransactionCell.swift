@@ -26,7 +26,6 @@ struct TransactionCell: View {
   var body: some View {
     HStack(alignment: .center) {
       icon
-        .font(.callout)
         .foregroundColor(.primaryGreen)
         .padding(8)
         .background(Color.backgroundGrey)
@@ -44,9 +43,11 @@ struct TransactionCell: View {
       VStack(alignment: .trailing, spacing: -3) {
         Text("$\(amount.clean)")
           .font(.mukta(.medium, size: 15))
-        Text(type)
-          .font(.mukta(.medium, size: 13))
-          .foregroundColor(.primaryGreen)
+        if !type.isEmpty {
+          Text(type)
+            .font(.mukta(.medium, size: 13))
+            .foregroundColor(.primaryGreen)
+        }
       }
     }
   }
@@ -55,9 +56,9 @@ struct TransactionCell: View {
 struct TransactionCell_Previews: PreviewProvider {
   static var previews: some View {
     VStack {
-      TransactionCell(icon: Image(systemName: "globe"), name: "Gas station", date: .now, amount: 15.78, type: "Credit")
-      TransactionCell(icon: Image(systemName: "cart.fill"), name: "Groceries", date: .now, amount: 50.25, type: "Debit")
-      TransactionCell(icon: Image(systemName: "wallet.pass"), name: "Monthly Subscription", date: .now, amount: 9.99, type: "Debit")
+      TransactionCell(icon: Image(Source.Strings.Categories.Images.car), name: "Gas station", date: .now, amount: 15.78, type: "Credit")
+      TransactionCell(icon: Image(Source.Strings.Categories.Images.groceries), name: "Groceries", date: .now, amount: 50.25, type: "Debit")
+      TransactionCell(icon: Image(Source.Strings.Categories.Images.subscriptions), name: "Monthly Subscription", date: .now, amount: 9.99, type: "Debit")
     }
     .applyMargins()
   }

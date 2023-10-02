@@ -64,7 +64,6 @@ struct ContactSettingsView: View {
             
           } label: {
             Appearance.shared.submitIcon
-              .font(.callout)
               .foregroundColor(message.isEmpty || email.isEmpty ? .darkGrey : .primaryGreen)
           }
           .disabled(message.isEmpty || email.isEmpty)

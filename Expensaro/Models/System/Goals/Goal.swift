@@ -22,6 +22,10 @@ struct Goal: Identifiable {
     return components.day ?? 0
   }
   
+  var amountLeft: Float {
+    return goalAmount - currentAmount
+  }
+  
   var isCompleted: Bool {
     return currentAmount >= goalAmount
   }

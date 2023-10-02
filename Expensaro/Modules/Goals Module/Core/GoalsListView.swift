@@ -10,6 +10,7 @@ import ExpensaroUIKit
 import SwiftUIIntrospect
 
 struct GoalsListView: View {
+  @EnvironmentObject var router: EXNavigationViewsRouter
   @State private var showAddGoalView = false
   var body: some View {
     NavigationView {
@@ -19,13 +20,16 @@ struct GoalsListView: View {
             LazyVStack(spacing: 10) {
               ForEach(Goal.sampleGoals) { goal in
                 GoalCell(goalData: goal)
+                  .onTapGesture {
+                    router.pushTo(view: EXNavigationViewBuilder.builder.makeView(GoalDetailView(goal: goal)))
+                  }
               }
             }
             .applyMargins()
           } header: {
             goalOverviewHeader()
           }
-
+          
         }
       }
       .introspect(.scrollView, on: .iOS(.v16, .v17), customize: { scrollView in
@@ -70,7 +74,7 @@ extension GoalsListView {
           Text("You saved in total")
             .font(.mukta(.regular, size: 15))
             .foregroundColor(.darkGrey)
-          Text("$ \(calculateTotalSavings().clean)")
+          Text("$\(calculateTotalSavings().clean)")
             .font(.mukta(.medium, size: 20))
         }
         Spacer()
@@ -85,7 +89,7 @@ extension GoalsListView {
               .font(.mukta(.semibold, size: 15))
           }
         }.buttonStyle(SmallButtonStyle())
-
+        
       }
       .padding(.top, 5)
       .padding(.bottom, 15)

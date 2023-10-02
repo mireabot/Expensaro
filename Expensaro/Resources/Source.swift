@@ -13,6 +13,7 @@ enum Source {
       static let close = Image("close")
       static let checkmark = Image("checkmark")
       static let back = Image("back")
+      static let menu = Image("menu")
     }
     enum Tabs {
       static let home = "home"
@@ -42,11 +43,12 @@ enum Source {
       static let completedGoal = Image("completedGoal")
     }
     enum ButtonIcons {
-      static let add = Image(systemName: "plus")
+      static let add = Image("buttonAdd")
       static let how = Image("buttonHow")
-      static let send = Image(systemName: "paperplane.fill")
+      static let send = Image("send")
       static let addTransaction = Image("buttonTransaction")
       static let addRecurrent = Image("buttonRecurrent")
+      static let delete = Image("delete")
     }
     enum InfoCardIcon {
       static let month2month = Image("month2month")
