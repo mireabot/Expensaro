@@ -16,7 +16,7 @@ struct TabBarView: View {
     TabView {
       RootNavigationController(nav: nav.homeModuleNavigationController, rootView: HomeView())
         .tabItem {
-          Label("Home", systemImage: Source.Images.Tabs.home)
+          Label("Home", image: Source.Images.Tabs.home)
         }
         .environmentObject(router)
         .onAppear {
@@ -24,7 +24,7 @@ struct TabBarView: View {
         }
       RootNavigationController(nav: nav.goalsModuleNavigationController, rootView: GoalsListView())
         .tabItem {
-          Label("Goals", systemImage: Source.Images.Tabs.goals)
+          Label("Goals", image: Source.Images.Tabs.goals)
         }
         .environmentObject(router)
         .onAppear {
@@ -32,7 +32,7 @@ struct TabBarView: View {
         }
       RootNavigationController(nav: nav.overviewModuleNavigationController, rootView: OverviewView())
         .tabItem {
-          Label("Overview", systemImage: Source.Images.Tabs.overview)
+          Label("Overview", image: Source.Images.Tabs.overview)
         }
         .environmentObject(router)
         .onAppear {

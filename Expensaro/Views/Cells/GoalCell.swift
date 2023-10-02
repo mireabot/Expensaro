@@ -58,8 +58,7 @@ struct GoalCell: View {
     }
     if goalData.isCompleted {
       return AnyView(
-        Image(systemName: "checkmark.circle")
-          .font(.callout)
+        Source.Images.System.completedGoal
           .foregroundColor(.green)
       )
     }

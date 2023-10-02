@@ -85,7 +85,6 @@ struct SettingsView: View {
             nameField = false
           } label: {
             Source.Images.Navigation.checkmark
-              .font(.callout)
               .foregroundColor(.primaryGreen)
           }
           .frame(maxWidth: .infinity, alignment: .trailing)

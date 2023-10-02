@@ -23,10 +23,10 @@ struct CategorySelectorView: View {
       ScrollView(showsIndicators: false) {
         LazyVGrid(columns: items) {
           ForEach(categories) { category in
-            EXCategoryCell(icon: Image(systemName: category.icon), title: category.name)
+            EXCategoryCell(icon: Image(category.icon), title: category.name)
               .onTapGesture {
                 title = category.name
-                icon = Image(systemName: category.icon)
+                icon = Image(category.icon)
                 makeDismiss()
               }
           }

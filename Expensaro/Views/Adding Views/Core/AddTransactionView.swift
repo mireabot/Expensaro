@@ -14,7 +14,7 @@ struct AddTransactionView: View {
   @State private var amountValue: String = ""
   @State private var transactionName: String = ""
   @State private var transactionCategory: String = "Other"
-  @State private var transactionImage: Image = Source.Images.System.defaultCategory
+  @State private var transactionImage: Image = Image(Source.Strings.Categories.Images.other)
   @State private var transactionTag: String = ""
   
   @State private var showCategoriesSelector = false

@@ -47,7 +47,6 @@ struct RecurrentPaymentsListView: View {
             router.nav?.popViewController(animated: true)
           } label: {
             Appearance.shared.backIcon
-              .font(.callout)
               .foregroundColor(.black)
           }
         }
@@ -62,7 +61,6 @@ struct RecurrentPaymentsListView: View {
             showAddPayment.toggle()
           } label: {
             Appearance.shared.addIcon
-              .font(.callout)
               .foregroundColor(.black)
           }
         }

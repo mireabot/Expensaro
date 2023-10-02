@@ -12,7 +12,7 @@ struct AddCategoryView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   @ObservedObject var categoryVM: CategoryStore
   @FocusState var isFocused: Bool
-  @State private var categoryIcon: String = "archivebox.fill"
+  @State private var categoryIcon: String = Source.Strings.Categories.Images.other
   @State private var changeIcon = false
   @State var detentHeight: CGFloat = 0
   let items: [GridItem] = [
@@ -24,10 +24,10 @@ struct AddCategoryView: View {
       ScrollView {
         VStack(spacing: 20) {
           VStack(alignment: .center, spacing: 15) {
-            Image(systemName: categoryIcon)
-              .font(.largeTitle)
+            Image(categoryIcon)
+              .resizable()
+              .frame(width: 30, height: 30)
               .foregroundColor(.primaryGreen)
-              .frame(height: 45)
             
             Button {
               changeIcon.toggle()
@@ -136,9 +136,7 @@ extension AddCategoryView {
       
       LazyHGrid(rows: items, alignment: .center, spacing: 20) {
         ForEach(DefaultCategory.defaultSet){ item in
-          Image(systemName: item.icon)
-            .font(.title2)
-            .frame(height: 40)
+          Image(item.icon)
             .foregroundColor(.primaryGreen)
             .onTapGesture {
               categoryIcon = item.icon

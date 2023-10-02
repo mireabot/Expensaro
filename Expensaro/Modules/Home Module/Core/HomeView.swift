@@ -58,7 +58,6 @@ struct HomeView: View {
             router.pushTo(view: EXNavigationViewBuilder.builder.makeView(SettingsView()))
           } label: {
             Appearance.shared.settingsIcon
-              .font(.callout)
               .foregroundColor(.primaryGreen)
           }
         }
@@ -90,11 +89,11 @@ extension HomeView {
     VStack {
       Menu {
         Button(action: { showAddTransaction.toggle() }) {
-          Label("Add transaction", systemImage: "dollarsign")
+          Label("Add transaction", image: "buttonTransaction")
         }
         
         Button(action: { showAddRecurrentPayment.toggle() }) {
-          Label("Add recurrent payment", systemImage: "arrow.triangle.2.circlepath")
+          Label("Add recurrent payment", image: "buttonRecurrent")
         }
         
       } label: {
@@ -103,8 +102,6 @@ extension HomeView {
             .fill(Color.secondaryYellow)
             .frame(width: 60, height: 60)
           Source.Images.ButtonIcons.add
-            .font(.body)
-            .fontWeight(.semibold)
             .foregroundColor(.primaryGreen)
         }
       }
@@ -147,7 +144,7 @@ extension HomeView {
       } label: {
         HStack {
           Source.Images.ButtonIcons.add
-            .font(.callout)
+            .foregroundColor(.primaryGreen)
           Text("Add money")
             .font(.mukta(.semibold, size: 15))
         }

@@ -6,26 +6,47 @@
 //
 
 import SwiftUI
+import ExpensaroUIKit
 
 struct DefaultCategory: Identifiable {
-  var id: Int
+  var id = UUID().uuidString
   var name: String
   var icon: String
   
   static let defaultSet = [
-    DefaultCategory(id: 0, name: "Clothes", icon: "tshirt.fill"),
-    DefaultCategory(id: 1, name: "Education", icon: "graduationcap.fill"),
-    DefaultCategory(id: 2, name: "Medical", icon: "heart.fill"),
-    DefaultCategory(id: 3, name: "Hobby", icon: "hammer.fill"),
-    DefaultCategory(id: 4, name: "Travel", icon: "airplane"),
-    DefaultCategory(id: 5, name: "Entertainment", icon: "ticket.fill"),
-    DefaultCategory(id: 6, name: "Subscription", icon: "play.square.stack.fill"),
-    DefaultCategory(id: 7, name: "Going out", icon: "takeoutbag.and.cup.and.straw.fill"),
-    DefaultCategory(id: 8, name: "Groceries", icon: "bag.fill"),
-    DefaultCategory(id: 9, name: "Utilities", icon: "house.fill"),
-    DefaultCategory(id: 10, name: "Shopping", icon: "cart.fill"),
-    DefaultCategory(id: 11, name: "Car", icon: "car.side.fill"),
-    DefaultCategory(id: 12, name: "Public transport", icon: "cablecar.fill"),
-    DefaultCategory(id: 13, name: "Other", icon: "archivebox.fill"),
+    DefaultCategory(name: "Clothes", icon: Source.Strings.Categories.Images.clothes),
+    DefaultCategory(name: "Education", icon: Source.Strings.Categories.Images.education),
+    DefaultCategory(name: "Medical", icon: Source.Strings.Categories.Images.medicine),
+    DefaultCategory(name: "Hobby", icon: Source.Strings.Categories.Images.hobby),
+    DefaultCategory(name: "Travel", icon: Source.Strings.Categories.Images.travel),
+    DefaultCategory(name: "Entertainment", icon: Source.Strings.Categories.Images.entertainment),
+    DefaultCategory(name: "Subscription", icon: Source.Strings.Categories.Images.subscriptions),
+    DefaultCategory(name: "Going out", icon: Source.Strings.Categories.Images.goingOut),
+    DefaultCategory(name: "Groceries", icon: Source.Strings.Categories.Images.groceries),
+    DefaultCategory(name: "Utilities", icon: Source.Strings.Categories.Images.utilities),
+    DefaultCategory(name: "Shopping", icon: Source.Strings.Categories.Images.shopping),
+    DefaultCategory(name: "Car", icon: Source.Strings.Categories.Images.car),
+    DefaultCategory(name: "Public transport", icon: Source.Strings.Categories.Images.publicTransport),
+    DefaultCategory(name: "Other", icon: Source.Strings.Categories.Images.other),
+    DefaultCategory(name: "Delivery", icon: Source.Strings.Categories.Images.delivery),
+    DefaultCategory(name: "Gaming", icon: Source.Strings.Categories.Images.gaming),
+    DefaultCategory(name: "Animals", icon: Source.Strings.Categories.Images.animals),
   ]
+}
+
+
+private struct DefaultCategoriesList: View {
+  var body: some View {
+    List {
+      ForEach(DefaultCategory.defaultSet) { category in
+        EXCategoryListCell(icon: Image(category.icon), title: category.name)
+      }
+    }
+  }
+}
+
+struct DefaultCategoriesList_Previews: PreviewProvider {
+  static var previews: some View {
+    DefaultCategoriesList()
+  }
 }

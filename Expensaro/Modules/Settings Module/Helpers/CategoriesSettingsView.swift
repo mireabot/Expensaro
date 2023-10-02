@@ -33,7 +33,7 @@ struct CategoriesSettingsView: View {
         
         List {
           ForEach(categories) { category in
-            EXCategoryListCell(icon: Image(systemName: category.icon), title: category.name)
+            EXCategoryListCell(icon: Image(category.icon), title: category.name)
               .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 Button(role: .destructive) {
                   do {

@@ -11,13 +11,13 @@ enum Source {
   enum Images {
     enum Navigation {
       static let close = Image("close")
-      static let checkmark = Image(systemName: "checkmark")
+      static let checkmark = Image("checkmark")
       static let back = Image("back")
     }
     enum Tabs {
-      static let home = "tray.full"
-      static let goals = "target"
-      static let overview = "chart.bar.xaxis"
+      static let home = "home"
+      static let goals = "goals"
+      static let overview = "overview"
     }
     enum EmptyStates {
       static let noBudget = Image(systemName: "dollarsign")
@@ -37,17 +37,20 @@ enum Source {
       static let analytics = Image(systemName: "chart.xyaxis.line")
       static let scan = Image("scan")
       static let timer = Image("timer")
-      static let settings = Image(systemName: "gearshape")
+      static let settings = Image("settings")
       static let defaultCategory = Image(systemName: "archivebox.fill")
+      static let completedGoal = Image("completedGoal")
     }
     enum ButtonIcons {
       static let add = Image(systemName: "plus")
       static let how = Image("buttonHow")
       static let send = Image(systemName: "paperplane.fill")
+      static let addTransaction = Image("buttonTransaction")
+      static let addRecurrent = Image("buttonRecurrent")
     }
     enum InfoCardIcon {
-      static let month2month = Image(systemName: "chart.line.uptrend.xyaxis")
-      static let topCategory = Image(systemName: "trophy")
+      static let month2month = Image("month2month")
+      static let topCategory = Image("topCategory")
     }
     enum BottomInfo {
       static let spendings = Image("spendingsInfo")
@@ -75,6 +78,30 @@ enum Source {
       
       return dateFormatter.string(from: currentDate)
     }
-
+  }
+  
+  enum Strings {
+    enum Categories {
+      enum Images {
+        static let animals = "animals"
+        static let car = "car"
+        static let clothes = "clothes"
+        static let delivery = "delivery"
+        static let education = "education"
+        static let entertainment = "entertainment"
+        static let gaming = "gaming"
+        static let goingOut = "goingOut"
+        static let groceries = "groceries"
+        static let hobby = "hobby"
+        static let medicine = "medicine"
+        static let other = "other"
+        static let publicTransport = "publicTransport"
+        static let restaraunt = "restaraunt"
+        static let shopping = "shopping"
+        static let subscriptions = "recurrentPayments"
+        static let travel = "travel"
+        static let utilities = "utilities"
+      }
+    }
   }
 }

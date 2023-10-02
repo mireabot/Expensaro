@@ -80,7 +80,7 @@ extension GoalsListView {
         } label: {
           HStack(spacing: 5) {
             Source.Images.ButtonIcons.add
-              .font(.callout)
+            
             Text("Add goal")
               .font(.mukta(.semibold, size: 15))
           }
