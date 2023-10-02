@@ -16,7 +16,12 @@ struct GoalsListView: View {
       ScrollView(showsIndicators: false) {
         LazyVStack(spacing: 10, pinnedViews: [.sectionHeaders]) {
           Section {
-            emptyState()
+            LazyVStack(spacing: 10) {
+              ForEach(Goal.sampleGoals) { goal in
+                GoalCell(goalData: goal)
+              }
+            }
+            .applyMargins()
           } header: {
             goalOverviewHeader()
           }
@@ -65,7 +70,7 @@ extension GoalsListView {
           Text("You saved in total")
             .font(.mukta(.regular, size: 15))
             .foregroundColor(.darkGrey)
-          Text("$\(0)")
+          Text("$ \(calculateTotalSavings().clean)")
             .font(.mukta(.medium, size: 20))
         }
         Spacer()
@@ -109,5 +114,18 @@ extension GoalsListView {
       }
     }
     .padding(.top, 30)
+  }
+}
+
+// MARK: - Helper Functions
+extension GoalsListView {
+  func calculateTotalSavings() -> Float {
+    var savings: Float = 0
+    
+    for goal in Goal.sampleGoals {
+      savings += goal.currentAmount
+    }
+    
+    return savings
   }
 }
