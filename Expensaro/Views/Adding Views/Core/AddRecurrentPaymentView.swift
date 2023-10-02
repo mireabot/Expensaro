@@ -46,7 +46,7 @@ struct AddRecurrentPaymentView: View {
         isFieldFocused = false
       }
       .sheet(isPresented: $showDateSelector, content: {
-        DateSelectorView(title: Appearance.shared.dateSelectorTitle, selectedDate: $paymentDate)
+        DateSelectorView(type: .setRecurrentDate, selectedDate: $paymentDate)
           .presentationDetents([.medium])
       })
       .sheet(isPresented: $showReminderAlert, content: {
@@ -102,7 +102,6 @@ private extension AddRecurrentPaymentView {
     let title = "Add recurrent payment"
     let buttonText = "Add payment"
     let textFieldPlaceholder = "Ex. House Rent"
-    let dateSelectorTitle = "Select pay date"
     
     let closeIcon = Source.Images.Navigation.close
     

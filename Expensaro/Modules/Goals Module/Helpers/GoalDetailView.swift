@@ -13,6 +13,7 @@ struct GoalDetailView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   
   @State private var showAddMoney = false
+  @State private var showEditGoal = false
   let goal: Goal
   var body: some View {
     NavigationView {
@@ -31,6 +32,11 @@ struct GoalDetailView: View {
       .sheet(isPresented: $showAddMoney, content: {
         AddBudgetView(type: .addToGoal)
           .presentationDetents([.large])
+      })
+      .sheet(isPresented: $showEditGoal, content: {
+        EditGoalView(selectedGoal: goal)
+          .presentationDetents([.fraction(0.9)])
+          .presentationDragIndicator(.visible)
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -123,7 +129,11 @@ extension GoalDetailView {
     VStack {
       Menu {
         Button(action: { showAddMoney.toggle() }) {
-          Label("Add transaction", image: "buttonTransaction")
+          Label("Add money", image: "buttonTransaction")
+        }
+        
+        Button(action: { showEditGoal.toggle() }) {
+          Label("Edit goal", image: "buttonEdit")
         }
         
         Button(role: .destructive, action: {}) {

@@ -31,7 +31,7 @@ struct RecurrentPaymentsListView: View {
             }
           }
           else {
-            Text("No Payments Found")
+            emptyState()
           }
         }
         .applyMargins()
@@ -90,10 +90,31 @@ extension RecurrentPaymentsListView {
   }
 }
 
+// MARK: - Helper Functions
 extension RecurrentPaymentsListView {
   func isSameDay(date1: Date,date2: Date)->Bool{
     let calendar = Calendar.current
     
     return calendar.isDate(date1, inSameDayAs: date2)
+  }
+}
+
+// MARK: - Helper Views
+extension RecurrentPaymentsListView {
+  @ViewBuilder
+  func emptyState() -> some View {
+    VStack(alignment: .center, spacing: 3) {
+      Text("You have no recurrent payments for this date")
+        .font(.mukta(.semibold, size: 15))
+        .multilineTextAlignment(.center)
+      Text("You can create one with plus button on the top")
+        .font(.mukta(.regular, size: 13))
+        .foregroundColor(.darkGrey)
+        .multilineTextAlignment(.center)
+    }
+    .padding(.vertical, 15)
+    .padding(.horizontal, 20)
+    .background(Color.backgroundGrey)
+    .cornerRadius(12)
   }
 }

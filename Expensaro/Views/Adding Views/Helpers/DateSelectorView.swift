@@ -10,7 +10,7 @@ import ExpensaroUIKit
 
 struct DateSelectorView: View {
   @Environment(\.dismiss) var makeDismiss
-  var title: String
+  let type: SelectorType
   @State private var date: Date = .now
   @Binding var selectedDate: String
   var body: some View {
@@ -30,7 +30,7 @@ struct DateSelectorView: View {
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
-          Text(title)
+          Text(type.title)
             .font(.mukta(.medium, size: 17))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -50,7 +50,7 @@ struct DateSelectorView: View {
 
 struct DateSelectorView_Previews: PreviewProvider {
   static var previews: some View {
-    DateSelectorView(title: "fff", selectedDate: .constant("gg"))
+    DateSelectorView(type: .updateGoalDate, selectedDate: .constant("gg"))
   }
 }
 
@@ -59,8 +59,26 @@ extension DateSelectorView {
   struct Appearance {
     static let shared = Appearance()
     
-    let buttonText = ""
-    
     let closeIcon = Source.Images.Navigation.checkmark
+  }
+}
+
+// MARK: - Helper Enums
+extension DateSelectorView {
+  enum SelectorType {
+    case setGoalDate
+    case setRecurrentDate
+    case updateGoalDate
+    
+    var title: String {
+      switch self {
+      case .setGoalDate:
+        return "Set goal completion date"
+      case .setRecurrentDate:
+        return "Set pay date"
+      case .updateGoalDate:
+        return "Set new completion date"
+      }
+    }
   }
 }

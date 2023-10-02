@@ -13,7 +13,6 @@ struct AddGoalView: View {
   @FocusState private var isFieldFocused: Bool
   @State private var amountValue: String = ""
   @State private var goalName: String = ""
-  @State private var goalCategory: String = "Travel"
   @State private var goalDue: String = Source.Functions.showString(from: .now)
   
   @State private var showInitPaymentSheet = false
@@ -43,7 +42,7 @@ struct AddGoalView: View {
       }
       .applyMargins()
       .sheet(isPresented: $showDateSheet, content: {
-        DateSelectorView(title: Appearance.shared.dateSelectorTitle, selectedDate: $goalDue)
+        DateSelectorView(type: .setGoalDate, selectedDate: $goalDue)
           .presentationDetents([.medium])
       })
       .safeAreaInset(edge: .bottom, content: {
@@ -90,7 +89,6 @@ extension AddGoalView {
     let title = "Add goal"
     let placeholder = "Ex.Trip to Paris"
     let buttonText = "Create goal"
-    let dateSelectorTitle = "Set completion date"
     let infoText = "Set a goal completion date"
     
     let closeIcon = Source.Images.Navigation.close
