@@ -13,8 +13,9 @@ struct AddRecurrentPaymentView: View {
   @FocusState private var isFieldFocused: Bool
   @State private var amountValue: String = ""
   @State private var paymentName: String = ""
-  @State private var paymentDate: String = Source.Functions.showString(from: .now)
-  @State private var paymentCategory: String = "Travel"
+  @State private var paymentPeriodicity: String = "Not selected"
+  @State private var paymentCategory: String = "Other"
+  @State private var paymentImage: Image = Image(Source.Strings.Categories.Images.other)
   @State private var paymentTag: String = ""
   
   @State private var showDateSelector = false
@@ -31,13 +32,21 @@ struct AddRecurrentPaymentView: View {
           EXTextField(text: $paymentName, placeholder: Appearance.shared.textFieldPlaceholder)
             .keyboardType(.alphabet)
             .focused($isFieldFocused)
-          HStack {
-            EXSmallSelector(activeText: $paymentDate, type: .date).onTapGesture {
-              showDateSelector.toggle()
-            }
-            EXSmallSelector(activeText: $paymentCategory, type: .category).onTapGesture {
+          VStack(alignment: .leading, spacing: 5) {
+            Text("Select payment category")
+              .font(.mukta(.regular, size: 13))
+              .foregroundColor(.darkGrey)
+            EXLargeSelector(text: $paymentCategory, icon: $paymentImage, buttonText: "Change", action: {
               showCategoryelector.toggle()
-            }
+            })
+          }
+          VStack(alignment: .leading, spacing: 5) {
+            Text("Select payment periodicity")
+              .font(.mukta(.regular, size: 13))
+              .foregroundColor(.darkGrey)
+            EXLargeSelector(text: $paymentPeriodicity, icon: .constant(Appearance.shared.timerIcon), buttonText: "Change", action: {
+              showDateSelector.toggle()
+            })
           }
         }
       }
@@ -46,15 +55,15 @@ struct AddRecurrentPaymentView: View {
         isFieldFocused = false
       }
       .sheet(isPresented: $showDateSelector, content: {
-        DateSelectorView(type: .setRecurrentDate, selectedDate: $paymentDate)
-          .presentationDetents([.medium])
+        PeriodicitySelectorView(selectedPeriodicity: $paymentPeriodicity)
+          .presentationDetents([.fraction(0.4)])
       })
       .sheet(isPresented: $showReminderAlert, content: {
         reminderBottomView()
           .presentationDetents([.fraction(0.3)])
       })
       .sheet(isPresented: $showCategoryelector, content: {
-        CategorySelectorView(title: $paymentCategory, icon: .constant(.init(systemName: "globe")))
+        CategorySelectorView(title: $paymentCategory, icon: $paymentImage)
           .presentationDetents([.medium, .fraction(0.9)])
           .presentationDragIndicator(.visible)
       })
@@ -99,11 +108,12 @@ struct AddRecurrentPaymentView_Previews: PreviewProvider {
 private extension AddRecurrentPaymentView {
   struct Appearance {
     static let shared = Appearance()
-    let title = "Add recurrent payment"
+    let title = "Add recurring payment"
     let buttonText = "Add payment"
     let textFieldPlaceholder = "Ex. House Rent"
     
     let closeIcon = Source.Images.Navigation.close
+    let timerIcon = Source.Images.System.calendarYear
     
     let reminderTitle = "Do you want to create reminder?"
     let reminderText = "You will receive a notification 3 days in advance of your upcoming payment"

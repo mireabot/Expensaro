@@ -83,7 +83,7 @@ extension RecurrentPaymentsListView {
   struct Appearance {
     static let shared = Appearance()
     
-    let title = "Recurrent payments"
+    let title = "Recurring payments"
     
     let backIcon = Source.Images.Navigation.back
     let addIcon = Source.Images.ButtonIcons.add
@@ -104,7 +104,7 @@ extension RecurrentPaymentsListView {
   @ViewBuilder
   func emptyState() -> some View {
     VStack(alignment: .center, spacing: 3) {
-      Text("You have no recurrent payments for this date")
+      Text("You have no recurring payments for this date")
         .font(.mukta(.semibold, size: 15))
         .multilineTextAlignment(.center)
       Text("You can create one with plus button on the top")

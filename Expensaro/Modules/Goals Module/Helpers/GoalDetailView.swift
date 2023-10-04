@@ -86,9 +86,7 @@ struct GoalDetailView: View {
         .font(.mukta(.semibold, size: 17))
         .frame(maxWidth: .infinity, alignment: .leading)
       LazyVStack(spacing: 10) {
-        TransactionCell(icon: Image("goalSave"), name: "Income", date: Date(), amount: 250, type: "")
-        TransactionCell(icon: Image("goalSave"), name: "Income", date: Date(), amount: 250, type: "")
-        TransactionCell(icon: Image("goalSave"), name: "Income", date: Date(), amount: 250, type: "")
+        TransactionCell(transaction: Transaction.sampleTransactions[0])
       }
     }
     .padding(.top, 20)

@@ -41,6 +41,9 @@ enum Source {
       static let settings = Image("settings")
       static let defaultCategory = Image(systemName: "archivebox.fill")
       static let completedGoal = Image("completedGoal")
+      static let calendarWeek = Image("calendarWeek")
+      static let calendarMonth = Image("calendarMonth")
+      static let calendarYear = Image("calendarYear")
     }
     enum ButtonIcons {
       static let add = Image("buttonAdd")

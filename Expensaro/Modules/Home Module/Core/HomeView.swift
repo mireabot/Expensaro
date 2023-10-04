@@ -93,7 +93,7 @@ extension HomeView {
         }
         
         Button(action: { showAddRecurrentPayment.toggle() }) {
-          Label("Add recurrent payment", image: "buttonRecurrent")
+          Label("Add recurring payment", image: "buttonRecurrent")
         }
         
       } label: {
@@ -159,7 +159,7 @@ extension HomeView {
   func recurrentPaymentsRow() -> some View {
     VStack(spacing: 15) {
       HStack {
-        Text("Recurrent payments")
+        Text("Recurring payments")
           .font(.mukta(.semibold, size: 17))
           .foregroundColor(.black)
         Spacer()
@@ -192,7 +192,9 @@ extension HomeView {
             .font(.mukta(.semibold, size: 20))
         }
         Spacer()
-        Button(action: {}) {
+        Button(action: {
+          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionsListView()))
+        }) {
           Text("See all")
             .font(.mukta(.medium, size: 15))
         }
@@ -200,9 +202,9 @@ extension HomeView {
       }
       Divider()
       VStack {
-        TransactionCell(icon: Image(Source.Strings.Categories.Images.car), name: "Gas station", date: .now, amount: 15.78, type: "Credit")
-        TransactionCell(icon: Image(Source.Strings.Categories.Images.groceries), name: "Groceries", date: .now, amount: 50.25, type: "Debit")
-        TransactionCell(icon: Image(Source.Strings.Categories.Images.subscriptions), name: "Monthly Subscription", date: .now, amount: 9.99, type: "Debit")
+        TransactionCell(transaction: Transaction.sampleTransactions[0])
+        TransactionCell(transaction: Transaction.sampleTransactions[1])
+        TransactionCell(transaction: Transaction.sampleTransactions[3])
       }
       .padding(.bottom, 5)
     }
