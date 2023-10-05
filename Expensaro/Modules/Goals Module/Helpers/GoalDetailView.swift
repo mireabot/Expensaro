@@ -86,7 +86,7 @@ struct GoalDetailView: View {
         .font(.mukta(.semibold, size: 17))
         .frame(maxWidth: .infinity, alignment: .leading)
       LazyVStack(spacing: 10) {
-        TransactionCell(transaction: Transaction.sampleTransactions[0])
+        EXTransactionCell(transaction: Transaction.sampleTransactions[0])
       }
     }
     .padding(.top, 20)

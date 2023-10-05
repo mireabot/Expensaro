@@ -14,6 +14,7 @@ enum Source {
       static let checkmark = Image("checkmark")
       static let back = Image("back")
       static let menu = Image("menu")
+      static let swipeDown = Image("swipeDown")
     }
     enum Tabs {
       static let home = "home"
@@ -44,6 +45,7 @@ enum Source {
       static let calendarWeek = Image("calendarWeek")
       static let calendarMonth = Image("calendarMonth")
       static let calendarYear = Image("calendarYear")
+      static let transactionType = Image("transactionType")
     }
     enum ButtonIcons {
       static let add = Image("buttonAdd")
@@ -55,6 +57,7 @@ enum Source {
       static let edit = Image("buttonEdit")
       static let save = Image("buttonSave")
       static let share = Image("buttonShare")
+      static let selector = Image("buttonSelect")
     }
     enum InfoCardIcon {
       static let month2month = Image("month2month")

@@ -13,27 +13,28 @@ struct PeriodicitySelectorView: View {
   @Binding var selectedPeriodicity: String
   var body: some View {
     NavigationView {
-      ScrollView {
-        VStack(spacing: 15) {
-          EXCategoryListCell(icon: Appearance.shared.periodicitySet[0].0, title: Appearance.shared.periodicitySet[0].1)
+      List {
+        VStack {
+          EXCategoryCell(icon: Appearance.shared.periodicitySet[0].0, title: Appearance.shared.periodicitySet[0].1)
             .onTapGesture {
               selectedPeriodicity = Appearance.shared.periodicitySet[0].1
               makeDismiss()
             }
-          EXCategoryListCell(icon: Appearance.shared.periodicitySet[1].0, title: Appearance.shared.periodicitySet[1].1)
+          EXCategoryCell(icon: Appearance.shared.periodicitySet[1].0, title: Appearance.shared.periodicitySet[1].1)
             .onTapGesture {
               selectedPeriodicity = Appearance.shared.periodicitySet[1].1
               makeDismiss()
             }
-          EXCategoryListCell(icon: Appearance.shared.periodicitySet[2].0, title: Appearance.shared.periodicitySet[2].1)
+          EXCategoryCell(icon: Appearance.shared.periodicitySet[2].0, title: Appearance.shared.periodicitySet[2].1)
             .onTapGesture {
               selectedPeriodicity = Appearance.shared.periodicitySet[2].1
               makeDismiss()
             }
         }
-        .applyMargins()
-        .padding(.top, 20)
+        .listRowSeparator(.hidden)
       }
+      .listStyle(.inset)
+      .background(.white)
       .scrollDisabled(true)
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {

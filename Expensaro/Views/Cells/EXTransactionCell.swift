@@ -8,7 +8,7 @@
 import SwiftUI
 import ExpensaroUIKit
 
-struct TransactionCell: View {
+struct EXTransactionCell: View {
   var transaction: Transaction
   
   init(transaction: Transaction) {
@@ -21,7 +21,7 @@ struct TransactionCell: View {
         .foregroundColor(.primaryGreen)
         .padding(8)
         .background(Color.backgroundGrey)
-        .cornerRadius(16)
+        .cornerRadius(12)
       VStack(alignment: .leading, spacing: -3) {
         Text(transaction.name)
           .font(.mukta(.medium, size: 15))
@@ -48,7 +48,7 @@ struct TransactionCell: View {
 struct TransactionCell_Previews: PreviewProvider {
   static var previews: some View {
     VStack {
-      TransactionCell(transaction: Transaction.sampleTransactions[0])
+      EXTransactionCell(transaction: Transaction.sampleTransactions[0])
     }
     .applyMargins()
   }

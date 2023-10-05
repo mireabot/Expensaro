@@ -39,7 +39,7 @@ private struct DefaultCategoriesList: View {
   var body: some View {
     List {
       ForEach(DefaultCategory.defaultSet) { category in
-        EXCategoryListCell(icon: Image(category.icon), title: category.name)
+        EXCategoryCell(icon: Image(category.icon), title: category.name)
       }
     }
   }

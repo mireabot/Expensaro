@@ -14,41 +14,84 @@ struct TransactionDetailView: View {
   var body: some View {
     NavigationView {
       ScrollView {
-        VStack(alignment: .leading, spacing: 0) {
-          HStack {
-            VStack(alignment: .leading, spacing: 0) {
-              Text("$\(transaction.amount.clean)")
-                .font(.mukta(.bold, size: 30))
-              Text(transaction.name)
-                .font(.mukta(.medium, size: 20))
-            }
-            Spacer()
-            transaction.category.0
-              .resizable()
-              .frame(width: 35, height: 35)
-              .foregroundColor(.primaryGreen)
-              .padding(16)
-              .background(Color.backgroundGrey)
-              .cornerRadius(32)
-          }
-          Text(showTransactionDate(from: transaction.date))
-            .font(.mukta(.regular, size: 13))
+        // MARK: Transaction header
+        VStack(alignment: .leading, spacing: 3) {
+          Text(transaction.name)
+            .font(.mukta(.medium, size: 20))
+          Text("$\(transaction.amount.clean)")
+            .font(.mukta(.bold, size: 34))
+          Text(Source.Functions.showString(from: transaction.date))
+            .font(.mukta(.regular, size: 15))
             .foregroundColor(.darkGrey)
-          HStack(spacing: 25) {
-            smallInfoView(title: "Category", text: transaction.category.1)
-            smallInfoView(title: "Type", text: transaction.type)
-          }
-          .padding(.top, 15)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .applyMargins()
-        .padding(.top, 10)
+        .padding(.top, 20)
+        
+        // MARK: Transaction detail
+        VStack(spacing: 15) {
+          HStack {
+            transaction.category.0
+              .foregroundColor(.primaryGreen)
+              .padding(8)
+              .background(Color.backgroundGrey)
+              .cornerRadius(12)
+            VStack(alignment: .leading, spacing: -3) {
+              Text("Category")
+                .font(.mukta(.regular, size: 15))
+                .foregroundColor(.darkGrey)
+              Text(transaction.category.1)
+                .font(.mukta(.medium, size: 15))
+                .foregroundColor(.black)
+            }
+            Spacer()
+            Source.Images.ButtonIcons.selector
+              .resizable()
+              .frame(width: 20, height: 20)
+          }
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .onTapGesture {
+            // Select new category
+          }
+          HStack {
+            Source.Images.System.transactionType
+              .foregroundColor(.black)
+              .padding(8)
+            VStack(alignment: .leading, spacing: -3) {
+              Text("Type")
+                .font(.mukta(.regular, size: 15))
+                .foregroundColor(.darkGrey)
+              Text(transaction.type)
+                .font(.mukta(.medium, size: 15))
+                .foregroundColor(.black)
+            }
+          }
+          .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(10)
+        .background(.white)
+        .cornerRadius(12)
+        .shadowXS()
+        
+        HStack {
+          Source.Images.ButtonIcons.edit
+            .padding(8)
+          VStack(alignment: .leading, spacing: -3) {
+            Text("Note")
+              .font(.mukta(.regular, size: 15))
+              .foregroundColor(.darkGrey)
+            Text("Sample note text")
+              .font(.mukta(.medium, size: 15))
+              .foregroundColor(.black)
+          }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(10)
+        .background(.white)
+        .cornerRadius(12)
+        .shadowXS()
+        
       }
-      .safeAreaInset(edge: .bottom, content: {
-        bottomActionButton()
-          .frame(maxWidth: .infinity, alignment: .trailing)
-          .padding(16)
-      })
+      .applyMargins()
       .scrollDisabled(true)
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -58,6 +101,15 @@ struct TransactionDetailView: View {
           } label: {
             Appearance.shared.closeIcon
               .foregroundColor(.black)
+          }
+        }
+        
+        ToolbarItem(placement: .navigationBarTrailing) {
+          Button {
+            makeDismiss()
+          } label: {
+            Appearance.shared.deleteIcon
+              .foregroundColor(.red)
           }
         }
       }
@@ -79,6 +131,7 @@ extension TransactionDetailView {
     let title = "Transactions"
     
     let closeIcon = Source.Images.Navigation.back
+    let deleteIcon = Source.Images.ButtonIcons.delete
   }
 }
 

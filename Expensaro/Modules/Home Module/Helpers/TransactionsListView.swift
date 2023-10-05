@@ -21,7 +21,7 @@ struct TransactionsListView: View {
           ForEach(groupedTransactions.keys.sorted(by: <), id: \.self) { date in
             Section(header: listHeader(date)) {
               ForEach(groupedTransactions[date]!) { transaction in
-                TransactionCell(transaction: transaction)
+                EXTransactionCell(transaction: transaction)
                   .onTapGesture {
                     router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionDetailView(transaction: transaction)))
                   }

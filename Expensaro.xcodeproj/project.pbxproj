@@ -25,7 +25,7 @@
 		3564D81F2ACB71EB00553ECB /* EditGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3564D81E2ACB71EB00553ECB /* EditGoalView.swift */; };
 		356847742ACB2D4E00FFC864 /* GoalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356847732ACB2D4E00FFC864 /* GoalDetailView.swift */; };
 		35825BF92AC9CDB600713AD8 /* RecurrentPaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BF82AC9CDB600713AD8 /* RecurrentPaymentCell.swift */; };
-		35825BFB2AC9D01C00713AD8 /* TransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BFA2AC9D01C00713AD8 /* TransactionCell.swift */; };
+		35825BFB2AC9D01C00713AD8 /* EXTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BFA2AC9D01C00713AD8 /* EXTransactionCell.swift */; };
 		35825BFD2AC9E71700713AD8 /* RecurrentPaymentsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BFC2AC9E71700713AD8 /* RecurrentPaymentsListView.swift */; };
 		35825C002AC9FDEB00713AD8 /* EXDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BFF2AC9FDEB00713AD8 /* EXDatePicker.swift */; };
 		358E6B7F2AC0840900ABA818 /* CategorySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E6B7E2AC0840900ABA818 /* CategorySelectorView.swift */; };
@@ -79,7 +79,7 @@
 		3564D81E2ACB71EB00553ECB /* EditGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGoalView.swift; sourceTree = "<group>"; };
 		356847732ACB2D4E00FFC864 /* GoalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailView.swift; sourceTree = "<group>"; };
 		35825BF82AC9CDB600713AD8 /* RecurrentPaymentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPaymentCell.swift; sourceTree = "<group>"; };
-		35825BFA2AC9D01C00713AD8 /* TransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
+		35825BFA2AC9D01C00713AD8 /* EXTransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXTransactionCell.swift; sourceTree = "<group>"; };
 		35825BFC2AC9E71700713AD8 /* RecurrentPaymentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPaymentsListView.swift; sourceTree = "<group>"; };
 		35825BFF2AC9FDEB00713AD8 /* EXDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXDatePicker.swift; sourceTree = "<group>"; };
 		358E6B7E2AC0840900ABA818 /* CategorySelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectorView.swift; sourceTree = "<group>"; };
@@ -272,7 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				35825BF82AC9CDB600713AD8 /* RecurrentPaymentCell.swift */,
-				35825BFA2AC9D01C00713AD8 /* TransactionCell.swift */,
+				35825BFA2AC9D01C00713AD8 /* EXTransactionCell.swift */,
 				3558FBBD2ACA3F8E00624EBD /* GoalCell.swift */,
 			);
 			path = Cells;
@@ -601,7 +601,7 @@
 				35C80C6D2ABF59DE0063553E /* RemindersSettingsView.swift in Sources */,
 				359CDC542AB4C69600DFFDC7 /* OnboardingView.swift in Sources */,
 				35825C002AC9FDEB00713AD8 /* EXDatePicker.swift in Sources */,
-				35825BFB2AC9D01C00713AD8 /* TransactionCell.swift in Sources */,
+				35825BFB2AC9D01C00713AD8 /* EXTransactionCell.swift in Sources */,
 				35D7D4582ABE0EDC002EB654 /* Expensaro.xcdatamodeld in Sources */,
 				355BB4082ABCB1DE00A71834 /* AddCategoryView.swift in Sources */,
 				351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */,

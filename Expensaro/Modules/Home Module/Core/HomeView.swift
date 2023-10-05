@@ -173,9 +173,9 @@ extension HomeView {
       }
       .padding(.top, 30)
       HStack {
-        EXRecurrentCell(paymentData: RecurrentPayment.recurrentPayments[0])
-        EXRecurrentCell(paymentData: RecurrentPayment.recurrentPayments[1])
-        EXRecurrentCell(paymentData: RecurrentPayment.recurrentPayments[2])
+        ForEach(RecurrentPayment.recurrentPayments.prefix(3)) { payment in
+          EXRecurrentCell(paymentData: payment)
+        }
       }
     }
   }
@@ -202,9 +202,9 @@ extension HomeView {
       }
       Divider()
       VStack {
-        TransactionCell(transaction: Transaction.sampleTransactions[0])
-        TransactionCell(transaction: Transaction.sampleTransactions[1])
-        TransactionCell(transaction: Transaction.sampleTransactions[3])
+        ForEach(Transaction.sampleTransactions.prefix(3)) { transaction in
+          EXTransactionCell(transaction: transaction)
+        }
       }
       .padding(.bottom, 5)
     }

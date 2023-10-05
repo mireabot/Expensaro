@@ -14,6 +14,7 @@ struct RecurrentPaymentsListView: View {
   @State var currentDate: Date = Date()
   
   @State private var showAddPayment = false
+  @State private var showPaymentDetail = false
   var body: some View {
     NavigationView {
       ScrollView {
