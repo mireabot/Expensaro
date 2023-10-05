@@ -21,11 +21,11 @@ struct RecurrentPaymentsListView: View {
           .padding(.top, 20)
         
         VStack {
-          if let _ = RecurrentPayment.recurrentPayments.first(where: { payment in
-            return isSameDay(date1: payment.dueDate, date2: currentDate)
+          if let payments = sampleRecurrentPayments.first(where: { payment in
+            return isSameDay(date1: payment.paymentDueDate, date2: currentDate)
           }){
             LazyVStack(spacing: 15) {
-              ForEach(RecurrentPayment.recurrentPayments) { paymentData in
+              ForEach(payments.payments) { paymentData in
                 EXRecurrentCell(paymentData: paymentData)
               }
             }

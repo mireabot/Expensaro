@@ -52,6 +52,7 @@
 		35BEF3652AB38814005D1138 /* AddRecurrentPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BEF3642AB38814005D1138 /* AddRecurrentPaymentView.swift */; };
 		35C80C6D2ABF59DE0063553E /* RemindersSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C80C6C2ABF59DE0063553E /* RemindersSettingsView.swift */; };
 		35C80C6F2ABF84880063553E /* ContactSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C80C6E2ABF84880063553E /* ContactSettingsView.swift */; };
+		35C883F32ACE186600F6E1FB /* TransactionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C883F22ACE186500F6E1FB /* TransactionDetailView.swift */; };
 		35D7D4582ABE0EDC002EB654 /* Expensaro.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35D7D4562ABE0EDC002EB654 /* Expensaro.xcdatamodeld */; };
 		35D7D45A2ABE1004002EB654 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D7D4592ABE1004002EB654 /* Category.swift */; };
 		35DFA06A2AC385F10008246A /* EraseDataSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */; };
@@ -104,6 +105,7 @@
 		35BEF3642AB38814005D1138 /* AddRecurrentPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecurrentPaymentView.swift; sourceTree = "<group>"; };
 		35C80C6C2ABF59DE0063553E /* RemindersSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersSettingsView.swift; sourceTree = "<group>"; };
 		35C80C6E2ABF84880063553E /* ContactSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSettingsView.swift; sourceTree = "<group>"; };
+		35C883F22ACE186500F6E1FB /* TransactionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailView.swift; sourceTree = "<group>"; };
 		35D7D4572ABE0EDC002EB654 /* Expensaro.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Expensaro.xcdatamodel; sourceTree = "<group>"; };
 		35D7D4592ABE1004002EB654 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EraseDataSettingsView.swift; sourceTree = "<group>"; };
@@ -458,6 +460,7 @@
 			children = (
 				35825BFC2AC9E71700713AD8 /* RecurrentPaymentsListView.swift */,
 				353311062ACD064100EEB64B /* TransactionsListView.swift */,
+				35C883F22ACE186500F6E1FB /* TransactionDetailView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 				35DFA06A2AC385F10008246A /* EraseDataSettingsView.swift in Sources */,
 				35E8743A2ACC7EE2002368DB /* PeriodicitySelectorView.swift in Sources */,
 				354F2B122AB90443002516F1 /* SettingsView.swift in Sources */,
+				35C883F32ACE186600F6E1FB /* TransactionDetailView.swift in Sources */,
 				353311072ACD064100EEB64B /* TransactionsListView.swift in Sources */,
 				35BEF3632AB38088005D1138 /* BottomSheetModifier.swift in Sources */,
 				35C80C6F2ABF84880063553E /* ContactSettingsView.swift in Sources */,

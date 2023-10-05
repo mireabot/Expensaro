@@ -84,18 +84,18 @@ struct EXDatePicker: View {
   func selectedDate(value: DateValue) -> some View {
     VStack{
       if value.day != -1{
-        if let payment = RecurrentPayment.recurrentPayments.first(where: { task in
-          return isSameDay(date1: task.dueDate, date2: value.date)
+        if let payment = sampleRecurrentPayments.first(where: { payment in
+          return isSameDay(date1: payment.paymentDueDate, date2: value.date)
         }){
           Text("\(value.day)")
             .font(.mukta(.medium, size: 17))
-            .foregroundColor(isSameDay(date1: payment.dueDate, date2: currentDate) ? .white : .primary)
+            .foregroundColor(isSameDay(date1: payment.paymentDueDate, date2: currentDate) ? .white : .primary)
             .frame(maxWidth: .infinity)
           
           Spacer()
           
           Circle()
-            .fill(isSameDay(date1: payment.dueDate, date2: currentDate) ? .white : .primaryGreen)
+            .fill(isSameDay(date1: payment.paymentDueDate, date2: currentDate) ? .white : .primaryGreen)
             .frame(width: 8,height: 8)
         }
         else {

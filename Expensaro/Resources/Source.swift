@@ -54,6 +54,7 @@ enum Source {
       static let delete = Image("buttonDelete")
       static let edit = Image("buttonEdit")
       static let save = Image("buttonSave")
+      static let share = Image("buttonShare")
     }
     enum InfoCardIcon {
       static let month2month = Image("month2month")

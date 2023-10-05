@@ -12,6 +12,7 @@ struct TransactionsListView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   
   @State private var showAddTransaction = false
+  @State private var showTransactionDetail = false
   var body: some View {
     NavigationView {
       ScrollView {
@@ -21,6 +22,9 @@ struct TransactionsListView: View {
             Section(header: listHeader(date)) {
               ForEach(groupedTransactions[date]!) { transaction in
                 TransactionCell(transaction: transaction)
+                  .onTapGesture {
+                    router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionDetailView(transaction: transaction)))
+                  }
               }
             }
           }
