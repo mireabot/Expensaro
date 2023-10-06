@@ -7,10 +7,13 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import PopupView
 
 struct TransactionDetailView: View {
   @Environment(\.dismiss) var makeDismiss
   let transaction: Transaction
+  
+  @State private var showTransactionDeleteAlert = false
   var body: some View {
     NavigationView {
       ScrollView {
@@ -93,6 +96,14 @@ struct TransactionDetailView: View {
       }
       .applyMargins()
       .scrollDisabled(true)
+      .popup(isPresented: $showTransactionDeleteAlert) {
+        EXAlert(type: .deleteTransaction, primaryAction: {}, secondaryAction: {showTransactionDeleteAlert.toggle()}).applyMargins()
+      } customize: {
+        $0
+          .animation(.spring())
+          .closeOnTapOutside(false)
+          .backgroundColor(.black.opacity(0.3))
+      }
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
@@ -106,7 +117,7 @@ struct TransactionDetailView: View {
         
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
-            makeDismiss()
+            showTransactionDeleteAlert.toggle()
           } label: {
             Appearance.shared.deleteIcon
               .foregroundColor(.red)
@@ -137,7 +148,7 @@ extension TransactionDetailView {
 
 // MARK: - Helper Functions
 private extension TransactionDetailView {
-   func showTransactionDate(from date: Date) -> String {
+  func showTransactionDate(from date: Date) -> String {
     let formatter = DateFormatter()
     formatter.dateFormat = "EEEE, MMM d, yyyy"
     return formatter.string(from: date)

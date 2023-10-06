@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mireabot/ExpensaroUIKit",
       "state" : {
-        "revision" : "718cab6639170bd8abc3a436a285c8e5ac6ec999",
-        "version" : "1.1.24"
+        "revision" : "7611df14955bddafe146d6da92f01027da4988cc",
+        "version" : "1.1.25"
       }
     },
     {
@@ -16,6 +16,15 @@
       "state" : {
         "revision" : "f57e3cba2cf4bd0a689236254cde361e54315720",
         "version" : "0.0.13"
+      }
+    },
+    {
+      "identity" : "popupview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/PopupView",
+      "state" : {
+        "revision" : "7cfd26db6cc8a4aedb1a80a5df669019a417bfd2",
+        "version" : "2.7.0"
       }
     },
     {

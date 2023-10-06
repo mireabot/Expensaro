@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351839AE2AAF94C3008216F3 /* GoalsListView.swift */; };
 		351A14F92AC1F21300BCBD07 /* OverviewInfoBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A14F82AC1F21300BCBD07 /* OverviewInfoBottomView.swift */; };
+		351D3D612AD0D5C00022E696 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 351D3D602AD0D5C00022E696 /* PopupView */; };
 		35293ACB2ABB5D7900BC993B /* OffsetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35293ACA2ABB5D7900BC993B /* OffsetModifier.swift */; };
 		353311072ACD064100EEB64B /* TransactionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353311062ACD064100EEB64B /* TransactionsListView.swift */; };
 		353E5C2F2ACA01D400430978 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353E5C2E2ACA01D400430978 /* Date+Extension.swift */; };
@@ -120,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				351D3D612AD0D5C00022E696 /* PopupView in Frameworks */,
 				354F2B152AB9F189002516F1 /* SwiftUIIntrospect in Frameworks */,
 				359094AB2AAE365900428B39 /* ExpensaroUIKit in Frameworks */,
 				359CDC592AB4C8BA00DFFDC7 /* iPages in Frameworks */,
@@ -502,6 +504,7 @@
 				359094AA2AAE365900428B39 /* ExpensaroUIKit */,
 				359CDC582AB4C8BA00DFFDC7 /* iPages */,
 				354F2B142AB9F189002516F1 /* SwiftUIIntrospect */,
+				351D3D602AD0D5C00022E696 /* PopupView */,
 			);
 			productName = Expensaro;
 			productReference = 3590948B2AAD3EC300428B39 /* Expensaro.app */;
@@ -535,6 +538,7 @@
 				359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */,
 				359CDC572AB4C8BA00DFFDC7 /* XCRemoteSwiftPackageReference "iPages" */,
 				354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
+				351D3D5F2AD0D5C00022E696 /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = 3590948C2AAD3EC300428B39 /* Products */;
 			projectDirPath = "";
@@ -823,6 +827,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		351D3D5F2AD0D5C00022E696 /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/siteline/swiftui-introspect";
@@ -850,6 +862,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		351D3D602AD0D5C00022E696 /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 351D3D5F2AD0D5C00022E696 /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
+		};
 		354F2B142AB9F189002516F1 /* SwiftUIIntrospect */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */;
