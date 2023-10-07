@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351839AE2AAF94C3008216F3 /* GoalsListView.swift */; };
+		351A02F52AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */; };
 		351A14F92AC1F21300BCBD07 /* OverviewInfoBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A14F82AC1F21300BCBD07 /* OverviewInfoBottomView.swift */; };
 		351D3D612AD0D5C00022E696 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 351D3D602AD0D5C00022E696 /* PopupView */; };
 		35293ACB2ABB5D7900BC993B /* OffsetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35293ACA2ABB5D7900BC993B /* OffsetModifier.swift */; };
@@ -64,6 +65,7 @@
 
 /* Begin PBXFileReference section */
 		351839AE2AAF94C3008216F3 /* GoalsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsListView.swift; sourceTree = "<group>"; };
+		351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPaymentDetailView.swift; sourceTree = "<group>"; };
 		351A14F82AC1F21300BCBD07 /* OverviewInfoBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewInfoBottomView.swift; sourceTree = "<group>"; };
 		35293ACA2ABB5D7900BC993B /* OffsetModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetModifier.swift; sourceTree = "<group>"; };
 		353311062ACD064100EEB64B /* TransactionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsListView.swift; sourceTree = "<group>"; };
@@ -463,6 +465,7 @@
 				35825BFC2AC9E71700713AD8 /* RecurrentPaymentsListView.swift */,
 				353311062ACD064100EEB64B /* TransactionsListView.swift */,
 				35C883F22ACE186500F6E1FB /* TransactionDetailView.swift */,
+				351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 			files = (
 				35DFA06A2AC385F10008246A /* EraseDataSettingsView.swift in Sources */,
 				35E8743A2ACC7EE2002368DB /* PeriodicitySelectorView.swift in Sources */,
+				351A02F52AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift in Sources */,
 				354F2B122AB90443002516F1 /* SettingsView.swift in Sources */,
 				35C883F32ACE186600F6E1FB /* TransactionDetailView.swift in Sources */,
 				353311072ACD064100EEB64B /* TransactionsListView.swift in Sources */,

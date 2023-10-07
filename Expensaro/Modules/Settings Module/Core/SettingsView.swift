@@ -11,16 +11,17 @@ import ExpensaroUIKit
 struct SettingsView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   let maxHeight = UIScreen.main.bounds.height / 5
-  @State var offset: CGFloat = 0
-  @State var text = ""
-  @State private var selectedCategory = ""
-  @FocusState private var nameField: Bool
-  @State var detentHeight: CGFloat = 0
   let items: [GridItem] = [
     GridItem(.fixed(50), spacing: 20),
     GridItem(.fixed(50), spacing: 20),
   ]
-  @State private var profileEmoji: String = "👤"
+  
+  @State var offset: CGFloat = 0
+  @State var profileName = UserDefaults.standard.string(forKey: "profileName") ?? ""
+  @State private var selectedCategory = ""
+  @FocusState private var nameField: Bool
+  @State var detentHeight: CGFloat = 0
+  @State private var profileEmoji: String = (UserDefaults.standard.string(forKey: "profileEmoji") ?? "👤")
   
   @State private var showEmojiSelector = false
   var body: some View {
@@ -29,7 +30,7 @@ struct SettingsView: View {
         VStack(spacing: 15) {
           GeometryReader { proxy in
             
-            topBar(topEndge: proxy.safeAreaInsets.top, offset: $offset, text: $text)
+            topBar(topEndge: proxy.safeAreaInsets.top, offset: $offset, text: $profileName)
               .frame(maxWidth: .infinity, alignment: .top)
               .frame(height: maxHeight + offset, alignment: .bottom)
               .background(.white)
@@ -82,6 +83,8 @@ struct SettingsView: View {
         
         ToolbarItem(placement: .keyboard) {
           Button {
+            UserDefaults.standard.set(profileName, forKey: "profileName")
+            UserDefaults.standard.synchronize()
             nameField = false
           } label: {
             Source.Images.Navigation.checkmark
@@ -132,7 +135,7 @@ extension SettingsView {
           .background(Color.backgroundGrey)
           .cornerRadius(60)
       }
-      TextField("Your name", text: $text)
+      TextField("Your name", text: $profileName)
         .keyboardType(.alphabet)
         .autocorrectionDisabled()
         .multilineTextAlignment(.center)
@@ -147,6 +150,8 @@ extension SettingsView {
   func emojiGrid() -> some View {
     VStack(spacing: 0) {
       Button {
+        UserDefaults.standard.set(profileEmoji, forKey: "profileEmoji")
+        UserDefaults.standard.synchronize()
         showEmojiSelector.toggle()
       } label: {
         Source.Images.Navigation.checkmark
@@ -166,6 +171,8 @@ extension SettingsView {
               .font(.largeTitle)
               .onTapGesture {
                 profileEmoji = emoji
+                UserDefaults.standard.set(profileEmoji, forKey: "profileEmoji")
+                UserDefaults.standard.synchronize()
                 showEmojiSelector.toggle()
               }
           }

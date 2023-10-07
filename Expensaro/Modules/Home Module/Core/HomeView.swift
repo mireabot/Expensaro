@@ -174,7 +174,12 @@ extension HomeView {
       .padding(.top, 30)
       HStack {
         ForEach(RecurrentPayment.recurrentPayments.prefix(3)) { payment in
-          EXRecurrentCell(paymentData: payment)
+          Button {
+            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(payment: payment)))
+          } label: {
+            EXRecurrentCell(paymentData: payment)
+          }
+          .buttonStyle(EXPlainButtonStyle())
         }
       }
     }

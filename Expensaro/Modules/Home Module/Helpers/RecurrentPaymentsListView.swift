@@ -27,7 +27,12 @@ struct RecurrentPaymentsListView: View {
           }){
             LazyVStack(spacing: 15) {
               ForEach(payments.payments) { paymentData in
-                EXRecurrentCell(paymentData: paymentData)
+                Button {
+                  router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(payment: paymentData)))
+                } label: {
+                  EXRecurrentCell(paymentData: paymentData)
+                }
+                .buttonStyle(EXPlainButtonStyle())
               }
             }
           }
