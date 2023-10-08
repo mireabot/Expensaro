@@ -15,7 +15,7 @@ struct TransactionsListView: View {
   @State private var showTransactionDetail = false
   var body: some View {
     NavigationView {
-      ScrollView {
+      ScrollView(showsIndicators: false) {
         headerView().padding(.top, 20)
         LazyVStack {
           ForEach(groupedTransactions.keys.sorted(by: <), id: \.self) { date in
@@ -29,7 +29,6 @@ struct TransactionsListView: View {
             }
           }
         }
-        .listStyle(.inset)
       }
       .applyMargins()
       .sheet(isPresented: $showAddTransaction, content: {
