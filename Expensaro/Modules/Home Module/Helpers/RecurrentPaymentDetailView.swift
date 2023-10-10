@@ -68,7 +68,7 @@ struct RecurrentPaymentDetailView: View {
               Text("Periodicity")
                 .font(.mukta(.regular, size: 15))
                 .foregroundColor(.darkGrey)
-              Text(payment.periodicity ?? "")
+              Text(payment.periodicity ?? "N/A")
                 .font(.mukta(.medium, size: 15))
                 .foregroundColor(.black)
             }

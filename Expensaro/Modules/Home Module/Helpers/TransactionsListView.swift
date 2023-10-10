@@ -32,8 +32,8 @@ struct TransactionsListView: View {
       }
       .applyMargins()
       .sheet(isPresented: $showAddTransaction, content: {
-        AddTransactionView()
-          .presentationDetents([.large])
+//        AddTransactionView()
+//          .presentationDetents([.large])
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -110,8 +110,8 @@ extension TransactionsListView {
 
 // MARK: - Helper Functions
 private extension TransactionsListView {
-  var groupedTransactions: [Date: [Transaction]] {
-    Dictionary(grouping: Transaction.sampleTransactions) { transaction in
+  var groupedTransactions: [Date: [TransactionData]] {
+    Dictionary(grouping: TransactionData.sampleTransactions) { transaction in
       let calendar = Calendar.current
       return calendar.startOfDay(for: transaction.date)
     }

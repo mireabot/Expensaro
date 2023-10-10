@@ -17,6 +17,21 @@ extension View {
   func readHeight() -> some View {
     self.modifier(ReadHeightModifier())
   }
+  
+  
+  /// Enables return button for resizable textfield
+  func multilineSubmitEnabled(
+    for text: Binding<String>,
+    submitLabel: SubmitLabel = .return
+  ) -> some View {
+    self.modifier(
+      MultilineSubmitViewModifier(
+        text: text,
+        submitLabel: submitLabel,
+        onSubmit: {}
+      )
+    )
+  }
 }
 
 extension Float {

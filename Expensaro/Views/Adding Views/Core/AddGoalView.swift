@@ -21,7 +21,9 @@ struct AddGoalView: View {
     NavigationView {
       ScrollView {
         VStack(spacing: 20) {
-          EXTextField(text: $goalName, placeholder: Appearance.shared.placeholder).focused($isFieldFocused)
+          EXTextField(text: $goalName, placeholder: Appearance.shared.placeholder)
+            .keyboardType(.alphabet)
+            .focused($isFieldFocused)
           EXLargeCurrencyTextField(text: $amountValue, bottomView: Appearance.shared.bottomView)
             .keyboardType(.alphabet)
             .focused($isFieldFocused)

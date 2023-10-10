@@ -9,9 +9,9 @@ import SwiftUI
 import ExpensaroUIKit
 
 struct EXTransactionCell: View {
-  var transaction: Transaction
+  var transaction: TransactionData
   
-  init(transaction: Transaction) {
+  init(transaction: TransactionData) {
     self.transaction = transaction
   }
   
@@ -48,7 +48,7 @@ struct EXTransactionCell: View {
 struct TransactionCell_Previews: PreviewProvider {
   static var previews: some View {
     VStack {
-      EXTransactionCell(transaction: Transaction.sampleTransactions[0])
+      EXTransactionCell(transaction: TransactionData.sampleTransactions[0])
     }
     .applyMargins()
   }

@@ -27,6 +27,7 @@ struct ContactSettingsView: View {
             EXResizableTextField(message: $message, characterLimit: 1500)
               .keyboardType(.alphabet)
               .focused($isFocused)
+              .multilineSubmitEnabled(for: $message)
           }
           
           VStack(alignment: .leading, spacing: 5) {

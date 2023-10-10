@@ -207,7 +207,7 @@ extension HomeView {
       }
       Divider()
       VStack {
-        ForEach(Transaction.sampleTransactions.prefix(3)) { transaction in
+        ForEach(TransactionData.sampleTransactions.prefix(3)) { transaction in
           EXTransactionCell(transaction: transaction)
         }
       }

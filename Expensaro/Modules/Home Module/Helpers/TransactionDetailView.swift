@@ -12,7 +12,7 @@ import Charts
 
 struct TransactionDetailView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
-  let transaction: Transaction
+  let transaction: TransactionData
   
   @State private var showTransactionDeleteAlert = false
   @State private var showNoteView = false
@@ -153,7 +153,7 @@ struct TransactionDetailView: View {
 
 struct TransactionDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    TransactionDetailView(transaction: Transaction.sampleTransactions[1])
+    TransactionDetailView(transaction: TransactionData.sampleTransactions[1])
   }
 }
 
@@ -183,6 +183,7 @@ private extension TransactionDetailView {
       ScrollView {
         EXResizableTextField(message: $noteText, characterLimit: 300)
           .keyboardType(.alphabet)
+          .multilineSubmitEnabled(for: $noteText)
       }
       .applyMargins()
       .navigationBarTitleDisplayMode(.inline)
@@ -265,7 +266,7 @@ private extension TransactionDetailView {
       var summaryByDay: [String: Float] = [:]
       var totalAmountSpent: Float = 0.0
 
-      for transaction in Transaction.sampleTransactions {
+      for transaction in TransactionData.sampleTransactions {
         if transaction.category.1 == categoryToFilter {
               totalAmountSpent += transaction.amount
               
