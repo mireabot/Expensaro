@@ -12,7 +12,7 @@ struct EditGoalView: View {
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
   var selectedGoal: Goal
-  @State private var goalAmount: String = ""
+  @State private var goalAmount: Double = 0
   @State private var goalDue: String = Source.Functions.showString(from: .now)
   
   @State private var showDateSelector = false
@@ -25,7 +25,7 @@ struct EditGoalView: View {
               .font(.mukta(.regular, size: 13))
               .foregroundColor(.darkGrey)
               .frame(maxWidth: .infinity, alignment: .leading)
-            EXTextFieldWithCurrency(text: $goalAmount)
+            EXTextFieldWithCurrency(value: $goalAmount)
               .focused($isFieldFocused)
           }
           
@@ -43,7 +43,7 @@ struct EditGoalView: View {
         .padding(.top, 20)
       }
       .onAppear {
-        goalAmount = selectedGoal.goalAmount.clean
+        goalAmount = Double(selectedGoal.goalAmount)
         goalDue = Source.Functions.showString(from: selectedGoal.goalDate)
       }
       .onTapGesture {

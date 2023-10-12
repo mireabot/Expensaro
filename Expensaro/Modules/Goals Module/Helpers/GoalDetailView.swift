@@ -29,10 +29,10 @@ struct GoalDetailView: View {
         
         bottomActionButton().padding(16)
       })
-      .sheet(isPresented: $showAddMoney, content: {
-        AddBudgetView(type: .addToGoal)
-          .presentationDetents([.large])
-      })
+//      .sheet(isPresented: $showAddMoney, content: {
+//        AddBudgetView(type: .addToGoal)
+//          .presentationDetents([.large])
+//      })
       .sheet(isPresented: $showEditGoal, content: {
         EditGoalView(selectedGoal: goal)
           .presentationDetents([.fraction(0.9)])

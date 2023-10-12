@@ -7,12 +7,15 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import RealmSwift
 
 struct AddCategoryView: View {
+  @Environment(\.realm) var realm
+  
+  @ObservedRealmObject var category: Category
+  
   @EnvironmentObject var router: EXNavigationViewsRouter
-  @ObservedObject var categoryVM: CategoryStore
   @FocusState var isFocused: Bool
-  @State private var categoryIcon: String = Source.Strings.Categories.Images.other
   @State private var changeIcon = false
   @State var detentHeight: CGFloat = 0
   let items: [GridItem] = [
@@ -24,10 +27,17 @@ struct AddCategoryView: View {
       ScrollView {
         VStack(spacing: 20) {
           VStack(alignment: .center, spacing: 15) {
-            Image(categoryIcon)
-              .resizable()
-              .frame(width: 30, height: 30)
-              .foregroundColor(.primaryGreen)
+            if category.icon.isEmpty {
+              Image(Source.Strings.Categories.Images.other)
+                .resizable()
+                .frame(width: 30, height: 30)
+                .foregroundColor(.primaryGreen)
+            } else {
+              Image(category.icon)
+                .resizable()
+                .frame(width: 30, height: 30)
+                .foregroundColor(.primaryGreen)
+            }
             
             Button {
               changeIcon.toggle()
@@ -41,7 +51,7 @@ struct AddCategoryView: View {
             Text("Name")
               .foregroundColor(.darkGrey)
               .font(.mukta(.regular, size: 13))
-            EXTextField(text: $categoryVM.newCategory.name, placeholder: "Required")
+            EXTextField(text: $category.name, placeholder: "Required")
               .keyboardType(.alphabet)
               .focused($isFocused)
           }
@@ -80,18 +90,13 @@ struct AddCategoryView: View {
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
-            do {
-              try categoryVM.saveCategory()
-              router.nav?.popViewController(animated: true)
-            } catch {
-              print(error.localizedDescription)
-            }
+            saveCategory()
           } label: {
             Appearance.shared.submitIcon
               .font(.callout)
-              .foregroundColor(categoryVM.newCategory.name.isEmpty ? .border : .black)
+              .foregroundColor(category.name.isEmpty ? .border : .black)
           }
-          .disabled(categoryVM.newCategory.name.isEmpty)
+          .disabled(category.name.isEmpty)
         }
       }
     }
@@ -100,7 +105,7 @@ struct AddCategoryView: View {
 
 struct AddCategory_Previews: PreviewProvider {
   static var previews: some View {
-    AddCategoryView(categoryVM: .init(provider: .shared))
+    EmptyView()
   }
 }
 
@@ -135,17 +140,26 @@ extension AddCategoryView {
       Divider()
       
       LazyHGrid(rows: items, alignment: .center, spacing: 20) {
-        ForEach(DefaultCategory.defaultSet){ item in
+        ForEach(DefaultCategories.defaultCategories){ item in
           Image(item.icon)
             .foregroundColor(.primaryGreen)
             .onTapGesture {
-              categoryIcon = item.icon
-              categoryVM.newCategory.icon = item.icon
+              category.icon = item.icon
               changeIcon.toggle()
             }
         }
       }
       .padding(.vertical, 15)
     }
+  }
+}
+
+// MARK: - Realm Functions
+extension AddCategoryView {
+  func saveCategory() {
+    try? realm.write {
+      realm.add(category)
+    }
+    router.nav?.popViewController(animated: true)
   }
 }

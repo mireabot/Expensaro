@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		351061282AD74AEB006E6DF4 /* Budget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351061272AD74AEB006E6DF4 /* Budget.swift */; };
 		351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351839AE2AAF94C3008216F3 /* GoalsListView.swift */; };
 		351A02F52AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */; };
 		351A14F92AC1F21300BCBD07 /* OverviewInfoBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A14F82AC1F21300BCBD07 /* OverviewInfoBottomView.swift */; };
@@ -23,13 +24,14 @@
 		3558FBBE2ACA3F8E00624EBD /* GoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3558FBBD2ACA3F8E00624EBD /* GoalCell.swift */; };
 		3558FBC12ACA415500624EBD /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3558FBC02ACA415500624EBD /* Goal.swift */; };
 		355BB4082ABCB1DE00A71834 /* AddCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BB4072ABCB1DE00A71834 /* AddCategoryView.swift */; };
-		355BB40A2ABCB7BE00A71834 /* DefaultCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BB4092ABCB7BE00A71834 /* DefaultCategory.swift */; };
 		3564D81F2ACB71EB00553ECB /* EditGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3564D81E2ACB71EB00553ECB /* EditGoalView.swift */; };
 		356847742ACB2D4E00FFC864 /* GoalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356847732ACB2D4E00FFC864 /* GoalDetailView.swift */; };
 		35825BF92AC9CDB600713AD8 /* RecurrentPaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BF82AC9CDB600713AD8 /* RecurrentPaymentCell.swift */; };
 		35825BFB2AC9D01C00713AD8 /* EXTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BFA2AC9D01C00713AD8 /* EXTransactionCell.swift */; };
 		35825BFD2AC9E71700713AD8 /* RecurrentPaymentsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BFC2AC9E71700713AD8 /* RecurrentPaymentsListView.swift */; };
 		35825C002AC9FDEB00713AD8 /* EXDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BFF2AC9FDEB00713AD8 /* EXDatePicker.swift */; };
+		3589BC272AD899BA00BA8289 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 3589BC262AD899BA00BA8289 /* Realm */; };
+		3589BC292AD899BA00BA8289 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3589BC282AD899BA00BA8289 /* RealmSwift */; };
 		358BA4B82AD5D06500229504 /* ResizableTextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358BA4B72AD5D06500229504 /* ResizableTextFieldModifier.swift */; };
 		358E6B7F2AC0840900ABA818 /* CategorySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E6B7E2AC0840900ABA818 /* CategorySelectorView.swift */; };
 		3590948F2AAD3EC300428B39 /* ExpensaroApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590948E2AAD3EC300428B39 /* ExpensaroApp.swift */; };
@@ -48,8 +50,8 @@
 		359CDC5C2AB4DE3300DFFDC7 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC5B2AB4DE3300DFFDC7 /* TabBarView.swift */; };
 		359CDC602AB4DF4400DFFDC7 /* InitialPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC5F2AB4DF4400DFFDC7 /* InitialPermissionView.swift */; };
 		359CDC622AB50C0000DFFDC7 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC612AB50C0000DFFDC7 /* AddTransactionView.swift */; };
-		359EAD942AD468B700443D09 /* Expensaro.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 359EAD922AD468B700443D09 /* Expensaro.xcdatamodeld */; };
 		35ACB7E82AB3EDB800F7ECE5 /* OverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB7E72AB3EDB800F7ECE5 /* OverviewView.swift */; };
+		35BB8A3B2AD89C1C0099E71F /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BB8A3A2AD89C1C0099E71F /* Category.swift */; };
 		35BEF35D2AB378DB005D1138 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BEF35C2AB378DB005D1138 /* Source.swift */; };
 		35BEF3602AB37AA6005D1138 /* AddBudgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BEF35F2AB37AA6005D1138 /* AddBudgetView.swift */; };
 		35BEF3632AB38088005D1138 /* BottomSheetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BEF3622AB38088005D1138 /* BottomSheetModifier.swift */; };
@@ -57,14 +59,13 @@
 		35C80C6D2ABF59DE0063553E /* RemindersSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C80C6C2ABF59DE0063553E /* RemindersSettingsView.swift */; };
 		35C80C6F2ABF84880063553E /* ContactSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C80C6E2ABF84880063553E /* ContactSettingsView.swift */; };
 		35C883F32ACE186600F6E1FB /* TransactionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C883F22ACE186500F6E1FB /* TransactionDetailView.swift */; };
-		35D7D45A2ABE1004002EB654 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D7D4592ABE1004002EB654 /* Category.swift */; };
 		35DFA06A2AC385F10008246A /* EraseDataSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */; };
 		35E8743A2ACC7EE2002368DB /* PeriodicitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E874392ACC7EE2002368DB /* PeriodicitySelectorView.swift */; };
 		35E8743D2ACC899A002368DB /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E8743C2ACC899A002368DB /* Transaction.swift */; };
-		35FC566C2ABE01FC009CB36C /* CategoryDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FC566B2ABE01FC009CB36C /* CategoryDataProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		351061272AD74AEB006E6DF4 /* Budget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Budget.swift; sourceTree = "<group>"; };
 		351839AE2AAF94C3008216F3 /* GoalsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsListView.swift; sourceTree = "<group>"; };
 		351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPaymentDetailView.swift; sourceTree = "<group>"; };
 		351A14F82AC1F21300BCBD07 /* OverviewInfoBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewInfoBottomView.swift; sourceTree = "<group>"; };
@@ -79,7 +80,6 @@
 		3558FBBD2ACA3F8E00624EBD /* GoalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCell.swift; sourceTree = "<group>"; };
 		3558FBC02ACA415500624EBD /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		355BB4072ABCB1DE00A71834 /* AddCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryView.swift; sourceTree = "<group>"; };
-		355BB4092ABCB7BE00A71834 /* DefaultCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCategory.swift; sourceTree = "<group>"; };
 		3564D81E2ACB71EB00553ECB /* EditGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGoalView.swift; sourceTree = "<group>"; };
 		356847732ACB2D4E00FFC864 /* GoalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailView.swift; sourceTree = "<group>"; };
 		35825BF82AC9CDB600713AD8 /* RecurrentPaymentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPaymentCell.swift; sourceTree = "<group>"; };
@@ -103,8 +103,8 @@
 		359CDC5B2AB4DE3300DFFDC7 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		359CDC5F2AB4DF4400DFFDC7 /* InitialPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialPermissionView.swift; sourceTree = "<group>"; };
 		359CDC612AB50C0000DFFDC7 /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
-		359EAD932AD468B700443D09 /* Expensaro.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Expensaro.xcdatamodel; sourceTree = "<group>"; };
 		35ACB7E72AB3EDB800F7ECE5 /* OverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewView.swift; sourceTree = "<group>"; };
+		35BB8A3A2AD89C1C0099E71F /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		35BEF35C2AB378DB005D1138 /* Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		35BEF35F2AB37AA6005D1138 /* AddBudgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBudgetView.swift; sourceTree = "<group>"; };
 		35BEF3622AB38088005D1138 /* BottomSheetModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetModifier.swift; sourceTree = "<group>"; };
@@ -112,12 +112,10 @@
 		35C80C6C2ABF59DE0063553E /* RemindersSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersSettingsView.swift; sourceTree = "<group>"; };
 		35C80C6E2ABF84880063553E /* ContactSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSettingsView.swift; sourceTree = "<group>"; };
 		35C883F22ACE186500F6E1FB /* TransactionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailView.swift; sourceTree = "<group>"; };
-		35D7D4592ABE1004002EB654 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EraseDataSettingsView.swift; sourceTree = "<group>"; };
 		35DFA06B2AC397870008246A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		35E874392ACC7EE2002368DB /* PeriodicitySelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicitySelectorView.swift; sourceTree = "<group>"; };
 		35E8743C2ACC899A002368DB /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
-		35FC566B2ABE01FC009CB36C /* CategoryDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDataProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,10 +123,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3589BC292AD899BA00BA8289 /* RealmSwift in Frameworks */,
 				351D3D612AD0D5C00022E696 /* PopupView in Frameworks */,
 				354F2B152AB9F189002516F1 /* SwiftUIIntrospect in Frameworks */,
 				359094AB2AAE365900428B39 /* ExpensaroUIKit in Frameworks */,
 				359CDC592AB4C8BA00DFFDC7 /* iPages in Frameworks */,
+				3589BC272AD899BA00BA8289 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,6 +180,7 @@
 		352CB2762ABA4194006C1CEF /* System */ = {
 			isa = PBXGroup;
 			children = (
+				35AAD3C32AD72B10000974A6 /* Budget */,
 				35E8743B2ACC8990002368DB /* Transaction */,
 				3558FBBF2ACA414A00624EBD /* Goals */,
 				353E5C302ACA1F4F00430978 /* Recurrent Payments */,
@@ -191,10 +192,7 @@
 		352CB2772ABA419D006C1CEF /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				359EAD922AD468B700443D09 /* Expensaro.xcdatamodeld */,
-				355BB4092ABCB7BE00A71834 /* DefaultCategory.swift */,
-				35FC566B2ABE01FC009CB36C /* CategoryDataProvider.swift */,
-				35D7D4592ABE1004002EB654 /* Category.swift */,
+				35BB8A3A2AD89C1C0099E71F /* Category.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -461,6 +459,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		35AAD3C32AD72B10000974A6 /* Budget */ = {
+			isa = PBXGroup;
+			children = (
+				351061272AD74AEB006E6DF4 /* Budget.swift */,
+			);
+			path = Budget;
+			sourceTree = "<group>";
+		};
 		35BEF35E2AB37A8C005D1138 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -511,6 +517,8 @@
 				359CDC582AB4C8BA00DFFDC7 /* iPages */,
 				354F2B142AB9F189002516F1 /* SwiftUIIntrospect */,
 				351D3D602AD0D5C00022E696 /* PopupView */,
+				3589BC262AD899BA00BA8289 /* Realm */,
+				3589BC282AD899BA00BA8289 /* RealmSwift */,
 			);
 			productName = Expensaro;
 			productReference = 3590948B2AAD3EC300428B39 /* Expensaro.app */;
@@ -545,6 +553,7 @@
 				359CDC572AB4C8BA00DFFDC7 /* XCRemoteSwiftPackageReference "iPages" */,
 				354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
 				351D3D5F2AD0D5C00022E696 /* XCRemoteSwiftPackageReference "PopupView" */,
+				3589BC252AD899BA00BA8289 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 3590948C2AAD3EC300428B39 /* Products */;
 			projectDirPath = "";
@@ -584,6 +593,7 @@
 				3564D81F2ACB71EB00553ECB /* EditGoalView.swift in Sources */,
 				354F2B0B2AB8D24B002516F1 /* DateSelectorView.swift in Sources */,
 				359094A42AAE342F00428B39 /* NavigationControllers.swift in Sources */,
+				351061282AD74AEB006E6DF4 /* Budget.swift in Sources */,
 				35293ACB2ABB5D7900BC993B /* OffsetModifier.swift in Sources */,
 				35825BFD2AC9E71700713AD8 /* RecurrentPaymentsListView.swift in Sources */,
 				359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */,
@@ -591,8 +601,6 @@
 				35BEF35D2AB378DB005D1138 /* Source.swift in Sources */,
 				351A14F92AC1F21300BCBD07 /* OverviewInfoBottomView.swift in Sources */,
 				353E5C322ACA1F6600430978 /* RecurrentPayment.swift in Sources */,
-				359EAD942AD468B700443D09 /* Expensaro.xcdatamodeld in Sources */,
-				355BB40A2ABCB7BE00A71834 /* DefaultCategory.swift in Sources */,
 				35BEF3602AB37AA6005D1138 /* AddBudgetView.swift in Sources */,
 				359094A02AAE340D00428B39 /* RootNavigationController.swift in Sources */,
 				3558FBC12ACA415500624EBD /* Goal.swift in Sources */,
@@ -601,7 +609,6 @@
 				354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */,
 				359CDC622AB50C0000DFFDC7 /* AddTransactionView.swift in Sources */,
 				359CDC5C2AB4DE3300DFFDC7 /* TabBarView.swift in Sources */,
-				35FC566C2ABE01FC009CB36C /* CategoryDataProvider.swift in Sources */,
 				358E6B7F2AC0840900ABA818 /* CategorySelectorView.swift in Sources */,
 				359094A62AAE344000428B39 /* HostingController.swift in Sources */,
 				359094AD2AAE390500428B39 /* HomeView.swift in Sources */,
@@ -612,6 +619,7 @@
 				35825BF92AC9CDB600713AD8 /* RecurrentPaymentCell.swift in Sources */,
 				35C80C6D2ABF59DE0063553E /* RemindersSettingsView.swift in Sources */,
 				359CDC542AB4C69600DFFDC7 /* OnboardingView.swift in Sources */,
+				35BB8A3B2AD89C1C0099E71F /* Category.swift in Sources */,
 				35825C002AC9FDEB00713AD8 /* EXDatePicker.swift in Sources */,
 				35825BFB2AC9D01C00713AD8 /* EXTransactionCell.swift in Sources */,
 				358BA4B82AD5D06500229504 /* ResizableTextFieldModifier.swift in Sources */,
@@ -619,7 +627,6 @@
 				351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */,
 				35ACB7E82AB3EDB800F7ECE5 /* OverviewView.swift in Sources */,
 				3590948F2AAD3EC300428B39 /* ExpensaroApp.swift in Sources */,
-				35D7D45A2ABE1004002EB654 /* Category.swift in Sources */,
 				35E8743D2ACC899A002368DB /* Transaction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -851,6 +858,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		3589BC252AD899BA00BA8289 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.43.0;
+			};
+		};
 		359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mireabot/ExpensaroUIKit";
@@ -880,6 +895,16 @@
 			package = 354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */;
 			productName = SwiftUIIntrospect;
 		};
+		3589BC262AD899BA00BA8289 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3589BC252AD899BA00BA8289 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		3589BC282AD899BA00BA8289 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3589BC252AD899BA00BA8289 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
 		359094AA2AAE365900428B39 /* ExpensaroUIKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */;
@@ -891,19 +916,6 @@
 			productName = iPages;
 		};
 /* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		359EAD922AD468B700443D09 /* Expensaro.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				359EAD932AD468B700443D09 /* Expensaro.xcdatamodel */,
-			);
-			currentVersion = 359EAD932AD468B700443D09 /* Expensaro.xcdatamodel */;
-			path = Expensaro.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 359094832AAD3EC300428B39 /* Project object */;
 }

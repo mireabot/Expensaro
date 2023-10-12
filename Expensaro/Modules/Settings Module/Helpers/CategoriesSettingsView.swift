@@ -7,16 +7,18 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import RealmSwift
 
 struct CategoriesSettingsView: View {
+  @Environment(\.realm) var realm
   @EnvironmentObject var router: EXNavigationViewsRouter
-  var provider = CategoriesProvider.shared
-  @FetchRequest(fetchRequest: Category.fetchAll()) private var categories
+  
+  @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: \Category.name, ascending: true)) var categories
   var body: some View {
     NavigationView {
       VStack {
         Button {
-          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(AddCategoryView(categoryVM: .init(provider: provider))))
+          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(AddCategoryView(category: Category())))
         } label: {
           Text("Create new category")
             .font(.mukta(.regular, size: 17))
@@ -34,19 +36,8 @@ struct CategoriesSettingsView: View {
         List {
           ForEach(categories) { category in
             EXCategoryCell(icon: Image(category.icon), title: category.name)
-              .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                Button(role: .destructive) {
-                  do {
-                    try provider.delete(category, in: provider.newContext)
-                  } catch {
-                    print(error.localizedDescription)
-                  }
-                } label: {
-                  Label("Delete", systemImage: "trash")
-                }
-                .tint(.primaryGreen)
-              }
           }
+          .onDelete(perform: $categories.remove)
           .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
@@ -73,10 +64,7 @@ struct CategoriesSettingsView: View {
 
 struct CategoriesSettingsView_Previews: PreviewProvider {
   static var previews: some View {
-    let preview = CategoriesProvider.shared
-    CategoriesSettingsView(provider: preview)
-      .environment(\.managedObjectContext, preview.viewContext)
-      .onAppear { Category.makePreview(in: preview.viewContext) }
+    EmptyView()
   }
 }
 
@@ -89,23 +77,5 @@ extension CategoriesSettingsView {
     
     let backIcon = Source.Images.Navigation.back
     let addIcon = Source.Images.ButtonIcons.add
-  }
-}
-
-extension CategoriesSettingsView {
-  @ViewBuilder
-  func defaultCategoriesList() -> some View {
-    VStack(alignment: .leading, spacing: 10) {
-      Text("Default categories")
-        .font(.mukta(.regular, size: 13))
-        .foregroundColor(.darkGrey)
-        .frame(maxWidth: .infinity, alignment: .leading)
-      VStack(spacing: 10) {
-        ForEach(DefaultCategory.defaultSet) { category in
-          EXCategoryCell(icon: Image(systemName: category.icon), title: category.name)
-        }
-      }
-    }
-    .applyMargins()
   }
 }

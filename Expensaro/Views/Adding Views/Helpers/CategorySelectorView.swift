@@ -7,11 +7,13 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import RealmSwift
 
 struct CategorySelectorView: View {
   @Environment(\.dismiss) var makeDismiss
-  var provider = CategoriesProvider.shared
-  @FetchRequest(fetchRequest: Category.fetchAll()) private var categories
+  
+  @ObservedResults(Category.self) var categories
+  
   @Binding var title: String
   @Binding var icon: Image
   var body: some View {
@@ -64,9 +66,6 @@ extension CategorySelectorView {
 
 struct CategorySelectorView_Previews: PreviewProvider {
   static var previews: some View {
-    let preview = CategoriesProvider.shared
-    CategorySelectorView(provider: preview, title: .constant("Travel"), icon: .constant(.init(systemName: "globe")))
-      .environment(\.managedObjectContext, preview.viewContext)
-      .onAppear { Category.makePreview(in: preview.viewContext) }
+    EmptyView()
   }
 }

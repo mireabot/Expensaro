@@ -11,7 +11,7 @@ import ExpensaroUIKit
 struct AddRecurrentPaymentView: View {
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
-  @State private var amountValue: String = ""
+  @State private var amountValue: Double = 0
   @State private var paymentName: String = ""
   @State private var paymentPeriodicity: String = "Not selected"
   @State private var paymentCategory: String = "Other"
@@ -28,7 +28,7 @@ struct AddRecurrentPaymentView: View {
       ScrollView {
         EXSegmentControl(currentTab: $paymentTag, type: .transactionType).padding(.top, 16)
         VStack(spacing: 20) {
-          EXLargeCurrencyTextField(text: $amountValue, bottomView: EmptyView()).focused($isFieldFocused)
+          EXLargeCurrencyTextField(value: $amountValue, bottomView: EmptyView()).focused($isFieldFocused)
           EXTextField(text: $paymentName, placeholder: Appearance.shared.textFieldPlaceholder)
             .keyboardType(.alphabet)
             .focused($isFieldFocused)

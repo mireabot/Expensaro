@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import RealmSwift
 
 struct HomeView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
@@ -15,6 +16,10 @@ struct HomeView: View {
   @State private var showAddTransaction = false
   
   @State private var showUpdateBudget = false
+  
+  @Environment(\.realm) var realm
+  
+  @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing) {
@@ -31,11 +36,7 @@ struct HomeView: View {
           .padding(16)
       }
       .sheet(isPresented: $showAddBudget, content: {
-        AddBudgetView(type: .addBudget)
-          .presentationDetents([.large])
-      })
-      .sheet(isPresented: $showUpdateBudget, content: {
-        AddBudgetView(type: .updateBudget)
+        AddBudgetView(type: .addBudget, budget: Budget())
           .presentationDetents([.large])
       })
       .sheet(isPresented: $showAddTransaction, content: {
@@ -131,27 +132,33 @@ extension HomeView {
   
   @ViewBuilder
   func budgetSection() -> some View {
-    VStack(alignment: .center, spacing: -5) {
-      Text("Your budget")
-        .font(.mukta(.regular, size: 17))
-        .foregroundColor(.darkGrey)
-      Text("$ 5000 USD")
-        .font(.mukta(.bold, size: 34))
-        .foregroundColor(.black)
-      
-      Button {
-        showUpdateBudget.toggle()
-      } label: {
-        HStack {
-          Source.Images.ButtonIcons.add
-            .foregroundColor(.primaryGreen)
-          Text("Add money")
-            .font(.mukta(.semibold, size: 15))
+    if let currentBudget = budget.first {
+      VStack(alignment: .center, spacing: -5) {
+        Text("Your budget")
+          .font(.mukta(.regular, size: 17))
+          .foregroundColor(.darkGrey)
+        Text("$ \(currentBudget.amount.clean) USD")
+          .font(.mukta(.bold, size: 34))
+          .foregroundColor(.black)
+        
+        Button {
+          showUpdateBudget.toggle()
+        } label: {
+          HStack {
+            Source.Images.ButtonIcons.add
+              .foregroundColor(.primaryGreen)
+            Text("Add money")
+              .font(.mukta(.semibold, size: 15))
+          }
+          .frame(maxWidth: .infinity)
         }
-        .frame(maxWidth: .infinity)
+        .buttonStyle(SmallButtonStyle())
+        .padding(.top, 20)
       }
-      .buttonStyle(SmallButtonStyle())
-      .padding(.top, 20)
+    } else {
+      EXLargeEmptyState(type: .noBudget, icon: Source.Images.EmptyStates.noBudget, action: {
+        showAddBudget.toggle()
+      })
     }
   }
   

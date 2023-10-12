@@ -11,7 +11,7 @@ import ExpensaroUIKit
 struct AddGoalView: View {
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
-  @State private var amountValue: String = ""
+  @State private var amountValue: Double = 0
   @State private var goalName: String = ""
   @State private var goalDue: String = Source.Functions.showString(from: .now)
   
@@ -24,7 +24,7 @@ struct AddGoalView: View {
           EXTextField(text: $goalName, placeholder: Appearance.shared.placeholder)
             .keyboardType(.alphabet)
             .focused($isFieldFocused)
-          EXLargeCurrencyTextField(text: $amountValue, bottomView: Appearance.shared.bottomView)
+          EXLargeCurrencyTextField(value: $amountValue, bottomView: Appearance.shared.bottomView)
             .keyboardType(.alphabet)
             .focused($isFieldFocused)
           VStack(alignment: .leading, spacing: 5) {

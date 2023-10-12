@@ -7,29 +7,36 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import RealmSwift
 
 @main
-struct ExpensaroApp: App {
+struct ExpensaroApp: SwiftUI.App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-  @AppStorage("isUserLoggedIn") private var isUserLoggedIn = false
-  @State private var isLoading = true
   var body: some Scene {
     WindowGroup {
-      if isLoading {
-        LaunchView()
-          .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-              isLoading = false
-            }
+      ContentView()
+        .environment(\.realmConfiguration, Realm.Configuration(deleteRealmIfMigrationNeeded: true))
+    }
+  }
+}
+
+struct ContentView: View {
+  @AppStorage("isUserLoggedIn") private var isUserLoggedIn = false
+  @State private var isLoading = true
+  var body: some View {
+    if isLoading {
+      LaunchView()
+        .onAppear {
+          DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+            isLoading = false
           }
-      } else {
-        if isUserLoggedIn {
-          TabBarView()
-            .environment(\.managedObjectContext, CategoriesProvider.shared.viewContext)
         }
-        else {
-          OnboardingView()
-        }
+    } else {
+      if isUserLoggedIn {
+        TabBarView()
+      }
+      else {
+        OnboardingView()
       }
     }
   }
@@ -95,6 +102,7 @@ struct LaunchView: View {
     }
   }
 }
+
 struct LaunchView_Previews: PreviewProvider {
   static var previews: some View {
     LaunchView()

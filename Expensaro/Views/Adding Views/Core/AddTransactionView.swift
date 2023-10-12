@@ -11,7 +11,7 @@ import ExpensaroUIKit
 struct AddTransactionView: View {
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
-  @State private var amountValue: String = ""
+  @State private var amountValue: Double = 0
   @State private var transactionName: String = ""
   @State private var transactionCategory: String = "Other"
   @State private var transactionImage: Image = Image(Source.Strings.Categories.Images.other)
@@ -23,7 +23,7 @@ struct AddTransactionView: View {
       ScrollView {
         EXSegmentControl(currentTab: $transactionTag, type: .transactionType).padding(.top, 16)
         VStack(spacing: 20) {
-          EXLargeCurrencyTextField(text: $amountValue, bottomView: EmptyView()).focused($isFieldFocused)
+          EXLargeCurrencyTextField(value: $amountValue, bottomView: EmptyView()).focused($isFieldFocused)
           EXTextField(text: $transactionName, placeholder: Appearance.shared.textFieldPlaceholder)
             .keyboardType(.alphabet)
             .focused($isFieldFocused)
@@ -103,18 +103,4 @@ extension AddTransactionView {
     let closeIcon = Source.Images.Navigation.close
     let cameraIcon = Source.Images.System.scan
   }
-}
-
-struct BlurView: UIViewRepresentable {
-    let style: UIBlurEffect.Style
-    
-    func makeUIView(context: Context) -> UIVisualEffectView {
-        let blurEffect = UIBlurEffect(style: style)
-        let blurView = UIVisualEffectView(effect: blurEffect)
-        return blurView
-    }
-    
-    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
-        // Update the view if needed
-    }
 }

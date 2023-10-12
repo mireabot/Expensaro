@@ -7,12 +7,14 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import RealmSwift
 
 struct InitialPermissionView: View {
+  @Environment(\.realm) var realm
+  
   @State private var notificationsSelected = false
   @State private var analyticsSelected = false
   @AppStorage("isUserLoggedIn") private var isUserLoggedIn = false
-  @StateObject var categoryVM : CategoryStore = .init(provider: .shared)
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: 0) {
@@ -33,10 +35,8 @@ struct InitialPermissionView: View {
     .interactiveDismissDisabled(true)
     .safeAreaInset(edge: .bottom, content: {
       Button {
-        do {
-          try categoryVM.loadCategories(in: CategoriesProvider.shared.newContext)
-        } catch {
-          print(error.localizedDescription)
+        try? realm.write {
+          realm.add(DefaultCategories.defaultCategories)
         }
         isUserLoggedIn = true
       } label: {

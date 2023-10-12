@@ -7,10 +7,16 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import RealmSwift
 
 struct AddBudgetView: View {
   @Environment(\.dismiss) var makeDismiss
   let type: ScreenType
+  
+  @Environment(\.realm) var realm
+  
+  @ObservedRealmObject var budget: Budget
+  
   @FocusState private var budgetFieldFocused: Bool
   @State private var budgetValue: String = ""
   @State var detentHeight: CGFloat = 0
@@ -20,7 +26,7 @@ struct AddBudgetView: View {
     NavigationView {
       ScrollView {
         VStack(alignment: .leading, spacing: 10) {
-          EXTextFieldWithCurrency(text: $budgetValue)
+          EXTextFieldWithCurrency(value: $budget.amount)
             .focused($budgetFieldFocused)
           Text(type.infoText)
             .font(.mukta(.regular, size: 13))
@@ -53,7 +59,7 @@ struct AddBudgetView: View {
       }
       .safeAreaInset(edge: .bottom, content: {
         Button {
-          showSuccess.toggle()
+          addBudget()
         } label: {
           Text(type.buttonText)
             .font(.mukta(.semibold, size: 17))
@@ -84,7 +90,7 @@ struct AddBudgetView: View {
 
 struct AddBudgetView_Previews: PreviewProvider {
   static var previews: some View {
-    AddBudgetView(type: .addToGoal)
+    AddBudgetView(type: .addToGoal, budget: Budget())
   }
 }
 
@@ -135,6 +141,15 @@ extension AddBudgetView {
       case .addToGoal:
         return ""
       }
+    }
+  }
+}
+
+// MARK: - Realm Functions
+extension AddBudgetView {
+  func addBudget() {
+    try? realm.write {
+      realm.add(budget)
     }
   }
 }
