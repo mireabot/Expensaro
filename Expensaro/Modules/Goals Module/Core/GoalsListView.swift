@@ -106,7 +106,7 @@ extension GoalsListView {
   @ViewBuilder
   func emptyState() -> some View {
     VStack(alignment: .center, spacing: 5) {
-      Image("noGoals")
+      Source.Images.EmptyStates.noGoals
         .resizable()
         .frame(width: 120, height: 120)
       VStack(spacing: 0) {

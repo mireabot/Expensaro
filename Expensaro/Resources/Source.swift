@@ -25,6 +25,7 @@ enum Source {
       static let noBudget = Image(systemName: "dollarsign")
       static let noExpenses = Image(systemName: "list.bullet")
       static let noGoals = Image("noGoals")
+      static let noTransactions = Image("noTransactions")
     }
     enum Onboarding {
       static let onb1 = Image("onb1")

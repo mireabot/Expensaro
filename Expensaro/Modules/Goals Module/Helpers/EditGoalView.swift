@@ -34,7 +34,7 @@ struct EditGoalView: View {
               .font(.mukta(.regular, size: 13))
               .foregroundColor(.darkGrey)
               .frame(maxWidth: .infinity, alignment: .leading)
-            EXLargeSelector(text: $goalDue, icon: .constant(Appearance.shared.timerIcon), buttonText: "Change", action: {
+            EXLargeSelector(text: $goalDue, icon: .constant("timer"), buttonText: "Change", action: {
               showDateSelector.toggle()
             })
           }

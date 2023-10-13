@@ -9,15 +9,10 @@ import SwiftUI
 import ExpensaroUIKit
 
 struct EXTransactionCell: View {
-  var transaction: TransactionData
-  
-  init(transaction: TransactionData) {
-    self.transaction = transaction
-  }
-  
+  var transaction: Transaction
   var body: some View {
     HStack(alignment: .center) {
-      transaction.category.0
+      Image(transaction.categoryIcon)
         .foregroundColor(.primaryGreen)
         .padding(8)
         .background(Color.backgroundGrey)
@@ -42,13 +37,14 @@ struct EXTransactionCell: View {
         }
       }
     }
+    .background(.white)
   }
 }
 
 struct TransactionCell_Previews: PreviewProvider {
   static var previews: some View {
     VStack {
-      EXTransactionCell(transaction: TransactionData.sampleTransactions[0])
+      EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[0])
     }
     .applyMargins()
   }

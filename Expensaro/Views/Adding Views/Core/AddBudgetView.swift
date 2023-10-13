@@ -10,24 +10,33 @@ import ExpensaroUIKit
 import RealmSwift
 
 struct AddBudgetView: View {
+  // MARK: Essential
   @Environment(\.dismiss) var makeDismiss
   let type: ScreenType
   
+  // MARK: Realm
   @Environment(\.realm) var realm
-  
   @ObservedRealmObject var budget: Budget
   
+  // MARK: Variables
   @FocusState private var budgetFieldFocused: Bool
-  @State private var budgetValue: String = ""
+  @State private var budgetValue: Double = 0
   @State var detentHeight: CGFloat = 0
   
+  // MARK: Presentation
   @State private var showSuccess = false
   var body: some View {
     NavigationView {
       ScrollView {
         VStack(alignment: .leading, spacing: 10) {
-          EXTextFieldWithCurrency(value: $budget.amount)
-            .focused($budgetFieldFocused)
+          switch type {
+          case .addBudget:
+            EXTextFieldWithCurrency(value: $budget.amount)
+              .focused($budgetFieldFocused)
+          case .updateBudget:
+            EXTextFieldWithCurrency(value: $budgetValue)
+              .focused($budgetFieldFocused)
+          }
           Text(type.infoText)
             .font(.mukta(.regular, size: 13))
             .foregroundColor(.darkGrey)
@@ -37,9 +46,7 @@ struct AddBudgetView: View {
         budgetFieldFocused = false
       }
       .onAppear {
-        DispatchQueue.main.async {
-          budgetFieldFocused = true
-        }
+        budgetFieldFocused = true
       }
       .applyMargins()
       .scrollDisabled(true)
@@ -59,7 +66,16 @@ struct AddBudgetView: View {
       }
       .safeAreaInset(edge: .bottom, content: {
         Button {
-          addBudget()
+          switch type {
+          case .addBudget:
+            addBudget {
+              showSuccess.toggle()
+            }
+          case .updateBudget:
+            updateBudget {
+              makeDismiss()
+            }
+          }
         } label: {
           Text(type.buttonText)
             .font(.mukta(.semibold, size: 17))
@@ -90,7 +106,7 @@ struct AddBudgetView: View {
 
 struct AddBudgetView_Previews: PreviewProvider {
   static var previews: some View {
-    AddBudgetView(type: .addToGoal, budget: Budget())
+    AddBudgetView(type: .addBudget, budget: Budget())
   }
 }
 
@@ -103,12 +119,33 @@ extension AddBudgetView {
   }
 }
 
+// MARK: - Realm Functions
+extension AddBudgetView {
+  /// Creates new copy of budget objects and saves in memory
+  func addBudget(completion: @escaping() -> Void) {
+    try? realm.write {
+      realm.add(budget)
+    }
+    completion()
+  }
+  
+  /// Gets freezed copy of budget object and updates amount field
+  func updateBudget(completion: @escaping() -> Void) {
+    if let newBudget = budget.thaw(), let realm = newBudget.realm {
+      try? realm.write {
+        newBudget.amount += budgetValue
+      }
+    }
+    completion()
+  }
+}
+
+
 // MARK: - Helper Enum
 extension AddBudgetView {
   enum ScreenType {
     case addBudget
     case updateBudget
-    case addToGoal
     
     var title: String {
       switch self {
@@ -116,8 +153,6 @@ extension AddBudgetView {
         return "Add budget"
       case .updateBudget:
         return "Update your budget"
-      case .addToGoal:
-        return "Add money towards goal"
       }
     }
     
@@ -127,8 +162,6 @@ extension AddBudgetView {
         return "Add budget"
       case .updateBudget:
         return "Update budget"
-      case .addToGoal:
-        return "Add money"
       }
     }
     
@@ -138,18 +171,7 @@ extension AddBudgetView {
         return ""
       case .updateBudget:
         return "Enter amount which you want to add to your current budget"
-      case .addToGoal:
-        return ""
       }
-    }
-  }
-}
-
-// MARK: - Realm Functions
-extension AddBudgetView {
-  func addBudget() {
-    try? realm.write {
-      realm.add(budget)
     }
   }
 }

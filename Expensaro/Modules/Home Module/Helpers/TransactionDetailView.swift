@@ -9,12 +9,15 @@ import SwiftUI
 import ExpensaroUIKit
 import PopupView
 import Charts
+import RealmSwift
 
 struct TransactionDetailView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
-  let transaction: TransactionData
+  
+  @ObservedRealmObject var transaction: Transaction
   
   @State private var showTransactionDeleteAlert = false
+  @State private var showChangeCategory = false
   @State private var showNoteView = false
   @State private var noteText = ""
   
@@ -38,29 +41,33 @@ struct TransactionDetailView: View {
         
         // MARK: Transaction detail
         VStack(spacing: 15) {
-          HStack {
-            transaction.category.0
-              .foregroundColor(.primaryGreen)
-              .padding(8)
-              .background(Color.backgroundGrey)
-              .cornerRadius(12)
-            VStack(alignment: .leading, spacing: -3) {
-              Text("Category")
-                .font(.mukta(.regular, size: 15))
-                .foregroundColor(.darkGrey)
-              Text(transaction.category.1)
-                .font(.mukta(.medium, size: 15))
-                .foregroundColor(.black)
+          Button {
+            showChangeCategory.toggle()
+          } label: {
+            HStack {
+              Image(transaction.categoryIcon)
+                .foregroundColor(.primaryGreen)
+                .padding(8)
+                .background(Color.backgroundGrey)
+                .cornerRadius(12)
+              VStack(alignment: .leading, spacing: -3) {
+                Text("Category")
+                  .font(.mukta(.regular, size: 15))
+                  .foregroundColor(.darkGrey)
+                Text(transaction.categoryName)
+                  .font(.mukta(.medium, size: 15))
+                  .foregroundColor(.black)
+              }
+              Spacer()
+              Source.Images.ButtonIcons.selector
+                .resizable()
+                .frame(width: 20, height: 20)
             }
-            Spacer()
-            Source.Images.ButtonIcons.selector
-              .resizable()
-              .frame(width: 20, height: 20)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(.white)
           }
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .onTapGesture {
-            // Select new category
-          }
+          .buttonStyle(EXPlainButtonStyle())
+
           HStack {
             Source.Images.System.transactionType
               .foregroundColor(.black)
@@ -91,7 +98,7 @@ struct TransactionDetailView: View {
               Text("Note")
                 .font(.mukta(.regular, size: 15))
                 .foregroundColor(.darkGrey)
-              Text("Sample note text")
+              Text(transaction.note)
                 .font(.mukta(.medium, size: 15))
                 .foregroundColor(.black)
             }
@@ -109,13 +116,13 @@ struct TransactionDetailView: View {
         
       }
       .onAppear {
-        let data = calculateSummaryForCategory(categoryToFilter: transaction.category.1)
+        let data = calculateSummaryForCategory(categoryToFilter: transaction.categoryName)
         transactionsByCategory = data.summaryByDay
         totalAmountLabel = data.totalAmount
       }
       .applyMargins()
       .popup(isPresented: $showTransactionDeleteAlert) {
-        EXAlert(type: .deleteTransaction, primaryAction: {}, secondaryAction: {showTransactionDeleteAlert.toggle()}).applyMargins()
+        EXAlert(type: .deleteTransaction, primaryAction: { deleteTransaction() }, secondaryAction: {showTransactionDeleteAlert.toggle()}).applyMargins()
       } customize: {
         $0
           .animation(.spring())
@@ -123,6 +130,11 @@ struct TransactionDetailView: View {
           .backgroundColor(.black.opacity(0.3))
           .isOpaque(true)
       }
+      .sheet(isPresented: $showChangeCategory, content: {
+        CategorySelectorView(title: $transaction.categoryName, icon: $transaction.categoryIcon)
+          .presentationDetents([.medium,.fraction(0.9)])
+          .presentationDragIndicator(.visible)
+      })
       .sheet(isPresented: $showNoteView, content: {
         noteView()
           .presentationDetents([.large])
@@ -153,7 +165,7 @@ struct TransactionDetailView: View {
 
 struct TransactionDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    TransactionDetailView(transaction: TransactionData.sampleTransactions[1])
+    TransactionDetailView(transaction: DefaultTransactions.defaultTransactions[0])
   }
 }
 
@@ -171,17 +183,11 @@ extension TransactionDetailView {
 
 // MARK: - Helper Functions
 private extension TransactionDetailView {
-  func showTransactionDate(from date: Date) -> String {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "EEEE, MMM d, yyyy"
-    return formatter.string(from: date)
-  }
-  
   @ViewBuilder
   func noteView() -> some View {
     NavigationView {
       ScrollView {
-        EXResizableTextField(message: $noteText, characterLimit: 300)
+        EXResizableTextField(message: $transaction.note, characterLimit: 300)
           .keyboardType(.alphabet)
           .multilineSubmitEnabled(for: $noteText)
       }
@@ -223,7 +229,7 @@ private extension TransactionDetailView {
       Text("You have spent on ")
         .font(.mukta(.medium, size: 17))
         .foregroundColor(.black)
-      + Text(transaction.category.1)
+      + Text(transaction.categoryName)
         .font(.mukta(.bold, size: 17))
         .foregroundColor(.primaryGreen)
       + Text(" category")
@@ -294,6 +300,17 @@ private extension TransactionDetailView {
       
       return (totalAmount: totalAmountSpent, summaryByDay: summaryArray)
   }
-  
-  
+}
+
+// MARK: - Realm Functions
+extension TransactionDetailView {
+  func deleteTransaction() {
+    showTransactionDeleteAlert.toggle()
+    if let transaction = transaction.thaw(), let realm = transaction.realm {
+      try? realm.write {
+        realm.delete(transaction)
+      }
+    }
+    router.nav?.popViewController(animated: true)
+  }
 }

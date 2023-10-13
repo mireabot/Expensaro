@@ -10,16 +10,21 @@ import ExpensaroUIKit
 import RealmSwift
 
 struct HomeView: View {
+  // Navigation
   @EnvironmentObject var router: EXNavigationViewsRouter
+  
+  // Variables
   @State private var showAddBudget = false
   @State private var showAddRecurrentPayment = false
   @State private var showAddTransaction = false
   
+  // Presentation
   @State private var showUpdateBudget = false
   
+  // Realm
   @Environment(\.realm) var realm
-  
   @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
+  @ObservedResults(Transaction.self) var transactions
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing) {
@@ -40,7 +45,7 @@ struct HomeView: View {
           .presentationDetents([.large])
       })
       .sheet(isPresented: $showAddTransaction, content: {
-        AddTransactionView()
+        AddTransactionView(transaction: Transaction(), budget: budget.first ?? Budget())
           .presentationDetents([.large])
       })
       .sheet(isPresented: $showAddRecurrentPayment, content: {
@@ -112,6 +117,7 @@ extension HomeView {
   }
 }
 
+// MARK: Home screen sections views
 extension HomeView {
   @ViewBuilder
   func emptyScrollView() -> some View {
@@ -137,7 +143,7 @@ extension HomeView {
         Text("Your budget")
           .font(.mukta(.regular, size: 17))
           .foregroundColor(.darkGrey)
-        Text("$ \(currentBudget.amount.clean) USD")
+        Text("$ \(currentBudget.amount.clean)")
           .font(.mukta(.bold, size: 34))
           .foregroundColor(.black)
         
@@ -154,6 +160,10 @@ extension HomeView {
         }
         .buttonStyle(SmallButtonStyle())
         .padding(.top, 20)
+      }
+      .sheet(isPresented: $showUpdateBudget) {
+        AddBudgetView(type: .updateBudget, budget: currentBudget)
+          .presentationDetents([.large])
       }
     } else {
       EXLargeEmptyState(type: .noBudget, icon: Source.Images.EmptyStates.noBudget, action: {
@@ -194,37 +204,43 @@ extension HomeView {
   
   @ViewBuilder
   func transactionsPreview() -> some View {
-    VStack(spacing: 15) {
-      HStack {
-        VStack(alignment: .leading, spacing: -3) {
-          Text("Spendings for")
-            .font(.mukta(.regular, size: 15))
-            .foregroundColor(.darkGrey)
-          Text("\(Source.Functions.currentMonth())")
-            .font(.mukta(.semibold, size: 20))
+    if !transactions.isEmpty {
+      VStack(spacing: 15) {
+        HStack {
+          VStack(alignment: .leading, spacing: -3) {
+            Text("Spendings for")
+              .font(.mukta(.regular, size: 15))
+              .foregroundColor(.darkGrey)
+            Text("\(Source.Functions.currentMonth())")
+              .font(.mukta(.semibold, size: 20))
+          }
+          Spacer()
+          Button(action: {
+            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionsListView()))
+          }) {
+            Text("See all")
+              .font(.mukta(.medium, size: 15))
+          }
+          .buttonStyle(SmallButtonStyle())
         }
-        Spacer()
-        Button(action: {
-          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionsListView()))
-        }) {
-          Text("See all")
-            .font(.mukta(.medium, size: 15))
+        Divider()
+        VStack {
+          ForEach(transactions.prefix(3)) { transaction in
+            EXTransactionCell(transaction: transaction)
+          }
         }
-        .buttonStyle(SmallButtonStyle())
+        .padding(.bottom, 5)
       }
-      Divider()
-      VStack {
-        ForEach(TransactionData.sampleTransactions.prefix(3)) { transaction in
-          EXTransactionCell(transaction: transaction)
-        }
-      }
-      .padding(.bottom, 5)
+      .padding(.horizontal, 10)
+      .padding(.vertical, 10)
+      .background(.white)
+      .cornerRadius(10)
+      .shadowXS()
+      .padding(.top, 15)
+    } else {
+      EXLargeEmptyState(type: .noExpenses, icon: Source.Images.EmptyStates.noExpenses, action: {
+        showAddTransaction.toggle()
+      })
     }
-    .padding(.horizontal, 10)
-    .padding(.vertical, 10)
-    .background(.white)
-    .cornerRadius(10)
-    .shadowXS()
-    .padding(.top, 15)
   }
 }

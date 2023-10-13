@@ -15,7 +15,7 @@ struct CategorySelectorView: View {
   @ObservedResults(Category.self) var categories
   
   @Binding var title: String
-  @Binding var icon: Image
+  @Binding var icon: String
   var body: some View {
     NavigationView {
       List {
@@ -24,7 +24,7 @@ struct CategorySelectorView: View {
             EXCategoryCell(icon: Image(category.icon), title: category.name)
               .onTapGesture {
                 title = category.name
-                icon = Image(category.icon)
+                icon = category.icon
                 makeDismiss()
               }
           }

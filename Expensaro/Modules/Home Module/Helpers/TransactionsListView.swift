@@ -7,9 +7,13 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import RealmSwift
 
 struct TransactionsListView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
+  
+  @ObservedResults(Transaction.self) var transactions
+  @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
   
   @State private var showAddTransaction = false
   @State private var showTransactionDetail = false
@@ -17,14 +21,20 @@ struct TransactionsListView: View {
     NavigationView {
       ScrollView(showsIndicators: false) {
         headerView().padding(.top, 20)
-        LazyVStack {
-          ForEach(groupedTransactions.keys.sorted(by: <), id: \.self) { date in
-            Section(header: listHeader(date)) {
-              ForEach(groupedTransactions[date]!) { transaction in
-                EXTransactionCell(transaction: transaction)
-                  .onTapGesture {
+        if groupedTransactions.isEmpty {
+          Appearance.shared.emptyState()
+        } else {
+          LazyVStack {
+            ForEach(groupedTransactions.keys.sorted(by: <), id: \.self) { date in
+              Section(header: listHeader(date)) {
+                ForEach(groupedTransactions[date]!) { transaction in
+                  Button {
                     router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionDetailView(transaction: transaction)))
+                  } label: {
+                    EXTransactionCell(transaction: transaction)
                   }
+                  .buttonStyle(EXPlainButtonStyle())
+                }
               }
             }
           }
@@ -32,8 +42,8 @@ struct TransactionsListView: View {
       }
       .applyMargins()
       .sheet(isPresented: $showAddTransaction, content: {
-//        AddTransactionView()
-//          .presentationDetents([.large])
+        AddTransactionView(transaction: Transaction(), budget: currentBudget)
+          .presentationDetents([.large])
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -67,7 +77,7 @@ struct TransactionsListView: View {
   func headerView() -> some View {
     HStack(alignment: .center, spacing: 35) {
       VStack(alignment: .center, spacing: -3) {
-        Text("$5,000")
+        Text("$\(currentBudget.amount.clean)")
           .font(.mukta(.semibold, size: 17))
         Text("Budget left")
           .font(.mukta(.regular, size: 15))
@@ -76,7 +86,7 @@ struct TransactionsListView: View {
       Text("October")
         .font(.mukta(.semibold, size: 20))
       VStack(alignment: .center, spacing: -3) {
-        Text("$1,677")
+        Text("$\(totalSpent.clean)")
           .font(.mukta(.semibold, size: 17))
         Text("Total spent")
           .font(.mukta(.regular, size: 15))
@@ -105,16 +115,45 @@ extension TransactionsListView {
     
     let backIcon = Source.Images.Navigation.back
     let addIcon = Source.Images.ButtonIcons.add
+    
+    @ViewBuilder
+    func emptyState() -> some View {
+      VStack(alignment: .center, spacing: 5) {
+        Source.Images.EmptyStates.noTransactions
+          .resizable()
+          .frame(width: 120, height: 120)
+        VStack(spacing: 0) {
+          Text("You have no transactions")
+            .font(.mukta(.semibold, size: 20))
+          Text("Create a new one with plus icon on the top")
+            .font(.mukta(.regular, size: 17))
+            .foregroundColor(.darkGrey)
+        }
+      }
+      .padding(.top, 30)
+    }
   }
 }
 
 // MARK: - Helper Functions
 private extension TransactionsListView {
-  var groupedTransactions: [Date: [TransactionData]] {
-    Dictionary(grouping: TransactionData.sampleTransactions) { transaction in
+  var groupedTransactions: [Date: [Transaction]] {
+    Dictionary(grouping: transactions) { transaction in
       let calendar = Calendar.current
       return calendar.startOfDay(for: transaction.date)
     }
+  }
+  
+  var currentBudget: Budget {
+    budget.first ?? Budget()
+  }
+  
+  var totalSpent: Double {
+    var total: Double = 0
+    for i in transactions {
+      total += i.amount
+    }
+    return total
   }
   
   @ViewBuilder

@@ -31,7 +31,7 @@ struct AddGoalView: View {
             Text(Appearance.shared.infoText)
               .font(.mukta(.regular, size: 13))
               .foregroundColor(.darkGrey)
-            EXLargeSelector(text: $goalDue, icon: .constant(Appearance.shared.timerIcon), buttonText: "Change", action: {
+            EXLargeSelector(text: $goalDue, icon: .constant("timer"), buttonText: "Change", action: {
               showDateSheet.toggle()
             })
           }

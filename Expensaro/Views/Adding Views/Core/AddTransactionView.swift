@@ -7,27 +7,27 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import RealmSwift
 
 struct AddTransactionView: View {
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
-  @State private var amountValue: Double = 0
-  @State private var transactionName: String = ""
-  @State private var transactionCategory: String = "Other"
-  @State private var transactionImage: Image = Image(Source.Strings.Categories.Images.other)
-  @State private var transactionTag: String = ""
+  
+  @Environment(\.realm) var realm
+  @ObservedRealmObject var transaction: Transaction
+  @ObservedRealmObject var budget: Budget
   
   @State private var showCategoriesSelector = false
   var body: some View {
     NavigationView {
       ScrollView {
-        EXSegmentControl(currentTab: $transactionTag, type: .transactionType).padding(.top, 16)
+        EXSegmentControl(currentTab: $transaction.type, type: .transactionType).padding(.top, 16)
         VStack(spacing: 20) {
-          EXLargeCurrencyTextField(value: $amountValue, bottomView: EmptyView()).focused($isFieldFocused)
-          EXTextField(text: $transactionName, placeholder: Appearance.shared.textFieldPlaceholder)
+          EXLargeCurrencyTextField(value: $transaction.amount, bottomView: EmptyView()).focused($isFieldFocused)
+          EXTextField(text: $transaction.name, placeholder: Appearance.shared.textFieldPlaceholder)
             .keyboardType(.alphabet)
             .focused($isFieldFocused)
-          EXLargeSelector(text: $transactionCategory, icon: $transactionImage, buttonText: "Change", action: {
+          EXLargeSelector(text: $transaction.categoryName, icon: $transaction.categoryIcon, buttonText: "Change", action: {
             showCategoriesSelector.toggle()
           })
           Text(Appearance.shared.infoText)
@@ -41,13 +41,14 @@ struct AddTransactionView: View {
       }
       .applyMargins()
       .sheet(isPresented: $showCategoriesSelector, content: {
-        CategorySelectorView(title: $transactionCategory, icon: $transactionImage)
+        CategorySelectorView(title: $transaction.categoryName, icon: $transaction.categoryIcon)
           .presentationDetents([.medium,.fraction(0.9)])
           .presentationDragIndicator(.visible)
       })
       .safeAreaInset(edge: .bottom, content: {
         Button {
-          print(transactionTag)
+         createTransaction()
+          makeDismiss()
         } label: {
           Text(Appearance.shared.buttonText)
             .font(.mukta(.semibold, size: 17))
@@ -87,7 +88,7 @@ struct AddTransactionView: View {
 
 struct AddTransactionView_Previews: PreviewProvider {
   static var previews: some View {
-    AddTransactionView()
+    AddTransactionView(transaction: Transaction(), budget: Budget())
   }
 }
 
@@ -102,5 +103,20 @@ extension AddTransactionView {
     
     let closeIcon = Source.Images.Navigation.close
     let cameraIcon = Source.Images.System.scan
+  }
+}
+
+extension AddTransactionView {
+  func createTransaction() {
+    let freezedBudget = self.budget.freeze()
+    let copy = freezedBudget.thaw()
+    
+    try? realm.write {
+      realm.add(transaction)
+    }
+    
+    try? realm.write {
+      copy?.amount -= transaction.amount
+    }
   }
 }

@@ -15,7 +15,7 @@ struct AddRecurrentPaymentView: View {
   @State private var paymentName: String = ""
   @State private var paymentPeriodicity: String = "Not selected"
   @State private var paymentCategory: String = "Other"
-  @State private var paymentImage: Image = Image(Source.Strings.Categories.Images.other)
+  @State private var paymentImage: String = Source.Strings.Categories.Images.other
   @State private var paymentTag: String = ""
   
   @State private var showDateSelector = false
@@ -44,7 +44,7 @@ struct AddRecurrentPaymentView: View {
             Text("Select payment periodicity")
               .font(.mukta(.regular, size: 13))
               .foregroundColor(.darkGrey)
-            EXLargeSelector(text: $paymentPeriodicity, icon: .constant(Appearance.shared.timerIcon), buttonText: "Change", action: {
+            EXLargeSelector(text: $paymentPeriodicity, icon: .constant("timer"), buttonText: "Change", action: {
               showDateSelector.toggle()
             })
           }
