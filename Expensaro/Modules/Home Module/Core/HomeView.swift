@@ -25,6 +25,7 @@ struct HomeView: View {
   @Environment(\.realm) var realm
   @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
   @ObservedResults(Transaction.self) var transactions
+  @ObservedResults(RecurringTransaction.self, sortDescriptor: SortDescriptor(keyPath: \RecurringTransaction.dueDate, ascending: true)) var recurringTransactions
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing) {
@@ -40,16 +41,16 @@ struct HomeView: View {
         bottomActionButton()
           .padding(16)
       }
-      .sheet(isPresented: $showAddBudget, content: {
+      .fullScreenCover(isPresented: $showAddBudget, content: {
         AddBudgetView(type: .addBudget, budget: Budget())
           .presentationDetents([.large])
       })
-      .sheet(isPresented: $showAddTransaction, content: {
-        AddTransactionView(transaction: Transaction(), budget: budget.first ?? Budget())
+      .fullScreenCover(isPresented: $showAddTransaction, content: {
+        AddTransactionView(transaction: Transaction(), budget: currentBudget)
           .presentationDetents([.large])
       })
-      .sheet(isPresented: $showAddRecurrentPayment, content: {
-        AddRecurrentPaymentView()
+      .fullScreenCover(isPresented: $showAddRecurrentPayment, content: {
+        AddRecurrentPaymentView(recurringPayment: RecurringTransaction(), budget: currentBudget)
           .presentationDetents([.large])
       })
       .navigationBarTitleDisplayMode(.inline)
@@ -126,23 +127,6 @@ extension HomeView {
 // MARK: Home screen sections views
 extension HomeView {
   @ViewBuilder
-  func emptyScrollView() -> some View {
-    VStack(spacing: 10) {
-      EXLargeEmptyState(type: .noBudget, icon: Source.Images.EmptyStates.noBudget, action: {
-        showAddBudget.toggle()
-      })
-      EXSmallEmptyState(type: .noRecurrentPayments, action: {
-        showAddRecurrentPayment.toggle()
-      })
-      EXLargeEmptyState(type: .noExpenses, icon: Source.Images.EmptyStates.noExpenses, action: {
-        showAddTransaction.toggle()
-      })
-    }
-    .padding(.top, 16)
-    .applyMargins()
-  }
-  
-  @ViewBuilder
   func budgetSection() -> some View {
     if let currentBudget = budget.first {
       VStack(alignment: .center, spacing: -5) {
@@ -167,7 +151,7 @@ extension HomeView {
         .buttonStyle(SmallButtonStyle())
         .padding(.top, 20)
       }
-      .sheet(isPresented: $showUpdateBudget) {
+      .fullScreenCover(isPresented: $showUpdateBudget) {
         AddBudgetView(type: .updateBudget, budget: currentBudget)
           .presentationDetents([.large])
       }
@@ -180,30 +164,37 @@ extension HomeView {
   
   @ViewBuilder
   func recurrentPaymentsRow() -> some View {
-    VStack(spacing: 15) {
-      HStack {
-        Text("Recurring payments")
-          .font(.mukta(.semibold, size: 17))
-          .foregroundColor(.black)
-        Spacer()
-        Button(action: {
-          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentsListView()))
-        }) {
-          Text("See all")
-            .font(.mukta(.semibold, size: 15))
-        }
-        .buttonStyle(TextButtonStyle())
-      }
-      HStack {
-        ForEach(RecurrentPayment.recurrentPayments.prefix(3)) { payment in
-          Button {
-            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(payment: payment)))
-          } label: {
-            EXRecurrentCell(paymentData: payment)
+    if !recurringTransactions.isEmpty {
+      VStack(spacing: 15) {
+        HStack {
+          Text("Recurring payments")
+            .font(.mukta(.semibold, size: 17))
+            .foregroundColor(.black)
+          Spacer()
+          Button(action: {
+            //router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentsListView()))
+          }) {
+            Text("See all")
+              .font(.mukta(.semibold, size: 15))
           }
-          .buttonStyle(EXPlainButtonStyle())
+          .buttonStyle(TextButtonStyle())
+        }
+        HStack {
+          ForEach(recurringTransactions.prefix(3)) { payment in
+            Button {
+              //router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(payment: payment)))
+            } label: {
+              EXRecurringTransactionCell(transaction: payment)
+            }
+            .buttonStyle(EXPlainButtonStyle())
+          }
         }
       }
+    } else {
+      EXSmallEmptyState(type: .noRecurrentPayments, action: {
+        showAddRecurrentPayment.toggle()
+      })
+      .padding(.top, 15)
     }
   }
   
@@ -241,7 +232,7 @@ extension HomeView {
       .background(.white)
       .cornerRadius(10)
       .shadowXS()
-      .padding(.top, 15)
+      .padding(.top, 10)
     } else {
       EXLargeEmptyState(type: .noExpenses, icon: Source.Images.EmptyStates.noExpenses, action: {
         showAddTransaction.toggle()

@@ -41,7 +41,7 @@ struct TransactionsListView: View {
         }
       }
       .applyMargins()
-      .sheet(isPresented: $showAddTransaction, content: {
+      .fullScreenCover(isPresented: $showAddTransaction, content: {
         AddTransactionView(transaction: Transaction(), budget: currentBudget)
           .presentationDetents([.large])
       })

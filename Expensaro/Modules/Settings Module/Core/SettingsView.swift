@@ -10,64 +10,43 @@ import ExpensaroUIKit
 
 struct SettingsView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
-  let maxHeight = UIScreen.main.bounds.height / 5
-  let items: [GridItem] = [
-    GridItem(.fixed(50), spacing: 20),
-    GridItem(.fixed(50), spacing: 20),
-  ]
-  
-  @State var offset: CGFloat = 0
-  @State var profileName = UserDefaults.standard.string(forKey: "profileName") ?? ""
   @State private var selectedCategory = ""
-  @FocusState private var nameField: Bool
-  @State var detentHeight: CGFloat = 0
-  @State private var profileEmoji: String = (UserDefaults.standard.string(forKey: "profileEmoji") ?? "👤")
   
-  @State private var showEmojiSelector = false
+  let appIcon = Bundle.main.icon
+  let appVersion = Bundle.main.appVersion
   var body: some View {
     NavigationView {
       ScrollView {
-        VStack(spacing: 15) {
-          GeometryReader { proxy in
-            
-            topBar(topEndge: proxy.safeAreaInsets.top, offset: $offset, text: $profileName)
-              .frame(maxWidth: .infinity, alignment: .top)
-              .frame(height: maxHeight + offset, alignment: .bottom)
-              .background(.white)
-              .shadowXS()
-          }
-          .frame(height: maxHeight)
-          .offset(y: -offset)
+        
+        VStack(spacing: 3) {
+          Image(uiImage: appIcon!)
+            .resizable()
+            .frame(width: 70, height: 70)
+            .aspectRatio(contentMode: .fit)
+            .cornerRadius(12)
           
-          VStack {
-            HStack {
-              EXSettingsCell(category: $selectedCategory, type: .categories, action: {navigateTo()})
-              EXSettingsCell(category: $selectedCategory, type: .reminders, action: {navigateTo()})
-            }
-            HStack {
-              EXSettingsCell(category: $selectedCategory, type: .exportData, action: {navigateTo()})
-              EXSettingsCell(category: $selectedCategory, type: .resetAccount, action: {navigateTo()})
-            }
-            HStack {
-              EXSettingsCell(category: $selectedCategory, type: .contact, action: {navigateTo()})
-            }
-          }
-          .disabled(nameField)
-          .applyMargins()
+          Text("Version \(appVersion)")
+            .font(.mukta(.regular, size: 15))
+            .foregroundColor(.darkGrey)
         }
-        .modifier(OffsetModifier(offset: $offset))
-      }
-      .sheet(isPresented: $showEmojiSelector, content: {
-        emojiGrid()
-          .readHeight()
-          .onPreferenceChange(HeightPreferenceKey.self) { height in
-            if let height {
-              self.detentHeight = height
-            }
+        .padding(.top, 20)
+        
+        VStack {
+          HStack {
+            EXSettingsCell(category: $selectedCategory, type: .categories, action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory, type: .reminders, action: {navigateTo()})
           }
-          .presentationDetents([.height(self.detentHeight)])
-      })
-      .coordinateSpace(name: "SCROLL")
+          HStack {
+            EXSettingsCell(category: $selectedCategory, type: .exportData, action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory, type: .resetAccount, action: {navigateTo()})
+          }
+          HStack {
+            EXSettingsCell(category: $selectedCategory, type: .contact, action: {navigateTo()})
+          }
+        }
+        .applyMargins()
+        .padding(.top, 16)
+      }
       .navigationBarTitleDisplayMode(.inline)
       .toolbarBackground(.white, for: .bottomBar)
       .toolbar {
@@ -79,18 +58,6 @@ struct SettingsView: View {
               .font(.callout)
               .foregroundColor(.black)
           }
-        }
-        
-        ToolbarItem(placement: .keyboard) {
-          Button {
-            UserDefaults.standard.set(profileName, forKey: "profileName")
-            UserDefaults.standard.synchronize()
-            nameField = false
-          } label: {
-            Source.Images.Navigation.checkmark
-              .foregroundColor(.primaryGreen)
-          }
-          .frame(maxWidth: .infinity, alignment: .trailing)
         }
         
         ToolbarItem(placement: .principal) {
@@ -117,70 +84,6 @@ extension SettingsView {
     
     let backIcon = Source.Images.Navigation.back
     
-    let emojis = ["👷", "💂‍♀️","🕵️", "🧑‍⚕️", "👨‍⚕️", "👩‍🌾", "👨‍🌾", "👩‍🍳", "👨‍🍳", "👩‍🎓", "👨‍🎓", "🧑‍🎤", "👨‍🎤", "👩‍🏫", "👨‍🏫", "👩‍🏭", "👨‍🏭", "👩‍💻", "👨‍💻", "🫅", "🤴", "👰‍♀️"]
-  }
-}
-
-// MARK: - Helper Views
-extension SettingsView {
-  @ViewBuilder
-  func topBar(topEndge: CGFloat, offset: Binding<CGFloat>, text: Binding<String>) -> some View {
-    VStack(spacing: 10) {
-      Button {
-        showEmojiSelector.toggle()
-      } label: {
-        Text(profileEmoji)
-          .font(.largeTitle)
-          .padding(20)
-          .background(Color.backgroundGrey)
-          .cornerRadius(60)
-      }
-      TextField("Your name", text: $profileName)
-        .keyboardType(.alphabet)
-        .autocorrectionDisabled()
-        .multilineTextAlignment(.center)
-        .focused($nameField)
-        .font(.mukta(.semibold, size: 20))
-        .foregroundColor(.black)
-        .tint(.primaryGreen)
-    }.padding(.bottom, 20)
-  }
-  
-  @ViewBuilder
-  func emojiGrid() -> some View {
-    VStack(spacing: 0) {
-      Button {
-        UserDefaults.standard.set(profileEmoji, forKey: "profileEmoji")
-        UserDefaults.standard.synchronize()
-        showEmojiSelector.toggle()
-      } label: {
-        Source.Images.Navigation.checkmark
-          .font(.callout)
-          .foregroundColor(.black)
-          .frame(maxWidth: .infinity, alignment: .trailing)
-          .applyMargins()
-          .padding(.vertical, 10)
-      }
-      
-      Divider()
-      
-      ScrollView(.horizontal, showsIndicators: false, content: {
-        LazyHGrid(rows: items, spacing: 20) {
-          ForEach(Appearance.shared.emojis, id: \.self) { emoji in
-            Text(emoji)
-              .font(.largeTitle)
-              .onTapGesture {
-                profileEmoji = emoji
-                UserDefaults.standard.set(profileEmoji, forKey: "profileEmoji")
-                UserDefaults.standard.synchronize()
-                showEmojiSelector.toggle()
-              }
-          }
-        }
-        .applyMargins()
-      })
-      .padding(.top, 20)
-    }
   }
 }
 
@@ -194,5 +97,24 @@ extension SettingsView {
     case "Contact": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(ContactSettingsView()))
     default: print("Navigation error")
     }
+  }
+}
+
+extension Bundle {
+  var icon: UIImage? {
+    if let icons = infoDictionary?["CFBundleIcons"] as? [String: Any],
+       let primaryIcon = icons["CFBundlePrimaryIcon"] as? [String: Any],
+       let iconFiles = primaryIcon["CFBundleIconFiles"] as? [String],
+       let lastIcon = iconFiles.last {
+      return UIImage(named: lastIcon)
+    }
+    return nil
+  }
+  
+  var appVersion: String {
+    if let version = infoDictionary?["CFBundleShortVersionString"] as? String {
+      return version
+    }
+    return "Unknown"
   }
 }

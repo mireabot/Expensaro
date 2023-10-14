@@ -43,10 +43,10 @@ struct RecurrentPaymentsListView: View {
         .applyMargins()
       }
       .navigationBarTitleDisplayMode(.inline)
-      .sheet(isPresented: $showAddPayment, content: {
-        AddRecurrentPaymentView()
-          .presentationDetents([.large])
-      })
+//      .sheet(isPresented: $showAddPayment, content: {
+//        AddRecurrentPaymentView()
+//          .presentationDetents([.large])
+//      })
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
           Button {

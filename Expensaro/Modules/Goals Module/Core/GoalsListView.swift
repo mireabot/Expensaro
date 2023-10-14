@@ -36,7 +36,7 @@ struct GoalsListView: View {
         scrollView.bounces = false
       })
       .navigationBarTitleDisplayMode(.inline)
-      .sheet(isPresented: $showAddGoalView, content: {
+      .fullScreenCover(isPresented: $showAddGoalView, content: {
         AddGoalView()
           .presentationDetents([.large])
       })

@@ -44,6 +44,12 @@ struct TabBarView: View {
     })
     .accentColor(.primaryGreen)
     .onAppear() {
+      let appearance = UITabBarAppearance()
+      appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+      appearance.backgroundColor = .white
+      UITabBar.appearance().standardAppearance = appearance
+      UITabBar.appearance().scrollEdgeAppearance = appearance
+      
       if #available(iOS 15.0, *) {
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.backgroundColor = .white
