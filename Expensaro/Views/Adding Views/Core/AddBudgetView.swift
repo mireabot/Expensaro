@@ -83,6 +83,7 @@ struct AddBudgetView: View {
         .applyMargins()
         .padding(.bottom, 15)
         .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+        .disabled(budgetValue == 0 || budget.amount == 0)
         
       })
       .toolbar {

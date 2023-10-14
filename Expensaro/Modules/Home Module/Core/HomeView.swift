@@ -92,28 +92,34 @@ extension HomeView {
 extension HomeView {
   @ViewBuilder
   func bottomActionButton() -> some View {
-    VStack {
-      Menu {
-        Button(action: { showAddTransaction.toggle() }) {
-          Label("Add transaction", image: "buttonTransaction")
+    if currentBudget.amount != 0, !transactions.isEmpty {
+      VStack {
+        Menu {
+          Button(action: { showAddTransaction.toggle() }) {
+            Label("Add transaction", image: "buttonTransaction")
+          }
+          
+          Button(action: { showAddRecurrentPayment.toggle() }) {
+            Label("Add recurring payment", image: "buttonRecurrent")
+          }
+          
+        } label: {
+          ZStack {
+            Circle()
+              .fill(Color.secondaryYellow)
+              .frame(width: 60, height: 60)
+            Source.Images.ButtonIcons.add
+              .foregroundColor(.primaryGreen)
+          }
         }
-        
-        Button(action: { showAddRecurrentPayment.toggle() }) {
-          Label("Add recurring payment", image: "buttonRecurrent")
-        }
-        
-      } label: {
-        ZStack {
-          Circle()
-            .fill(Color.secondaryYellow)
-            .frame(width: 60, height: 60)
-          Source.Images.ButtonIcons.add
-            .foregroundColor(.primaryGreen)
-        }
+        .font(.mukta(.regular, size: 15))
+        .menuOrder(.fixed)
       }
-      .font(.mukta(.regular, size: 15))
-      .menuOrder(.fixed)
     }
+  }
+  
+  var currentBudget: Budget {
+    budget.first ?? Budget()
   }
 }
 
@@ -188,7 +194,6 @@ extension HomeView {
         }
         .buttonStyle(TextButtonStyle())
       }
-      .padding(.top, 30)
       HStack {
         ForEach(RecurrentPayment.recurrentPayments.prefix(3)) { payment in
           Button {
@@ -241,6 +246,7 @@ extension HomeView {
       EXLargeEmptyState(type: .noExpenses, icon: Source.Images.EmptyStates.noExpenses, action: {
         showAddTransaction.toggle()
       })
+      .padding(.top, 15)
     }
   }
 }

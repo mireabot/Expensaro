@@ -47,7 +47,7 @@ struct AddTransactionView: View {
       })
       .safeAreaInset(edge: .bottom, content: {
         Button {
-         createTransaction()
+          createTransaction()
           makeDismiss()
         } label: {
           Text(Appearance.shared.buttonText)
@@ -56,6 +56,7 @@ struct AddTransactionView: View {
         .applyMargins()
         .padding(.bottom, 15)
         .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+        .disabled(transaction.amount == 0 || transaction.name.isEmpty)
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -108,15 +109,14 @@ extension AddTransactionView {
 
 extension AddTransactionView {
   func createTransaction() {
-    let freezedBudget = self.budget.freeze()
-    let copy = freezedBudget.thaw()
-    
     try? realm.write {
       realm.add(transaction)
     }
     
-    try? realm.write {
-      copy?.amount -= transaction.amount
+    if let newBudget = budget.thaw(), let realm = newBudget.realm {
+      try? realm.write {
+        newBudget.amount -= transaction.amount
+      }
     }
   }
 }
