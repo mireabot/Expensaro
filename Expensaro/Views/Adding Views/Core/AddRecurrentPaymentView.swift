@@ -17,19 +17,27 @@ struct AddRecurrentPaymentView: View {
   @ObservedRealmObject var recurringPayment: RecurringTransaction
   @ObservedRealmObject var budget: Budget
   
+  @State private var paymentPeriodicity = "Not selected"
+  @State var amountValue: String = "0.0"
+  
+  @State private var showAnimation = false
   @State private var showDateSelector = false
   @State private var showCategoryelector = false
   @State private var showReminderAlert = false
-  
-  @State private var paymentPeriodicity = "Not selected"
-  
-  @State private var showAnimation = false
   var body: some View {
     NavigationView {
       ScrollView {
         EXSegmentControl(currentTab: $recurringPayment.type, type: .transactionType).padding(.top, 16)
         VStack(spacing: 20) {
-          EXLargeCurrencyTextField(value: $recurringPayment.amount, bottomView: EmptyView()).focused($isFieldFocused)
+          recurringTextField()
+            .inputView {
+              EXNumberKeyboard(textValue: $amountValue) {
+                isFieldFocused = false
+              }
+              .applyMargins()
+              .padding(.bottom, 15)
+            }
+            .focused($isFieldFocused)
           EXTextField(text: $recurringPayment.name, placeholder: Appearance.shared.textFieldPlaceholder)
             .keyboardType(.alphabet)
             .focused($isFieldFocused)
@@ -57,7 +65,7 @@ struct AddRecurrentPaymentView: View {
       }
       .sheet(isPresented: $showDateSelector, content: {
         PeriodicitySelectorView(selectedPeriodicity: $paymentPeriodicity, newDate: $recurringPayment.dueDate)
-          .presentationDetents([.fraction(0.4)])
+          .presentationDetents([.fraction(0.45)])
       })
       .sheet(isPresented: $showReminderAlert, content: {
         reminderBottomView()
@@ -67,18 +75,6 @@ struct AddRecurrentPaymentView: View {
         CategorySelectorView(title: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon)
           .presentationDetents([.medium, .fraction(0.9)])
           .presentationDragIndicator(.visible)
-      })
-      .safeAreaInset(edge: .bottom, content: {
-        Button {
-          showReminderAlert.toggle()
-        } label: {
-          Text(Appearance.shared.buttonText)
-            .font(.mukta(.semibold, size: 17))
-        }
-        .applyMargins()
-        .padding(.bottom, 15)
-        .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
-        .disabled(recurringPayment.name.isEmpty || recurringPayment.amount == 0)
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -94,6 +90,17 @@ struct AddRecurrentPaymentView: View {
               .font(.callout)
               .foregroundColor(.black)
           }
+        }
+        ToolbarItem(placement: .bottomBar) {
+          Button {
+            showReminderAlert.toggle()
+          } label: {
+            Text(Appearance.shared.buttonText)
+              .font(.mukta(.semibold, size: 17))
+          }
+          .padding(.bottom, 15)
+          .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+          .disabled(recurringPayment.name.isEmpty || Double(amountValue) == 0)
         }
       }
     }
@@ -219,11 +226,36 @@ extension AddRecurrentPaymentView {
         .stroke(Color.border, lineWidth: 1)
     )
   }
+  
+  @ViewBuilder
+  func recurringTextField() -> some View {
+    HStack {
+      Text("$")
+        .font(.mukta(.medium, size: 24))
+      TextField("", text: $amountValue)
+        .font(.mukta(.medium, size: 40))
+        .tint(.clear)
+        .multilineTextAlignment(.leading)
+      
+      Spacer()
+      
+      Button {
+        amountValue.removeLast()
+        if amountValue.isEmpty { amountValue = "0.0" }
+      } label: {
+        Source.Images.System.remove
+          .padding(.vertical, 14)
+          .padding(.horizontal, 14)
+      }
+      .buttonStyle(EXPlainButtonStyle())
+    }
+  }
 }
 
 // MARK: - Realm Functions
 extension AddRecurrentPaymentView {
   func createPayment() {
+    recurringPayment.amount = Double(amountValue) ?? 0
     try? realm.write {
       realm.add(recurringPayment)
     }

@@ -133,7 +133,7 @@ extension HomeView {
         Text("Your budget")
           .font(.mukta(.regular, size: 17))
           .foregroundColor(.darkGrey)
-        Text("$ \(currentBudget.amount.clean)")
+        Text("$ \(currentBudget.amount, specifier: "%.2f")")
           .font(.mukta(.bold, size: 34))
           .foregroundColor(.black)
         

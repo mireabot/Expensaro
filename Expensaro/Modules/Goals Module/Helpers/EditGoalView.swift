@@ -25,8 +25,8 @@ struct EditGoalView: View {
               .font(.mukta(.regular, size: 13))
               .foregroundColor(.darkGrey)
               .frame(maxWidth: .infinity, alignment: .leading)
-            EXTextFieldWithCurrency(value: $goalAmount)
-              .focused($isFieldFocused)
+//            EXTextFieldWithCurrency(value: $goalAmount)
+//              .focused($isFieldFocused)
           }
           
           VStack(spacing: 5) {

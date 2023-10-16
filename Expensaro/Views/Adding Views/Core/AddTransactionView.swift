@@ -10,20 +10,34 @@ import ExpensaroUIKit
 import RealmSwift
 
 struct AddTransactionView: View {
+  // MARK: Essential
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
   
+  // MARK: Realm
   @Environment(\.realm) var realm
   @ObservedRealmObject var transaction: Transaction
   @ObservedRealmObject var budget: Budget
   
+  // MARK: Variables
+  @State var amountValue: String = "0.0"
+  
+  // MARK: Presentation
   @State private var showCategoriesSelector = false
   var body: some View {
     NavigationView {
       ScrollView {
         EXSegmentControl(currentTab: $transaction.type, type: .transactionType).padding(.top, 16)
         VStack(spacing: 20) {
-          EXLargeCurrencyTextField(value: $transaction.amount, bottomView: EmptyView()).focused($isFieldFocused)
+          transactionTextField()
+          .inputView {
+            EXNumberKeyboard(textValue: $amountValue) {
+              isFieldFocused = false
+            }
+            .applyMargins()
+            .padding(.bottom, 15)
+          }
+          .focused($isFieldFocused)
           EXTextField(text: $transaction.name, placeholder: Appearance.shared.textFieldPlaceholder)
             .keyboardType(.alphabet)
             .focused($isFieldFocused)
@@ -45,19 +59,6 @@ struct AddTransactionView: View {
           .presentationDetents([.medium,.fraction(0.9)])
           .presentationDragIndicator(.visible)
       })
-      .safeAreaInset(edge: .bottom, content: {
-        Button {
-          createTransaction()
-          makeDismiss()
-        } label: {
-          Text(Appearance.shared.buttonText)
-            .font(.mukta(.semibold, size: 17))
-        }
-        .applyMargins()
-        .padding(.bottom, 15)
-        .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
-        .disabled(transaction.amount == 0 || transaction.name.isEmpty)
-      })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -73,14 +74,17 @@ struct AddTransactionView: View {
               .foregroundColor(.black)
           }
         }
-        ToolbarItem(placement: .navigationBarLeading) {
+        ToolbarItem(placement: .bottomBar) {
           Button {
+            createTransaction()
             makeDismiss()
           } label: {
-            Appearance.shared.cameraIcon
-              .font(.callout)
-              .foregroundColor(.primaryGreen)
+            Text(Appearance.shared.buttonText)
+              .font(.mukta(.semibold, size: 17))
           }
+          .padding(.bottom, 15)
+          .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+          .disabled(Double(amountValue) == 0 || transaction.name.isEmpty)
         }
       }
     }
@@ -90,6 +94,7 @@ struct AddTransactionView: View {
 struct AddTransactionView_Previews: PreviewProvider {
   static var previews: some View {
     AddTransactionView(transaction: Transaction(), budget: Budget())
+      .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
 
@@ -107,8 +112,10 @@ extension AddTransactionView {
   }
 }
 
+// MARK: - Realm Functions
 extension AddTransactionView {
   func createTransaction() {
+    transaction.amount = Double(amountValue) ?? 0
     try? realm.write {
       realm.add(transaction)
     }
@@ -117,6 +124,33 @@ extension AddTransactionView {
       try? realm.write {
         newBudget.amount -= transaction.amount
       }
+    }
+  }
+}
+
+// MARK: - Helper Views
+extension AddTransactionView {
+  @ViewBuilder
+  func transactionTextField() -> some View {
+    HStack {
+      Text("$")
+        .font(.mukta(.medium, size: 24))
+      TextField("", text: $amountValue)
+        .font(.mukta(.medium, size: 40))
+        .tint(.clear)
+        .multilineTextAlignment(.leading)
+      
+      Spacer()
+      
+      Button {
+        amountValue.removeLast()
+        if amountValue.isEmpty { amountValue = "0.0" }
+      } label: {
+        Source.Images.System.remove
+          .padding(.vertical, 14)
+          .padding(.horizontal, 14)
+      }
+      .buttonStyle(EXPlainButtonStyle())
     }
   }
 }

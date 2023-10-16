@@ -8,6 +8,7 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
+import PopupView
 
 struct AddBudgetView: View {
   // MARK: Essential
@@ -19,73 +20,50 @@ struct AddBudgetView: View {
   @ObservedRealmObject var budget: Budget
   
   // MARK: Variables
-  @FocusState private var budgetFieldFocused: Bool
-  @State private var budgetValue: Double = 0
-  @State var detentHeight: CGFloat = 0
+  @State private var budgetAmount: String = "0.0"
   
   // MARK: Presentation
-  @State private var showSuccess = false
+  @State private var showError = false
   var body: some View {
     NavigationView {
       ScrollView {
         VStack(alignment: .leading, spacing: 10) {
-          switch type {
-          case .addBudget:
-            EXTextFieldWithCurrency(value: $budget.amount)
-              .focused($budgetFieldFocused)
-          case .updateBudget:
-            EXTextFieldWithCurrency(value: $budgetValue)
-              .focused($budgetFieldFocused)
+          HStack {
+            EXTextFieldWithCurrency(value: $budgetAmount)
+            Button {
+              budgetAmount.removeLast()
+              if budgetAmount.isEmpty { budgetAmount = "0.0" }
+            } label: {
+              Source.Images.System.remove
+                .padding(.vertical, 14)
+                .padding(.horizontal, 14)
+            }
+            .buttonStyle(EXPlainButtonStyle())
           }
           Text(type.infoText)
             .font(.mukta(.regular, size: 13))
             .foregroundColor(.darkGrey)
         }
       }
-      .onTapGesture {
-        budgetFieldFocused = false
-      }
-      .onAppear {
-        budgetFieldFocused = true
-      }
-      .applyMargins()
-      .scrollDisabled(true)
-      .sheet(isPresented: $showSuccess) {
-        SuccessBottomAlert(type: .budgetAdded)
-          .padding(35)
-          .onDisappear {
+      .safeAreaInset(edge: .bottom, content: {
+        EXNumberKeyboard(textValue: $budgetAmount, submitAction: {
+          validate {
             makeDismiss()
           }
-          .readHeight()
-          .onPreferenceChange(HeightPreferenceKey.self) { height in
-            if let height {
-              self.detentHeight = height
-            }
-          }
-          .presentationDetents([.height(self.detentHeight)])
-      }
-      .safeAreaInset(edge: .bottom, content: {
-        Button {
-          switch type {
-          case .addBudget:
-            addBudget {
-              showSuccess.toggle()
-            }
-          case .updateBudget:
-            updateBudget {
-              makeDismiss()
-            }
-          }
-        } label: {
-          Text(type.buttonText)
-            .font(.mukta(.semibold, size: 17))
-        }
-        .applyMargins()
+        })
         .padding(.bottom, 15)
-        .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
-        .disabled(budgetValue == 0 || budget.amount == 0)
-        
       })
+      .popup(isPresented: $showError, view: {
+        alertView()
+      }, customize: {
+        $0
+          .isOpaque(true)
+          .position(.top)
+          .type(.floater())
+          .autohideIn(1.5)
+      })
+      .applyMargins()
+      .scrollDisabled(true)
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(type.title)
@@ -107,7 +85,8 @@ struct AddBudgetView: View {
 
 struct AddBudgetView_Previews: PreviewProvider {
   static var previews: some View {
-    AddBudgetView(type: .addBudget, budget: Budget())
+    AddBudgetView(type: .updateBudget, budget: Budget())
+      .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
 
@@ -123,24 +102,22 @@ extension AddBudgetView {
 // MARK: - Realm Functions
 extension AddBudgetView {
   /// Creates new copy of budget objects and saves in memory
-  func addBudget(completion: @escaping() -> Void) {
+  func addBudget() {
+    budget.amount = Double(budgetAmount) ?? 0
     try? realm.write {
       realm.add(budget)
     }
-    completion()
   }
   
   /// Gets freezed copy of budget object and updates amount field
-  func updateBudget(completion: @escaping() -> Void) {
+  func updateBudget() {
     if let newBudget = budget.thaw(), let realm = newBudget.realm {
       try? realm.write {
-        newBudget.amount += budgetValue
+        newBudget.amount += Double(budgetAmount) ?? 0
       }
     }
-    completion()
   }
 }
-
 
 // MARK: - Helper Enum
 extension AddBudgetView {
@@ -174,5 +151,37 @@ extension AddBudgetView {
         return "Enter amount which you want to add to your current budget"
       }
     }
+  }
+}
+
+// MARK: - Validation
+extension AddBudgetView {
+  func validate(completion: @escaping() -> Void) {
+    if Double(budgetAmount) != 0 {
+      switch type {
+      case .addBudget:
+        addBudget()
+      case .updateBudget:
+        updateBudget()
+      }
+      completion()
+    } else {
+      showError.toggle()
+    }
+  }
+  
+  @ViewBuilder
+  func alertView() -> some View {
+    HStack {
+      Source.Images.System.alertError
+        .foregroundColor(.red)
+      Text("Invalid entry")
+        .font(.mukta(.medium, size: 17))
+        .foregroundColor(.red)
+    }
+    .padding(.horizontal, 15)
+    .padding(.vertical, 10)
+    .background(Color.backgroundGrey)
+    .cornerRadius(12)
   }
 }

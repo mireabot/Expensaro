@@ -47,6 +47,8 @@ enum Source {
       static let calendarMonth = Image("calendarMonth")
       static let calendarYear = Image("calendarYear")
       static let transactionType = Image("transactionType")
+      static let remove = Image("remove")
+      static let alertError = Image("alertError")
     }
     enum ButtonIcons {
       static let add = Image("buttonAdd")

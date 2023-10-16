@@ -11,7 +11,7 @@ import ExpensaroUIKit
 struct AddGoalView: View {
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
-  @State private var amountValue: Double = 0
+  @State private var amountValue: String = "0.0"
   @State private var goalName: String = ""
   @State private var goalDue: String = Source.Functions.showString(from: .now)
   
