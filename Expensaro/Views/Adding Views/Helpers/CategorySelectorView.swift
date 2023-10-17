@@ -12,7 +12,7 @@ import RealmSwift
 struct CategorySelectorView: View {
   @Environment(\.dismiss) var makeDismiss
   
-  @ObservedResults(Category.self) var categories
+  @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: \Category.name, ascending: true)) var categories
   
   @Binding var title: String
   @Binding var icon: String

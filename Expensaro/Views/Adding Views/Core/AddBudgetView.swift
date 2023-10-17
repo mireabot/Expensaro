@@ -35,10 +35,12 @@ struct AddBudgetView: View {
               if budgetAmount.isEmpty { budgetAmount = "0.0" }
             } label: {
               Source.Images.System.remove
-                .padding(.vertical, 14)
-                .padding(.horizontal, 14)
+                .padding(10)
+                .background(Color.backgroundGrey)
+                .cornerRadius(20)
             }
             .buttonStyle(EXPlainButtonStyle())
+            .disabled(budgetAmount == "0.0")
           }
           Text(type.infoText)
             .font(.mukta(.regular, size: 13))
@@ -111,9 +113,12 @@ extension AddBudgetView {
   
   /// Gets freezed copy of budget object and updates amount field
   func updateBudget() {
+    let incomeTransaction = Source.Realm.createTransaction(name: "Budget top up", date: Date(), category: (Source.Strings.Categories.Images.income, "Added funds"), amount: Double(budgetAmount) ?? 0, type: "Refill")
+    
     if let newBudget = budget.thaw(), let realm = newBudget.realm {
       try? realm.write {
         newBudget.amount += Double(budgetAmount) ?? 0
+        realm.add(incomeTransaction)
       }
     }
   }

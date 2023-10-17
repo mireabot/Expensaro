@@ -22,22 +22,12 @@ struct ExpensaroApp: SwiftUI.App {
 
 struct ContentView: View {
   @AppStorage("isUserLoggedIn") private var isUserLoggedIn = false
-  @State private var isLoading = true
   var body: some View {
-    if isLoading {
-      LaunchView()
-        .onAppear {
-          DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-            isLoading = false
-          }
-        }
-    } else {
-      if isUserLoggedIn {
-        TabBarView()
-      }
-      else {
-        OnboardingView()
-      }
+    if isUserLoggedIn {
+      TabBarView()
+    }
+    else {
+      OnboardingView()
     }
   }
 }

@@ -29,7 +29,7 @@ struct TransactionsListView: View {
               Section(header: listHeader(date)) {
                 ForEach(groupedTransactions[date]!) { transaction in
                   Button {
-                    router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionDetailView(transaction: transaction)))
+                    router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionDetailView(transaction: transaction, budget: currentBudget)))
                   } label: {
                     EXTransactionCell(transaction: transaction)
                   }
@@ -38,6 +38,7 @@ struct TransactionsListView: View {
               }
             }
           }
+          .padding(.bottom, 10)
         }
       }
       .applyMargins()
@@ -150,7 +151,7 @@ private extension TransactionsListView {
   
   var totalSpent: Double {
     var total: Double = 0
-    for i in transactions {
+    for i in transactions.where({$0.categoryName != "Added funds"}) {
       total += i.amount
     }
     return total

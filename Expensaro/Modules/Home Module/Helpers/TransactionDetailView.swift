@@ -15,6 +15,7 @@ struct TransactionDetailView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   
   @ObservedRealmObject var transaction: Transaction
+  @ObservedRealmObject var budget: Budget
   
   @State private var showTransactionDeleteAlert = false
   @State private var showChangeCategory = false
@@ -58,15 +59,18 @@ struct TransactionDetailView: View {
                   .font(.mukta(.medium, size: 15))
                   .foregroundColor(.black)
               }
-              Spacer()
-              Source.Images.ButtonIcons.selector
-                .resizable()
-                .frame(width: 20, height: 20)
+              if transaction.categoryName != "Added funds" {
+                Spacer()
+                Source.Images.ButtonIcons.selector
+                  .resizable()
+                  .frame(width: 20, height: 20)
+              }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(.white)
           }
           .buttonStyle(EXPlainButtonStyle())
+          .disabled(transaction.categoryName == "Added funds")
 
           HStack {
             Source.Images.System.transactionType
@@ -165,7 +169,7 @@ struct TransactionDetailView: View {
 
 struct TransactionDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    TransactionDetailView(transaction: DefaultTransactions.defaultTransactions[0])
+    TransactionDetailView(transaction: DefaultTransactions.defaultTransactions[0], budget: Budget())
   }
 }
 
@@ -306,6 +310,19 @@ private extension TransactionDetailView {
 extension TransactionDetailView {
   func deleteTransaction() {
     showTransactionDeleteAlert.toggle()
+    
+    if let newBudget = budget.thaw(), let realm = newBudget.realm {
+      if transaction.categoryName == "Added funds" {
+        try? realm.write {
+          newBudget.amount -= transaction.amount
+        }
+      } else {
+        try? realm.write {
+          newBudget.amount += transaction.amount
+        }
+      }
+    }
+    
     if let transaction = transaction.thaw(), let realm = transaction.realm {
       try? realm.write {
         realm.delete(transaction)

@@ -244,10 +244,12 @@ extension AddRecurrentPaymentView {
         if amountValue.isEmpty { amountValue = "0.0" }
       } label: {
         Source.Images.System.remove
-          .padding(.vertical, 14)
-          .padding(.horizontal, 14)
+          .padding(10)
+          .background(Color.backgroundGrey)
+          .cornerRadius(20)
       }
       .buttonStyle(EXPlainButtonStyle())
+      .disabled(amountValue == "0.0")
     }
   }
 }

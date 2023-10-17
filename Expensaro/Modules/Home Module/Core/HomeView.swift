@@ -221,7 +221,7 @@ extension HomeView {
         }
         Divider()
         VStack {
-          ForEach(transactions.prefix(3)) { transaction in
+          ForEach(transactions.reversed().prefix(3)) { transaction in
             EXTransactionCell(transaction: transaction)
           }
         }

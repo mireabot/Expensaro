@@ -115,7 +115,30 @@ enum Source {
         static let subscriptions = "recurrentPayments"
         static let travel = "travel"
         static let utilities = "utilities"
+        static let income = "income"
       }
+    }
+  }
+  
+  enum Realm {
+    /// Function which creates Transaction realm object
+    /// - Parameters:
+    ///   - name: name of Transaction
+    ///   - date: date of Transaction
+    ///   - category: category set of Transaction
+    ///   - amount: amount of Transaction
+    ///   - type: type of Transaction
+    /// - Returns: Filled object Transaction
+    static func createTransaction(name: String, date: Date, category: (String, String), amount: Double, type: String) -> Transaction {
+      let transaction = Transaction()
+      transaction.name = name
+      transaction.date = date
+      transaction.categoryIcon = category.0
+      transaction.categoryName = category.1
+      transaction.amount = amount
+      transaction.type = type
+      
+      return transaction
     }
   }
 }
