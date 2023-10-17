@@ -8,29 +8,41 @@
 import SwiftUI
 import ExpensaroUIKit
 import SwiftUIIntrospect
+import RealmSwift
 
 struct RecurrentPaymentsListView: View {
+  // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   @State var currentDate: Date = Date()
   
+  // MARK: Presentation
   @State private var showAddPayment = false
   @State private var showPaymentDetail = false
+  
+  // MARK: Realm
+  @ObservedResults(RecurringTransaction.self) var recurringTransactions
+  @ObservedRealmObject var budget: Budget
   var body: some View {
     NavigationView {
       ScrollView {
-        EXDatePicker(currentDate: $currentDate)
+        headerView().padding(.top, 20).applyMargins()
+        EXDatePicker(currentDate: $currentDate, recurringTransactions: recurringTransactions)
           .padding(.top, 20)
         
         VStack {
-          if let payments = sampleRecurrentPayments.first(where: { payment in
+          Text("Upcoming payments on \(Text("\(displayDate(date: currentDate))").foregroundColor(.primaryGreen).font(.mukta(.bold, size: 20)))")
+            .font(.mukta(.semibold, size: 17))
+            .foregroundColor(.black)
+            .frame(maxWidth: .infinity, alignment: .leading)
+          if let payments = groupedRecurringPayments.first(where: { payment in
             return isSameDay(date1: payment.paymentDueDate, date2: currentDate)
           }){
-            LazyVStack(spacing: 15) {
+            LazyVGrid(columns: RecurrentPaymentsListView.items) {
               ForEach(payments.payments) { paymentData in
                 Button {
-                  router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(payment: paymentData)))
+                  
                 } label: {
-                  EXRecurrentCell(paymentData: paymentData)
+                  EXRecurringTransactionCell(transaction: paymentData)
                 }
                 .buttonStyle(EXPlainButtonStyle())
               }
@@ -41,12 +53,12 @@ struct RecurrentPaymentsListView: View {
           }
         }
         .applyMargins()
+        .padding(.bottom, 10)
       }
       .navigationBarTitleDisplayMode(.inline)
-//      .sheet(isPresented: $showAddPayment, content: {
-//        AddRecurrentPaymentView()
-//          .presentationDetents([.large])
-//      })
+      .fullScreenCover(isPresented: $showAddPayment, content: {
+        AddRecurrentPaymentView(recurringPayment: RecurringTransaction(), budget: budget)
+      })
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
           Button {
@@ -80,7 +92,8 @@ struct RecurrentPaymentsListView: View {
 
 struct RecurrentPaymentsListView_Previews: PreviewProvider {
   static var previews: some View {
-    RecurrentPaymentsListView()
+    RecurrentPaymentsListView(budget: Budget())
+      .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
 
@@ -98,10 +111,44 @@ extension RecurrentPaymentsListView {
 
 // MARK: - Helper Functions
 extension RecurrentPaymentsListView {
-  func isSameDay(date1: Date,date2: Date)->Bool{
+  // Check are there any recurring payment for selected date
+  func isSameDay(date1: Date, date2: Date) -> Bool{
     let calendar = Calendar.current
-    
     return calendar.isDate(date1, inSameDayAs: date2)
+  }
+  
+  // Displaying selected date's components (month and date)
+  func displayDate(date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "MMM d"
+    return formatter.string(from: date)
+  }
+  
+  // Grid layout for recurring payment cells
+  static var items: [GridItem] = [
+    GridItem(.flexible(), spacing: 10),
+    GridItem(.flexible(), spacing: 10),
+  ]
+  
+  var totalRecurringPayments: Double {
+    var total: Double = 0
+    for i in recurringTransactions {
+      total += i.amount
+    }
+    return total
+  }
+  
+  var groupedRecurringPayments: [RecurrentPaymentData] {
+    var groupedTransactions: [Date: [RecurringTransaction]] {
+      Dictionary(grouping: recurringTransactions) { transaction in
+        let calendar = Calendar.current
+        return calendar.startOfDay(for: transaction.dueDate)
+      }
+    }
+    let recurrentPaymentDataArray = groupedTransactions.map { date, payments in
+      RecurrentPaymentData(payments: payments, paymentDueDate: date)
+    }
+    return recurrentPaymentDataArray
   }
 }
 
@@ -120,6 +167,23 @@ extension RecurrentPaymentsListView {
     }
     .padding(.vertical, 15)
     .padding(.horizontal, 20)
+    .background(Color.backgroundGrey)
+    .cornerRadius(12)
+  }
+  
+  @ViewBuilder
+  func headerView() -> some View {
+    HStack(alignment: .center, spacing: 35) {
+      VStack(alignment: .center, spacing: -3) {
+        Text("$\(totalRecurringPayments.clean)")
+          .font(.mukta(.semibold, size: 20))
+        Text("Total spent on recurring payments")
+          .font(.mukta(.regular, size: 15))
+          .foregroundColor(.darkGrey)
+      }
+    }
+    .frame(maxWidth: .infinity, alignment: .center)
+    .padding(20)
     .background(Color.backgroundGrey)
     .cornerRadius(12)
   }

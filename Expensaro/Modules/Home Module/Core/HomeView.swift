@@ -31,11 +31,10 @@ struct HomeView: View {
       ZStack(alignment: .bottomTrailing) {
         ScrollView(.vertical, showsIndicators: false) {
           VStack {
-            budgetSection()
+            budgetSection().applyMargins()
             recurrentPaymentsRow()
-            transactionsPreview()
+            transactionsPreview().applyMargins()
           }
-          .applyMargins()
           .padding(.top, 20)
         }
         bottomActionButton()
@@ -76,6 +75,7 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
   static var previews: some View {
     HomeView()
+      .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
 
@@ -172,28 +172,33 @@ extension HomeView {
             .foregroundColor(.black)
           Spacer()
           Button(action: {
-            //router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentsListView()))
+            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentsListView(budget: currentBudget)))
           }) {
             Text("See all")
               .font(.mukta(.semibold, size: 15))
           }
           .buttonStyle(TextButtonStyle())
         }
-        HStack {
-          ForEach(recurringTransactions.prefix(3)) { payment in
-            Button {
-              //router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(payment: payment)))
-            } label: {
-              EXRecurringTransactionCell(transaction: payment)
+        .applyMargins()
+        ScrollView(.horizontal, showsIndicators: false) {
+          HStack {
+            ForEach(recurringTransactions.prefix(3)) { payment in
+              Button {
+                //router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(payment: payment)))
+              } label: {
+                EXRecurringTransactionCell(transaction: payment)
+              }
+              .buttonStyle(EXPlainButtonStyle())
             }
-            .buttonStyle(EXPlainButtonStyle())
           }
+          .applyMargins()
         }
       }
     } else {
       EXSmallEmptyState(type: .noRecurrentPayments, action: {
         showAddRecurrentPayment.toggle()
       })
+      .applyMargins()
       .padding(.top, 15)
     }
   }

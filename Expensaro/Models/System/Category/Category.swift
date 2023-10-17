@@ -8,13 +8,13 @@
 import SwiftUI
 import RealmSwift
 
-class Category: Object, ObjectKeyIdentifiable {
+final class Category: Object, ObjectKeyIdentifiable {
   @Persisted(primaryKey: true) var id: ObjectId
   @Persisted var icon: String
   @Persisted var name: String
 }
 
-// Default categories which are defined in app
+// MARK: Default categories for app preload
 enum DefaultCategories {
   static var clothes: Category {
     let category = Category()

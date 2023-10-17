@@ -8,47 +8,6 @@
 import SwiftUI
 import ExpensaroUIKit
 
-struct EXRecurrentCell: View {
-  let paymentData: RecurrentPayment
-  
-  init(paymentData: RecurrentPayment) {
-    self.paymentData = paymentData
-  }
-  
-  var body: some View {
-    VStack(alignment: .leading, spacing: 2) {
-      Text(paymentData.name)
-        .font(.mukta(.medium, size: 15))
-        .multilineTextAlignment(.leading)
-      HStack(alignment: .center, spacing: 1) {
-        Text("$\(paymentData.amount.clean)")
-          .font(.mukta(.medium, size: 13))
-          .lineLimit(3)
-        Text("/ \(Int(paymentData.maxValue - paymentData.currentValue)) days left")
-          .foregroundColor(.darkGrey)
-          .font(.mukta(.regular, size: 11))
-          .lineLimit(3)
-      }
-      ProgressView(value: paymentData.currentValue, total: paymentData.maxValue, label: {})
-        .tint(.primaryGreen)
-    }
-    .padding(10)
-    .background(Color.backgroundGrey)
-    .cornerRadius(12)
-    .frame(maxWidth: .infinity, alignment: .leading)
-  }
-}
-
-struct RecurrentPaymentCell_Previews: PreviewProvider {
-  static var previews: some View {
-    HStack {
-      EXRecurringTransactionCell(transaction: DefaultRecurringTransactions.sampleRecurringTransactions[0])
-      EXRecurringTransactionCell(transaction: DefaultRecurringTransactions.sampleRecurringTransactions[1])
-    }
-    .padding([.leading,.trailing], 16)
-  }
-}
-
 struct EXRecurringTransactionCell: View {
   var transaction: RecurringTransaction
   var body: some View {
@@ -72,5 +31,16 @@ struct EXRecurringTransactionCell: View {
     .background(Color.backgroundGrey)
     .cornerRadius(12)
     .frame(maxWidth: .infinity, alignment: .leading)
+  }
+}
+
+
+struct RecurrentPaymentCell_Previews: PreviewProvider {
+  static var previews: some View {
+    HStack {
+      EXRecurringTransactionCell(transaction: DefaultRecurringTransactions.sampleRecurringTransactions[0])
+      EXRecurringTransactionCell(transaction: DefaultRecurringTransactions.sampleRecurringTransactions[1])
+    }
+    .padding([.leading,.trailing], 16)
   }
 }

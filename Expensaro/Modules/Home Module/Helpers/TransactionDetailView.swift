@@ -87,7 +87,7 @@ struct TransactionDetailView: View {
           }
           .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(10)
+        .padding(12)
         .background(.white)
         .cornerRadius(12)
         .shadowXS()
@@ -108,7 +108,7 @@ struct TransactionDetailView: View {
             }
           }
           .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(10)
+          .padding(12)
           .background(.white)
           .cornerRadius(12)
           .shadowXS()
@@ -119,11 +119,11 @@ struct TransactionDetailView: View {
           .padding(.bottom, 10)
         
       }
-      .onAppear {
-        let data = calculateSummaryForCategory(categoryToFilter: transaction.categoryName)
-        transactionsByCategory = data.summaryByDay
-        totalAmountLabel = data.totalAmount
-      }
+//      .onAppear {
+//        let data = calculateSummaryForCategory(categoryToFilter: transaction.categoryName)
+//        transactionsByCategory = data.summaryByDay
+//        totalAmountLabel = data.totalAmount
+//      }
       .applyMargins()
       .popup(isPresented: $showTransactionDeleteAlert) {
         EXAlert(type: .deleteTransaction, primaryAction: { deleteTransaction() }, secondaryAction: {showTransactionDeleteAlert.toggle()}).applyMargins()
@@ -170,6 +170,7 @@ struct TransactionDetailView: View {
 struct TransactionDetailView_Previews: PreviewProvider {
   static var previews: some View {
     TransactionDetailView(transaction: DefaultTransactions.defaultTransactions[0], budget: Budget())
+      .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
 
@@ -272,38 +273,38 @@ private extension TransactionDetailView {
     .shadowXS()
   }
   
-  func calculateSummaryForCategory(categoryToFilter: String) -> (totalAmount: Float, summaryByDay: [(amount: Float, date: Date)]) {
-      var summaryByDay: [String: Float] = [:]
-      var totalAmountSpent: Float = 0.0
-
-      for transaction in TransactionData.sampleTransactions {
-        if transaction.category.1 == categoryToFilter {
-              totalAmountSpent += transaction.amount
-              
-              let dateFormatter = DateFormatter()
-              dateFormatter.dateFormat = "yyyy-MM-dd"
-              let dateString = dateFormatter.string(from: transaction.date)
-              
-              if let existingAmount = summaryByDay[dateString] {
-                  summaryByDay[dateString] = existingAmount + transaction.amount
-              } else {
-                  summaryByDay[dateString] = transaction.amount
-              }
-          }
-      }
-      
-      // Convert the summaryByDay dictionary into an array of tuples
-      let summaryArray: [(amount: Float, date: Date)] = summaryByDay.map { (key, value) in
-          let dateFormatter = DateFormatter()
-          dateFormatter.dateFormat = "yyyy-MM-dd"
-          if let date = dateFormatter.date(from: key) {
-              return (amount: value, date: date)
-          }
-          return (amount: 0.0, date: Date())
-      }
-      
-      return (totalAmount: totalAmountSpent, summaryByDay: summaryArray)
-  }
+//  func calculateSummaryForCategory(categoryToFilter: String) -> (totalAmount: Float, summaryByDay: [(amount: Float, date: Date)]) {
+//      var summaryByDay: [String: Float] = [:]
+//      var totalAmountSpent: Float = 0.0
+//
+//      for transaction in TransactionData.sampleTransactions {
+//        if transaction.category.1 == categoryToFilter {
+//              totalAmountSpent += transaction.amount
+//
+//              let dateFormatter = DateFormatter()
+//              dateFormatter.dateFormat = "yyyy-MM-dd"
+//              let dateString = dateFormatter.string(from: transaction.date)
+//
+//              if let existingAmount = summaryByDay[dateString] {
+//                  summaryByDay[dateString] = existingAmount + transaction.amount
+//              } else {
+//                  summaryByDay[dateString] = transaction.amount
+//              }
+//          }
+//      }
+//
+//      // Convert the summaryByDay dictionary into an array of tuples
+//      let summaryArray: [(amount: Float, date: Date)] = summaryByDay.map { (key, value) in
+//          let dateFormatter = DateFormatter()
+//          dateFormatter.dateFormat = "yyyy-MM-dd"
+//          if let date = dateFormatter.date(from: key) {
+//              return (amount: value, date: date)
+//          }
+//          return (amount: 0.0, date: Date())
+//      }
+//
+//      return (totalAmount: totalAmountSpent, summaryByDay: summaryArray)
+//  }
 }
 
 // MARK: - Realm Functions

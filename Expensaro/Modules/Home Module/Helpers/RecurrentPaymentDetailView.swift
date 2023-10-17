@@ -11,7 +11,7 @@ import PopupView
 
 struct RecurrentPaymentDetailView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
-  let payment: RecurrentPayment
+  let payment: RecurringTransaction
   
   @State private var isOn = false
   @State private var showDeleteAlert = false
@@ -38,7 +38,7 @@ struct RecurrentPaymentDetailView: View {
         // MARK: Transaction detail
         VStack(spacing: 15) {
           HStack {
-            payment.category.0
+            Image(payment.categoryIcon)
               .foregroundColor(.primaryGreen)
               .padding(8)
               .background(Color.backgroundGrey)
@@ -47,7 +47,7 @@ struct RecurrentPaymentDetailView: View {
               Text("Category")
                 .font(.mukta(.regular, size: 15))
                 .foregroundColor(.darkGrey)
-              Text(payment.category.1)
+              Text(payment.categoryName)
                 .font(.mukta(.medium, size: 15))
                 .foregroundColor(.black)
             }
@@ -68,9 +68,9 @@ struct RecurrentPaymentDetailView: View {
               Text("Periodicity")
                 .font(.mukta(.regular, size: 15))
                 .foregroundColor(.darkGrey)
-              Text(payment.periodicity ?? "N/A")
-                .font(.mukta(.medium, size: 15))
-                .foregroundColor(.black)
+//              Text(payment. ?? "N/A")
+//                .font(.mukta(.medium, size: 15))
+//                .foregroundColor(.black)
             }
           }
           .frame(maxWidth: .infinity, alignment: .leading)
@@ -107,7 +107,7 @@ struct RecurrentPaymentDetailView: View {
         
       }
       .onAppear {
-        isOn = payment.isReminderTurned ?? false
+        isOn = payment.isReminder
       }
       .popup(isPresented: $showDeleteAlert) {
         EXAlert(type: .deleteTransaction, primaryAction: {}, secondaryAction: {showDeleteAlert.toggle()}).applyMargins()
@@ -150,7 +150,8 @@ struct RecurrentPaymentDetailView: View {
 
 struct RecurrentPaymentDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    RecurrentPaymentDetailView(payment: RecurrentPayment.recurrentPayments[1])
+    RecurrentPaymentDetailView(payment: DefaultRecurringTransactions.transaction1)
+      .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
 

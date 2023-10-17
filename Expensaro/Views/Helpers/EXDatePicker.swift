@@ -7,10 +7,13 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import RealmSwift
 
 struct EXDatePicker: View {
   @Binding var currentDate: Date
   @State var currentMonth: Int = 0
+  
+  var recurringTransactions: Results<RecurringTransaction>
   var body: some View {
     VStack(spacing: 15){
       HStack(alignment: .center, spacing: 20){
@@ -84,18 +87,18 @@ struct EXDatePicker: View {
   func selectedDate(value: DateValue) -> some View {
     VStack{
       if value.day != -1{
-        if let payment = sampleRecurrentPayments.first(where: { payment in
-          return isSameDay(date1: payment.paymentDueDate, date2: value.date)
+        if let payment = recurringTransactions.first(where: { payment in
+          return isSameDay(date1: payment.dueDate, date2: value.date)
         }){
           Text("\(value.day)")
             .font(.mukta(.medium, size: 17))
-            .foregroundColor(isSameDay(date1: payment.paymentDueDate, date2: currentDate) ? .white : .primary)
+            .foregroundColor(isSameDay(date1: payment.dueDate, date2: currentDate) ? .white : .primary)
             .frame(maxWidth: .infinity)
           
           Spacer()
           
           Circle()
-            .fill(isSameDay(date1: payment.paymentDueDate, date2: currentDate) ? .white : .primaryGreen)
+            .fill(isSameDay(date1: payment.dueDate, date2: currentDate) ? .white : .primaryGreen)
             .frame(width: 8,height: 8)
         }
         else {
@@ -110,12 +113,6 @@ struct EXDatePicker: View {
     }
     .padding(.vertical,9)
     .frame(height: 60,alignment: .top)
-  }
-}
-
-struct EXDatePicker_Previews: PreviewProvider {
-  static var previews: some View {
-    RecurrentPaymentsListView()
   }
 }
 
