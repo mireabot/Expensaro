@@ -21,7 +21,8 @@ struct AddRecurrentPaymentView: View {
   @State var amountValue: String = "0.0"
   
   @State private var showAnimation = false
-  @State private var showDateSelector = false
+  @State private var showSchedule = false
+  @State private var showNextDate = false
   @State private var showCategoryelector = false
   @State private var showReminderAlert = false
   var body: some View {
@@ -50,12 +51,10 @@ struct AddRecurrentPaymentView: View {
             })
           }
           VStack(alignment: .leading, spacing: 5) {
-            Text("Select payment periodicity")
+            Text("Select payment schedule")
               .font(.mukta(.regular, size: 13))
               .foregroundColor(.darkGrey)
-            dateSelector(date: $recurringPayment.dueDate, title: $paymentPeriodicity) {
-              showDateSelector.toggle()
-            }
+            scheduleView()
           }
         }
       }
@@ -63,9 +62,13 @@ struct AddRecurrentPaymentView: View {
       .onTapGesture {
         isFieldFocused = false
       }
-      .sheet(isPresented: $showDateSelector, content: {
-        PeriodicitySelectorView(selectedPeriodicity: $paymentPeriodicity, newDate: $recurringPayment.dueDate)
+      .sheet(isPresented: $showSchedule, content: {
+        PeriodicitySelectorView(selectedPeriodicity: $recurringPayment.schedule)
           .presentationDetents([.fraction(0.45)])
+      })
+      .sheet(isPresented: $showNextDate, content: {
+        DateSelectorView(type: .setRecurrentDate, selectedDate: $recurringPayment.dueDate)
+          .presentationDetents([.fraction(0.5)])
       })
       .sheet(isPresented: $showReminderAlert, content: {
         reminderBottomView()
@@ -185,7 +188,6 @@ extension AddRecurrentPaymentView {
         }
         .background(.white)
         .zIndex(showAnimation ? 0 : 1)
-
       }
     })
     .applyMargins()
@@ -225,6 +227,60 @@ extension AddRecurrentPaymentView {
         .inset(by: 0.5)
         .stroke(Color.border, lineWidth: 1)
     )
+  }
+  
+  @ViewBuilder
+  func scheduleView() -> some View {
+    HStack {
+      Button {
+        showSchedule.toggle()
+      } label: {
+        HStack(alignment: .top) {
+          VStack(alignment: .leading, spacing: 0) {
+            Text("Schedule")
+              .font(.mukta(.regular, size: 13))
+              .foregroundColor(.darkGrey)
+            Text(recurringPayment.schedule.title)
+              .font(.mukta(.regular, size: 17))
+          }
+          .frame(maxWidth: .infinity,alignment: .leading)
+        }
+        .padding(10)
+        .background(.white)
+        .overlay(
+          RoundedRectangle(cornerRadius: 12)
+            .inset(by: 0.5)
+            .stroke(Color.border, lineWidth: 1)
+        )
+      }
+      .buttonStyle(EXPlainButtonStyle())
+      
+      Button {
+        showNextDate.toggle()
+      } label: {
+        HStack {
+          HStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 0) {
+              Text("Next date")
+                .font(.mukta(.regular, size: 13))
+                .foregroundColor(.darkGrey)
+              Text(Source.Functions.showString(from: recurringPayment.dueDate))
+                .font(.mukta(.regular, size: 17))
+            }
+            .frame(maxWidth: .infinity,alignment: .leading)
+          }
+          .padding(10)
+          .background(.white)
+          .overlay(
+            RoundedRectangle(cornerRadius: 12)
+              .inset(by: 0.5)
+              .stroke(Color.border, lineWidth: 1)
+          )
+        }
+      }
+      .buttonStyle(EXPlainButtonStyle())
+      
+    }
   }
   
   @ViewBuilder

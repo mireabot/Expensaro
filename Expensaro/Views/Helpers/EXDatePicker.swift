@@ -62,7 +62,7 @@ struct EXDatePicker: View {
         }
       }
       
-      LazyVGrid(columns: EXDatePicker.columns,spacing: 5) {
+      LazyVGrid(columns: EXDatePicker.columns,spacing: 3) {
         ForEach(extractDate()){value in
           selectedDate(value: value)
             .background(
@@ -76,7 +76,7 @@ struct EXDatePicker: View {
             }
         }
       }
-      .transition(.scale)
+      .transition(.slide)
     }
     .onChange(of: currentMonth) { newValue in
       currentDate = getCurrentMonth()
@@ -117,7 +117,7 @@ struct EXDatePicker: View {
 }
 
 // sample Date for Testing...
-func getSampleDate(offset: Int)->Date{
+func getSampleDate(offset: Int) -> Date {
   let calender = Calendar.current
   
   let date = calender.date(byAdding: .day, value: offset, to: Date())

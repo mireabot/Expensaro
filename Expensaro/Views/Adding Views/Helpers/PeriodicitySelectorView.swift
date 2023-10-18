@@ -10,36 +10,21 @@ import ExpensaroUIKit
 
 struct PeriodicitySelectorView: View {
   @Environment(\.dismiss) var makeDismiss
-  @Binding var selectedPeriodicity: String
-  @Binding var newDate: Date
+  @Binding var selectedPeriodicity: RecurringSchedule
+  let schedule = RecurringSchedule.allCases
   var body: some View {
     NavigationView {
       List {
         VStack {
-          EXCategoryCell(icon: Appearance.shared.periodicitySet[0].0, title: Appearance.shared.periodicitySet[0].1)
-            .onTapGesture {
-              selectedPeriodicity = Appearance.shared.periodicitySet[0].1
-              newDate = getSampleDate(offset: 7)
+          ForEach(schedule, id: \.self) { data in
+            Button {
+              selectedPeriodicity = data
               makeDismiss()
+            } label: {
+              EXCategoryCell(icon: Source.Images.System.calendarYear, title: data.title)
             }
-          EXCategoryCell(icon: Appearance.shared.periodicitySet[1].0, title: Appearance.shared.periodicitySet[1].1)
-            .onTapGesture {
-              selectedPeriodicity = Appearance.shared.periodicitySet[1].1
-              newDate = getSampleDate(offset: 30)
-              makeDismiss()
-            }
-          EXCategoryCell(icon: Appearance.shared.periodicitySet[2].0, title: Appearance.shared.periodicitySet[2].1)
-            .onTapGesture {
-              selectedPeriodicity = Appearance.shared.periodicitySet[2].1
-              newDate = getSampleDate(offset: 90)
-              makeDismiss()
-            }
-          EXCategoryCell(icon: Appearance.shared.periodicitySet[3].0, title: Appearance.shared.periodicitySet[3].1)
-            .onTapGesture {
-              selectedPeriodicity = Appearance.shared.periodicitySet[3].1
-              newDate = getSampleDate(offset: 365)
-              makeDismiss()
-            }
+            .buttonStyle(EXPlainButtonStyle())
+          }
         }
         .listRowSeparator(.hidden)
       }
@@ -68,7 +53,7 @@ struct PeriodicitySelectorView: View {
 
 struct PeriodicitySelectorView_Previews: PreviewProvider {
   static var previews: some View {
-    PeriodicitySelectorView(selectedPeriodicity: .constant(""), newDate: .constant(Date()))
+    PeriodicitySelectorView(selectedPeriodicity: .constant(RecurringSchedule.everyWeek))
   }
 }
 

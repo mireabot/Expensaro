@@ -8,27 +8,29 @@
 import SwiftUI
 import ExpensaroUIKit
 import PopupView
+import RealmSwift
 
 struct RecurrentPaymentDetailView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
-  let payment: RecurringTransaction
+  
+  @ObservedRealmObject var transaction: RecurringTransaction
+  @ObservedRealmObject var budget: Budget
   
   @State private var isOn = false
   @State private var showDeleteAlert = false
   @State private var showNoteView = false
-  @State private var noteText = ""
   var body: some View {
     NavigationView {
       ScrollView {
         // MARK: Transaction header
         VStack(alignment: .leading, spacing: 3) {
-          Text(payment.name)
+          Text(transaction.name)
             .font(.mukta(.medium, size: 20))
           
-          Text("$\(payment.amount.clean)")
+          Text("$\(transaction.amount.clean)")
             .font(.mukta(.bold, size: 34))
           
-          Text("Next payment date: \(Source.Functions.showString(from: payment.dueDate))")
+          Text("Next payment date: \(Source.Functions.showString(from: transaction.dueDate))")
             .font(.mukta(.regular, size: 15))
             .foregroundColor(.darkGrey)
         }
@@ -38,7 +40,7 @@ struct RecurrentPaymentDetailView: View {
         // MARK: Transaction detail
         VStack(spacing: 15) {
           HStack {
-            Image(payment.categoryIcon)
+            Image(transaction.categoryIcon)
               .foregroundColor(.primaryGreen)
               .padding(8)
               .background(Color.backgroundGrey)
@@ -47,7 +49,7 @@ struct RecurrentPaymentDetailView: View {
               Text("Category")
                 .font(.mukta(.regular, size: 15))
                 .foregroundColor(.darkGrey)
-              Text(payment.categoryName)
+              Text(transaction.categoryName)
                 .font(.mukta(.medium, size: 15))
                 .foregroundColor(.black)
             }
@@ -65,12 +67,12 @@ struct RecurrentPaymentDetailView: View {
               .foregroundColor(.black)
               .padding(8)
             VStack(alignment: .leading, spacing: -3) {
-              Text("Periodicity")
+              Text("Schedule")
                 .font(.mukta(.regular, size: 15))
                 .foregroundColor(.darkGrey)
-//              Text(payment. ?? "N/A")
-//                .font(.mukta(.medium, size: 15))
-//                .foregroundColor(.black)
+              Text(transaction.schedule.title)
+                .font(.mukta(.medium, size: 15))
+                .foregroundColor(.black)
             }
           }
           .frame(maxWidth: .infinity, alignment: .leading)
@@ -90,7 +92,7 @@ struct RecurrentPaymentDetailView: View {
               Text("Note")
                 .font(.mukta(.regular, size: 15))
                 .foregroundColor(.darkGrey)
-              Text("Sample note text")
+              Text(transaction.note)
                 .font(.mukta(.medium, size: 15))
                 .foregroundColor(.black)
             }
@@ -107,7 +109,7 @@ struct RecurrentPaymentDetailView: View {
         
       }
       .onAppear {
-        isOn = payment.isReminder
+        isOn = transaction.isReminder
       }
       .popup(isPresented: $showDeleteAlert) {
         EXAlert(type: .deleteTransaction, primaryAction: {}, secondaryAction: {showDeleteAlert.toggle()}).applyMargins()
@@ -150,7 +152,7 @@ struct RecurrentPaymentDetailView: View {
 
 struct RecurrentPaymentDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    RecurrentPaymentDetailView(payment: DefaultRecurringTransactions.transaction1)
+    RecurrentPaymentDetailView(transaction: DefaultRecurringTransactions.transaction1, budget: Budget())
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
@@ -173,7 +175,7 @@ extension RecurrentPaymentDetailView {
   func noteView() -> some View {
     NavigationView {
       ScrollView {
-        EXResizableTextField(message: $noteText, characterLimit: 300)
+        EXResizableTextField(message: $transaction.note, characterLimit: 300)
           .keyboardType(.alphabet)
       }
       .applyMargins()

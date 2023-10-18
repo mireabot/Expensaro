@@ -31,10 +31,11 @@ struct HomeView: View {
       ZStack(alignment: .bottomTrailing) {
         ScrollView(.vertical, showsIndicators: false) {
           VStack {
-            budgetSection().applyMargins()
+            budgetSection()
             recurrentPaymentsRow()
-            transactionsPreview().applyMargins()
+            transactionsPreview()
           }
+          .applyMargins()
           .padding(.top, 20)
         }
         bottomActionButton()
@@ -179,26 +180,22 @@ extension HomeView {
           }
           .buttonStyle(TextButtonStyle())
         }
-        .applyMargins()
-        ScrollView(.horizontal, showsIndicators: false) {
-          HStack {
-            ForEach(recurringTransactions.prefix(3)) { payment in
-              Button {
-                //router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(payment: payment)))
-              } label: {
-                EXRecurringTransactionCell(transaction: payment)
-              }
-              .buttonStyle(EXPlainButtonStyle())
+        
+        HStack {
+          ForEach(recurringTransactions.prefix(1)) { payment in
+            Button {
+              router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(transaction: payment, budget: currentBudget)))
+            } label: {
+              EXRecurringTransactionCell(transaction: payment)
             }
+            .buttonStyle(EXPlainButtonStyle())
           }
-          .applyMargins()
         }
       }
     } else {
       EXSmallEmptyState(type: .noRecurrentPayments, action: {
         showAddRecurrentPayment.toggle()
       })
-      .applyMargins()
       .padding(.top, 15)
     }
   }
@@ -208,7 +205,7 @@ extension HomeView {
     if !transactions.isEmpty {
       VStack(spacing: 15) {
         HStack {
-          VStack(alignment: .leading, spacing: -3) {
+          VStack(alignment: .leading, spacing: -5) {
             Text("Spendings for")
               .font(.mukta(.regular, size: 15))
               .foregroundColor(.darkGrey)
@@ -220,23 +217,33 @@ extension HomeView {
             router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionsListView()))
           }) {
             Text("See all")
-              .font(.mukta(.medium, size: 15))
+              .font(.mukta(.semibold, size: 15))
           }
-          .buttonStyle(SmallButtonStyle())
+          .buttonStyle(TextButtonStyle())
         }
-        Divider()
         VStack {
           ForEach(transactions.reversed().prefix(3)) { transaction in
-            EXTransactionCell(transaction: transaction)
+            Button {
+              router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionDetailView(transaction: transaction, budget: currentBudget)))
+            } label: {
+              EXTransactionCell(transaction: transaction)
+            }
+            .buttonStyle(EXPlainButtonStyle())
+          }
+          if transactions.count >= 4 {
+            HStack {
+              Text("+ \(transactions.count - 3) transactions")
+                .font(.mukta(.regular, size: 13))
+                .foregroundColor(.darkGrey)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(5)
+            }
+            .background(Color.backgroundGrey)
+            .cornerRadius(5)
           }
         }
         .padding(.bottom, 5)
       }
-      .padding(.horizontal, 10)
-      .padding(.vertical, 10)
-      .background(.white)
-      .cornerRadius(10)
-      .shadowXS()
       .padding(.top, 10)
     } else {
       EXLargeEmptyState(type: .noExpenses, icon: Source.Images.EmptyStates.noExpenses, action: {

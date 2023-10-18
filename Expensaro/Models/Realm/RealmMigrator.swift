@@ -26,9 +26,23 @@ enum RealmMigrator {
         newObject?["type"] = ""
       }
     }
+    
+    // Migration version 3
+    if oldSchemaVersion < 3 {
+      migration.enumerateObjects(ofType: RecurringTransaction.className()) { _, newObject in
+        newObject?["schedule"] = RecurringSchedule.everyWeek
+      }
+    }
+    
+    // Migration version 4 - Current
+    if oldSchemaVersion < 4 {
+      migration.enumerateObjects(ofType: RecurringTransaction.className()) { _, newObject in
+        newObject?["note"] = ""
+      }
+    }
   }
 
   static var configuration: Realm.Configuration {
-    Realm.Configuration(schemaVersion: 2, migrationBlock: migrationBlock)
+    Realm.Configuration(schemaVersion: 4, migrationBlock: migrationBlock)
   }
 }

@@ -20,7 +20,6 @@ struct TransactionDetailView: View {
   @State private var showTransactionDeleteAlert = false
   @State private var showChangeCategory = false
   @State private var showNoteView = false
-  @State private var noteText = ""
   
   @State private var totalAmountLabel: Float = 0.0
   @State private var transactionsByCategory: [(amount: Float, date: Date)] = []
@@ -194,7 +193,7 @@ private extension TransactionDetailView {
       ScrollView {
         EXResizableTextField(message: $transaction.note, characterLimit: 300)
           .keyboardType(.alphabet)
-          .multilineSubmitEnabled(for: $noteText)
+          .multilineSubmitEnabled(for: $transaction.note)
       }
       .applyMargins()
       .navigationBarTitleDisplayMode(.inline)

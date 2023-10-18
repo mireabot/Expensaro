@@ -49,10 +49,10 @@ struct EditGoalView: View {
       .onTapGesture {
         isFieldFocused = false
       }
-      .sheet(isPresented: $showDateSelector, content: {
-        DateSelectorView(type: .updateGoalDate, selectedDate: $goalDue)
-          .presentationDetents([.medium])
-      })
+//      .sheet(isPresented: $showDateSelector, content: {
+//        DateSelectorView(type: .updateGoalDate, selectedDate: $goalDue)
+//          .presentationDetents([.medium])
+//      })
       .interactiveDismissDisabled()
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {

@@ -12,7 +12,7 @@ struct DateSelectorView: View {
   @Environment(\.dismiss) var makeDismiss
   let type: SelectorType
   @State private var date: Date = .now
-  @Binding var selectedDate: String
+  @Binding var selectedDate: Date
   var body: some View {
     NavigationView {
       ScrollView {
@@ -35,7 +35,7 @@ struct DateSelectorView: View {
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
-            selectedDate = Source.Functions.showString(from: date)
+            selectedDate = date
             makeDismiss()
           } label: {
             Appearance.shared.closeIcon
@@ -50,7 +50,7 @@ struct DateSelectorView: View {
 
 struct DateSelectorView_Previews: PreviewProvider {
   static var previews: some View {
-    DateSelectorView(type: .updateGoalDate, selectedDate: .constant("gg"))
+    DateSelectorView(type: .updateGoalDate, selectedDate: .constant(Date()))
   }
 }
 

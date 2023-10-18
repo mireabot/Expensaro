@@ -30,21 +30,23 @@ struct RecurrentPaymentsListView: View {
           .padding(.top, 20)
         
         VStack {
-          Text("Upcoming payments on \(Text("\(displayDate(date: currentDate))").foregroundColor(.primaryGreen).font(.mukta(.bold, size: 20)))")
-            .font(.mukta(.semibold, size: 17))
-            .foregroundColor(.black)
-            .frame(maxWidth: .infinity, alignment: .leading)
           if let payments = groupedRecurringPayments.first(where: { payment in
             return isSameDay(date1: payment.paymentDueDate, date2: currentDate)
           }){
-            LazyVGrid(columns: RecurrentPaymentsListView.items) {
-              ForEach(payments.payments) { paymentData in
-                Button {
-                  
-                } label: {
-                  EXRecurringTransactionCell(transaction: paymentData)
+            VStack {
+              Text("Upcoming payments on \(Text("\(displayDate(date: currentDate))").foregroundColor(.primaryGreen).font(.mukta(.bold, size: 20)))")
+                .font(.mukta(.semibold, size: 17))
+                .foregroundColor(.black)
+                .frame(maxWidth: .infinity, alignment: .leading)
+              LazyVStack {
+                ForEach(payments.payments) { paymentData in
+                  Button {
+                    router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(transaction: paymentData, budget: budget)))
+                  } label: {
+                    EXRecurringTransactionCell(transaction: paymentData)
+                  }
+                  .buttonStyle(EXPlainButtonStyle())
                 }
-                .buttonStyle(EXPlainButtonStyle())
               }
             }
           }

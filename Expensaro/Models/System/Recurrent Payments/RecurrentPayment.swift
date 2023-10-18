@@ -16,7 +16,29 @@ final class RecurringTransaction: Object, ObjectKeyIdentifiable {
   @Persisted var type: String
   @Persisted var categoryName: String = "Other"
   @Persisted var categoryIcon: String = Source.Strings.Categories.Images.other
+  @Persisted var schedule: RecurringSchedule = RecurringSchedule.everyWeek
+  @Persisted var note: String = ""
   @Persisted var isReminder: Bool = false
+}
+
+enum RecurringSchedule: String, CaseIterable, PersistableEnum {
+  case everyWeek
+  case everyMonth
+  case every3Month
+  case everyYear
+  
+  var title: String {
+    switch self {
+    case .everyWeek:
+      return "Every week"
+    case .everyMonth:
+      return "Every month"
+    case .every3Month:
+      return "Every 3 months"
+    case .everyYear:
+      return "Every year"
+    }
+  }
 }
 
 // MARK: Computed variables for recurring payment

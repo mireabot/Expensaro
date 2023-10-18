@@ -25,7 +25,7 @@ struct TransactionsListView: View {
           Appearance.shared.emptyState()
         } else {
           LazyVStack {
-            ForEach(groupedTransactions.keys.sorted(by: <), id: \.self) { date in
+            ForEach(groupedTransactions.keys.sorted(by: >), id: \.self) { date in
               Section(header: listHeader(date)) {
                 ForEach(groupedTransactions[date]!) { transaction in
                   Button {

@@ -13,7 +13,7 @@ struct AddGoalView: View {
   @FocusState private var isFieldFocused: Bool
   @State private var amountValue: String = "0.0"
   @State private var goalName: String = ""
-  @State private var goalDue: String = Source.Functions.showString(from: .now)
+  @State private var goalDue: Date = .now
   
   @State private var showInitPaymentSheet = false
   @State private var showDateSheet = false
@@ -31,9 +31,9 @@ struct AddGoalView: View {
             Text(Appearance.shared.infoText)
               .font(.mukta(.regular, size: 13))
               .foregroundColor(.darkGrey)
-            EXLargeSelector(text: $goalDue, icon: .constant("timer"), buttonText: "Change", action: {
-              showDateSheet.toggle()
-            })
+//            EXLargeSelector(text: $goalDue, icon: .constant("timer"), buttonText: "Change", action: {
+//              showDateSheet.toggle()
+//            })
           }
         }
         .padding(.top, 16)
