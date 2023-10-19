@@ -9,37 +9,32 @@ import SwiftUI
 import ExpensaroUIKit
 
 struct GoalCell: View {
-  let goalData: Goal
-  
-  init(goalData: Goal) {
-    self.goalData = goalData
-  }
-  
+  let goal: Goal
   var body: some View {
     VStack(alignment: .leading, spacing: 2) {
       HStack {
-        Text(goalData.name)
+        Text(goal.name)
           .font(.mukta(.medium, size: 15))
           .multilineTextAlignment(.leading)
         Spacer()
         AnyView(topRightView())
       }
       HStack(alignment: .center, spacing: 1) {
-        Text("\(goalData.currentAmount.clean)")
+        Text("\(goal.currentAmount.clean)")
           .font(.mukta(.medium, size: 15))
           .lineLimit(3)
-        Text(" / $\(goalData.goalAmount.clean)")
+        Text(" / $\(goal.finalAmount.clean)")
           .foregroundColor(.darkGrey)
           .font(.mukta(.regular, size: 13))
           .lineLimit(3)
       }
-      ProgressView(value: goalData.currentAmount, total: goalData.goalAmount, label: {})
-        .tint(goalData.barTint)
+      ProgressView(value: goal.currentAmount, total: goal.finalAmount, label: {})
+        .tint(goal.barTint)
       
-      if goalData.isFailed || goalData.isCompleted {
-        Text(goalData.goalTitle)
+      if goal.isFailed || goal.isCompleted {
+        Text(goal.goalTitle)
           .font(.mukta(.regular, size: 13))
-          .foregroundColor(goalData.barTint)
+          .foregroundColor(goal.barTint)
       }
     }
     .padding(10)
@@ -49,14 +44,14 @@ struct GoalCell: View {
   }
   
   func topRightView() -> any View {
-    if goalData.isFailed {
+    if goal.isFailed {
       return AnyView(
         Text("Timer is over!")
           .foregroundColor(.darkGrey)
           .font(.mukta(.regular, size: 13))
       )
     }
-    if goalData.isCompleted {
+    if goal.isCompleted {
       return AnyView(
         Source.Images.System.completedGoal
           .foregroundColor(.green)
@@ -64,7 +59,7 @@ struct GoalCell: View {
     }
     else {
       return AnyView(
-        Text("\(goalData.daysLeft) days left")
+        Text("\(goal.daysLeft) days left")
           .foregroundColor(.darkGrey)
           .font(.mukta(.regular, size: 13))
       )
@@ -74,6 +69,6 @@ struct GoalCell: View {
 
 struct GoalCell_Previews: PreviewProvider {
   static var previews: some View {
-    GoalCell(goalData: Goal.sampleGoals[3]).applyMargins()
+    GoalCell(goal: DefaultGoals.goal2).applyMargins()
   }
 }

@@ -7,14 +7,18 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import RealmSwift
 
 struct EditGoalView: View {
+  // MARK: Essential
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
-  var selectedGoal: Goal
-  @State private var goalAmount: Double = 0
-  @State private var goalDue: String = Source.Functions.showString(from: .now)
+  @State private var amountValue: String = "0.0"
   
+  // MARK: Realm
+  @ObservedRealmObject var goal: Goal
+  
+  // MARK: Presentation
   @State private var showDateSelector = false
   var body: some View {
     NavigationView {
@@ -25,8 +29,15 @@ struct EditGoalView: View {
               .font(.mukta(.regular, size: 13))
               .foregroundColor(.darkGrey)
               .frame(maxWidth: .infinity, alignment: .leading)
-//            EXTextFieldWithCurrency(value: $goalAmount)
-//              .focused($isFieldFocused)
+            goalTextField()
+              .inputView {
+                EXNumberKeyboard(textValue: $amountValue) {
+                  isFieldFocused = false
+                }
+                .applyMargins()
+                .padding(.bottom, 15)
+              }
+              .focused($isFieldFocused)
           }
           
           VStack(spacing: 5) {
@@ -34,7 +45,7 @@ struct EditGoalView: View {
               .font(.mukta(.regular, size: 13))
               .foregroundColor(.darkGrey)
               .frame(maxWidth: .infinity, alignment: .leading)
-            EXLargeSelector(text: $goalDue, icon: .constant("timer"), buttonText: "Change", action: {
+            EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant("timer"), buttonText: "Change", action: {
               showDateSelector.toggle()
             })
           }
@@ -43,16 +54,15 @@ struct EditGoalView: View {
         .padding(.top, 20)
       }
       .onAppear {
-        goalAmount = Double(selectedGoal.goalAmount)
-        goalDue = Source.Functions.showString(from: selectedGoal.goalDate)
+        amountValue = String(goal.finalAmount)
       }
       .onTapGesture {
         isFieldFocused = false
       }
-//      .sheet(isPresented: $showDateSelector, content: {
-//        DateSelectorView(type: .updateGoalDate, selectedDate: $goalDue)
-//          .presentationDetents([.medium])
-//      })
+      .sheet(isPresented: $showDateSelector, content: {
+        DateSelectorView(type: .updateGoalDate, selectedDate: $goal.dueDate)
+          .presentationDetents([.medium])
+      })
       .interactiveDismissDisabled()
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -74,7 +84,9 @@ struct EditGoalView: View {
         
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
-            
+            updateGoal {
+              makeDismiss()
+            }
           } label: {
             Appearance.shared.saveIcon
               .foregroundColor(.primaryGreen)
@@ -88,7 +100,7 @@ struct EditGoalView: View {
 
 struct EditGoalView_Previews: PreviewProvider {
   static var previews: some View {
-    EditGoalView(selectedGoal: Goal.sampleGoals[2])
+    EditGoalView(goal: DefaultGoals.goal1)
   }
 }
 
@@ -103,5 +115,46 @@ extension EditGoalView {
     let closeIcon = Source.Images.Navigation.close
     let timerIcon = Source.Images.System.timer
     let saveIcon = Source.Images.ButtonIcons.save
+  }
+}
+
+// MARK: - Helper Views
+extension EditGoalView {
+  @ViewBuilder
+  func goalTextField() -> some View {
+    HStack {
+      Text("$")
+        .font(.mukta(.medium, size: 24))
+      TextField("", text: $amountValue)
+        .font(.mukta(.medium, size: 40))
+        .tint(.clear)
+        .multilineTextAlignment(.leading)
+      
+      Spacer()
+      
+      Button {
+        amountValue.removeLast()
+        if amountValue.isEmpty { amountValue = "0.0" }
+      } label: {
+        Source.Images.System.remove
+          .padding(10)
+          .background(Color.backgroundGrey)
+          .cornerRadius(20)
+      }
+      .buttonStyle(EXPlainButtonStyle())
+      .disabled(amountValue == "0.0")
+    }
+  }
+}
+
+// MARK: - Realm Functions
+extension EditGoalView {
+  func updateGoal(completion: @escaping() -> Void) {
+    if let newGoal = goal.thaw(), let realm = newGoal.realm {
+      try? realm.write {
+        newGoal.finalAmount = Double(amountValue) ?? 0
+      }
+      completion()
+    }
   }
 }

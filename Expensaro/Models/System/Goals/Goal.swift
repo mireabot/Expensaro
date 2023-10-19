@@ -7,31 +7,35 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import RealmSwift
 
-struct Goal: Identifiable {
-  var id = UUID().uuidString
-  var name: String
-  var goalAmount: Float
-  var currentAmount: Float
-  var goalDate: Date
-  
+final class Goal: Object, ObjectKeyIdentifiable {
+  @Persisted(primaryKey: true) var id: ObjectId
+  @Persisted var name: String
+  @Persisted var finalAmount: Double
+  @Persisted var currentAmount: Double
+  @Persisted var dueDate: Date
+}
+
+// MARK: Computer properties for goal
+extension Goal {
   var daysLeft: Int {
     let calendar = Calendar.current
     let currentDate = Date()
-    let components = calendar.dateComponents([.day], from: currentDate, to: goalDate)
+    let components = calendar.dateComponents([.day], from: currentDate, to: dueDate)
     return components.day ?? 0
   }
   
-  var amountLeft: Float {
-    return goalAmount - currentAmount
+  var amountLeft: Double {
+    return finalAmount - currentAmount
   }
   
   var isCompleted: Bool {
-    return currentAmount >= goalAmount
+    return currentAmount >= finalAmount
   }
   
   var isFailed: Bool {
-    return currentAmount < goalAmount && Date() >= goalDate
+    return currentAmount < finalAmount && Date() >= dueDate
   }
   
   var goalTitle: String {
@@ -57,12 +61,40 @@ struct Goal: Identifiable {
       return .primaryGreen
     }
   }
+}
+
+//MARK: Default goals data for previews
+enum DefaultGoals {
+  static var goal1: Goal {
+    let goal = Goal()
+    goal.name = "Vacation Fund"
+    goal.finalAmount = 1000
+    goal.currentAmount = 500
+    goal.dueDate = Date().addingTimeInterval(60 * 60 * 24 * 90)
+    return goal
+  }
   
-  static let sampleGoals: [Goal] = [
-    Goal(name: "Vacation Fund", goalAmount: 1000.0, currentAmount: 350.0, goalDate: Date().addingTimeInterval(60 * 60 * 24 * 90)),
-    Goal(name: "New Laptop", goalAmount: 1500.0, currentAmount: 700.0, goalDate: Date().addingTimeInterval(60 * 60 * 24 * 120)),
-    Goal(name: "Fitness Membership", goalAmount: 500.0, currentAmount: 200.0, goalDate: Date().addingTimeInterval(60 * 60 * 24 * 60)),
-    Goal(name: "Completed Goal", goalAmount: 200.0, currentAmount: 200.0, goalDate: Date()), // Completed goal
-    Goal(name: "Failed Goal", goalAmount: 1000.0, currentAmount: 500.0, goalDate: Date().addingTimeInterval(-60 * 60 * 24 * 30)), // Failed goal (past date)
+  static var goal2: Goal {
+    let goal = Goal()
+    goal.name = "New Laptop"
+    goal.finalAmount = 1500
+    goal.currentAmount = 1500
+    goal.dueDate = Date().addingTimeInterval(60 * 60 * 24 * 90)
+    return goal
+  }
+  
+  static var goal3: Goal {
+    let goal = Goal()
+    goal.name = "Failed Goal"
+    goal.finalAmount = 1500
+    goal.currentAmount = 100
+    goal.dueDate = Date().addingTimeInterval(-60 * 60 * 24 * 30)
+    return goal
+  }
+  
+  static let defaultGoals = [
+    goal1,
+    goal2,
+    goal3
   ]
 }
