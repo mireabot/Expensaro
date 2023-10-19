@@ -36,6 +36,9 @@ struct GoalDetailView: View {
         
         bottomActionButton().padding(16)
       })
+      .onAppear {
+        print(goal)
+      }
       .popup(isPresented: $showDeleteAlert) {
         EXAlert(type: .deleteGoal, primaryAction: { deleteGoal() }, secondaryAction: { showDeleteAlert.toggle() }).applyMargins()
       } customize: {
@@ -45,14 +48,11 @@ struct GoalDetailView: View {
           .backgroundColor(.black.opacity(0.3))
           .isOpaque(true)
       }
-      //      .sheet(isPresented: $showAddMoney, content: {
-      //        AddBudgetView(type: .addToGoal)
-      //          .presentationDetents([.large])
-      //      })
-      .sheet(isPresented: $showEditGoal, content: {
+      .fullScreenCover(isPresented: $showAddMoney, content: {
+        AddGoalTransactionView(goalTransaction: GoalTransaction(), goal: goal)
+      })
+      .fullScreenCover(isPresented: $showEditGoal, content: {
         EditGoalView(goal: goal)
-          .presentationDetents([.fraction(0.9)])
-          .presentationDragIndicator(.visible)
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -101,7 +101,15 @@ struct GoalDetailView: View {
       Text("Transactions")
         .font(.mukta(.semibold, size: 17))
         .frame(maxWidth: .infinity, alignment: .leading)
-      emptyState()
+      if goal.transactions.isEmpty {
+        emptyState()
+      } else {
+        LazyVStack(spacing: 10) {
+          ForEach(goal.transactions) { goalTransaction in
+            EXGoalTransactionCell(goalTransaction: goalTransaction)
+          }
+        }
+      }
     }
     .padding(.top, 20)
   }

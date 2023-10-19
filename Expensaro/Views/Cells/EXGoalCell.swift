@@ -8,7 +8,7 @@
 import SwiftUI
 import ExpensaroUIKit
 
-struct GoalCell: View {
+struct EXGoalCell: View {
   let goal: Goal
   var body: some View {
     VStack(alignment: .leading, spacing: 2) {
@@ -69,6 +69,52 @@ struct GoalCell: View {
 
 struct GoalCell_Previews: PreviewProvider {
   static var previews: some View {
-    GoalCell(goal: DefaultGoals.goal2).applyMargins()
+    EXGoalCell(goal: DefaultGoals.goal2).applyMargins()
+  }
+}
+
+// MARK: Computer properties for goal
+extension Goal {
+  var daysLeft: Int {
+    let calendar = Calendar.current
+    let currentDate = Date()
+    let components = calendar.dateComponents([.day], from: currentDate, to: dueDate)
+    return components.day ?? 0
+  }
+  
+  var amountLeft: Double {
+    return finalAmount - currentAmount
+  }
+  
+  var isCompleted: Bool {
+    return currentAmount >= finalAmount
+  }
+  
+  var isFailed: Bool {
+    return currentAmount < finalAmount && Date() >= dueDate
+  }
+  
+  var goalTitle: String {
+    if isCompleted {
+      return "Congrats! You reached your goal"
+    }
+    if isFailed {
+      return "Sorry to see, but you failed to collect full amount"
+    }
+    else {
+      return ""
+    }
+  }
+  
+  var barTint: Color {
+    if isCompleted {
+      return .green
+    }
+    if isFailed {
+      return .red
+    }
+    else {
+      return .primaryGreen
+    }
   }
 }

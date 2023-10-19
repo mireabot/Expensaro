@@ -5,7 +5,7 @@
 //  Created by Mikhail Kolkov on 10/13/23.
 //
 
-import SwiftUI
+import Foundation
 import RealmSwift
 
 enum RealmMigrator {
@@ -34,15 +34,22 @@ enum RealmMigrator {
       }
     }
     
-    // Migration version 4 - Current
+    // Migration version 4
     if oldSchemaVersion < 4 {
       migration.enumerateObjects(ofType: RecurringTransaction.className()) { _, newObject in
         newObject?["note"] = ""
       }
     }
+    
+    // Migration version 5 - Current
+    if oldSchemaVersion < 5 {
+      migration.enumerateObjects(ofType: Goal.className()) { _, newObject in
+        newObject?["transactions"] = List<GoalTransaction>()
+      }
+    }
   }
 
   static var configuration: Realm.Configuration {
-    Realm.Configuration(schemaVersion: 4, migrationBlock: migrationBlock)
+    Realm.Configuration(schemaVersion: 5, migrationBlock: migrationBlock)
   }
 }

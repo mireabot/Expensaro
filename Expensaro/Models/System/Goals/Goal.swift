@@ -5,7 +5,7 @@
 //  Created by Mikhail Kolkov on 10/1/23.
 //
 
-import SwiftUI
+import Foundation
 import ExpensaroUIKit
 import RealmSwift
 
@@ -15,53 +15,19 @@ final class Goal: Object, ObjectKeyIdentifiable {
   @Persisted var finalAmount: Double
   @Persisted var currentAmount: Double
   @Persisted var dueDate: Date
+  
+  @Persisted var transactions: List<GoalTransaction> = List<GoalTransaction>()
 }
 
-// MARK: Computer properties for goal
-extension Goal {
-  var daysLeft: Int {
-    let calendar = Calendar.current
-    let currentDate = Date()
-    let components = calendar.dateComponents([.day], from: currentDate, to: dueDate)
-    return components.day ?? 0
-  }
+class GoalTransaction: Object, ObjectKeyIdentifiable {
+  @Persisted(primaryKey: true) var id: ObjectId
+  @Persisted var amount: Double
+  @Persisted var note: String = ""
+  @Persisted var date: Date = Date()
   
-  var amountLeft: Double {
-    return finalAmount - currentAmount
-  }
-  
-  var isCompleted: Bool {
-    return currentAmount >= finalAmount
-  }
-  
-  var isFailed: Bool {
-    return currentAmount < finalAmount && Date() >= dueDate
-  }
-  
-  var goalTitle: String {
-    if isCompleted {
-      return "Congrats! You reached your goal"
-    }
-    if isFailed {
-      return "Sorry to see, but you failed to collect full amount"
-    }
-    else {
-      return ""
-    }
-  }
-  
-  var barTint: Color {
-    if isCompleted {
-      return .green
-    }
-    if isFailed {
-      return .red
-    }
-    else {
-      return .primaryGreen
-    }
-  }
+  @Persisted(originProperty: "transactions") var goal: LinkingObjects<Goal>
 }
+
 
 //MARK: Default goals data for previews
 enum DefaultGoals {

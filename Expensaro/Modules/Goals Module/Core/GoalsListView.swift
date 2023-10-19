@@ -28,7 +28,7 @@ struct GoalsListView: View {
                   Button {
                     router.pushTo(view: EXNavigationViewBuilder.builder.makeView(GoalDetailView(goal: goal)))
                   } label: {
-                    GoalCell(goal: goal)
+                    EXGoalCell(goal: goal)
                   }
                   .buttonStyle(EXPlainButtonStyle())
                 }
