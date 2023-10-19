@@ -8,28 +8,36 @@
 import SwiftUI
 import ExpensaroUIKit
 import SwiftUIIntrospect
+import RealmSwift
 
 struct GoalsListView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   @State private var showAddGoalView = false
+  
+  @ObservedResults(Goal.self) var goals
   var body: some View {
     NavigationView {
       ScrollView(showsIndicators: false) {
         LazyVStack(spacing: 10, pinnedViews: [.sectionHeaders]) {
           Section {
-            LazyVStack(spacing: 10) {
-              ForEach(Goal.sampleGoals) { goal in
-                GoalCell(goalData: goal)
-                  .onTapGesture {
+            if goals.isEmpty {
+              emptyState()
+            } else {
+              LazyVStack(spacing: 10) {
+                ForEach(goals) { goal in
+                  Button {
                     router.pushTo(view: EXNavigationViewBuilder.builder.makeView(GoalDetailView(goal: goal)))
+                  } label: {
+                    EXGoalCell(goal: goal)
                   }
+                  .buttonStyle(EXPlainButtonStyle())
+                }
               }
+              .applyMargins()
             }
-            .applyMargins()
           } header: {
             goalOverviewHeader()
           }
-          
         }
       }
       .introspect(.scrollView, on: .iOS(.v16, .v17), customize: { scrollView in
@@ -37,8 +45,7 @@ struct GoalsListView: View {
       })
       .navigationBarTitleDisplayMode(.inline)
       .fullScreenCover(isPresented: $showAddGoalView, content: {
-        AddGoalView()
-          .presentationDetents([.large])
+        AddGoalView(goal: Goal())
       })
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
@@ -53,6 +60,7 @@ struct GoalsListView: View {
 struct GoalsListView_Previews: PreviewProvider {
   static var previews: some View {
     GoalsListView()
+      .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
 
@@ -74,7 +82,7 @@ extension GoalsListView {
           Text("You saved in total")
             .font(.mukta(.regular, size: 15))
             .foregroundColor(.darkGrey)
-          Text("$\(calculateTotalSavings().clean)")
+          Text("$\(totalSavings.clean)")
             .font(.mukta(.medium, size: 20))
         }
         Spacer()
@@ -123,13 +131,11 @@ extension GoalsListView {
 
 // MARK: - Helper Functions
 extension GoalsListView {
-  func calculateTotalSavings() -> Float {
-    var savings: Float = 0
-    
-    for goal in Goal.sampleGoals {
-      savings += goal.currentAmount
+  var totalSavings: Double {
+    var total: Double = 0
+    for i in goals {
+      total += i.currentAmount
     }
-    
-    return savings
+    return total
   }
 }

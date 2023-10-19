@@ -5,64 +5,62 @@
 //  Created by Mikhail Kolkov on 10/1/23.
 //
 
-import SwiftUI
+import Foundation
 import ExpensaroUIKit
+import RealmSwift
 
-struct Goal: Identifiable {
-  var id = UUID().uuidString
-  var name: String
-  var goalAmount: Float
-  var currentAmount: Float
-  var goalDate: Date
+final class Goal: Object, ObjectKeyIdentifiable {
+  @Persisted(primaryKey: true) var id: ObjectId
+  @Persisted var name: String
+  @Persisted var finalAmount: Double
+  @Persisted var currentAmount: Double
+  @Persisted var dueDate: Date
   
-  var daysLeft: Int {
-    let calendar = Calendar.current
-    let currentDate = Date()
-    let components = calendar.dateComponents([.day], from: currentDate, to: goalDate)
-    return components.day ?? 0
+  @Persisted var transactions: List<GoalTransaction> = List<GoalTransaction>()
+}
+
+class GoalTransaction: Object, ObjectKeyIdentifiable {
+  @Persisted(primaryKey: true) var id: ObjectId
+  @Persisted var amount: Double
+  @Persisted var note: String = ""
+  @Persisted var date: Date = Date()
+  
+  @Persisted(originProperty: "transactions") var goal: LinkingObjects<Goal>
+}
+
+
+//MARK: Default goals data for previews
+enum DefaultGoals {
+  static var goal1: Goal {
+    let goal = Goal()
+    goal.name = "Vacation Fund"
+    goal.finalAmount = 1000
+    goal.currentAmount = 500
+    goal.dueDate = Date().addingTimeInterval(60 * 60 * 24 * 90)
+    return goal
   }
   
-  var amountLeft: Float {
-    return goalAmount - currentAmount
+  static var goal2: Goal {
+    let goal = Goal()
+    goal.name = "New Laptop"
+    goal.finalAmount = 1500
+    goal.currentAmount = 1500
+    goal.dueDate = Date().addingTimeInterval(60 * 60 * 24 * 90)
+    return goal
   }
   
-  var isCompleted: Bool {
-    return currentAmount >= goalAmount
+  static var goal3: Goal {
+    let goal = Goal()
+    goal.name = "Failed Goal"
+    goal.finalAmount = 1500
+    goal.currentAmount = 100
+    goal.dueDate = Date().addingTimeInterval(-60 * 60 * 24 * 30)
+    return goal
   }
   
-  var isFailed: Bool {
-    return currentAmount < goalAmount && Date() >= goalDate
-  }
-  
-  var goalTitle: String {
-    if isCompleted {
-      return "Congrats! You reached your goal"
-    }
-    if isFailed {
-      return "Sorry to see, but you failed to collect full amount"
-    }
-    else {
-      return ""
-    }
-  }
-  
-  var barTint: Color {
-    if isCompleted {
-      return .green
-    }
-    if isFailed {
-      return .red
-    }
-    else {
-      return .primaryGreen
-    }
-  }
-  
-  static let sampleGoals: [Goal] = [
-    Goal(name: "Vacation Fund", goalAmount: 1000.0, currentAmount: 350.0, goalDate: Date().addingTimeInterval(60 * 60 * 24 * 90)),
-    Goal(name: "New Laptop", goalAmount: 1500.0, currentAmount: 700.0, goalDate: Date().addingTimeInterval(60 * 60 * 24 * 120)),
-    Goal(name: "Fitness Membership", goalAmount: 500.0, currentAmount: 200.0, goalDate: Date().addingTimeInterval(60 * 60 * 24 * 60)),
-    Goal(name: "Completed Goal", goalAmount: 200.0, currentAmount: 200.0, goalDate: Date()), // Completed goal
-    Goal(name: "Failed Goal", goalAmount: 1000.0, currentAmount: 500.0, goalDate: Date().addingTimeInterval(-60 * 60 * 24 * 30)), // Failed goal (past date)
+  static let defaultGoals = [
+    goal1,
+    goal2,
+    goal3
   ]
 }

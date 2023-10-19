@@ -8,13 +8,20 @@
 import SwiftUI
 import ExpensaroUIKit
 import SwiftUIIntrospect
+import RealmSwift
+import PopupView
 
 struct GoalDetailView: View {
+  // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   
+  // MARK: Realm
+  @ObservedRealmObject var goal: Goal
+  
+  // MARK: Presentation
   @State private var showAddMoney = false
   @State private var showEditGoal = false
-  let goal: Goal
+  @State private var showDeleteAlert = false
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing, content: {
@@ -29,14 +36,23 @@ struct GoalDetailView: View {
         
         bottomActionButton().padding(16)
       })
-//      .sheet(isPresented: $showAddMoney, content: {
-//        AddBudgetView(type: .addToGoal)
-//          .presentationDetents([.large])
-//      })
-      .sheet(isPresented: $showEditGoal, content: {
-        EditGoalView(selectedGoal: goal)
-          .presentationDetents([.fraction(0.9)])
-          .presentationDragIndicator(.visible)
+      .onAppear {
+        print(goal)
+      }
+      .popup(isPresented: $showDeleteAlert) {
+        EXAlert(type: .deleteGoal, primaryAction: { deleteGoal() }, secondaryAction: { showDeleteAlert.toggle() }).applyMargins()
+      } customize: {
+        $0
+          .animation(.spring())
+          .closeOnTapOutside(false)
+          .backgroundColor(.black.opacity(0.3))
+          .isOpaque(true)
+      }
+      .fullScreenCover(isPresented: $showAddMoney, content: {
+        AddGoalTransactionView(goalTransaction: GoalTransaction(), goal: goal)
+      })
+      .fullScreenCover(isPresented: $showEditGoal, content: {
+        EditGoalView(goal: goal)
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -64,11 +80,11 @@ struct GoalDetailView: View {
         Text("$\(goal.currentAmount.clean)")
           .font(.mukta(.bold, size: 34))
           .foregroundColor(.black)
-        Text(" / \(goal.goalAmount.clean)")
+        Text(" / \(goal.finalAmount.clean)")
           .font(.mukta(.regular, size: 17))
           .foregroundColor(.darkGrey)
       }
-      ProgressView(value: goal.currentAmount, total: goal.goalAmount, label: {})
+      ProgressView(value: goal.currentAmount, total: goal.finalAmount, label: {})
         .tint(.primaryGreen)
       HStack(spacing: 25) {
         smallInfoView(title: "Money left", text: "$\(goal.amountLeft.clean)")
@@ -85,8 +101,14 @@ struct GoalDetailView: View {
       Text("Transactions")
         .font(.mukta(.semibold, size: 17))
         .frame(maxWidth: .infinity, alignment: .leading)
-      LazyVStack(spacing: 10) {
-        EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[0])
+      if goal.transactions.isEmpty {
+        emptyState()
+      } else {
+        LazyVStack(spacing: 10) {
+          ForEach(goal.transactions) { goalTransaction in
+            EXGoalTransactionCell(goalTransaction: goalTransaction)
+          }
+        }
       }
     }
     .padding(.top, 20)
@@ -95,7 +117,8 @@ struct GoalDetailView: View {
 
 struct GoalDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    GoalDetailView(goal: Goal.sampleGoals[1])
+    GoalDetailView(goal: DefaultGoals.goal1)
+      .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
 
@@ -134,7 +157,7 @@ extension GoalDetailView {
           Label("Edit goal", image: "buttonEdit")
         }
         
-        Button(role: .destructive, action: {}) {
+        Button(role: .destructive, action: { showDeleteAlert.toggle() }) {
           Label("Delete goal", image: "buttonDelete")
         }
         
@@ -147,6 +170,36 @@ extension GoalDetailView {
       }
       .font(.mukta(.regular, size: 15))
       .menuOrder(.fixed)
+    }
+  }
+  
+  @ViewBuilder
+  func emptyState() -> some View {
+    VStack(alignment: .center, spacing: 3) {
+      Text("You have no transactions related to this goal")
+        .font(.mukta(.semibold, size: 15))
+        .multilineTextAlignment(.center)
+      Text("You can create one with menu button")
+        .font(.mukta(.regular, size: 13))
+        .foregroundColor(.darkGrey)
+        .multilineTextAlignment(.center)
+    }
+    .padding(.vertical, 15)
+    .padding(.horizontal, 20)
+    .background(Color.backgroundGrey)
+    .cornerRadius(12)
+  }
+}
+
+// MARK: - Realm Functions
+extension GoalDetailView {
+  func deleteGoal() {
+    showDeleteAlert.toggle()
+    if let newGoal = goal.thaw(), let realm = newGoal.realm {
+      try? realm.write {
+        realm.delete(newGoal)
+      }
+      router.nav?.popViewController(animated: true)
     }
   }
 }
