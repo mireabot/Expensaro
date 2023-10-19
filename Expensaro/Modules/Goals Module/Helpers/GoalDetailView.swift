@@ -88,9 +88,20 @@ struct GoalDetailView: View {
         .tint(.primaryGreen)
       HStack(spacing: 25) {
         smallInfoView(title: "Money left", text: "$\(goal.amountLeft.clean)")
-        smallInfoView(title: "Days left", text: "\(goal.daysLeft) days left")
+        smallInfoView(title: "Days left", text: "\(goal.isCompleted || goal.isFailed ? 0 : goal.daysLeft) days left")
       }
       .padding(.top, 5)
+      
+      if goal.isCompleted {
+        EXInfoCard(title: "Champ Champ!", icon: Source.Images.InfoCardIcon.topCategory, text: "You have completed this goal ahead of time. Do your best to close others same way!")
+          .padding(.top, 10)
+      }
+      
+      if goal.isFailed {
+        EXInfoCard(title: "Not this time:(", icon: Source.Images.InfoCardIcon.topCategory, text: "You couldn't finish goal before deadline, but you can still make it with other goals!")
+          .padding(.top, 10)
+      }
+      
     }
     .padding(.top, 20)
   }
@@ -117,7 +128,7 @@ struct GoalDetailView: View {
 
 struct GoalDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    GoalDetailView(goal: DefaultGoals.goal1)
+    GoalDetailView(goal: DefaultGoals.goal2)
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
@@ -149,18 +160,24 @@ extension GoalDetailView {
   func bottomActionButton() -> some View {
     VStack {
       Menu {
-        Button(action: { showAddMoney.toggle() }) {
-          Label("Add money", image: "buttonTransaction")
+        if goal.isCompleted || goal.isFailed {
+          Button(role: .destructive, action: { showDeleteAlert.toggle() }) {
+            Label("Delete goal", image: "buttonDelete")
+          }
+          
+        } else {
+          Button(action: { showAddMoney.toggle() }) {
+            Label("Add money", image: "buttonTransaction")
+          }
+          
+          Button(action: { showEditGoal.toggle() }) {
+            Label("Edit goal", image: "buttonEdit")
+          }
+          
+          Button(role: .destructive, action: { showDeleteAlert.toggle() }) {
+            Label("Delete goal", image: "buttonDelete")
+          }
         }
-        
-        Button(action: { showEditGoal.toggle() }) {
-          Label("Edit goal", image: "buttonEdit")
-        }
-        
-        Button(role: .destructive, action: { showDeleteAlert.toggle() }) {
-          Label("Delete goal", image: "buttonDelete")
-        }
-        
       } label: {
         Source.Images.Navigation.menu
           .foregroundColor(.primaryGreen)
