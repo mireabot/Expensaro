@@ -181,7 +181,7 @@ extension HomeView {
           .buttonStyle(TextButtonStyle())
         }
         
-        HStack {
+        VStack {
           ForEach(recurringTransactions.prefix(1)) { payment in
             Button {
               router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(transaction: payment, budget: currentBudget)))
@@ -189,6 +189,18 @@ extension HomeView {
               EXRecurringTransactionCell(transaction: payment)
             }
             .buttonStyle(EXPlainButtonStyle())
+            
+            if recurringTransactions.count >= 2 {
+              HStack {
+                Text("+ \(recurringTransactions.count - 1) recurring payments")
+                  .font(.mukta(.regular, size: 13))
+                  .foregroundColor(.darkGrey)
+                  .frame(maxWidth: .infinity, alignment: .center)
+                  .padding(5)
+              }
+              .background(Color.backgroundGrey)
+              .cornerRadius(5)
+            }
           }
         }
       }
