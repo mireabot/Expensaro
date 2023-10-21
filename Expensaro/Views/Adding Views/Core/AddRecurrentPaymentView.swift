@@ -93,8 +93,7 @@ struct AddRecurrentPaymentView: View {
       })
       .sheet(isPresented: $showCategoryelector, content: {
         CategorySelectorView(title: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon)
-          .presentationDetents([.medium, .fraction(0.9)])
-          .presentationDragIndicator(.visible)
+          .presentationDetents([.fraction(0.9)])
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {

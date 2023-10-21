@@ -16,10 +16,20 @@ struct CategorySelectorView: View {
   
   @Binding var title: String
   @Binding var icon: String
+  
+  @State private var showCategory = false
   var body: some View {
     NavigationView {
       List {
         VStack {
+          Button {
+            showCategory.toggle()
+          } label: {
+            Text("Create new category")
+              .font(.mukta(.regular, size: 17))
+          }
+          .buttonStyle(StretchButtonStyle(icon: Appearance.shared.addIcon))
+          
           ForEach(categories) { category in
             EXCategoryCell(icon: Image(category.icon), title: category.name)
               .onTapGesture {
@@ -34,6 +44,9 @@ struct CategorySelectorView: View {
       .listStyle(.plain)
       .background(.white)
       .navigationBarTitleDisplayMode(.inline)
+      .sheet(isPresented: $showCategory, content: {
+        AddCategoryView(category: Category(), isSheet: true)
+      })
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
@@ -61,11 +74,13 @@ extension CategorySelectorView {
     let title = "Select category"
     
     let closeIcon = Source.Images.Navigation.close
+    let addIcon = Source.Images.ButtonIcons.add
   }
 }
 
 struct CategorySelectorView_Previews: PreviewProvider {
   static var previews: some View {
-    EmptyView()
+    CategorySelectorView(title: .constant(""), icon: .constant(""))
+      .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }

@@ -18,7 +18,7 @@ struct CategoriesSettingsView: View {
     NavigationView {
       VStack {
         Button {
-          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(AddCategoryView(category: Category())))
+          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(AddCategoryView(category: Category(), isSheet: false)))
         } label: {
           Text("Create new category")
             .font(.mukta(.regular, size: 17))

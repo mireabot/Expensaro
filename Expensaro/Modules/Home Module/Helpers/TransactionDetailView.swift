@@ -135,8 +135,7 @@ struct TransactionDetailView: View {
       }
       .sheet(isPresented: $showChangeCategory, content: {
         CategorySelectorView(title: $transaction.categoryName, icon: $transaction.categoryIcon)
-          .presentationDetents([.medium,.fraction(0.9)])
-          .presentationDragIndicator(.visible)
+          .presentationDetents([.fraction(0.9)])
       })
       .sheet(isPresented: $showNoteView, content: {
         noteView()

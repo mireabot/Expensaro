@@ -11,6 +11,7 @@ import RealmSwift
 
 struct AddCategoryView: View {
   @Environment(\.realm) var realm
+  @Environment(\.dismiss) var makeDismiss
   
   @ObservedRealmObject var category: Category
   
@@ -21,7 +22,9 @@ struct AddCategoryView: View {
   let items: [GridItem] = [
     GridItem(.fixed(40), spacing: 20),
     GridItem(.fixed(40), spacing: 20),
+    GridItem(.fixed(40), spacing: 20),
   ]
+  var isSheet: Bool
   var body: some View {
     NavigationView {
       ScrollView {
@@ -80,17 +83,33 @@ struct AddCategoryView: View {
             .font(.mukta(.medium, size: 17))
         }
         ToolbarItem(placement: .navigationBarLeading) {
-          Button {
-            router.nav?.popViewController(animated: true)
-          } label: {
-            Appearance.shared.backIcon
-              .font(.callout)
-              .foregroundColor(.black)
+          if isSheet {
+            Button {
+              makeDismiss()
+            } label: {
+              Appearance.shared.closeIcon
+                .font(.callout)
+                .foregroundColor(.black)
+            }
+          } else {
+            Button {
+              router.nav?.popViewController(animated: true)
+            } label: {
+              Appearance.shared.backIcon
+                .font(.callout)
+                .foregroundColor(.black)
+            }
           }
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
-            saveCategory()
+            if isSheet {
+              saveCategory()
+              makeDismiss()
+            } else {
+              saveCategory()
+              router.nav?.popViewController(animated: true)
+            }
           } label: {
             Appearance.shared.submitIcon
               .font(.callout)
@@ -105,7 +124,8 @@ struct AddCategoryView: View {
 
 struct AddCategory_Previews: PreviewProvider {
   static var previews: some View {
-    EmptyView()
+    AddCategoryView(category: Category(), isSheet: false)
+      .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
 
@@ -117,6 +137,7 @@ extension AddCategoryView {
     let title = "New category"
     
     let backIcon = Source.Images.Navigation.back
+    let closeIcon = Source.Images.Navigation.close
     let submitIcon = Source.Images.Navigation.checkmark
   }
 }
@@ -140,15 +161,19 @@ extension AddCategoryView {
       Divider()
       
       LazyHGrid(rows: items, alignment: .center, spacing: 20) {
-        ForEach(DefaultCategories.defaultCategories){ item in
+        ForEach(DefaultCategories.defaultCategories) { item in
           Image(item.icon)
             .foregroundColor(.primaryGreen)
+            .padding(8)
+            .background(Color.backgroundGrey)
+            .cornerRadius(12)
             .onTapGesture {
               category.icon = item.icon
               changeIcon.toggle()
             }
         }
       }
+      .applyMargins()
       .padding(.vertical, 15)
     }
   }
