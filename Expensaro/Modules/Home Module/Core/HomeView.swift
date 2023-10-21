@@ -8,20 +8,22 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
+import PopupView
 
 struct HomeView: View {
-  // Navigation
+  // MARK: Navigation
   @EnvironmentObject var router: EXNavigationViewsRouter
   
-  // Variables
+  // MARK: Variables
   @State private var showAddBudget = false
   @State private var showAddRecurrentPayment = false
   @State private var showAddTransaction = false
   
-  // Presentation
+  // MARK: Presentation
   @State private var showUpdateBudget = false
+  @State private var showAlert = false
   
-  // Realm
+  // MARK: Realm
   @Environment(\.realm) var realm
   @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
   @ObservedResults(Transaction.self) var transactions
@@ -41,6 +43,15 @@ struct HomeView: View {
         bottomActionButton()
           .padding(16)
       }
+      .popup(isPresented: $showAlert, view: {
+        alertView()
+      }, customize: {
+        $0
+          .isOpaque(true)
+          .position(.top)
+          .type(.floater())
+          .autohideIn(1.5)
+      })
       .fullScreenCover(isPresented: $showAddBudget, content: {
         AddBudgetView(type: .addBudget, budget: Budget())
           .presentationDetents([.large])
@@ -125,7 +136,7 @@ extension HomeView {
   }
 }
 
-// MARK: Home screen sections views
+// MARK: - Home screen sections views
 extension HomeView {
   @ViewBuilder
   func budgetSection() -> some View {
@@ -206,7 +217,11 @@ extension HomeView {
       }
     } else {
       EXSmallEmptyState(type: .noRecurrentPayments, action: {
-        showAddRecurrentPayment.toggle()
+        if currentBudget.amount == 0 {
+          showAlert.toggle()
+        } else {
+          showAddRecurrentPayment.toggle()
+        }
       })
       .padding(.top, 15)
     }
@@ -259,9 +274,31 @@ extension HomeView {
       .padding(.top, 10)
     } else {
       EXLargeEmptyState(type: .noExpenses, icon: Source.Images.EmptyStates.noExpenses, action: {
-        showAddTransaction.toggle()
+        if currentBudget.amount == 0 {
+          showAlert.toggle()
+        } else {
+          showAddTransaction.toggle()
+        }
       })
       .padding(.top, 15)
     }
+  }
+}
+
+// MARK: - Helper Views
+extension HomeView {
+  @ViewBuilder
+  func alertView() -> some View {
+    HStack {
+      Source.Images.System.alertError
+        .foregroundColor(.red)
+      Text("You need to create a budget first")
+        .font(.mukta(.medium, size: 17))
+        .foregroundColor(.red)
+    }
+    .padding(.horizontal, 15)
+    .padding(.vertical, 10)
+    .background(Color.backgroundGrey)
+    .cornerRadius(12)
   }
 }

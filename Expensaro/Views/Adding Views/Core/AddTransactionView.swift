@@ -37,14 +37,14 @@ struct AddTransactionView: View {
         VStack(spacing: 20) {
           VStack(spacing: 0) {
             transactionTextField()
-            .inputView {
-              EXNumberKeyboard(textValue: $amountValue) {
-                validateBudget()
+              .inputView {
+                EXNumberKeyboard(textValue: $amountValue) {
+                  validateBudget()
+                }
+                .applyMargins()
+                .padding(.bottom, 15)
               }
-              .applyMargins()
-              .padding(.bottom, 15)
-            }
-            .focused($budgetFieldFocused)
+              .focused($budgetFieldFocused)
             budgetSection()
           }
           EXTextField(text: $transaction.name, placeholder: Appearance.shared.textFieldPlaceholder)
@@ -62,6 +62,7 @@ struct AddTransactionView: View {
       .onTapGesture {
         isFieldFocused = false
         budgetFieldFocused = false
+        validateBudget()
       }
       .onAppear {
         budgetValue = budget.amount
@@ -96,7 +97,7 @@ struct AddTransactionView: View {
           }
           .padding(.bottom, 15)
           .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
-          .disabled(Double(amountValue) == 0 || transaction.name.isEmpty)
+          .disabled(Double(amountValue) == 0 || transaction.name.isEmpty || !isBudgetAvailable)
         }
       }
     }
@@ -158,7 +159,6 @@ extension AddTransactionView {
         amountValue.removeLast()
         if amountValue.isEmpty {
           amountValue = "0.0"
-          budgetValue = budget.amount
           isBudgetAvailable = true
         }
       } label: {
@@ -175,42 +175,19 @@ extension AddTransactionView {
   @ViewBuilder
   func budgetSection() -> some View {
     HStack {
-      if isBudgetAvailable {
-        Text("Budget available: $\(budgetValue.clean)")
-          .font(.mukta(.medium, size: 17))
-          .foregroundStyle(Color.primaryGreen)
-          .frame(maxWidth: .infinity, alignment: .leading)
-      } else {
-        Text("You exceed budget by: $\(budgetExceed.clean)")
-          .font(.mukta(.medium, size: 17))
-          .foregroundStyle(Color.red)
-          .frame(maxWidth: .infinity, alignment: .leading)
-      }
+      Text("Budget available: $\(budgetValue.clean)")
+        .font(.mukta(.medium, size: 17))
+        .foregroundStyle(Color.primaryGreen)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
-    .shimmering(active: isLoading)
   }
 }
 
 // MARK: - Helper Functions
 extension AddTransactionView {
   func validateBudget() {
-    if amountValue != "0.0" {
-      DispatchQueue.main.async {
-        withAnimation(.smooth) {
-          isLoading.toggle()
-        }
-      }
-      DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-        if Double(amountValue) ?? 0 > budgetValue {
-          isBudgetAvailable = false
-          budgetExceed = (Double(amountValue) ?? 0) - budgetValue
-        } else {
-          budgetValue -= Double(amountValue) ?? 0
-        }
-        isLoading.toggle()
-      }
-    } else {
-      budgetFieldFocused = false
+    if Double(amountValue) ?? 0 > budgetValue {
+      isBudgetAvailable = false
     }
   }
 }

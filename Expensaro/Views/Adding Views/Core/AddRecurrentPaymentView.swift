@@ -74,6 +74,7 @@ struct AddRecurrentPaymentView: View {
       .onTapGesture {
         isFieldFocused = false
         budgetFieldFocused = false
+        validateBudget()
       }
       .onAppear {
         budgetValue = budget.amount
@@ -119,7 +120,7 @@ struct AddRecurrentPaymentView: View {
           }
           .padding(.bottom, 15)
           .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
-          .disabled(recurringPayment.name.isEmpty || Double(amountValue) == 0)
+          .disabled(recurringPayment.name.isEmpty || Double(amountValue) == 0 || !isBudgetAvailable)
         }
       }
     }
@@ -315,7 +316,6 @@ extension AddRecurrentPaymentView {
         amountValue.removeLast()
         if amountValue.isEmpty {
           amountValue = "0.0"
-          budgetValue = budget.amount
           isBudgetAvailable = true
         }
       } label: {
@@ -332,19 +332,11 @@ extension AddRecurrentPaymentView {
   @ViewBuilder
   func budgetSection() -> some View {
     HStack {
-      if isBudgetAvailable {
-        Text("Budget available: $\(budgetValue.clean)")
-          .font(.mukta(.medium, size: 17))
-          .foregroundStyle(Color.primaryGreen)
-          .frame(maxWidth: .infinity, alignment: .leading)
-      } else {
-        Text("You exceed budget by: $\(budgetExceed.clean)")
-          .font(.mukta(.medium, size: 17))
-          .foregroundStyle(Color.red)
-          .frame(maxWidth: .infinity, alignment: .leading)
-      }
+      Text("Budget available: $\(budgetValue.clean)")
+        .font(.mukta(.medium, size: 17))
+        .foregroundStyle(Color.primaryGreen)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
-    .shimmering(active: isLoading)
   }
 }
 
@@ -369,22 +361,9 @@ extension AddRecurrentPaymentView {
 extension AddRecurrentPaymentView {
   func validateBudget() {
     if amountValue != "0.0" {
-      DispatchQueue.main.async {
-        withAnimation(.smooth) {
-          isLoading.toggle()
-        }
+      if Double(amountValue) ?? 0 > budgetValue {
+        isBudgetAvailable = false
       }
-      DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-        if Double(amountValue) ?? 0 > budgetValue {
-          isBudgetAvailable = false
-          budgetExceed = (Double(amountValue) ?? 0) - budgetValue
-        } else {
-          budgetValue -= Double(amountValue) ?? 0
-        }
-        isLoading.toggle()
-      }
-    } else {
-      budgetFieldFocused = false
     }
   }
 }
