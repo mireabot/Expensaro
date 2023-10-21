@@ -8,11 +8,13 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
+import Shimmer
 
 struct AddTransactionView: View {
   // MARK: Essential
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
+  @FocusState private var budgetFieldFocused: Bool
   
   // MARK: Realm
   @Environment(\.realm) var realm
@@ -21,6 +23,10 @@ struct AddTransactionView: View {
   
   // MARK: Variables
   @State var amountValue: String = "0.0"
+  @State private var budgetValue: Double = 0
+  @State private var budgetExceed: Double = 0
+  @State private var isBudgetAvailable = true
+  @State private var isLoading = false
   
   // MARK: Presentation
   @State private var showCategoriesSelector = false
@@ -29,15 +35,18 @@ struct AddTransactionView: View {
       ScrollView {
         EXSegmentControl(currentTab: $transaction.type, type: .transactionType).padding(.top, 16)
         VStack(spacing: 20) {
-          transactionTextField()
-          .inputView {
-            EXNumberKeyboard(textValue: $amountValue) {
-              isFieldFocused = false
+          VStack(spacing: 0) {
+            transactionTextField()
+            .inputView {
+              EXNumberKeyboard(textValue: $amountValue) {
+                validateBudget()
+              }
+              .applyMargins()
+              .padding(.bottom, 15)
             }
-            .applyMargins()
-            .padding(.bottom, 15)
+            .focused($budgetFieldFocused)
+            budgetSection()
           }
-          .focused($isFieldFocused)
           EXTextField(text: $transaction.name, placeholder: Appearance.shared.textFieldPlaceholder)
             .keyboardType(.alphabet)
             .focused($isFieldFocused)
@@ -52,12 +61,15 @@ struct AddTransactionView: View {
       }
       .onTapGesture {
         isFieldFocused = false
+        budgetFieldFocused = false
+      }
+      .onAppear {
+        budgetValue = budget.amount
       }
       .applyMargins()
       .sheet(isPresented: $showCategoriesSelector, content: {
         CategorySelectorView(title: $transaction.categoryName, icon: $transaction.categoryIcon)
-          .presentationDetents([.medium,.fraction(0.9)])
-          .presentationDragIndicator(.visible)
+          .presentationDetents([.fraction(0.9)])
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -144,7 +156,11 @@ extension AddTransactionView {
       
       Button {
         amountValue.removeLast()
-        if amountValue.isEmpty { amountValue = "0.0" }
+        if amountValue.isEmpty {
+          amountValue = "0.0"
+          budgetValue = budget.amount
+          isBudgetAvailable = true
+        }
       } label: {
         Source.Images.System.remove
           .padding(10)
@@ -153,6 +169,48 @@ extension AddTransactionView {
       }
       .buttonStyle(EXPlainButtonStyle())
       .disabled(amountValue == "0.0")
+    }
+  }
+  
+  @ViewBuilder
+  func budgetSection() -> some View {
+    HStack {
+      if isBudgetAvailable {
+        Text("Budget available: $\(budgetValue.clean)")
+          .font(.mukta(.medium, size: 17))
+          .foregroundStyle(Color.primaryGreen)
+          .frame(maxWidth: .infinity, alignment: .leading)
+      } else {
+        Text("You exceed budget by: $\(budgetExceed.clean)")
+          .font(.mukta(.medium, size: 17))
+          .foregroundStyle(Color.red)
+          .frame(maxWidth: .infinity, alignment: .leading)
+      }
+    }
+    .shimmering(active: isLoading)
+  }
+}
+
+// MARK: - Helper Functions
+extension AddTransactionView {
+  func validateBudget() {
+    if amountValue != "0.0" {
+      DispatchQueue.main.async {
+        withAnimation(.smooth) {
+          isLoading.toggle()
+        }
+      }
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        if Double(amountValue) ?? 0 > budgetValue {
+          isBudgetAvailable = false
+          budgetExceed = (Double(amountValue) ?? 0) - budgetValue
+        } else {
+          budgetValue -= Double(amountValue) ?? 0
+        }
+        isLoading.toggle()
+      }
+    } else {
+      budgetFieldFocused = false
     }
   }
 }

@@ -24,6 +24,7 @@
 		3558FBBE2ACA3F8E00624EBD /* EXGoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3558FBBD2ACA3F8E00624EBD /* EXGoalCell.swift */; };
 		3558FBC12ACA415500624EBD /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3558FBC02ACA415500624EBD /* Goal.swift */; };
 		355BB4082ABCB1DE00A71834 /* AddCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BB4072ABCB1DE00A71834 /* AddCategoryView.swift */; };
+		356028BD2AE2E32400C1FDE7 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 356028BC2AE2E32400C1FDE7 /* Shimmer */; };
 		3564D81F2ACB71EB00553ECB /* EditGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3564D81E2ACB71EB00553ECB /* EditGoalView.swift */; };
 		356847742ACB2D4E00FFC864 /* GoalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356847732ACB2D4E00FFC864 /* GoalDetailView.swift */; };
 		35825BF92AC9CDB600713AD8 /* EXRecurringTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BF82AC9CDB600713AD8 /* EXRecurringTransactionCell.swift */; };
@@ -136,6 +137,7 @@
 				354F2B152AB9F189002516F1 /* SwiftUIIntrospect in Frameworks */,
 				359094AB2AAE365900428B39 /* ExpensaroUIKit in Frameworks */,
 				359CDC592AB4C8BA00DFFDC7 /* iPages in Frameworks */,
+				356028BD2AE2E32400C1FDE7 /* Shimmer in Frameworks */,
 				3589BC272AD899BA00BA8289 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -539,6 +541,7 @@
 				351D3D602AD0D5C00022E696 /* PopupView */,
 				3589BC262AD899BA00BA8289 /* Realm */,
 				3589BC282AD899BA00BA8289 /* RealmSwift */,
+				356028BC2AE2E32400C1FDE7 /* Shimmer */,
 			);
 			productName = Expensaro;
 			productReference = 3590948B2AAD3EC300428B39 /* Expensaro.app */;
@@ -574,6 +577,7 @@
 				354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
 				351D3D5F2AD0D5C00022E696 /* XCRemoteSwiftPackageReference "PopupView" */,
 				3589BC252AD899BA00BA8289 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				356028BB2AE2E32400C1FDE7 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 			);
 			productRefGroup = 3590948C2AAD3EC300428B39 /* Products */;
 			projectDirPath = "";
@@ -882,6 +886,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		356028BB2AE2E32400C1FDE7 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
 		3589BC252AD899BA00BA8289 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -918,6 +930,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */;
 			productName = SwiftUIIntrospect;
+		};
+		356028BC2AE2E32400C1FDE7 /* Shimmer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 356028BB2AE2E32400C1FDE7 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
+			productName = Shimmer;
 		};
 		3589BC262AD899BA00BA8289 /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;

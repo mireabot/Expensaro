@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mireabot/ExpensaroUIKit",
       "state" : {
-        "revision" : "439cbe975e99a233a62c0778444238454e7e54f1",
-        "version" : "1.1.33"
+        "revision" : "f0be597b1ffb91f5184a5e0351b6f8b87e36704d",
+        "version" : "1.1.34"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/exyte/PopupView",
       "state" : {
-        "revision" : "7cfd26db6cc8a4aedb1a80a5df669019a417bfd2",
-        "version" : "2.7.0"
+        "revision" : "ea6bcdf6996b4d9e29259f7904c55504584d2918",
+        "version" : "2.8.0"
       }
     },
     {
@@ -52,6 +52,15 @@
       "state" : {
         "revision" : "3ced72fccb284235c266c1e8a32f1bf93129fc74",
         "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "swiftui-shimmer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/markiv/SwiftUI-Shimmer.git",
+      "state" : {
+        "revision" : "1f3a620e4abe890d00008cb2af7023d810b433a7",
+        "version" : "1.4.0"
       }
     }
   ],

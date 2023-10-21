@@ -8,18 +8,28 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
+import Shimmer
 
 struct AddRecurrentPaymentView: View {
+  // MARK: Essential
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
+  @FocusState private var budgetFieldFocused: Bool
   
+  // MARK: Realm
   @Environment(\.realm) var realm
   @ObservedRealmObject var recurringPayment: RecurringTransaction
   @ObservedRealmObject var budget: Budget
   
+  // MARK: Variables
   @State private var paymentPeriodicity = "Not selected"
   @State var amountValue: String = "0.0"
+  @State private var budgetValue: Double = 0
+  @State private var budgetExceed: Double = 0
+  @State private var isBudgetAvailable = true
+  @State private var isLoading = false
   
+  // MARK: Presentation
   @State private var showAnimation = false
   @State private var showSchedule = false
   @State private var showNextDate = false
@@ -30,15 +40,18 @@ struct AddRecurrentPaymentView: View {
       ScrollView {
         EXSegmentControl(currentTab: $recurringPayment.type, type: .transactionType).padding(.top, 16)
         VStack(spacing: 20) {
-          recurringTextField()
-            .inputView {
-              EXNumberKeyboard(textValue: $amountValue) {
-                isFieldFocused = false
+          VStack(spacing: 0) {
+            recurringTextField()
+              .inputView {
+                EXNumberKeyboard(textValue: $amountValue) {
+                  validateBudget()
+                }
+                .applyMargins()
+                .padding(.bottom, 15)
               }
-              .applyMargins()
-              .padding(.bottom, 15)
-            }
-            .focused($isFieldFocused)
+              .focused($budgetFieldFocused)
+            budgetSection()
+          }
           EXTextField(text: $recurringPayment.name, placeholder: Appearance.shared.textFieldPlaceholder)
             .keyboardType(.alphabet)
             .focused($isFieldFocused)
@@ -58,10 +71,14 @@ struct AddRecurrentPaymentView: View {
           }
         }
       }
-      .applyMargins()
       .onTapGesture {
         isFieldFocused = false
+        budgetFieldFocused = false
       }
+      .onAppear {
+        budgetValue = budget.amount
+      }
+      .applyMargins()
       .sheet(isPresented: $showSchedule, content: {
         PeriodicitySelectorView(selectedPeriodicity: $recurringPayment.schedule)
           .presentationDetents([.fraction(0.45)])
@@ -76,8 +93,7 @@ struct AddRecurrentPaymentView: View {
       })
       .sheet(isPresented: $showCategoryelector, content: {
         CategorySelectorView(title: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon)
-          .presentationDetents([.medium, .fraction(0.9)])
-          .presentationDragIndicator(.visible)
+          .presentationDetents([.fraction(0.9)])
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -297,7 +313,11 @@ extension AddRecurrentPaymentView {
       
       Button {
         amountValue.removeLast()
-        if amountValue.isEmpty { amountValue = "0.0" }
+        if amountValue.isEmpty {
+          amountValue = "0.0"
+          budgetValue = budget.amount
+          isBudgetAvailable = true
+        }
       } label: {
         Source.Images.System.remove
           .padding(10)
@@ -307,6 +327,24 @@ extension AddRecurrentPaymentView {
       .buttonStyle(EXPlainButtonStyle())
       .disabled(amountValue == "0.0")
     }
+  }
+  
+  @ViewBuilder
+  func budgetSection() -> some View {
+    HStack {
+      if isBudgetAvailable {
+        Text("Budget available: $\(budgetValue.clean)")
+          .font(.mukta(.medium, size: 17))
+          .foregroundStyle(Color.primaryGreen)
+          .frame(maxWidth: .infinity, alignment: .leading)
+      } else {
+        Text("You exceed budget by: $\(budgetExceed.clean)")
+          .font(.mukta(.medium, size: 17))
+          .foregroundStyle(Color.red)
+          .frame(maxWidth: .infinity, alignment: .leading)
+      }
+    }
+    .shimmering(active: isLoading)
   }
 }
 
@@ -322,6 +360,31 @@ extension AddRecurrentPaymentView {
       try? realm.write {
         newBudget.amount -= recurringPayment.amount
       }
+    }
+  }
+}
+
+
+// MARK: - Helper Functions
+extension AddRecurrentPaymentView {
+  func validateBudget() {
+    if amountValue != "0.0" {
+      DispatchQueue.main.async {
+        withAnimation(.smooth) {
+          isLoading.toggle()
+        }
+      }
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        if Double(amountValue) ?? 0 > budgetValue {
+          isBudgetAvailable = false
+          budgetExceed = (Double(amountValue) ?? 0) - budgetValue
+        } else {
+          budgetValue -= Double(amountValue) ?? 0
+        }
+        isLoading.toggle()
+      }
+    } else {
+      budgetFieldFocused = false
     }
   }
 }
