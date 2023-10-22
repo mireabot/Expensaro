@@ -25,6 +25,7 @@ struct AddGoalTransactionView: View {
   // MARK: Presentation
   @State private var showError = false
   var body: some View {
+    // TODO: Create textfield same as in transaction view and make section with money left to current goal
     NavigationView {
       ScrollView {
         VStack(alignment: .leading, spacing: 10) {

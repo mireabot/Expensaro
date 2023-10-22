@@ -14,7 +14,6 @@ struct AddTransactionView: View {
   // MARK: Essential
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
-  @FocusState private var budgetFieldFocused: Bool
   
   // MARK: Realm
   @Environment(\.realm) var realm
@@ -32,37 +31,33 @@ struct AddTransactionView: View {
   @State private var showCategoriesSelector = false
   var body: some View {
     NavigationView {
-      ScrollView {
-        EXSegmentControl(currentTab: $transaction.type, type: .transactionType).padding(.top, 16)
-        VStack(spacing: 20) {
-          VStack(spacing: 0) {
-            transactionTextField()
-              .inputView {
-                EXNumberKeyboard(textValue: $amountValue) {
-                  validateBudget()
-                }
-                .applyMargins()
-                .padding(.bottom, 15)
-              }
-              .focused($budgetFieldFocused)
-            budgetSection()
+      ZStack(alignment: .bottom, content: {
+        ScrollView {
+          EXSegmentControl(currentTab: $transaction.type, type: .transactionType).padding(.top, 16)
+          VStack(spacing: 15) {
+            VStack(spacing: 0) {
+              transactionTextField()
+              budgetSection()
+            }
+            EXTextField(text: $transaction.name, placeholder: Appearance.shared.textFieldPlaceholder)
+              .keyboardType(.alphabet)
+              .focused($isFieldFocused)
+            EXLargeSelector(text: $transaction.categoryName, icon: $transaction.categoryIcon, buttonText: "Change", action: {
+              showCategoriesSelector.toggle()
+            })
+            Text(Appearance.shared.infoText)
+              .font(.mukta(.regular, size: 13))
+              .foregroundColor(.darkGrey)
+              .frame(maxWidth: .infinity, alignment: .leading)
           }
-          EXTextField(text: $transaction.name, placeholder: Appearance.shared.textFieldPlaceholder)
-            .keyboardType(.alphabet)
-            .focused($isFieldFocused)
-          EXLargeSelector(text: $transaction.categoryName, icon: $transaction.categoryIcon, buttonText: "Change", action: {
-            showCategoriesSelector.toggle()
-          })
-          Text(Appearance.shared.infoText)
-            .font(.mukta(.regular, size: 13))
-            .foregroundColor(.darkGrey)
-            .frame(maxWidth: .infinity, alignment: .leading)
         }
-      }
+        EXNumberKeyboard(textValue: $amountValue) {
+          validateBudget()
+        }
+      })
+      .ignoresSafeArea(.keyboard, edges: .all)
       .onTapGesture {
         isFieldFocused = false
-        budgetFieldFocused = false
-        validateBudget()
       }
       .onAppear {
         budgetValue = budget.amount
@@ -87,18 +82,18 @@ struct AddTransactionView: View {
               .foregroundColor(.black)
           }
         }
-        ToolbarItem(placement: .bottomBar) {
-          Button {
-            createTransaction()
-            makeDismiss()
-          } label: {
-            Text(Appearance.shared.buttonText)
-              .font(.mukta(.semibold, size: 17))
-          }
-          .padding(.bottom, 15)
-          .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
-          .disabled(Double(amountValue) == 0 || transaction.name.isEmpty || !isBudgetAvailable)
-        }
+        //        ToolbarItem(placement: .bottomBar) {
+        //          Button {
+        //            createTransaction()
+        //            makeDismiss()
+        //          } label: {
+        //            Text(Appearance.shared.buttonText)
+        //              .font(.mukta(.semibold, size: 17))
+        //          }
+        //          .padding(.bottom, 15)
+        //          .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+        //          .disabled(Double(amountValue) == 0 || transaction.name.isEmpty || !isBudgetAvailable)
+        //        }
       }
     }
   }

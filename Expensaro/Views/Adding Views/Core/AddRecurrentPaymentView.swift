@@ -37,40 +37,38 @@ struct AddRecurrentPaymentView: View {
   @State private var showReminderAlert = false
   var body: some View {
     NavigationView {
-      ScrollView {
-        EXSegmentControl(currentTab: $recurringPayment.type, type: .transactionType).padding(.top, 16)
-        VStack(spacing: 20) {
-          VStack(spacing: 0) {
-            recurringTextField()
-              .inputView {
-                EXNumberKeyboard(textValue: $amountValue) {
-                  validateBudget()
-                }
-                .applyMargins()
-                .padding(.bottom, 15)
-              }
-              .focused($budgetFieldFocused)
-            budgetSection()
-          }
-          EXTextField(text: $recurringPayment.name, placeholder: Appearance.shared.textFieldPlaceholder)
-            .keyboardType(.alphabet)
-            .focused($isFieldFocused)
-          VStack(alignment: .leading, spacing: 5) {
-            Text("Select payment category")
-              .font(.mukta(.regular, size: 13))
-              .foregroundColor(.darkGrey)
-            EXLargeSelector(text: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon, buttonText: "Change", action: {
-              showCategoryelector.toggle()
-            })
-          }
-          VStack(alignment: .leading, spacing: 5) {
-            Text("Select payment schedule")
-              .font(.mukta(.regular, size: 13))
-              .foregroundColor(.darkGrey)
-            scheduleView()
+      ZStack(alignment: .bottom, content: {
+        ScrollView {
+          EXSegmentControl(currentTab: $recurringPayment.type, type: .transactionType).padding(.top, 16)
+          VStack(spacing: 15) {
+            VStack(spacing: 0) {
+              recurringTextField()
+              budgetSection()
+            }
+            EXTextField(text: $recurringPayment.name, placeholder: Appearance.shared.textFieldPlaceholder)
+              .keyboardType(.alphabet)
+              .focused($isFieldFocused)
+            VStack(alignment: .leading, spacing: 5) {
+              Text("Select payment category")
+                .font(.mukta(.regular, size: 13))
+                .foregroundColor(.darkGrey)
+              EXLargeSelector(text: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon, buttonText: "Change", action: {
+                showCategoryelector.toggle()
+              })
+            }
+            VStack(alignment: .leading, spacing: 5) {
+              Text("Select payment schedule")
+                .font(.mukta(.regular, size: 13))
+                .foregroundColor(.darkGrey)
+              scheduleView()
+            }
           }
         }
-      }
+        EXNumberKeyboard(textValue: $amountValue) {
+          validateBudget()
+        }
+      })
+      .ignoresSafeArea(.keyboard, edges: .all)
       .onTapGesture {
         isFieldFocused = false
         budgetFieldFocused = false
@@ -111,17 +109,17 @@ struct AddRecurrentPaymentView: View {
               .foregroundColor(.black)
           }
         }
-        ToolbarItem(placement: .bottomBar) {
-          Button {
-            showReminderAlert.toggle()
-          } label: {
-            Text(Appearance.shared.buttonText)
-              .font(.mukta(.semibold, size: 17))
-          }
-          .padding(.bottom, 15)
-          .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
-          .disabled(recurringPayment.name.isEmpty || Double(amountValue) == 0 || !isBudgetAvailable)
-        }
+//        ToolbarItem(placement: .bottomBar) {
+//          Button {
+//            showReminderAlert.toggle()
+//          } label: {
+//            Text(Appearance.shared.buttonText)
+//              .font(.mukta(.semibold, size: 17))
+//          }
+//          .padding(.bottom, 15)
+//          .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+//          .disabled(recurringPayment.name.isEmpty || Double(amountValue) == 0 || !isBudgetAvailable)
+//        }
       }
     }
   }

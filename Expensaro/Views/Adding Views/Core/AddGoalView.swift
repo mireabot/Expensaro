@@ -24,32 +24,30 @@ struct AddGoalView: View {
   @State private var showDateSheet = false
   var body: some View {
     NavigationView {
-      ScrollView {
-        VStack(spacing: 20) {
-          EXTextField(text: $goal.name, placeholder: Appearance.shared.placeholder)
-            .keyboardType(.alphabet)
-            .focused($isFieldFocused)
-          goalTextField()
-            .inputView {
-              EXNumberKeyboard(textValue: $amountValue) {
-                isFieldFocused = false
+      ZStack(alignment: .bottom, content: {
+        ScrollView {
+          VStack(spacing: 20) {
+            EXTextField(text: $goal.name, placeholder: Appearance.shared.placeholder)
+              .keyboardType(.alphabet)
+              .focused($isFieldFocused)
+            goalTextField()
+            VStack(alignment: .leading, spacing: 5) {
+              Text(Appearance.shared.infoText)
+                .font(.mukta(.regular, size: 13))
+                .foregroundColor(.darkGrey)
+              EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant("timer"), buttonText: "Change") {
+                showDateSheet.toggle()
               }
-              .applyMargins()
-              .padding(.bottom, 15)
-            }
-            .focused($isFieldFocused)
-          VStack(alignment: .leading, spacing: 5) {
-            Text(Appearance.shared.infoText)
-              .font(.mukta(.regular, size: 13))
-              .foregroundColor(.darkGrey)
-            EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant("timer"), buttonText: "Change") {
-              showDateSheet.toggle()
             }
           }
+          .padding(.top, 16)
         }
-        .padding(.top, 16)
         
-      }
+        EXNumberKeyboard(textValue: $amountValue) {
+          // Validate
+        }
+      })
+      .ignoresSafeArea(.keyboard, edges: .all)
       .onTapGesture {
         isFieldFocused = false
       }
@@ -73,19 +71,19 @@ struct AddGoalView: View {
               .foregroundColor(.black)
           }
         }
-        ToolbarItem(placement: .bottomBar) {
-          Button {
-            createGoal {
-              makeDismiss()
-            }
-          } label: {
-            Text(Appearance.shared.buttonText)
-              .font(.mukta(.semibold, size: 17))
-          }
-          .padding(.bottom, 15)
-          .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
-          .disabled(goal.name.isEmpty || amountValue == "0.0")
-        }
+//        ToolbarItem(placement: .bottomBar) {
+//          Button {
+//            createGoal {
+//              makeDismiss()
+//            }
+//          } label: {
+//            Text(Appearance.shared.buttonText)
+//              .font(.mukta(.semibold, size: 17))
+//          }
+//          .padding(.bottom, 15)
+//          .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+//          .disabled(goal.name.isEmpty || amountValue == "0.0")
+//        }
       }
     }
   }
