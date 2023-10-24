@@ -8,7 +8,7 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
-import Shimmer
+import PopupView
 
 struct AddTransactionView: View {
   // MARK: Essential
@@ -27,13 +27,17 @@ struct AddTransactionView: View {
   @State private var isBudgetAvailable = true
   @State private var isLoading = false
   
+  // MARK: Errors
+  @State private var errorType = EXErrors.none
+  
   // MARK: Presentation
   @State private var showCategoriesSelector = false
+  @State private var showError = false
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
         ScrollView {
-          EXSegmentControl(currentTab: $transaction.type, type: .transactionType).padding(.top, 16)
+          EXSegmentControl(currentTab: $transaction.type, type: .transactionType).padding(.top, 20)
           VStack(spacing: 15) {
             VStack(spacing: 0) {
               transactionTextField()
@@ -63,6 +67,15 @@ struct AddTransactionView: View {
         budgetValue = budget.amount
       }
       .applyMargins()
+      .popup(isPresented: $showError, view: {
+        EXErrorView(type: $errorType)
+      }, customize: {
+        $0
+          .isOpaque(true)
+          .type(.floater())
+          .position(.top)
+          .autohideIn(1.5)
+      })
       .sheet(isPresented: $showCategoriesSelector, content: {
         CategorySelectorView(title: $transaction.categoryName, icon: $transaction.categoryIcon)
           .presentationDetents([.fraction(0.9)])
@@ -82,18 +95,6 @@ struct AddTransactionView: View {
               .foregroundColor(.black)
           }
         }
-        //        ToolbarItem(placement: .bottomBar) {
-        //          Button {
-        //            createTransaction()
-        //            makeDismiss()
-        //          } label: {
-        //            Text(Appearance.shared.buttonText)
-        //              .font(.mukta(.semibold, size: 17))
-        //          }
-        //          .padding(.bottom, 15)
-        //          .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
-        //          .disabled(Double(amountValue) == 0 || transaction.name.isEmpty || !isBudgetAvailable)
-        //        }
       }
     }
   }
@@ -182,7 +183,20 @@ extension AddTransactionView {
 extension AddTransactionView {
   func validateBudget() {
     if Double(amountValue) ?? 0 > budgetValue {
-      isBudgetAvailable = false
+      errorType = .budgetExceed
+      showError.toggle()
+      return
+    } else if Double(amountValue) ?? 0 == 0 {
+      errorType = .zeroAmount
+      showError.toggle()
+      return
+    } else if transaction.name.isEmpty {
+      errorType = .emptyName
+      showError.toggle()
+      return
+    } else {
+      createTransaction()
+      makeDismiss()
     }
   }
 }

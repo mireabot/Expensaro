@@ -8,6 +8,7 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
+import PopupView
 
 struct AddGoalView: View {
   // MARK: Essential
@@ -19,9 +20,13 @@ struct AddGoalView: View {
   @Environment(\.realm) var realm
   @ObservedRealmObject var goal: Goal
   
+  // MARK: Error
+  @State private var errorType = EXErrors.none
+  
   // MARK: Presentation
   @State private var showInitPaymentSheet = false
   @State private var showDateSheet = false
+  @State private var showError = false
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
@@ -40,11 +45,11 @@ struct AddGoalView: View {
               }
             }
           }
-          .padding(.top, 16)
+          .padding(.top, 20)
         }
         
         EXNumberKeyboard(textValue: $amountValue) {
-          // Validate
+          validateGoal()
         }
       })
       .ignoresSafeArea(.keyboard, edges: .all)
@@ -52,6 +57,15 @@ struct AddGoalView: View {
         isFieldFocused = false
       }
       .applyMargins()
+      .popup(isPresented: $showError, view: {
+        EXErrorView(type: $errorType)
+      }, customize: {
+        $0
+          .isOpaque(true)
+          .type(.floater())
+          .position(.top)
+          .autohideIn(1.5)
+      })
       .sheet(isPresented: $showDateSheet, content: {
         DateSelectorView(type: .setGoalDate, selectedDate: $goal.dueDate)
           .presentationDetents([.medium])
@@ -71,19 +85,6 @@ struct AddGoalView: View {
               .foregroundColor(.black)
           }
         }
-//        ToolbarItem(placement: .bottomBar) {
-//          Button {
-//            createGoal {
-//              makeDismiss()
-//            }
-//          } label: {
-//            Text(Appearance.shared.buttonText)
-//              .font(.mukta(.semibold, size: 17))
-//          }
-//          .padding(.bottom, 15)
-//          .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
-//          .disabled(goal.name.isEmpty || amountValue == "0.0")
-//        }
       }
     }
   }
@@ -153,5 +154,23 @@ extension AddGoalView {
       realm.add(goal)
     }
     completion()
+  }
+}
+
+
+// MARK: - Helper Functions
+extension AddGoalView {
+  func validateGoal() {
+    if goal.name.isEmpty {
+      errorType = .emptyName
+      showError.toggle()
+    } else if Double(amountValue) ?? 0 == 0 {
+      errorType = .zeroAmount
+      showError.toggle()
+    } else {
+      createGoal {
+        makeDismiss()
+      }
+    }
   }
 }

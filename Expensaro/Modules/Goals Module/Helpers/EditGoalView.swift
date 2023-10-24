@@ -12,7 +12,6 @@ import RealmSwift
 struct EditGoalView: View {
   // MARK: Essential
   @Environment(\.dismiss) var makeDismiss
-  @FocusState private var isFieldFocused: Bool
   @State private var amountValue: String = "0.0"
   
   // MARK: Realm
@@ -22,48 +21,45 @@ struct EditGoalView: View {
   @State private var showDateSelector = false
   var body: some View {
     NavigationView {
-      ScrollView(showsIndicators: false) {
-        VStack(spacing: 20) {
-          VStack(spacing: 5) {
-            Text("Enter new budget for goal")
-              .font(.mukta(.regular, size: 13))
-              .foregroundColor(.darkGrey)
-              .frame(maxWidth: .infinity, alignment: .leading)
-            goalTextField()
-              .inputView {
-                EXNumberKeyboard(textValue: $amountValue) {
-                  isFieldFocused = false
-                }
-                .applyMargins()
-                .padding(.bottom, 15)
-              }
-              .focused($isFieldFocused)
+      ZStack(alignment: .bottom, content: {
+        ScrollView(showsIndicators: false) {
+          VStack(spacing: 20) {
+            VStack(spacing: 5) {
+              Text("Enter new budget for goal")
+                .font(.mukta(.regular, size: 13))
+                .foregroundColor(.darkGrey)
+                .frame(maxWidth: .infinity, alignment: .leading)
+              goalTextField()
+            }
+            
+            VStack(spacing: 5) {
+              Text("Select new goal due date")
+                .font(.mukta(.regular, size: 13))
+                .foregroundColor(.darkGrey)
+                .frame(maxWidth: .infinity, alignment: .leading)
+              EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant("timer"), buttonText: "Change", action: {
+                showDateSelector.toggle()
+              })
+            }
           }
-          
-          VStack(spacing: 5) {
-            Text("Select new goal due date")
-              .font(.mukta(.regular, size: 13))
-              .foregroundColor(.darkGrey)
-              .frame(maxWidth: .infinity, alignment: .leading)
-            EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant("timer"), buttonText: "Change", action: {
-              showDateSelector.toggle()
-            })
+          .applyMargins()
+          .padding(.top, 20)
+        }
+        
+        EXNumberKeyboard(textValue: $amountValue) {
+          updateGoal {
+            makeDismiss()
           }
         }
         .applyMargins()
-        .padding(.top, 20)
-      }
+      })
       .onAppear {
         amountValue = String(goal.finalAmount)
-      }
-      .onTapGesture {
-        isFieldFocused = false
       }
       .sheet(isPresented: $showDateSelector, content: {
         DateSelectorView(type: .updateGoalDate, selectedDate: $goal.dueDate)
           .presentationDetents([.medium])
       })
-      .interactiveDismissDisabled()
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -72,24 +68,12 @@ struct EditGoalView: View {
             .padding(.top)
         }
         
-        ToolbarItem(placement: .navigationBarLeading) {
+        ToolbarItem(placement: .topBarTrailing) {
           Button {
             makeDismiss()
           } label: {
             Appearance.shared.closeIcon
               .foregroundColor(.black)
-              .padding(.top)
-          }
-        }
-        
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button {
-            updateGoal {
-              makeDismiss()
-            }
-          } label: {
-            Appearance.shared.saveIcon
-              .foregroundColor(.primaryGreen)
               .padding(.top)
           }
         }
@@ -114,7 +98,6 @@ extension EditGoalView {
     
     let closeIcon = Source.Images.Navigation.close
     let timerIcon = Source.Images.System.timer
-    let saveIcon = Source.Images.ButtonIcons.save
   }
 }
 

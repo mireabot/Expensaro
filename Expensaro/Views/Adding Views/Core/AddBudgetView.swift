@@ -20,43 +20,30 @@ struct AddBudgetView: View {
   @ObservedRealmObject var budget: Budget
   
   // MARK: Variables
-  @State private var budgetAmount: String = "0.0"
+  @State private var amountValue: String = "0.0"
   
   // MARK: Presentation
   @State private var showError = false
   var body: some View {
     NavigationView {
-      ScrollView {
-        VStack(alignment: .leading, spacing: 10) {
-          HStack {
-            EXTextFieldWithCurrency(value: $budgetAmount)
-            Button {
-              budgetAmount.removeLast()
-              if budgetAmount.isEmpty { budgetAmount = "0.0" }
-            } label: {
-              Source.Images.System.remove
-                .padding(10)
-                .background(Color.backgroundGrey)
-                .cornerRadius(20)
-            }
-            .buttonStyle(EXPlainButtonStyle())
-            .disabled(budgetAmount == "0.0")
+      ZStack(alignment: .bottom, content: {
+        ScrollView {
+          VStack(alignment: .leading, spacing: 10) {
+            budgetTextField()
+            Text(type.infoText)
+              .font(.mukta(.regular, size: 13))
+              .foregroundColor(.darkGrey)
           }
-          Text(type.infoText)
-            .font(.mukta(.regular, size: 13))
-            .foregroundColor(.darkGrey)
         }
-      }
-      .safeAreaInset(edge: .bottom, content: {
-        EXNumberKeyboard(textValue: $budgetAmount, submitAction: {
+        
+        EXNumberKeyboard(textValue: $amountValue, submitAction: {
           validate {
             makeDismiss()
           }
         })
-        .padding(.bottom, 15)
       })
       .popup(isPresented: $showError, view: {
-        alertView()
+        EXErrorView(type: .constant(.zeroAmount))
       }, customize: {
         $0
           .isOpaque(true)
@@ -87,7 +74,7 @@ struct AddBudgetView: View {
 
 struct AddBudgetView_Previews: PreviewProvider {
   static var previews: some View {
-    AddBudgetView(type: .updateBudget, budget: Budget())
+    AddBudgetView(type: .addBudget, budget: Budget())
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
@@ -101,11 +88,40 @@ extension AddBudgetView {
   }
 }
 
+// MARK: - Helper Views
+extension AddBudgetView {
+  @ViewBuilder
+  func budgetTextField() -> some View {
+    HStack {
+      Text("$")
+        .font(.mukta(.medium, size: 24))
+      TextField("", text: $amountValue)
+        .font(.mukta(.medium, size: 40))
+        .tint(.clear)
+        .multilineTextAlignment(.leading)
+      
+      Spacer()
+      
+      Button {
+        amountValue.removeLast()
+        if amountValue.isEmpty { amountValue = "0.0" }
+      } label: {
+        Source.Images.System.remove
+          .padding(10)
+          .background(Color.backgroundGrey)
+          .cornerRadius(20)
+      }
+      .buttonStyle(EXPlainButtonStyle())
+      .disabled(amountValue == "0.0")
+    }
+  }
+}
+
 // MARK: - Realm Functions
 extension AddBudgetView {
   /// Creates new copy of budget objects and saves in memory
   func addBudget() {
-    budget.amount = Double(budgetAmount) ?? 0
+    budget.amount = Double(amountValue) ?? 0
     try? realm.write {
       realm.add(budget)
     }
@@ -113,11 +129,11 @@ extension AddBudgetView {
   
   /// Gets freezed copy of budget object and updates amount field
   func updateBudget() {
-    let incomeTransaction = Source.Realm.createTransaction(name: "Budget top up", date: Date(), category: (Source.Strings.Categories.Images.income, "Added funds"), amount: Double(budgetAmount) ?? 0, type: "Refill")
+    let incomeTransaction = Source.Realm.createTransaction(name: "Budget top up", date: Date(), category: (Source.Strings.Categories.Images.income, "Added funds"), amount: Double(amountValue) ?? 0, type: "Refill")
     
     if let newBudget = budget.thaw(), let realm = newBudget.realm {
       try? realm.write {
-        newBudget.amount += Double(budgetAmount) ?? 0
+        newBudget.amount += Double(amountValue) ?? 0
         realm.add(incomeTransaction)
       }
     }
@@ -151,7 +167,7 @@ extension AddBudgetView {
     var infoText: String {
       switch self {
       case .addBudget:
-        return ""
+        return "Enter amount which you plan to spend this month"
       case .updateBudget:
         return "Enter amount which you want to add to your current budget"
       }
@@ -162,7 +178,7 @@ extension AddBudgetView {
 // MARK: - Validation
 extension AddBudgetView {
   func validate(completion: @escaping() -> Void) {
-    if Double(budgetAmount) != 0 {
+    if Double(amountValue) != 0 {
       switch type {
       case .addBudget:
         addBudget()
@@ -173,20 +189,5 @@ extension AddBudgetView {
     } else {
       showError.toggle()
     }
-  }
-  
-  @ViewBuilder
-  func alertView() -> some View {
-    HStack {
-      Source.Images.System.alertError
-        .foregroundColor(.red)
-      Text("Invalid entry")
-        .font(.mukta(.medium, size: 17))
-        .foregroundColor(.red)
-    }
-    .padding(.horizontal, 15)
-    .padding(.vertical, 10)
-    .background(Color.backgroundGrey)
-    .cornerRadius(12)
   }
 }

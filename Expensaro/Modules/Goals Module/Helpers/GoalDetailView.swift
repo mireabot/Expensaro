@@ -36,9 +36,6 @@ struct GoalDetailView: View {
         
         bottomActionButton().padding(16)
       })
-      .onAppear {
-        print(goal)
-      }
       .popup(isPresented: $showDeleteAlert) {
         EXAlert(type: .deleteGoal, primaryAction: { deleteGoal() }, secondaryAction: { showDeleteAlert.toggle() }).applyMargins()
       } customize: {

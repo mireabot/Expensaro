@@ -20,41 +20,27 @@ struct AddGoalTransactionView: View {
   @ObservedRealmObject var goal: Goal
   
   // MARK: Variables
-  @State private var budgetAmount: String = "0.0"
+  @State private var amountValue: String = "0.0"
   
   // MARK: Presentation
   @State private var showError = false
   var body: some View {
     // TODO: Create textfield same as in transaction view and make section with money left to current goal
     NavigationView {
-      ScrollView {
-        VStack(alignment: .leading, spacing: 10) {
-          HStack {
-            EXTextFieldWithCurrency(value: $budgetAmount)
-            Button {
-              budgetAmount.removeLast()
-              if budgetAmount.isEmpty { budgetAmount = "0.0" }
-            } label: {
-              Source.Images.System.remove
-                .padding(10)
-                .background(Color.backgroundGrey)
-                .cornerRadius(20)
-            }
-            .buttonStyle(EXPlainButtonStyle())
-            .disabled(budgetAmount == "0.0")
+      ZStack(alignment: .bottom, content: {
+        ScrollView {
+          VStack(alignment: .leading, spacing: 10) {
+            goalTransactionTextField()
           }
         }
-      }
-      .safeAreaInset(edge: .bottom, content: {
-        EXNumberKeyboard(textValue: $budgetAmount, submitAction: {
+        EXNumberKeyboard(textValue: $amountValue, submitAction: {
           validate {
             makeDismiss()
           }
         })
-        .padding(.bottom, 15)
       })
       .popup(isPresented: $showError, view: {
-        alertView()
+        EXErrorView(type: .constant(.zeroAmount))
       }, customize: {
         $0
           .isOpaque(true)
@@ -94,10 +80,39 @@ extension AddGoalTransactionView {
   }
 }
 
+// MARK: - Helper Views
+extension AddGoalTransactionView {
+  @ViewBuilder
+  func goalTransactionTextField() -> some View {
+    HStack {
+      Text("$")
+        .font(.mukta(.medium, size: 24))
+      TextField("", text: $amountValue)
+        .font(.mukta(.medium, size: 40))
+        .tint(.clear)
+        .multilineTextAlignment(.leading)
+      
+      Spacer()
+      
+      Button {
+        amountValue.removeLast()
+        if amountValue.isEmpty { amountValue = "0.0" }
+      } label: {
+        Source.Images.System.remove
+          .padding(10)
+          .background(Color.backgroundGrey)
+          .cornerRadius(20)
+      }
+      .buttonStyle(EXPlainButtonStyle())
+      .disabled(amountValue == "0.0")
+    }
+  }
+}
+
 // MARK: - Validation
 extension AddGoalTransactionView {
   func validate(completion: @escaping() -> Void) {
-    if Double(budgetAmount) != 0 {
+    if Double(amountValue) != 0 {
       createGoalTransaction()
       completion()
     } else {
@@ -124,10 +139,10 @@ extension AddGoalTransactionView {
 // MARK: - Realm Functions
 extension AddGoalTransactionView {
   func createGoalTransaction() {
-    goalTransaction.amount = Double(budgetAmount) ?? 0
+    goalTransaction.amount = Double(amountValue) ?? 0
     if let newGoal = goal.thaw(), let realm = newGoal.realm {
       try? realm.write {
-        newGoal.currentAmount += Double(budgetAmount) ?? 0
+        newGoal.currentAmount += Double(amountValue) ?? 0
         newGoal.transactions.append(goalTransaction)
       }
     }
