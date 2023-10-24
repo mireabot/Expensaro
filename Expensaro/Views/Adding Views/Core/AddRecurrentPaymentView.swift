@@ -9,12 +9,12 @@ import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
 import Shimmer
+import PopupView
 
 struct AddRecurrentPaymentView: View {
   // MARK: Essential
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
-  @FocusState private var budgetFieldFocused: Bool
   
   // MARK: Realm
   @Environment(\.realm) var realm
@@ -25,9 +25,11 @@ struct AddRecurrentPaymentView: View {
   @State private var paymentPeriodicity = "Not selected"
   @State var amountValue: String = "0.0"
   @State private var budgetValue: Double = 0
-  @State private var budgetExceed: Double = 0
   @State private var isBudgetAvailable = true
   @State private var isLoading = false
+  
+  // MARK: Error
+  @State private var errorType = EXErrors.none
   
   // MARK: Presentation
   @State private var showAnimation = false
@@ -35,11 +37,12 @@ struct AddRecurrentPaymentView: View {
   @State private var showNextDate = false
   @State private var showCategoryelector = false
   @State private var showReminderAlert = false
+  @State private var showError = false
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
         ScrollView {
-          EXSegmentControl(currentTab: $recurringPayment.type, type: .transactionType).padding(.top, 16)
+          EXSegmentControl(currentTab: $recurringPayment.type, type: .transactionType).padding(.top, 20)
           VStack(spacing: 15) {
             VStack(spacing: 0) {
               recurringTextField()
@@ -71,13 +74,20 @@ struct AddRecurrentPaymentView: View {
       .ignoresSafeArea(.keyboard, edges: .all)
       .onTapGesture {
         isFieldFocused = false
-        budgetFieldFocused = false
-        validateBudget()
       }
       .onAppear {
         budgetValue = budget.amount
       }
       .applyMargins()
+      .popup(isPresented: $showError, view: {
+        EXErrorView(type: $errorType)
+      }, customize: {
+        $0
+          .isOpaque(true)
+          .type(.floater())
+          .position(.top)
+          .autohideIn(1.5)
+      })
       .sheet(isPresented: $showSchedule, content: {
         PeriodicitySelectorView(selectedPeriodicity: $recurringPayment.schedule)
           .presentationDetents([.fraction(0.45)])
@@ -109,17 +119,6 @@ struct AddRecurrentPaymentView: View {
               .foregroundColor(.black)
           }
         }
-//        ToolbarItem(placement: .bottomBar) {
-//          Button {
-//            showReminderAlert.toggle()
-//          } label: {
-//            Text(Appearance.shared.buttonText)
-//              .font(.mukta(.semibold, size: 17))
-//          }
-//          .padding(.bottom, 15)
-//          .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
-//          .disabled(recurringPayment.name.isEmpty || Double(amountValue) == 0 || !isBudgetAvailable)
-//        }
       }
     }
   }
@@ -314,7 +313,6 @@ extension AddRecurrentPaymentView {
         amountValue.removeLast()
         if amountValue.isEmpty {
           amountValue = "0.0"
-          isBudgetAvailable = true
         }
       } label: {
         Source.Images.System.remove
@@ -358,10 +356,21 @@ extension AddRecurrentPaymentView {
 // MARK: - Helper Functions
 extension AddRecurrentPaymentView {
   func validateBudget() {
-    if amountValue != "0.0" {
-      if Double(amountValue) ?? 0 > budgetValue {
-        isBudgetAvailable = false
-      }
+    if Double(amountValue) ?? 0 > budgetValue {
+      errorType = .budgetExceed
+      showError.toggle()
+      return
+    } else if Double(amountValue) ?? 0 == 0 {
+      errorType = .zeroAmount
+      showError.toggle()
+      return
+    } else if recurringPayment.name.isEmpty {
+      errorType = .emptyName
+      showError.toggle()
+      return
+    } else {
+      createPayment()
+      makeDismiss()
     }
   }
 }

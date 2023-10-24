@@ -28,7 +28,7 @@ struct AddTransactionView: View {
   @State private var isLoading = false
   
   // MARK: Errors
-  @State var errorType = EXErrors.none
+  @State private var errorType = EXErrors.none
   
   // MARK: Presentation
   @State private var showCategoriesSelector = false

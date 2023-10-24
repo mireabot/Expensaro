@@ -112,7 +112,7 @@ struct RecurrentPaymentDetailView: View {
         isOn = transaction.isReminder
       }
       .popup(isPresented: $showDeleteAlert) {
-        EXAlert(type: .deleteTransaction, primaryAction: {}, secondaryAction: {showDeleteAlert.toggle()}).applyMargins()
+        EXAlert(type: .deleteTransaction, primaryAction: { deletePayment() }, secondaryAction: {showDeleteAlert.toggle()}).applyMargins()
       } customize: {
         $0
           .animation(.spring())
@@ -208,4 +208,25 @@ extension RecurrentPaymentDetailView {
       }
     }
   }
+}
+
+// MARK: - Realm Functions
+extension RecurrentPaymentDetailView {
+  func deletePayment() {
+    showDeleteAlert.toggle()
+    
+    if let newBudget = budget.thaw(), let realm = newBudget.realm {
+      try? realm.write {
+        newBudget.amount += transaction.amount
+      }
+    }
+    
+    if let transaction = transaction.thaw(), let realm = transaction.realm {
+      try? realm.write {
+        realm.delete(transaction)
+      }
+    }
+    router.nav?.popViewController(animated: true)
+  }
+
 }
