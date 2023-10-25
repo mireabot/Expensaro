@@ -44,7 +44,7 @@ struct AddTransactionView: View {
               budgetSection()
             }
             EXTextField(text: $transaction.name, placeholder: Appearance.shared.textFieldPlaceholder)
-              .keyboardType(.alphabet)
+              .autocorrectionDisabled()
               .focused($isFieldFocused)
             EXLargeSelector(text: $transaction.categoryName, icon: $transaction.categoryIcon, buttonText: "Change", action: {
               showCategoriesSelector.toggle()

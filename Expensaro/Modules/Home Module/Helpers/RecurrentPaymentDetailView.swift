@@ -79,8 +79,11 @@ struct RecurrentPaymentDetailView: View {
         }
         .padding(10)
         .background(.white)
-        .cornerRadius(12)
-        .shadowXS()
+        .overlay(
+          RoundedRectangle(cornerRadius: 12)
+            .inset(by: 0.5)
+            .stroke(Color.border, lineWidth: 1)
+        )
         
         Button {
           showNoteView.toggle()
@@ -100,8 +103,11 @@ struct RecurrentPaymentDetailView: View {
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(10)
           .background(.white)
-          .cornerRadius(12)
-          .shadowXS()
+          .overlay(
+            RoundedRectangle(cornerRadius: 12)
+              .inset(by: 0.5)
+              .stroke(Color.border, lineWidth: 1)
+          )
         }
         .buttonStyle(EXPlainButtonStyle())
         
@@ -176,7 +182,7 @@ extension RecurrentPaymentDetailView {
     NavigationView {
       ScrollView {
         EXResizableTextField(message: $transaction.note, characterLimit: 300)
-          .keyboardType(.alphabet)
+          .autocorrectionDisabled()
       }
       .applyMargins()
       .navigationBarTitleDisplayMode(.inline)

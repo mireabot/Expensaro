@@ -88,8 +88,11 @@ struct TransactionDetailView: View {
         }
         .padding(12)
         .background(.white)
-        .cornerRadius(12)
-        .shadowXS()
+        .overlay(
+          RoundedRectangle(cornerRadius: 12)
+            .inset(by: 0.5)
+            .stroke(Color.border, lineWidth: 1)
+        )
         
         Button {
           showNoteView.toggle()
@@ -109,13 +112,16 @@ struct TransactionDetailView: View {
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(12)
           .background(.white)
-          .cornerRadius(12)
-          .shadowXS()
+          .overlay(
+            RoundedRectangle(cornerRadius: 12)
+              .inset(by: 0.5)
+              .stroke(Color.border, lineWidth: 1)
+          )
         }
         .buttonStyle(EXPlainButtonStyle())
         
-        analyticsView()
-          .padding(.bottom, 10)
+//        analyticsView()
+//          .padding(.bottom, 10)
         
       }
 //      .onAppear {
@@ -191,7 +197,7 @@ private extension TransactionDetailView {
     NavigationView {
       ScrollView {
         EXResizableTextField(message: $transaction.note, characterLimit: 300)
-          .keyboardType(.alphabet)
+          .autocorrectionDisabled()
           .multilineSubmitEnabled(for: $transaction.note)
       }
       .applyMargins()
@@ -267,8 +273,11 @@ private extension TransactionDetailView {
     }
     .padding(10)
     .background(.white)
-    .cornerRadius(12)
-    .shadowXS()
+    .overlay(
+      RoundedRectangle(cornerRadius: 12)
+        .inset(by: 0.5)
+        .stroke(Color.border, lineWidth: 1)
+    )
   }
   
 //  func calculateSummaryForCategory(categoryToFilter: String) -> (totalAmount: Float, summaryByDay: [(amount: Float, date: Date)]) {

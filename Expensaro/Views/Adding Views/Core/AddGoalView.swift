@@ -33,7 +33,7 @@ struct AddGoalView: View {
         ScrollView {
           VStack(spacing: 20) {
             EXTextField(text: $goal.name, placeholder: Appearance.shared.placeholder)
-              .keyboardType(.alphabet)
+              .autocorrectionDisabled()
               .focused($isFieldFocused)
             goalTextField()
             VStack(alignment: .leading, spacing: 5) {
