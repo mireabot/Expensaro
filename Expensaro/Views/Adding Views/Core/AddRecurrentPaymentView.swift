@@ -49,7 +49,7 @@ struct AddRecurrentPaymentView: View {
               budgetSection()
             }
             EXTextField(text: $recurringPayment.name, placeholder: Appearance.shared.textFieldPlaceholder)
-              .keyboardType(.alphabet)
+              .autocorrectionDisabled()
               .focused($isFieldFocused)
             VStack(alignment: .leading, spacing: 5) {
               Text("Select payment category")

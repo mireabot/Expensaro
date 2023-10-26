@@ -45,7 +45,7 @@ struct CategorySelectorView: View {
       .background(.white)
       .navigationBarTitleDisplayMode(.inline)
       .sheet(isPresented: $showCategory, content: {
-        AddCategoryView(category: Category(), isSheet: true)
+        AddCategoryView(isSheet: true, category: Category())
       })
       .toolbar {
         ToolbarItem(placement: .principal) {

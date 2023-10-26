@@ -10,21 +10,15 @@ import ExpensaroUIKit
 import RealmSwift
 
 struct AddCategoryView: View {
+  // MARK: Essential
+  @EnvironmentObject var router: EXNavigationViewsRouter
   @Environment(\.realm) var realm
   @Environment(\.dismiss) var makeDismiss
-  
-  @ObservedRealmObject var category: Category
-  
-  @EnvironmentObject var router: EXNavigationViewsRouter
   @FocusState var isFocused: Bool
-  @State private var changeIcon = false
-  @State var detentHeight: CGFloat = 0
-  let items: [GridItem] = [
-    GridItem(.fixed(40), spacing: 20),
-    GridItem(.fixed(40), spacing: 20),
-    GridItem(.fixed(40), spacing: 20),
-  ]
   var isSheet: Bool
+  
+  // MARK: Realm
+  @ObservedRealmObject var category: Category
   var body: some View {
     NavigationView {
       ScrollView {
@@ -33,30 +27,53 @@ struct AddCategoryView: View {
             if category.icon.isEmpty {
               Image(Source.Strings.Categories.Images.other)
                 .resizable()
-                .frame(width: 30, height: 30)
+                .frame(width: 40, height: 40)
                 .foregroundColor(.primaryGreen)
+                .padding(8)
+                .background(Color.backgroundGrey)
+                .cornerRadius(12)
             } else {
               Image(category.icon)
                 .resizable()
-                .frame(width: 30, height: 30)
+                .frame(width: 40, height: 40)
                 .foregroundColor(.primaryGreen)
+                .padding(8)
+                .background(Color.backgroundGrey)
+                .cornerRadius(12)
             }
-            
-            Button {
-              changeIcon.toggle()
-            } label: {
-              Text("Change")
-                .font(.mukta(.semibold, size: 13))
-            }
-            .buttonStyle(SmallButtonStyle())
           }
           VStack(alignment: .leading, spacing: 5) {
             Text("Name")
               .foregroundColor(.darkGrey)
               .font(.mukta(.regular, size: 13))
-            EXTextField(text: $category.name, placeholder: "Required")
-              .keyboardType(.alphabet)
+            EXTextField(text: $category.name, placeholder: "Ex. Metrocard")
+              .autocorrectionDisabled()
               .focused($isFocused)
+          }
+          VStack(alignment: .leading, spacing: 5) {
+            LazyHGrid(rows: Appearance.shared.items, alignment: .center, spacing: 20) {
+              ForEach(DefaultCategories.defaultCategories) { item in
+                Button {
+                  withAnimation(.easeOut(duration: 0.5)) {
+                    category.icon = item.icon
+                  }
+                } label: {
+                  Image(item.icon)
+                    .foregroundColor(category.icon == item.icon ? .white : .primaryGreen)
+                    .padding(8)
+                    .background(category.icon == item.icon ? Color.primaryGreen : Color.backgroundGrey)
+                    .cornerRadius(12)
+                }
+                .buttonStyle(EXPlainButtonStyle())
+              }
+            }
+            .padding(16)
+            .background(.white)
+            .overlay(
+              RoundedRectangle(cornerRadius: 12)
+                .inset(by: 0.5)
+                .stroke(Color.border, lineWidth: 1)
+            )
           }
         }
         .padding(.top, 20)
@@ -66,16 +83,6 @@ struct AddCategoryView: View {
       .onTapGesture {
         isFocused = false
       }
-      .sheet(isPresented: $changeIcon, content: {
-        iconsGrid()
-          .readHeight()
-          .onPreferenceChange(HeightPreferenceKey.self) { height in
-            if let height {
-              self.detentHeight = height
-            }
-          }
-          .presentationDetents([.height(self.detentHeight)])
-      })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -124,7 +131,7 @@ struct AddCategoryView: View {
 
 struct AddCategory_Previews: PreviewProvider {
   static var previews: some View {
-    AddCategoryView(category: Category(), isSheet: false)
+    AddCategoryView(isSheet: false, category: Category())
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
@@ -139,43 +146,12 @@ extension AddCategoryView {
     let backIcon = Source.Images.Navigation.back
     let closeIcon = Source.Images.Navigation.close
     let submitIcon = Source.Images.Navigation.checkmark
-  }
-}
-
-// MARK: - Helper Views
-extension AddCategoryView {
-  @ViewBuilder
-  func iconsGrid() -> some View {
-    VStack(spacing: 0) {
-      Button {
-        changeIcon.toggle()
-      } label: {
-        Source.Images.Navigation.checkmark
-          .font(.callout)
-          .foregroundColor(.black)
-          .frame(maxWidth: .infinity, alignment: .trailing)
-          .applyMargins()
-          .padding(.vertical, 10)
-      }
-
-      Divider()
-      
-      LazyHGrid(rows: items, alignment: .center, spacing: 20) {
-        ForEach(DefaultCategories.defaultCategories) { item in
-          Image(item.icon)
-            .foregroundColor(.primaryGreen)
-            .padding(8)
-            .background(Color.backgroundGrey)
-            .cornerRadius(12)
-            .onTapGesture {
-              category.icon = item.icon
-              changeIcon.toggle()
-            }
-        }
-      }
-      .applyMargins()
-      .padding(.vertical, 15)
-    }
+    
+    var items: [GridItem] = [
+      GridItem(.flexible(), spacing: 20),
+      GridItem(.flexible(), spacing: 20),
+      GridItem(.flexible(), spacing: 20),
+    ]
   }
 }
 
