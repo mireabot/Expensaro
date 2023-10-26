@@ -37,79 +37,60 @@ struct TransactionDetailView: View {
             .foregroundColor(.darkGrey)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.top, 20)
+        .padding(.top, 16)
         
         // MARK: Transaction detail
-        VStack(spacing: 15) {
-          Button {
-            showChangeCategory.toggle()
-          } label: {
+        VStack(spacing: 10) {
+          Text("Information")
+            .font(.mukta(.regular, size: 13))
+            .foregroundColor(.darkGrey)
+            .frame(maxWidth: .infinity, alignment: .leading)
+          VStack(spacing: 15) {
+            Button {
+              showChangeCategory.toggle()
+            } label: {
+              HStack {
+                Image(transaction.categoryIcon)
+                  .foregroundColor(.primaryGreen)
+                  .padding(8)
+                  .background(Color.backgroundGrey)
+                  .cornerRadius(12)
+                VStack(alignment: .leading, spacing: -3) {
+                  Text("Category")
+                    .font(.mukta(.regular, size: 15))
+                    .foregroundColor(.darkGrey)
+                  Text(transaction.categoryName)
+                    .font(.mukta(.medium, size: 15))
+                    .foregroundColor(.black)
+                }
+                if transaction.categoryName != "Added funds" {
+                  Spacer()
+                  Source.Images.ButtonIcons.selector
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                }
+              }
+              .frame(maxWidth: .infinity, alignment: .leading)
+              .background(.white)
+            }
+            .buttonStyle(EXPlainButtonStyle())
+            .disabled(transaction.categoryName == "Added funds")
+
             HStack {
-              Image(transaction.categoryIcon)
-                .foregroundColor(.primaryGreen)
+              Source.Images.System.transactionType
+                .foregroundColor(.black)
                 .padding(8)
-                .background(Color.backgroundGrey)
-                .cornerRadius(12)
               VStack(alignment: .leading, spacing: -3) {
-                Text("Category")
+                Text("Type")
                   .font(.mukta(.regular, size: 15))
                   .foregroundColor(.darkGrey)
-                Text(transaction.categoryName)
+                Text(transaction.type)
                   .font(.mukta(.medium, size: 15))
                   .foregroundColor(.black)
               }
-              if transaction.categoryName != "Added funds" {
-                Spacer()
-                Source.Images.ButtonIcons.selector
-                  .resizable()
-                  .frame(width: 20, height: 20)
-              }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(.white)
           }
-          .buttonStyle(EXPlainButtonStyle())
-          .disabled(transaction.categoryName == "Added funds")
-
-          HStack {
-            Source.Images.System.transactionType
-              .foregroundColor(.black)
-              .padding(8)
-            VStack(alignment: .leading, spacing: -3) {
-              Text("Type")
-                .font(.mukta(.regular, size: 15))
-                .foregroundColor(.darkGrey)
-              Text(transaction.type)
-                .font(.mukta(.medium, size: 15))
-                .foregroundColor(.black)
-            }
-          }
-          .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .padding(12)
-        .background(.white)
-        .overlay(
-          RoundedRectangle(cornerRadius: 12)
-            .inset(by: 0.5)
-            .stroke(Color.border, lineWidth: 1)
-        )
-        
-        Button {
-          showNoteView.toggle()
-        } label: {
-          HStack {
-            Source.Images.ButtonIcons.edit
-              .padding(8)
-            VStack(alignment: .leading, spacing: -3) {
-              Text("Note")
-                .font(.mukta(.regular, size: 15))
-                .foregroundColor(.darkGrey)
-              Text(transaction.note)
-                .font(.mukta(.medium, size: 15))
-                .foregroundColor(.black)
-            }
-          }
-          .frame(maxWidth: .infinity, alignment: .leading)
           .padding(12)
           .background(.white)
           .overlay(
@@ -117,8 +98,44 @@ struct TransactionDetailView: View {
               .inset(by: 0.5)
               .stroke(Color.border, lineWidth: 1)
           )
+          
+          Button {
+            showNoteView.toggle()
+          } label: {
+            HStack {
+              Source.Images.ButtonIcons.edit
+                .padding(8)
+              VStack(alignment: .leading, spacing: -3) {
+                Text("Note")
+                  .font(.mukta(.regular, size: 15))
+                  .foregroundColor(.darkGrey)
+                Text(transaction.note)
+                  .font(.mukta(.medium, size: 15))
+                  .foregroundColor(.black)
+              }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
+            .background(.white)
+            .overlay(
+              RoundedRectangle(cornerRadius: 12)
+                .inset(by: 0.5)
+                .stroke(Color.border, lineWidth: 1)
+            )
+          }
+          .buttonStyle(EXPlainButtonStyle())
         }
-        .buttonStyle(EXPlainButtonStyle())
+        .padding(.top, 10)
+        
+        // MARK: Analytics
+        VStack(spacing: 10) {
+          Text("Insights")
+            .font(.mukta(.regular, size: 13))
+            .foregroundColor(.darkGrey)
+            .frame(maxWidth: .infinity, alignment: .leading)
+          emptyState()
+        }
+        .padding(.top, 10)
         
 //        analyticsView()
 //          .padding(.bottom, 10)
@@ -278,6 +295,24 @@ private extension TransactionDetailView {
         .inset(by: 0.5)
         .stroke(Color.border, lineWidth: 1)
     )
+  }
+  
+  @ViewBuilder
+  func emptyState() -> some View {
+    VStack(alignment: .center, spacing: 3) {
+      Text("There's nothing to show right now")
+        .font(.mukta(.semibold, size: 15))
+        .multilineTextAlignment(.center)
+      Text("We don't have enough data to make insights")
+        .font(.mukta(.regular, size: 13))
+        .foregroundColor(.darkGrey)
+        .multilineTextAlignment(.center)
+    }
+    .padding(.vertical, 15)
+    .padding(.horizontal, 20)
+    .frame(maxWidth: .infinity)
+    .background(Color.backgroundGrey)
+    .cornerRadius(12)
   }
   
 //  func calculateSummaryForCategory(categoryToFilter: String) -> (totalAmount: Float, summaryByDay: [(amount: Float, date: Date)]) {

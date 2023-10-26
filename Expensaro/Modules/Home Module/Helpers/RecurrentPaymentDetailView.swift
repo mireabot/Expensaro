@@ -35,72 +35,53 @@ struct RecurrentPaymentDetailView: View {
             .foregroundColor(.darkGrey)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.top, 20)
+        .padding(.top, 16)
         
         // MARK: Transaction detail
-        VStack(spacing: 15) {
-          HStack {
-            Image(transaction.categoryIcon)
-              .foregroundColor(.primaryGreen)
-              .padding(8)
-              .background(Color.backgroundGrey)
-              .cornerRadius(12)
-            VStack(alignment: .leading, spacing: -3) {
-              Text("Category")
-                .font(.mukta(.regular, size: 15))
-                .foregroundColor(.darkGrey)
-              Text(transaction.categoryName)
-                .font(.mukta(.medium, size: 15))
-                .foregroundColor(.black)
+        VStack(spacing: 10) {
+          Text("Information")
+            .font(.mukta(.regular, size: 13))
+            .foregroundColor(.darkGrey)
+            .frame(maxWidth: .infinity, alignment: .leading)
+          VStack(spacing: 15) {
+            HStack {
+              Image(transaction.categoryIcon)
+                .foregroundColor(.primaryGreen)
+                .padding(8)
+                .background(Color.backgroundGrey)
+                .cornerRadius(12)
+              VStack(alignment: .leading, spacing: -3) {
+                Text("Category")
+                  .font(.mukta(.regular, size: 15))
+                  .foregroundColor(.darkGrey)
+                Text(transaction.categoryName)
+                  .font(.mukta(.medium, size: 15))
+                  .foregroundColor(.black)
+              }
+              Spacer()
+              Source.Images.ButtonIcons.selector
+                .resizable()
+                .frame(width: 20, height: 20)
             }
-            Spacer()
-            Source.Images.ButtonIcons.selector
-              .resizable()
-              .frame(width: 20, height: 20)
-          }
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .onTapGesture {
-            // Select new category
-          }
-          HStack {
-            Source.Images.System.calendarYear
-              .foregroundColor(.black)
-              .padding(8)
-            VStack(alignment: .leading, spacing: -3) {
-              Text("Schedule")
-                .font(.mukta(.regular, size: 15))
-                .foregroundColor(.darkGrey)
-              Text(transaction.schedule.title)
-                .font(.mukta(.medium, size: 15))
-                .foregroundColor(.black)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .onTapGesture {
+              // Select new category
             }
-          }
-          .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .padding(10)
-        .background(.white)
-        .overlay(
-          RoundedRectangle(cornerRadius: 12)
-            .inset(by: 0.5)
-            .stroke(Color.border, lineWidth: 1)
-        )
-        
-        Button {
-          showNoteView.toggle()
-        } label: {
-          HStack {
-            Source.Images.ButtonIcons.edit
-              .padding(8)
-            VStack(alignment: .leading, spacing: -3) {
-              Text("Note")
-                .font(.mukta(.regular, size: 15))
-                .foregroundColor(.darkGrey)
-              Text(transaction.note)
-                .font(.mukta(.medium, size: 15))
+            HStack {
+              Source.Images.System.calendarYear
                 .foregroundColor(.black)
+                .padding(8)
+              VStack(alignment: .leading, spacing: -3) {
+                Text("Schedule")
+                  .font(.mukta(.regular, size: 15))
+                  .foregroundColor(.darkGrey)
+                Text(transaction.schedule.title)
+                  .font(.mukta(.medium, size: 15))
+                  .foregroundColor(.black)
+              }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
           }
-          .frame(maxWidth: .infinity, alignment: .leading)
           .padding(10)
           .background(.white)
           .overlay(
@@ -108,10 +89,44 @@ struct RecurrentPaymentDetailView: View {
               .inset(by: 0.5)
               .stroke(Color.border, lineWidth: 1)
           )
+          
+          Button {
+            showNoteView.toggle()
+          } label: {
+            HStack {
+              Source.Images.ButtonIcons.edit
+                .padding(8)
+              VStack(alignment: .leading, spacing: -3) {
+                Text("Note")
+                  .font(.mukta(.regular, size: 15))
+                  .foregroundColor(.darkGrey)
+                Text(transaction.note)
+                  .font(.mukta(.medium, size: 15))
+                  .foregroundColor(.black)
+              }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(10)
+            .background(.white)
+            .overlay(
+              RoundedRectangle(cornerRadius: 12)
+                .inset(by: 0.5)
+                .stroke(Color.border, lineWidth: 1)
+            )
+          }
+          .buttonStyle(EXPlainButtonStyle())
         }
-        .buttonStyle(EXPlainButtonStyle())
+        .padding(.top, 10)
         
-        EXToggleCard(type: .paymentReminder, isOn: $isOn)
+        // MARK: Analytics
+        VStack(spacing: 10) {
+          Text("Insights")
+            .font(.mukta(.regular, size: 13))
+            .foregroundColor(.darkGrey)
+            .frame(maxWidth: .infinity, alignment: .leading)
+          emptyState()
+        }
+        .padding(.top, 10)
         
       }
       .onAppear {
@@ -214,8 +229,26 @@ extension RecurrentPaymentDetailView {
       }
     }
   }
+  
+  @ViewBuilder
+  func emptyState() -> some View {
+    VStack(alignment: .center, spacing: 3) {
+      Text("There's nothing to show right now")
+        .font(.mukta(.semibold, size: 15))
+        .multilineTextAlignment(.center)
+      Text("We don't have enough data to make insights")
+        .font(.mukta(.regular, size: 13))
+        .foregroundColor(.darkGrey)
+        .multilineTextAlignment(.center)
+    }
+    .padding(.vertical, 15)
+    .padding(.horizontal, 20)
+    .frame(maxWidth: .infinity)
+    .background(Color.backgroundGrey)
+    .cornerRadius(12)
+  }
+  
 }
-
 // MARK: - Realm Functions
 extension RecurrentPaymentDetailView {
   func deletePayment() {
@@ -234,5 +267,4 @@ extension RecurrentPaymentDetailView {
     }
     router.nav?.popViewController(animated: true)
   }
-
 }
