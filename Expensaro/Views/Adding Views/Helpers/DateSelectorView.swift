@@ -68,6 +68,7 @@ extension DateSelectorView {
     case setGoalDate
     case setRecurrentDate
     case updateGoalDate
+    case updateTransaction
     
     var title: String {
       switch self {
@@ -77,6 +78,8 @@ extension DateSelectorView {
         return "Set pay date"
       case .updateGoalDate:
         return "Set new completion date"
+      case .updateTransaction:
+        return "Set new transaction date"
       }
     }
   }

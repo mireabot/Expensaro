@@ -20,33 +20,31 @@ struct TransactionDetailView: View {
   
   // MARK: Presentation
   @State private var showTransactionDeleteAlert = false
-  @State private var showChangeCategory = false
+  @State private var showEditTransaction = false
   @State private var showNoteView = false
   var body: some View {
     NavigationView {
-      ScrollView(showsIndicators: false) {
-        // MARK: Transaction header
-        VStack(alignment: .leading, spacing: 3) {
-          Text(transaction.name)
-            .font(.mukta(.medium, size: 20))
-          Text("$\(transaction.amount.clean)")
-            .font(.mukta(.bold, size: 34))
-          Text(Source.Functions.showString(from: transaction.date))
-            .font(.mukta(.regular, size: 15))
-            .foregroundColor(.darkGrey)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        
-        // MARK: Transaction detail
-        VStack(spacing: 10) {
-          Text("Information")
-            .font(.mukta(.regular, size: 13))
-            .foregroundColor(.darkGrey)
-            .frame(maxWidth: .infinity, alignment: .leading)
-          VStack(spacing: 15) {
-            Button {
-              showChangeCategory.toggle()
-            } label: {
+      ZStack(alignment: .bottomTrailing, content: {
+        ScrollView(showsIndicators: false) {
+          // MARK: Transaction header
+          VStack(alignment: .leading, spacing: 3) {
+            Text(transaction.name)
+              .font(.mukta(.medium, size: 20))
+            Text("$\(transaction.amount.clean)")
+              .font(.mukta(.bold, size: 34))
+            Text(Source.Functions.showString(from: transaction.date))
+              .font(.mukta(.regular, size: 15))
+              .foregroundColor(.darkGrey)
+          }
+          .frame(maxWidth: .infinity, alignment: .leading)
+          
+          // MARK: Transaction detail
+          VStack(spacing: 10) {
+            Text("Information")
+              .font(.mukta(.regular, size: 13))
+              .foregroundColor(.darkGrey)
+              .frame(maxWidth: .infinity, alignment: .leading)
+            VStack(spacing: 15) {
               HStack {
                 Image(transaction.categoryIcon)
                   .foregroundColor(.primaryGreen)
@@ -61,58 +59,25 @@ struct TransactionDetailView: View {
                     .font(.mukta(.medium, size: 15))
                     .foregroundColor(.black)
                 }
-                if transaction.categoryName != "Added funds" {
-                  Spacer()
-                  Source.Images.ButtonIcons.selector
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                }
               }
               .frame(maxWidth: .infinity, alignment: .leading)
               .background(.white)
-            }
-            .buttonStyle(EXPlainButtonStyle())
-            .disabled(transaction.categoryName == "Added funds")
-            
-            HStack {
-              Source.Images.System.transactionType
-                .foregroundColor(.black)
-                .padding(8)
-              VStack(alignment: .leading, spacing: -3) {
-                Text("Type")
-                  .font(.mukta(.regular, size: 15))
-                  .foregroundColor(.darkGrey)
-                Text(transaction.type)
-                  .font(.mukta(.medium, size: 15))
+              
+              HStack {
+                Source.Images.System.transactionType
                   .foregroundColor(.black)
+                  .padding(8)
+                VStack(alignment: .leading, spacing: -3) {
+                  Text("Type")
+                    .font(.mukta(.regular, size: 15))
+                    .foregroundColor(.darkGrey)
+                  Text(transaction.type)
+                    .font(.mukta(.medium, size: 15))
+                    .foregroundColor(.black)
+                }
               }
+              .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-          }
-          .padding(12)
-          .background(.white)
-          .overlay(
-            RoundedRectangle(cornerRadius: 12)
-              .inset(by: 0.5)
-              .stroke(Color.border, lineWidth: 1)
-          )
-          
-          Button {
-            showNoteView.toggle()
-          } label: {
-            HStack {
-              Source.Images.ButtonIcons.edit
-                .padding(8)
-              VStack(alignment: .leading, spacing: -3) {
-                Text("Note")
-                  .font(.mukta(.regular, size: 15))
-                  .foregroundColor(.darkGrey)
-                Text(transaction.note)
-                  .font(.mukta(.medium, size: 15))
-                  .foregroundColor(.black)
-              }
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
             .padding(12)
             .background(.white)
             .overlay(
@@ -120,21 +85,48 @@ struct TransactionDetailView: View {
                 .inset(by: 0.5)
                 .stroke(Color.border, lineWidth: 1)
             )
+            
+            Button {
+              showNoteView.toggle()
+            } label: {
+              HStack {
+                Source.Images.ButtonIcons.edit
+                  .padding(8)
+                VStack(alignment: .leading, spacing: -3) {
+                  Text("Note")
+                    .font(.mukta(.regular, size: 15))
+                    .foregroundColor(.darkGrey)
+                  Text(transaction.note)
+                    .font(.mukta(.medium, size: 15))
+                    .foregroundColor(.black)
+                }
+              }
+              .frame(maxWidth: .infinity, alignment: .leading)
+              .padding(12)
+              .background(.white)
+              .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                  .inset(by: 0.5)
+                  .stroke(Color.border, lineWidth: 1)
+              )
+            }
+            .buttonStyle(EXPlainButtonStyle())
           }
-          .buttonStyle(EXPlainButtonStyle())
+          .padding(.top, 10)
+          
+          // MARK: Analytics
+          VStack(spacing: 10) {
+            Text("Insights")
+              .font(.mukta(.regular, size: 13))
+              .foregroundColor(.darkGrey)
+              .frame(maxWidth: .infinity, alignment: .leading)
+            TransactionInsightsView(viewModel: TransactionInsightsViewModel(category: transaction.categoryName, budget: budget.amount))
+          }
+          .padding([.top, .bottom], 10)
         }
-        .padding(.top, 10)
-        
-        // MARK: Analytics
-        VStack(spacing: 10) {
-          Text("Insights")
-            .font(.mukta(.regular, size: 13))
-            .foregroundColor(.darkGrey)
-            .frame(maxWidth: .infinity, alignment: .leading)
-          TransactionInsightsView(viewModel: TransactionInsightsViewModel(category: transaction.categoryName, budget: budget.amount))
-        }
-        .padding([.top, .bottom], 10)
-      }
+        bottomActionButton()
+          .padding(.bottom, 16)
+      })
       .applyMargins()
       .popup(isPresented: $showTransactionDeleteAlert) {
         EXAlert(type: .deleteTransaction, primaryAction: { deleteTransaction() }, secondaryAction: {showTransactionDeleteAlert.toggle()}).applyMargins()
@@ -145,9 +137,8 @@ struct TransactionDetailView: View {
           .backgroundColor(.black.opacity(0.3))
           .isOpaque(true)
       }
-      .sheet(isPresented: $showChangeCategory, content: {
-        CategorySelectorView(title: $transaction.categoryName, icon: $transaction.categoryIcon)
-          .presentationDetents([.fraction(0.9)])
+      .fullScreenCover(isPresented: $showEditTransaction, content: {
+        AddTransactionView(transaction: transaction, budget: budget)
       })
       .sheet(isPresented: $showNoteView, content: {
         noteView()
@@ -161,15 +152,6 @@ struct TransactionDetailView: View {
           } label: {
             Appearance.shared.closeIcon
               .foregroundColor(.black)
-          }
-        }
-        
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button {
-            showTransactionDeleteAlert.toggle()
-          } label: {
-            Appearance.shared.deleteIcon
-              .foregroundColor(.red)
           }
         }
       }
@@ -196,7 +178,7 @@ extension TransactionDetailView {
   }
 }
 
-// MARK: - Helper Functions
+// MARK: - Helper Views
 private extension TransactionDetailView {
   @ViewBuilder
   func noteView() -> some View {
@@ -236,8 +218,30 @@ private extension TransactionDetailView {
       }
     }
   }
+  
+  @ViewBuilder
+  func bottomActionButton() -> some View {
+    VStack {
+      Menu {
+        Button(action: { showEditTransaction.toggle() }) {
+          Label("Edit transaction", image: "buttonEdit")
+        }
+        
+        Button(role: .destructive, action: { showTransactionDeleteAlert.toggle() }) {
+          Label("Delete transaction", image: "buttonDelete")
+        }
+      } label: {
+        Source.Images.Navigation.menu
+          .foregroundColor(.primaryGreen)
+          .padding(20)
+          .background(Color.secondaryYellow)
+          .cornerRadius(40)
+      }
+      .font(.mukta(.regular, size: 15))
+      .menuOrder(.fixed)
+    }
+  }
 }
-
 // MARK: - Realm Functions
 extension TransactionDetailView {
   func deleteTransaction() {

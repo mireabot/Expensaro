@@ -19,6 +19,9 @@ struct AddTransactionView: View {
   @Environment(\.realm) var realm
   @ObservedRealmObject var transaction: Transaction
   @ObservedRealmObject var budget: Budget
+  var isUpdating: Bool {
+    transaction.realm != nil
+  }
   
   // MARK: Variables
   @State var amountValue: String = "0.0"
@@ -33,6 +36,7 @@ struct AddTransactionView: View {
   // MARK: Presentation
   @State private var showCategoriesSelector = false
   @State private var showError = false
+  @State private var showDateSelector = false
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
@@ -49,10 +53,16 @@ struct AddTransactionView: View {
             EXLargeSelector(text: $transaction.categoryName, icon: $transaction.categoryIcon, buttonText: "Change", action: {
               showCategoriesSelector.toggle()
             })
-            Text(Appearance.shared.infoText)
-              .font(.mukta(.regular, size: 13))
-              .foregroundColor(.darkGrey)
-              .frame(maxWidth: .infinity, alignment: .leading)
+            if isUpdating {
+              EXLargeSelector(text: .constant(Source.Functions.showString(from: transaction.date)), icon: .constant("calendarYear"), buttonText: "Change", action: {
+                showDateSelector.toggle()
+              })
+            } else {
+              Text(Appearance.shared.infoText)
+                .font(.mukta(.regular, size: 13))
+                .foregroundColor(.darkGrey)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
           }
         }
         EXNumberKeyboard(textValue: $amountValue) {
@@ -64,7 +74,12 @@ struct AddTransactionView: View {
         isFieldFocused = false
       }
       .onAppear {
-        budgetValue = budget.amount
+        if isUpdating {
+          amountValue = String(transaction.amount)
+          budgetValue = budget.amount
+        } else {
+          budgetValue = budget.amount
+        }
       }
       .applyMargins()
       .popup(isPresented: $showError, view: {
@@ -80,10 +95,14 @@ struct AddTransactionView: View {
         CategorySelectorView(title: $transaction.categoryName, icon: $transaction.categoryIcon)
           .presentationDetents([.fraction(0.9)])
       })
+      .sheet(isPresented: $showDateSelector, content: {
+        DateSelectorView(type: .updateTransaction, selectedDate: $transaction.date)
+          .presentationDetents([.medium])
+      })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
-          Text(Appearance.shared.title)
+          Text(isUpdating ? Appearance.shared.updateTitle : Appearance.shared.title)
             .font(.mukta(.medium, size: 17))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -111,8 +130,8 @@ struct AddTransactionView_Previews: PreviewProvider {
 extension AddTransactionView {
   struct Appearance {
     static let shared = Appearance()
-    let title = "Add Transaction"
-    let buttonText = "Add transaction"
+    let title = "Add transaction"
+    let updateTitle = "Edit transaction"
     let textFieldPlaceholder = "Ex. House Rent"
     let infoText = "For your convenience date of transaction will be today. You can change it anytime in transaction card"
     
@@ -132,6 +151,23 @@ extension AddTransactionView {
     if let newBudget = budget.thaw(), let realm = newBudget.realm {
       try? realm.write {
         newBudget.amount -= transaction.amount
+      }
+    }
+  }
+  
+  func updateTransaction() {
+    var difference: Double = 0
+    if let newTransaction = transaction.thaw(), let realm = newTransaction.realm {
+      try? realm.write {
+        difference = newTransaction.amount - (Double(amountValue) ?? 0)
+        newTransaction.amount = Double(amountValue) ?? 0
+      }
+    }
+    print(difference)
+    
+    if let newBudget = budget.thaw(), let realm = newBudget.realm {
+      try? realm.write {
+        newBudget.amount += difference
       }
     }
   }
@@ -195,7 +231,11 @@ extension AddTransactionView {
       showError.toggle()
       return
     } else {
-      createTransaction()
+      if isUpdating {
+        updateTransaction()
+      } else {
+        createTransaction()
+      }
       makeDismiss()
     }
   }

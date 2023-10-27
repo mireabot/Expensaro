@@ -20,6 +20,9 @@ struct AddRecurrentPaymentView: View {
   @Environment(\.realm) var realm
   @ObservedRealmObject var recurringPayment: RecurringTransaction
   @ObservedRealmObject var budget: Budget
+  var isUpdating: Bool {
+    recurringPayment.realm != nil
+  }
   
   // MARK: Variables
   @State private var paymentPeriodicity = "Not selected"
@@ -76,7 +79,12 @@ struct AddRecurrentPaymentView: View {
         isFieldFocused = false
       }
       .onAppear {
-        budgetValue = budget.amount
+        if isUpdating {
+          amountValue = String(recurringPayment.amount)
+          budgetValue = budget.amount
+        } else {
+          budgetValue = budget.amount
+        }
       }
       .applyMargins()
       .popup(isPresented: $showError, view: {
@@ -107,7 +115,7 @@ struct AddRecurrentPaymentView: View {
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
-          Text(Appearance.shared.title)
+          Text(isUpdating ? Appearance.shared.updateTitle : Appearance.shared.title)
             .font(.mukta(.medium, size: 17))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -136,7 +144,7 @@ private extension AddRecurrentPaymentView {
   struct Appearance {
     static let shared = Appearance()
     let title = "Add recurring payment"
-    let buttonText = "Add payment"
+    let updateTitle = "Edit recurring payment"
     let textFieldPlaceholder = "Ex. House Rent"
     
     let closeIcon = Source.Images.Navigation.close
@@ -350,6 +358,23 @@ extension AddRecurrentPaymentView {
       }
     }
   }
+  
+  func updatePayment() {
+    var difference: Double = 0
+    if let newTransaction = recurringPayment.thaw(), let realm = newTransaction.realm {
+      try? realm.write {
+        difference = newTransaction.amount - (Double(amountValue) ?? 0)
+        newTransaction.amount = Double(amountValue) ?? 0
+      }
+    }
+    print(difference)
+    
+    if let newBudget = budget.thaw(), let realm = newBudget.realm {
+      try? realm.write {
+        newBudget.amount += difference
+      }
+    }
+  }
 }
 
 
@@ -369,7 +394,11 @@ extension AddRecurrentPaymentView {
       showError.toggle()
       return
     } else {
-      createPayment()
+      if isUpdating {
+        updatePayment()
+      } else {
+        createPayment()
+      }
       makeDismiss()
     }
   }
