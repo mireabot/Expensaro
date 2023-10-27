@@ -21,6 +21,7 @@ struct AddGoalTransactionView: View {
   
   // MARK: Variables
   @State private var amountValue: String = "0.0"
+  @State private var budgetValue: Double = 0
   
   // MARK: Presentation
   @State private var showError = false
@@ -29,8 +30,9 @@ struct AddGoalTransactionView: View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
         ScrollView {
-          VStack(alignment: .leading, spacing: 10) {
+          VStack(alignment: .leading, spacing: 0) {
             goalTransactionTextField()
+            moneyLeft()
           }
         }
         EXNumberKeyboard(textValue: $amountValue, submitAction: {
@@ -49,6 +51,9 @@ struct AddGoalTransactionView: View {
           .autohideIn(1.5)
       })
       .applyMargins()
+      .onAppear {
+        budgetValue = goal.amountLeft
+      }
       .scrollDisabled(true)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -105,6 +110,16 @@ extension AddGoalTransactionView {
       }
       .buttonStyle(EXPlainButtonStyle())
       .disabled(amountValue == "0.0")
+    }
+  }
+  
+  @ViewBuilder
+  func moneyLeft() -> some View {
+    HStack {
+      Text("Remaining funds: $\(budgetValue.clean)")
+        .font(.mukta(.medium, size: 17))
+        .foregroundStyle(Color.primaryGreen)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
   }
 }

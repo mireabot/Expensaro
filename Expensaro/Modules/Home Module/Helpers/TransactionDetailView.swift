@@ -8,21 +8,20 @@
 import SwiftUI
 import ExpensaroUIKit
 import PopupView
-import Charts
 import RealmSwift
 
 struct TransactionDetailView: View {
+  // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   
+  // MARK: Realm
   @ObservedRealmObject var transaction: Transaction
   @ObservedRealmObject var budget: Budget
   
+  // MARK: Presentation
   @State private var showTransactionDeleteAlert = false
   @State private var showChangeCategory = false
   @State private var showNoteView = false
-  
-  @State private var totalAmountLabel: Float = 0.0
-  @State private var transactionsByCategory: [(amount: Float, date: Date)] = []
   var body: some View {
     NavigationView {
       ScrollView(showsIndicators: false) {
@@ -37,7 +36,6 @@ struct TransactionDetailView: View {
             .foregroundColor(.darkGrey)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.top, 16)
         
         // MARK: Transaction detail
         VStack(spacing: 10) {
@@ -75,7 +73,7 @@ struct TransactionDetailView: View {
             }
             .buttonStyle(EXPlainButtonStyle())
             .disabled(transaction.categoryName == "Added funds")
-
+            
             HStack {
               Source.Images.System.transactionType
                 .foregroundColor(.black)
@@ -133,19 +131,10 @@ struct TransactionDetailView: View {
             .font(.mukta(.regular, size: 13))
             .foregroundColor(.darkGrey)
             .frame(maxWidth: .infinity, alignment: .leading)
-          emptyState()
+          TransactionInsightsView(viewModel: TransactionInsightsViewModel(category: transaction.categoryName, budget: budget.amount))
         }
-        .padding(.top, 10)
-        
-//        analyticsView()
-//          .padding(.bottom, 10)
-        
+        .padding([.top, .bottom], 10)
       }
-//      .onAppear {
-//        let data = calculateSummaryForCategory(categoryToFilter: transaction.categoryName)
-//        transactionsByCategory = data.summaryByDay
-//        totalAmountLabel = data.totalAmount
-//      }
       .applyMargins()
       .popup(isPresented: $showTransactionDeleteAlert) {
         EXAlert(type: .deleteTransaction, primaryAction: { deleteTransaction() }, secondaryAction: {showTransactionDeleteAlert.toggle()}).applyMargins()
@@ -190,7 +179,7 @@ struct TransactionDetailView: View {
 
 struct TransactionDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    TransactionDetailView(transaction: DefaultTransactions.defaultTransactions[0], budget: Budget())
+    TransactionDetailView(transaction: DefaultTransactions.transaction2, budget: Budget())
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
@@ -247,106 +236,6 @@ private extension TransactionDetailView {
       }
     }
   }
-  
-  @ViewBuilder
-  func analyticsView() -> some View {
-    VStack(alignment: .leading) {
-      
-      Text("You have spent on ")
-        .font(.mukta(.medium, size: 17))
-        .foregroundColor(.black)
-      + Text(transaction.categoryName)
-        .font(.mukta(.bold, size: 17))
-        .foregroundColor(.primaryGreen)
-      + Text(" category")
-        .font(.mukta(.medium, size: 17))
-        .foregroundColor(.black)
-      Text("$\(totalAmountLabel.clean)")
-        .font(.mukta(.semibold, size: 24))
-      
-      Chart {
-        ForEach(transactionsByCategory, id: \.date) { transactionData in
-          BarMark(
-            x: .value("", transactionData.date, unit: .day),
-            y: .value("", transactionData.amount),
-            width: 40)
-          .annotation(position: .top, alignment: .center, spacing: 3) {
-            Text("$\(transactionData.amount.clean)")
-              .font(.mukta(.medium, size: 15))
-          }
-          .annotation(position: .bottom, alignment: .center, spacing: 3) {
-            Text(Source.Functions.showString(from: transactionData.date))
-              .font(.mukta(.regular, size: 13))
-              .foregroundColor(.darkGrey)
-          }
-          .foregroundStyle(Color.primaryGreen)
-          .cornerRadius(12)
-        }
-      }
-      .chartXAxis(.hidden)
-      .chartYAxis(.hidden)
-      .frame(height: 200)
-      
-    }
-    .padding(10)
-    .background(.white)
-    .overlay(
-      RoundedRectangle(cornerRadius: 12)
-        .inset(by: 0.5)
-        .stroke(Color.border, lineWidth: 1)
-    )
-  }
-  
-  @ViewBuilder
-  func emptyState() -> some View {
-    VStack(alignment: .center, spacing: 3) {
-      Text("There's nothing to show right now")
-        .font(.mukta(.semibold, size: 15))
-        .multilineTextAlignment(.center)
-      Text("We don't have enough data to make insights")
-        .font(.mukta(.regular, size: 13))
-        .foregroundColor(.darkGrey)
-        .multilineTextAlignment(.center)
-    }
-    .padding(.vertical, 15)
-    .padding(.horizontal, 20)
-    .frame(maxWidth: .infinity)
-    .background(Color.backgroundGrey)
-    .cornerRadius(12)
-  }
-  
-//  func calculateSummaryForCategory(categoryToFilter: String) -> (totalAmount: Float, summaryByDay: [(amount: Float, date: Date)]) {
-//      var summaryByDay: [String: Float] = [:]
-//      var totalAmountSpent: Float = 0.0
-//
-//      for transaction in TransactionData.sampleTransactions {
-//        if transaction.category.1 == categoryToFilter {
-//              totalAmountSpent += transaction.amount
-//
-//              let dateFormatter = DateFormatter()
-//              dateFormatter.dateFormat = "yyyy-MM-dd"
-//              let dateString = dateFormatter.string(from: transaction.date)
-//
-//              if let existingAmount = summaryByDay[dateString] {
-//                  summaryByDay[dateString] = existingAmount + transaction.amount
-//              } else {
-//                  summaryByDay[dateString] = transaction.amount
-//              }
-//          }
-//      }
-//
-//      // Convert the summaryByDay dictionary into an array of tuples
-//      let summaryArray: [(amount: Float, date: Date)] = summaryByDay.map { (key, value) in
-//          let dateFormatter = DateFormatter()
-//          dateFormatter.dateFormat = "yyyy-MM-dd"
-//          if let date = dateFormatter.date(from: key) {
-//              return (amount: value, date: date)
-//          }
-//          return (amount: 0.0, date: Date())
-//      }
-//
-//      return (totalAmount: totalAmountSpent, summaryByDay: summaryArray)
-//  }
 }
 
 // MARK: - Realm Functions

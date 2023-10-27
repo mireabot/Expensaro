@@ -35,7 +35,6 @@ struct RecurrentPaymentDetailView: View {
             .foregroundColor(.darkGrey)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.top, 16)
         
         // MARK: Transaction detail
         VStack(spacing: 10) {

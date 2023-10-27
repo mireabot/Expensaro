@@ -22,7 +22,7 @@ struct AddCategoryView: View {
   var body: some View {
     NavigationView {
       ScrollView {
-        VStack(spacing: 20) {
+        VStack(spacing: 15) {
           VStack(alignment: .center, spacing: 15) {
             if category.icon.isEmpty {
               Image(Source.Strings.Categories.Images.other)
@@ -68,6 +68,7 @@ struct AddCategoryView: View {
               }
             }
             .padding(16)
+            .frame(maxWidth: .infinity)
             .background(.white)
             .overlay(
               RoundedRectangle(cornerRadius: 12)
@@ -148,9 +149,9 @@ extension AddCategoryView {
     let submitIcon = Source.Images.Navigation.checkmark
     
     var items: [GridItem] = [
-      GridItem(.flexible(), spacing: 20),
-      GridItem(.flexible(), spacing: 20),
-      GridItem(.flexible(), spacing: 20),
+      GridItem(.flexible(), spacing: 15),
+      GridItem(.flexible(), spacing: 15),
+      GridItem(.flexible(), spacing: 15),
     ]
   }
 }
