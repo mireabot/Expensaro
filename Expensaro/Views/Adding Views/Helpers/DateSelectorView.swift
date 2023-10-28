@@ -11,14 +11,13 @@ import ExpensaroUIKit
 struct DateSelectorView: View {
   @Environment(\.dismiss) var makeDismiss
   let type: SelectorType
-  @State private var date: Date = .now
   @Binding var selectedDate: Date
   var body: some View {
     NavigationView {
       ScrollView {
         DatePicker(
           "Start Date",
-          selection: $date,
+          selection: $selectedDate,
           displayedComponents: [.date]
         )
         .tint(.primaryGreen)
@@ -34,7 +33,6 @@ struct DateSelectorView: View {
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
-            selectedDate = date
             makeDismiss()
           } label: {
             Appearance.shared.closeIcon

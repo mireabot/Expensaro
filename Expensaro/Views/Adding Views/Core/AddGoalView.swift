@@ -68,7 +68,7 @@ struct AddGoalView: View {
       })
       .sheet(isPresented: $showDateSheet, content: {
         DateSelectorView(type: .setGoalDate, selectedDate: $goal.dueDate)
-          .presentationDetents([.medium])
+          .presentationDetents([.fraction(0.5)])
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {

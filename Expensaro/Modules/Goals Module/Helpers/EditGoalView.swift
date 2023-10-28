@@ -58,7 +58,7 @@ struct EditGoalView: View {
       }
       .sheet(isPresented: $showDateSelector, content: {
         DateSelectorView(type: .updateGoalDate, selectedDate: $goal.dueDate)
-          .presentationDetents([.medium])
+          .presentationDetents([.fraction(0.5)])
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {

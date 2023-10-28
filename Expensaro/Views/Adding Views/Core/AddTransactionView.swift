@@ -97,7 +97,7 @@ struct AddTransactionView: View {
       })
       .sheet(isPresented: $showDateSelector, content: {
         DateSelectorView(type: .updateTransaction, selectedDate: $transaction.date)
-          .presentationDetents([.medium])
+          .presentationDetents([.fraction(0.5)])
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
