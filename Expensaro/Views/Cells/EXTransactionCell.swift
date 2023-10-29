@@ -28,8 +28,14 @@ struct EXTransactionCell: View {
       Spacer()
       
       VStack(alignment: .trailing, spacing: -3) {
-        Text("$\(transaction.amount.clean)")
-          .font(.mukta(.medium, size: 15))
+        if transaction.type == "Refill" {
+          Text("+$\(transaction.amount.clean)")
+            .font(.mukta(.medium, size: 15))
+            .foregroundStyle(Color.green)
+        } else {
+          Text("$\(transaction.amount.clean)")
+            .font(.mukta(.medium, size: 15))
+        }
         if !transaction.type.isEmpty {
           Text(transaction.type)
             .font(.mukta(.medium, size: 13))
