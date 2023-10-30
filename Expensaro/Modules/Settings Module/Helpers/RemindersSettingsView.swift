@@ -10,13 +10,12 @@ import ExpensaroUIKit
 
 struct RemindersSettingsView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
-  @State private var reminderOn = false
+  @State private var reminderOn = UserDefaults.standard.bool(forKey: "notificationsEnabled")
   var body: some View {
     NavigationView {
       ScrollView {
         VStack(spacing: 20) {
-          EXToggleCard(type: .reminders, isOn: $reminderOn)
-          EXToggleCard(type: .reminders, isOn: $reminderOn)
+          EXToggleCard(type: .notifications, isOn: $reminderOn)
         }
         .padding(.top, 20)
       }
