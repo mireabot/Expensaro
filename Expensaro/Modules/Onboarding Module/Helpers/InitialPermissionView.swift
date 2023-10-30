@@ -29,8 +29,8 @@ struct InitialPermissionView: View {
       
       VStack(spacing: 20) {
         EXToggleCard(type: .notifications, isOn: $notificationsSelected)
+        EXToggleCard(type: .analytics, isOn: $analyticsSelected)
       }
-      .padding(.top, 30)
     }
     .interactiveDismissDisabled(true)
     .safeAreaInset(edge: .bottom, content: {

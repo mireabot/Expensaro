@@ -5,17 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mireabot/ExpensaroUIKit",
       "state" : {
-        "revision" : "f0be597b1ffb91f5184a5e0351b6f8b87e36704d",
-        "version" : "1.1.34"
-      }
-    },
-    {
-      "identity" : "ipages",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/benjaminsage/iPages.git",
-      "state" : {
-        "revision" : "f57e3cba2cf4bd0a689236254cde361e54315720",
-        "version" : "0.0.13"
+        "revision" : "4e5af106d48419a0e1de31849ea42dd786921c20",
+        "version" : "1.1.35"
       }
     },
     {
@@ -23,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/exyte/PopupView",
       "state" : {
-        "revision" : "ea6bcdf6996b4d9e29259f7904c55504584d2918",
-        "version" : "2.8.0"
+        "revision" : "bb18c1652f6b60741f9ff6ba4fb8569460a7ffaa",
+        "version" : "2.8.1"
       }
     },
     {
@@ -50,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/siteline/swiftui-introspect",
       "state" : {
-        "revision" : "3ced72fccb284235c266c1e8a32f1bf93129fc74",
-        "version" : "1.1.0"
+        "revision" : "9e1cc02a65b22e09a8251261cccbccce02731fc5",
+        "version" : "1.1.1"
       }
     },
     {
