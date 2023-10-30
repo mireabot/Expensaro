@@ -30,8 +30,14 @@ struct TransactionDetailView: View {
           VStack(alignment: .leading, spacing: 3) {
             Text(transaction.name)
               .font(.mukta(.medium, size: 20))
-            Text("$\(transaction.amount.clean)")
-              .font(.mukta(.bold, size: 34))
+            if transaction.type == "Refill" {
+              Text("+ $\(transaction.amount.clean)")
+                .font(.mukta(.bold, size: 34))
+                .foregroundStyle(Color.green)
+            } else {
+              Text("$\(transaction.amount.clean)")
+                .font(.mukta(.bold, size: 34))
+            }
             Text(Source.Functions.showString(from: transaction.date))
               .font(.mukta(.regular, size: 15))
               .foregroundColor(.darkGrey)
@@ -115,14 +121,16 @@ struct TransactionDetailView: View {
           .padding(.top, 10)
           
           // MARK: Analytics
-          VStack(spacing: 10) {
-            Text("Insights")
-              .font(.mukta(.regular, size: 13))
-              .foregroundColor(.darkGrey)
-              .frame(maxWidth: .infinity, alignment: .leading)
-            TransactionInsightsView(viewModel: TransactionInsightsViewModel(category: transaction.categoryName, budget: budget.amount))
+          if transaction.type != "Refill" {
+            VStack(spacing: 10) {
+              Text("Insights")
+                .font(.mukta(.regular, size: 13))
+                .foregroundColor(.darkGrey)
+                .frame(maxWidth: .infinity, alignment: .leading)
+              TransactionInsightsView(viewModel: TransactionInsightsViewModel(category: transaction.categoryName, budget: budget.amount))
+            }
+            .padding([.top, .bottom], 10)
           }
-          .padding([.top, .bottom], 10)
         }
         bottomActionButton()
           .padding(.bottom, 16)
@@ -223,8 +231,10 @@ private extension TransactionDetailView {
   func bottomActionButton() -> some View {
     VStack {
       Menu {
-        Button(action: { showEditTransaction.toggle() }) {
-          Label("Edit transaction", image: "buttonEdit")
+        if transaction.type != "Refill" {
+          Button(action: { showEditTransaction.toggle() }) {
+            Label("Edit transaction", image: "buttonEdit")
+          }
         }
         
         Button(role: .destructive, action: { showTransactionDeleteAlert.toggle() }) {
