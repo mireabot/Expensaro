@@ -48,7 +48,6 @@
 		359094AD2AAE390500428B39 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094AC2AAE390500428B39 /* HomeView.swift */; };
 		359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094B62AAE575D00428B39 /* View+Extensions.swift */; };
 		359CDC542AB4C69600DFFDC7 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC532AB4C69600DFFDC7 /* OnboardingView.swift */; };
-		359CDC592AB4C8BA00DFFDC7 /* iPages in Frameworks */ = {isa = PBXBuildFile; productRef = 359CDC582AB4C8BA00DFFDC7 /* iPages */; };
 		359CDC5C2AB4DE3300DFFDC7 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC5B2AB4DE3300DFFDC7 /* TabBarView.swift */; };
 		359CDC602AB4DF4400DFFDC7 /* InitialPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC5F2AB4DF4400DFFDC7 /* InitialPermissionView.swift */; };
 		359CDC622AB50C0000DFFDC7 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC612AB50C0000DFFDC7 /* AddTransactionView.swift */; };
@@ -142,7 +141,6 @@
 				351D3D612AD0D5C00022E696 /* PopupView in Frameworks */,
 				354F2B152AB9F189002516F1 /* SwiftUIIntrospect in Frameworks */,
 				359094AB2AAE365900428B39 /* ExpensaroUIKit in Frameworks */,
-				359CDC592AB4C8BA00DFFDC7 /* iPages in Frameworks */,
 				356028BD2AE2E32400C1FDE7 /* Shimmer in Frameworks */,
 				3589BC272AD899BA00BA8289 /* Realm in Frameworks */,
 			);
@@ -553,7 +551,6 @@
 			name = Expensaro;
 			packageProductDependencies = (
 				359094AA2AAE365900428B39 /* ExpensaroUIKit */,
-				359CDC582AB4C8BA00DFFDC7 /* iPages */,
 				354F2B142AB9F189002516F1 /* SwiftUIIntrospect */,
 				351D3D602AD0D5C00022E696 /* PopupView */,
 				3589BC262AD899BA00BA8289 /* Realm */,
@@ -590,7 +587,6 @@
 			mainGroup = 359094822AAD3EC300428B39;
 			packageReferences = (
 				359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */,
-				359CDC572AB4C8BA00DFFDC7 /* XCRemoteSwiftPackageReference "iPages" */,
 				354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
 				351D3D5F2AD0D5C00022E696 /* XCRemoteSwiftPackageReference "PopupView" */,
 				3589BC252AD899BA00BA8289 /* XCRemoteSwiftPackageReference "realm-swift" */,
@@ -930,14 +926,6 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		359CDC572AB4C8BA00DFFDC7 /* XCRemoteSwiftPackageReference "iPages" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/benjaminsage/iPages.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.13;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -970,11 +958,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */;
 			productName = ExpensaroUIKit;
-		};
-		359CDC582AB4C8BA00DFFDC7 /* iPages */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 359CDC572AB4C8BA00DFFDC7 /* XCRemoteSwiftPackageReference "iPages" */;
-			productName = iPages;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

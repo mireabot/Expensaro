@@ -10,13 +10,29 @@ import ExpensaroUIKit
 
 struct RemindersSettingsView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
-  @State private var reminderOn = false
+  @State private var reminderOn = UserDefaults.standard.bool(forKey: "notificationsEnabled")
   var body: some View {
     NavigationView {
       ScrollView {
         VStack(spacing: 20) {
-          EXToggleCard(type: .reminders, isOn: $reminderOn)
-          EXToggleCard(type: .reminders, isOn: $reminderOn)
+          EXToggleCard(type: .notifications, isOn: $reminderOn)
+            .onChange(of: reminderOn, perform: { value in
+              if value {
+                print("Notifications granted!")
+                DispatchQueue.main.async {
+                  UIApplication.shared.registerForRemoteNotifications()
+                  UserDefaults.standard.setValue(true, forKey: "notificationsEnabled")
+                  UserDefaults.standard.synchronize()
+                }
+              } else {
+                print("Notifications not granted!")
+                DispatchQueue.main.async {
+                  UIApplication.shared.unregisterForRemoteNotifications()
+                  UserDefaults.standard.setValue(false, forKey: "notificationsEnabled")
+                  UserDefaults.standard.synchronize()
+                }
+              }
+            })
         }
         .padding(.top, 20)
       }

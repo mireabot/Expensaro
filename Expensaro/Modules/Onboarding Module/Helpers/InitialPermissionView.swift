@@ -8,6 +8,7 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
+import UserNotifications
 
 struct InitialPermissionView: View {
   @Environment(\.realm) var realm
@@ -15,6 +16,8 @@ struct InitialPermissionView: View {
   @State private var notificationsSelected = false
   @State private var analyticsSelected = false
   @AppStorage("isUserLoggedIn") private var isUserLoggedIn = false
+  
+  @State private var showAnimation = false
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: 0) {
@@ -29,31 +32,81 @@ struct InitialPermissionView: View {
       
       VStack(spacing: 20) {
         EXToggleCard(type: .notifications, isOn: $notificationsSelected)
+          .onChange(of: notificationsSelected, perform: { value in
+            if value {
+              print("Notifications granted!")
+              DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+                UserDefaults.standard.setValue(true, forKey: "notificationsEnabled")
+                UserDefaults.standard.synchronize()
+              }
+            } else {
+              print("Notifications not granted!")
+              DispatchQueue.main.async {
+                UIApplication.shared.unregisterForRemoteNotifications()
+                UserDefaults.standard.setValue(false, forKey: "notificationsEnabled")
+                UserDefaults.standard.synchronize()
+              }
+            }
+          })
+        EXToggleCard(type: .analytics, isOn: $analyticsSelected)
       }
-      .padding(.top, 30)
     }
     .interactiveDismissDisabled(true)
     .safeAreaInset(edge: .bottom, content: {
       Button {
-        try? realm.write {
-          realm.add(DefaultCategories.defaultCategories)
+        showAnimation.toggle()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+          try? realm.write {
+            realm.add(DefaultCategories.defaultCategories)
+          }
+          showAnimation.toggle()
+          isUserLoggedIn = true
         }
-        isUserLoggedIn = true
       } label: {
         Text("Finish")
           .font(.mukta(.semibold, size: 17))
       }
-      .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+      .buttonStyle(PrimaryButtonStyle(showLoader: $showAnimation))
       .padding(.bottom, 20)
-
+      
     })
     .applyMargins()
     .scrollDisabled(true)
+    .onAppear {
+      requestNotificationPermissions()
+    }
   }
 }
 
 struct InitialPermissionView_Previews: PreviewProvider {
   static var previews: some View {
     InitialPermissionView()
+  }
+}
+
+// MARK: - Helper Functions
+private extension InitialPermissionView {
+  func requestNotificationPermissions() {
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+      if let error = error {
+        print("Error requesting notification permissions: \(error.localizedDescription)")
+        return
+      }
+      
+      if granted {
+        print("Notifications granted!")
+        DispatchQueue.main.async {
+          UIApplication.shared.registerForRemoteNotifications()
+          notificationsSelected.toggle()
+          UserDefaults.standard.setValue(true, forKey: "notificationsEnabled")
+          UserDefaults.standard.synchronize()
+        }
+      } else {
+        print("Notifications not granted")
+        UserDefaults.standard.setValue(false, forKey: "notificationsEnabled")
+        UserDefaults.standard.synchronize()
+      }
+    }
   }
 }

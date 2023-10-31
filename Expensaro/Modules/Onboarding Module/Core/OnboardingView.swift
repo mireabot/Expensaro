@@ -6,28 +6,24 @@
 //
 
 import SwiftUI
-import iPages
 import ExpensaroUIKit
 
 struct OnboardingView: View {
   @State var currentPage: Int = 0
   @State private var showPermission = false
+  init() {
+    UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color.primaryGreen)
+    UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color.border)
+  }
   var body: some View {
     VStack {
-      iPages(selection: $currentPage) {
+      TabView {
         firstTab()
         secondTab()
         thirdTab()
       }
-      .dotsTintColors(currentPage: .primaryGreen, otherPages: .border)
-      .navigationOrientation(.horizontal)
-    }
-    .sheet(isPresented: $showPermission, content: {
-      InitialPermissionView()
-        .presentationDragIndicator(.visible)
-        .presentationDetents([.fraction(0.7)])
-    })
-    .safeAreaInset(edge: .bottom, content: {
+      .tabViewStyle(.page)
+      
       Button {
         showPermission.toggle()
       } label: {
@@ -36,7 +32,11 @@ struct OnboardingView: View {
       }
       .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
       .padding(.bottom, 20)
-
+    }
+    .sheet(isPresented: $showPermission, content: {
+      InitialPermissionView()
+        .presentationDragIndicator(.visible)
+        .presentationDetents([.fraction(0.8)])
     })
     .applyMargins()
   }
