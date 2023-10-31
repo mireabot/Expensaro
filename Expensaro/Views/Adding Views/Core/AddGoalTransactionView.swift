@@ -30,10 +30,11 @@ struct AddGoalTransactionView: View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
         ScrollView {
-          VStack(alignment: .leading, spacing: 0) {
+          VStack(alignment: .leading, spacing: -10) {
             goalTransactionTextField()
             moneyLeft()
           }
+          .padding(.top, 20)
         }
         EXNumberKeyboard(textValue: $amountValue, submitAction: {
           validate {
@@ -55,6 +56,7 @@ struct AddGoalTransactionView: View {
         budgetValue = goal.amountLeft
       }
       .scrollDisabled(true)
+      .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)

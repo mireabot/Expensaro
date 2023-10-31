@@ -13,6 +13,7 @@ enum EXErrors {
   case emptyName
   case zeroAmount
   case budgetExceed
+  case zeroBudget
   
   var text: String {
     switch self {
@@ -24,6 +25,8 @@ enum EXErrors {
       return "Amount cannot be $0"
     case .budgetExceed:
       return "You are over  the budget"
+    case .zeroBudget:
+      return "You need to create a budget first"
     }
   }
 }

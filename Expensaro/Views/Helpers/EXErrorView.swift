@@ -6,26 +6,24 @@
 //
 
 import SwiftUI
+import ExpensaroUIKit
 
 struct EXErrorView: View {
   @Binding var type: EXErrors
   var body: some View {
     HStack {
-      Source.Images.System.alertError
-        .foregroundColor(.red)
       Text("\(type.text)")
         .font(.mukta(.medium, size: 17))
-        .foregroundColor(.red)
+        .foregroundColor(.alertRedOpacity)
     }
-    .frame(maxWidth: .infinity)
-    .padding(10)
-    .background(Color.backgroundGrey)
+    .padding(12)
+    .frame(maxWidth: .infinity, alignment: .center)
+    .background(Color.alertRed)
     .cornerRadius(12)
-    .overlay(
-      RoundedRectangle(cornerRadius: 12)
-        .inset(by: 0.5)
-        .stroke(Color.border, lineWidth: 1)
-    )
     .applyMargins()
   }
+}
+
+#Preview {
+  EXErrorView(type: .constant(.emptyName))
 }

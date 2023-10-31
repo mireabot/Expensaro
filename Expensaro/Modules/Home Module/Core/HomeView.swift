@@ -44,7 +44,7 @@ struct HomeView: View {
           .padding(16)
       }
       .popup(isPresented: $showAlert, view: {
-        alertView()
+        EXErrorView(type: .constant(.zeroBudget))
       }, customize: {
         $0
           .isOpaque(true)

@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mireabot/ExpensaroUIKit",
       "state" : {
-        "revision" : "4e5af106d48419a0e1de31849ea42dd786921c20",
-        "version" : "1.1.35"
+        "revision" : "566db13f2428925be5205cf9d620a1c0e75ba964",
+        "version" : "1.1.36"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-swift.git",
       "state" : {
-        "revision" : "a3da8c91ee44c7610d4b1100bd3079ddca26ab84",
-        "version" : "10.43.1"
+        "revision" : "fd199ce07edb4db69e862f74151b95602aad3b43",
+        "version" : "10.44.0"
       }
     },
     {

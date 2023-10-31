@@ -28,12 +28,13 @@ struct AddBudgetView: View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
         ScrollView {
-          VStack(alignment: .leading, spacing: 10) {
+          VStack(alignment: .leading, spacing: -10) {
             budgetTextField()
             Text(type.infoText)
               .font(.mukta(.regular, size: 13))
               .foregroundColor(.darkGrey)
           }
+          .padding(.top, 20)
         }
         
         EXNumberKeyboard(textValue: $amountValue, submitAction: {
@@ -53,6 +54,7 @@ struct AddBudgetView: View {
       })
       .applyMargins()
       .scrollDisabled(true)
+      .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(type.title)

@@ -45,7 +45,7 @@ struct AddGoalView: View {
               }
             }
           }
-          .padding(.top, 20)
+          .padding(.top, 25)
         }
         
         EXNumberKeyboard(textValue: $amountValue) {
