@@ -16,6 +16,23 @@ struct RemindersSettingsView: View {
       ScrollView {
         VStack(spacing: 20) {
           EXToggleCard(type: .notifications, isOn: $reminderOn)
+            .onChange(of: reminderOn, perform: { value in
+              if value {
+                print("Notifications granted!")
+                DispatchQueue.main.async {
+                  UIApplication.shared.registerForRemoteNotifications()
+                  UserDefaults.standard.setValue(true, forKey: "notificationsEnabled")
+                  UserDefaults.standard.synchronize()
+                }
+              } else {
+                print("Notifications not granted!")
+                DispatchQueue.main.async {
+                  UIApplication.shared.unregisterForRemoteNotifications()
+                  UserDefaults.standard.setValue(false, forKey: "notificationsEnabled")
+                  UserDefaults.standard.synchronize()
+                }
+              }
+            })
         }
         .padding(.top, 20)
       }
