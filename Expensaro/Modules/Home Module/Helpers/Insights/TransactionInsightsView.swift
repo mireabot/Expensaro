@@ -73,7 +73,7 @@ struct TransactionInsightsView: View {
 }
 
 class TransactionInsightsViewModel: ObservableObject {
-  @ObservedResults(Transaction.self) var transactions
+  @ObservedResults(Transaction.self, filter: NSPredicate(format: "date >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var transactions
   @Published var selectedCategory: String = ""
   @Published var monthlyBudget: Double = 0.0
   @Published var totalSpentInCategory: Double = 0.0

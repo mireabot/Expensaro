@@ -12,7 +12,7 @@ import RealmSwift
 struct TransactionsListView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   
-  @ObservedResults(Transaction.self) var transactions
+  @ObservedResults(Transaction.self, filter: NSPredicate(format: "date >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var transactions
   @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
   
   @State private var showAddTransaction = false
@@ -84,7 +84,7 @@ struct TransactionsListView: View {
           .font(.mukta(.regular, size: 15))
           .foregroundColor(.darkGrey)
       }
-      Text("October")
+      Text("\(Source.Functions.currentMonth())")
         .font(.mukta(.semibold, size: 20))
       VStack(alignment: .center, spacing: -3) {
         Text("$\(totalSpent.clean)")
