@@ -14,124 +14,137 @@ final class Category: Object, ObjectKeyIdentifiable {
   @Persisted var name: String
 }
 
+extension Results {
+  func toArray() -> [Element] {
+    return self.map { $0 }
+  }
+}
+
 // MARK: Default categories for app preload
 enum DefaultCategories {
   static var clothes: Category {
     let category = Category()
-    category.name = "Clothes"
-    category.icon = Source.Strings.Categories.Images.clothes
+    category.name = CategoryDescription.clothes.name
+    category.icon = CategoryDescription.clothes.icon
+    return category
+  }
+  
+  static var bills: Category {
+    let category = Category()
+    category.name = CategoryDescription.bills.name
+    category.icon = CategoryDescription.bills.icon
     return category
   }
   
   static var education: Category {
     let category = Category()
-    category.name = "Education"
-    category.icon = Source.Strings.Categories.Images.education
+    category.name = CategoryDescription.education.name
+    category.icon = CategoryDescription.education.icon
     return category
   }
   
   static var medicine: Category {
     let category = Category()
-    category.name = "Medical"
-    category.icon = Source.Strings.Categories.Images.medicine
+    category.name = CategoryDescription.medicine.name
+    category.icon = CategoryDescription.medicine.icon
     return category
   }
   
   static var hobby: Category {
     let category = Category()
-    category.name = "Hobby"
-    category.icon = Source.Strings.Categories.Images.hobby
+    category.name = CategoryDescription.hobby.name
+    category.icon = CategoryDescription.hobby.icon
     return category
   }
   
   static var travel: Category {
     let category = Category()
-    category.name = "Travel"
-    category.icon = Source.Strings.Categories.Images.travel
+    category.name = CategoryDescription.travel.name
+    category.icon = CategoryDescription.travel.icon
     return category
   }
   
   static var entertainment: Category {
     let category = Category()
-    category.name = "Entertainment"
-    category.icon = Source.Strings.Categories.Images.entertainment
+    category.name = CategoryDescription.entertainment.name
+    category.icon = CategoryDescription.entertainment.icon
     return category
   }
   
   static var subscriptions: Category {
     let category = Category()
-    category.name = "Subscription"
-    category.icon = Source.Strings.Categories.Images.subscriptions
+    category.name = CategoryDescription.subscriptions.name
+    category.icon = CategoryDescription.subscriptions.icon
     return category
   }
   
   static var goingOut: Category {
     let category = Category()
-    category.name = "Going out"
-    category.icon = Source.Strings.Categories.Images.goingOut
+    category.name = CategoryDescription.goingOut.name
+    category.icon = CategoryDescription.goingOut.icon
     return category
   }
   
   static var groceries: Category {
     let category = Category()
-    category.name = "Groceries"
-    category.icon = Source.Strings.Categories.Images.groceries
+    category.name = CategoryDescription.groceries.name
+    category.icon = CategoryDescription.groceries.icon
     return category
   }
   
   static var utilities: Category {
     let category = Category()
-    category.name = "Utilities"
-    category.icon = Source.Strings.Categories.Images.utilities
+    category.name = CategoryDescription.utilities.name
+    category.icon = CategoryDescription.utilities.icon
     return category
   }
   
   static var shopping: Category {
     let category = Category()
-    category.name = "Shopping"
-    category.icon = Source.Strings.Categories.Images.shopping
+    category.name = CategoryDescription.shopping.name
+    category.icon = CategoryDescription.shopping.icon
     return category
   }
   
   static var car: Category {
     let category = Category()
-    category.name = "Car"
-    category.icon = Source.Strings.Categories.Images.car
+    category.name = CategoryDescription.car.name
+    category.icon = CategoryDescription.car.icon
     return category
   }
   
   static var publicTransport: Category {
     let category = Category()
-    category.name = "Public transport"
-    category.icon = Source.Strings.Categories.Images.publicTransport
+    category.name = CategoryDescription.publicTransport.name
+    category.icon = CategoryDescription.publicTransport.icon
     return category
   }
   
   static var other: Category {
     let category = Category()
-    category.name = "Other"
-    category.icon = Source.Strings.Categories.Images.other
+    category.name = CategoryDescription.other.name
+    category.icon = CategoryDescription.other.icon
     return category
   }
   
   static var delivery: Category {
     let category = Category()
-    category.name = "Delivery"
-    category.icon = Source.Strings.Categories.Images.delivery
+    category.name = CategoryDescription.delivery.name
+    category.icon = CategoryDescription.delivery.icon
     return category
   }
   
   static var gaming: Category {
     let category = Category()
-    category.name = "Gaming"
-    category.icon = Source.Strings.Categories.Images.gaming
+    category.name = CategoryDescription.gaming.name
+    category.icon = CategoryDescription.gaming.icon
     return category
   }
   
   static var animals: Category {
     let category = Category()
-    category.name = "Animals"
-    category.icon = Source.Strings.Categories.Images.animals
+    category.name = CategoryDescription.animals.name
+    category.icon = CategoryDescription.animals.icon
     return category
   }
   
@@ -152,6 +165,24 @@ enum DefaultCategories {
     other,
     delivery,
     gaming,
-    animals
+    animals,
+    bills
   ]
+}
+
+func compareAndMergeArrays(array1: [Category], realm: Realm) {
+  let namesSet = Set(array1.map { $0.name })
+  let differingObjects = DefaultCategories.defaultCategories.filter { !namesSet.contains($0.name) }
+  if !differingObjects.isEmpty {
+    print("Objects that are different:")
+    for obj in differingObjects {
+      print("Name: \(obj.name)")
+    }
+    // Merge differing objects into the Realm
+    try? realm.write {
+      realm.add(differingObjects, update: .modified)
+    }
+  } else {
+    print("No differences found.")
+  }
 }

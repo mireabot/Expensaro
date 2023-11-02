@@ -30,6 +30,7 @@ struct HomeView: View {
   @ObservedResults(Transaction.self, filter: NSPredicate(format: "date >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var transactions
   @ObservedResults(RecurringTransaction.self, sortDescriptor: SortDescriptor(keyPath: \RecurringTransaction.dueDate, ascending: true)) var recurringTransactions
   @ObservedResults(RecurringTransaction.self, filter: NSPredicate(format: "dueDate >= %@ AND dueDate < %@", Calendar.current.date(byAdding: .day, value: 0, to: Date())! as NSDate, Calendar.current.date(byAdding: .day, value: 1, to: Date())! as NSDate)) var renewingPayments
+  @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: \Category.name, ascending: true)) var categories
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing) {
@@ -46,6 +47,7 @@ struct HomeView: View {
           .padding(16)
       }
       .onFirstAppear {
+        compareAndMergeArrays(array1: categories.toArray(), realm: realm)
         if renewingPayments.count != 0 {
           showRenewView.toggle()
         }

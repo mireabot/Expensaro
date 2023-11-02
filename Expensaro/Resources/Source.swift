@@ -98,6 +98,7 @@ enum Source {
     enum Categories {
       enum Images {
         static let animals = "animals"
+        static let bills = "bills"
         static let car = "car"
         static let clothes = "clothes"
         static let delivery = "delivery"
