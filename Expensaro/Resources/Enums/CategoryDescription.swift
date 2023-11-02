@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// Enum with details about default categories
-enum CategoryDescription {
+enum CategoryDescription: String, CaseIterable {
   case clothes
   case education
   case medicine

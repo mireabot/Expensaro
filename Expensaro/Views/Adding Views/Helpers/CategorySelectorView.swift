@@ -29,7 +29,20 @@ struct CategorySelectorView: View {
               .font(.mukta(.regular, size: 17))
           }
           .buttonStyle(StretchButtonStyle(icon: Appearance.shared.addIcon))
-          
+        }
+        .listRowSeparator(.hidden)
+        
+        Section {
+          Text("Custom categories")
+            .font(.mukta(.regular, size: 13))
+            .foregroundColor(.darkGrey)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .listRowSeparator(.hidden)
+        if categories.isEmpty {
+          emptyState()
+            .listRowSeparator(.hidden)
+        } else {
           ForEach(categories) { category in
             EXCategoryCell(icon: Image(category.icon), title: category.name)
               .onTapGesture {
@@ -38,8 +51,26 @@ struct CategorySelectorView: View {
                 makeDismiss()
               }
           }
+          .listRowSeparator(.hidden)
+        }
+        
+        Section {
+          Text("Default categories")
+            .font(.mukta(.regular, size: 13))
+            .foregroundColor(.darkGrey)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .listRowSeparator(.hidden)
+        ForEach(CategoryDescription.allCases.sorted { $0.rawValue < $1.rawValue }, id: \.self) { category in
+          EXCategoryCell(icon: Image(category.icon), title: category.name)
+            .onTapGesture {
+              title = category.name
+              icon = category.icon
+              makeDismiss()
+            }
+        }
+        .listRowSeparator(.hidden)
+        
       }
       .listStyle(.plain)
       .background(.white)
@@ -82,5 +113,26 @@ struct CategorySelectorView_Previews: PreviewProvider {
   static var previews: some View {
     CategorySelectorView(title: .constant(""), icon: .constant(""))
       .environment(\.realmConfiguration, RealmMigrator.configuration)
+  }
+}
+
+// MARK: - Helper Views
+extension CategorySelectorView {
+  @ViewBuilder
+  func emptyState() -> some View {
+    VStack(alignment: .center, spacing: 3) {
+      Text("You haven't created own categories yet")
+        .font(.mukta(.semibold, size: 15))
+        .multilineTextAlignment(.center)
+      Text("Click the button on the top to create one")
+        .font(.mukta(.regular, size: 13))
+        .foregroundColor(.darkGrey)
+        .multilineTextAlignment(.center)
+    }
+    .padding(.vertical, 15)
+    .padding(.horizontal, 20)
+    .frame(maxWidth: .infinity)
+    .background(Color.backgroundGrey)
+    .cornerRadius(12)
   }
 }
