@@ -348,6 +348,9 @@ extension AddRecurrentPaymentView {
 extension AddRecurrentPaymentView {
   func createPayment() {
     recurringPayment.amount = Double(amountValue) ?? 0
+    let formatterDate = recurringPayment.dueDate.formatted(.dateTime.day().month().year())
+    print(formatterDate)
+//    recurringPayment.dueDate = formatterDate
     try? realm.write {
       realm.add(recurringPayment)
     }

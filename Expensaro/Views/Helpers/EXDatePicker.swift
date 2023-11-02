@@ -117,10 +117,10 @@ struct EXDatePicker: View {
 }
 
 // sample Date for Testing...
-func getSampleDate(offset: Int) -> Date {
+func getSampleDate(offset: Int, date: Date) -> Date {
   let calender = Calendar.current
   
-  let date = calender.date(byAdding: .day, value: offset, to: Date())
+  let date = calender.date(byAdding: .day, value: offset, to: date)
   
   return date ?? Date()
 }

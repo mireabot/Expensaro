@@ -32,6 +32,11 @@ extension View {
       )
     )
   }
+  
+  /// Runs code only when view appeares
+  func onFirstAppear(_ action: @escaping () -> ()) -> some View {
+    modifier(FirstAppear(action: action))
+  }
 }
 
 extension Float {

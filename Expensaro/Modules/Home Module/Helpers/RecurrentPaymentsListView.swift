@@ -25,9 +25,9 @@ struct RecurrentPaymentsListView: View {
   var body: some View {
     NavigationView {
       ScrollView {
-        headerView().padding(.top, 20).applyMargins()
+        headerView().padding(.top, 16).applyMargins()
         EXDatePicker(currentDate: $currentDate, recurringTransactions: recurringTransactions)
-          .padding(.top, 20)
+          .padding(.top, 16)
         
         VStack {
           if let payments = groupedRecurringPayments.first(where: { payment in
