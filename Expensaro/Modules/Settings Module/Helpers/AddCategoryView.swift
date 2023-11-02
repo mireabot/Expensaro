@@ -24,23 +24,13 @@ struct AddCategoryView: View {
       ScrollView {
         VStack(spacing: 15) {
           VStack(alignment: .center, spacing: 15) {
-            if category.icon.isEmpty {
-              Image(Source.Strings.Categories.Images.other)
-                .resizable()
-                .frame(width: 40, height: 40)
-                .foregroundColor(.primaryGreen)
-                .padding(8)
-                .background(Color.backgroundGrey)
-                .cornerRadius(12)
-            } else {
-              Image(category.icon)
-                .resizable()
-                .frame(width: 40, height: 40)
-                .foregroundColor(.primaryGreen)
-                .padding(8)
-                .background(Color.backgroundGrey)
-                .cornerRadius(12)
-            }
+            Image(category.icon)
+              .resizable()
+              .frame(width: 40, height: 40)
+              .foregroundColor(.primaryGreen)
+              .padding(8)
+              .background(Color.backgroundGrey)
+              .cornerRadius(12)
           }
           VStack(alignment: .leading, spacing: 5) {
             Text("Name")
@@ -52,7 +42,7 @@ struct AddCategoryView: View {
           }
           VStack(alignment: .leading, spacing: 5) {
             LazyHGrid(rows: Appearance.shared.items, alignment: .center, spacing: 20) {
-              ForEach(DefaultCategories.defaultCategories) { item in
+              ForEach(CategoryDescription.allCases, id: \.self) { item in
                 Button {
                   withAnimation(.easeOut(duration: 0.5)) {
                     category.icon = item.icon
@@ -80,6 +70,9 @@ struct AddCategoryView: View {
         .padding(.top, 20)
         
       }
+      .onAppear {
+        category.icon = Source.Strings.Categories.Images.other
+      }
       .applyMargins()
       .onTapGesture {
         isFocused = false
@@ -93,7 +86,7 @@ struct AddCategoryView: View {
         ToolbarItem(placement: .navigationBarLeading) {
           if isSheet {
             Button {
-              makeDismiss()
+              router.nav?.popViewController(animated: true)
             } label: {
               Appearance.shared.closeIcon
                 .font(.callout)
@@ -123,7 +116,7 @@ struct AddCategoryView: View {
               .font(.callout)
               .foregroundColor(category.name.isEmpty ? .border : .black)
           }
-          .disabled(category.name.isEmpty)
+          .disabled(category.name.isEmpty || category.icon.isEmpty)
         }
       }
     }
@@ -162,6 +155,5 @@ extension AddCategoryView {
     try? realm.write {
       realm.add(category)
     }
-    router.nav?.popViewController(animated: true)
   }
 }

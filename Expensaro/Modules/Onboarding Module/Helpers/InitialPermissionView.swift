@@ -57,9 +57,6 @@ struct InitialPermissionView: View {
       Button {
         showAnimation.toggle()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-          try? realm.write {
-            realm.add(DefaultCategories.defaultCategories)
-          }
           showAnimation.toggle()
           isUserLoggedIn = true
         }

@@ -27,17 +27,35 @@ struct CategoriesSettingsView: View {
         .padding(.top, 20)
         .applyMargins()
         
-        Text("All categories")
-          .font(.mukta(.regular, size: 13))
-          .foregroundColor(.darkGrey)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .applyMargins()
-        
         List {
-          ForEach(categories) { category in
+          Section {
+            Text("Custom categories")
+              .font(.mukta(.regular, size: 13))
+              .foregroundColor(.darkGrey)
+              .frame(maxWidth: .infinity, alignment: .leading)
+          }
+          .listRowSeparator(.hidden)
+          if categories.isEmpty {
+            emptyState()
+              .listRowSeparator(.hidden)
+          } else {
+            ForEach(categories) { category in
+              EXCategoryCell(icon: Image(category.icon), title: category.name)
+            }
+            .onDelete(perform: $categories.remove)
+            .listRowSeparator(.hidden)
+          }
+          
+          Section {
+            Text("Default categories")
+              .font(.mukta(.regular, size: 13))
+              .foregroundColor(.darkGrey)
+              .frame(maxWidth: .infinity, alignment: .leading)
+          }
+          .listRowSeparator(.hidden)
+          ForEach(CategoryDescription.allCases.sorted { $0.rawValue < $1.rawValue }, id: \.self) { category in
             EXCategoryCell(icon: Image(category.icon), title: category.name)
           }
-          .onDelete(perform: $categories.remove)
           .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
@@ -64,7 +82,8 @@ struct CategoriesSettingsView: View {
 
 struct CategoriesSettingsView_Previews: PreviewProvider {
   static var previews: some View {
-    EmptyView()
+    CategoriesSettingsView()
+      .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
 
@@ -77,5 +96,27 @@ extension CategoriesSettingsView {
     
     let backIcon = Source.Images.Navigation.back
     let addIcon = Source.Images.ButtonIcons.add
+  }
+}
+
+
+// MARK: - Helper Views
+extension CategoriesSettingsView {
+  @ViewBuilder
+  func emptyState() -> some View {
+    VStack(alignment: .center, spacing: 3) {
+      Text("You haven't created own categories yet")
+        .font(.mukta(.semibold, size: 15))
+        .multilineTextAlignment(.center)
+      Text("Click the button on the top to create one")
+        .font(.mukta(.regular, size: 13))
+        .foregroundColor(.darkGrey)
+        .multilineTextAlignment(.center)
+    }
+    .padding(.vertical, 15)
+    .padding(.horizontal, 20)
+    .frame(maxWidth: .infinity)
+    .background(Color.backgroundGrey)
+    .cornerRadius(12)
   }
 }
