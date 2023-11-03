@@ -86,7 +86,7 @@ struct AddCategoryView: View {
         ToolbarItem(placement: .navigationBarLeading) {
           if isSheet {
             Button {
-              router.nav?.popViewController(animated: true)
+              makeDismiss()
             } label: {
               Appearance.shared.closeIcon
                 .font(.callout)

@@ -87,7 +87,7 @@ struct HomeView: View {
             router.pushTo(view: EXNavigationViewBuilder.builder.makeView(SettingsView()))
           } label: {
             Appearance.shared.settingsIcon
-              .foregroundColor(.primaryGreen)
+              .foregroundColor(.black)
           }
         }
       }
@@ -108,7 +108,7 @@ extension HomeView {
     static let shared = Appearance()
     let title = "Home"
     
-    let settingsIcon = Source.Images.System.settings
+    let settingsIcon = Source.Images.System.appTools
   }
 }
 

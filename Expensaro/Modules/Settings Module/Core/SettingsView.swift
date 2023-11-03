@@ -64,6 +64,16 @@ struct SettingsView: View {
           Text(Appearance.shared.title)
             .font(.mukta(.medium, size: 17))
         }
+        
+        ToolbarItem(placement: .topBarTrailing) {
+          Button {
+            
+          } label: {
+            Appearance.shared.settingsIcon
+              .font(.callout)
+              .foregroundColor(.black)
+          }
+        }
       }
     }
   }
@@ -80,9 +90,10 @@ extension SettingsView {
   struct Appearance {
     static let shared = Appearance()
     
-    let title = "Settings"
+    let title = "Tools"
     
     let backIcon = Source.Images.Navigation.back
+    let settingsIcon = Source.Images.System.settings
     
   }
 }
