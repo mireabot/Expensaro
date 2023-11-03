@@ -27,6 +27,7 @@ struct GoalDetailView: View {
       ZStack(alignment: .bottomTrailing, content: {
         ScrollView {
           goalInfo()
+          GoalAnalyticsView(goal: goal)
           transactionList()
         }
         .applyMargins()

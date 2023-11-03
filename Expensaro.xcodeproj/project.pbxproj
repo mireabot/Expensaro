@@ -17,6 +17,7 @@
 		353E5C2F2ACA01D400430978 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353E5C2E2ACA01D400430978 /* Date+Extension.swift */; };
 		353E5C322ACA1F6600430978 /* RecurrentPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353E5C312ACA1F6600430978 /* RecurrentPayment.swift */; };
 		353F1FDD2AF432FB001BE114 /* CategoryDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353F1FDC2AF432FB001BE114 /* CategoryDescription.swift */; };
+		353FF4892AF499AF000BF57A /* GoalAnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353FF4882AF499AF000BF57A /* GoalAnalyticsView.swift */; };
 		354A7C0B2ABDE57900934E4E /* CategoriesSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354A7C0A2ABDE57900934E4E /* CategoriesSettingsView.swift */; };
 		354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B042AB8C860002516F1 /* AddGoalView.swift */; };
 		354F2B0B2AB8D24B002516F1 /* DateSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */; };
@@ -85,6 +86,7 @@
 		353E5C2E2ACA01D400430978 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		353E5C312ACA1F6600430978 /* RecurrentPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPayment.swift; sourceTree = "<group>"; };
 		353F1FDC2AF432FB001BE114 /* CategoryDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDescription.swift; sourceTree = "<group>"; };
+		353FF4882AF499AF000BF57A /* GoalAnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalAnalyticsView.swift; sourceTree = "<group>"; };
 		354A7C0A2ABDE57900934E4E /* CategoriesSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesSettingsView.swift; sourceTree = "<group>"; };
 		354F2B042AB8C860002516F1 /* AddGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalView.swift; sourceTree = "<group>"; };
 		354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectorView.swift; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 			children = (
 				356847732ACB2D4E00FFC864 /* GoalDetailView.swift */,
 				3564D81E2ACB71EB00553ECB /* EditGoalView.swift */,
+				353FF4882AF499AF000BF57A /* GoalAnalyticsView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -690,6 +693,7 @@
 				3558FBBE2ACA3F8E00624EBD /* EXGoalCell.swift in Sources */,
 				35CE33E42AE1891A00BC93C2 /* AddGoalTransactionView.swift in Sources */,
 				356847742ACB2D4E00FFC864 /* GoalDetailView.swift in Sources */,
+				353FF4892AF499AF000BF57A /* GoalAnalyticsView.swift in Sources */,
 				35825BF92AC9CDB600713AD8 /* EXRecurringTransactionCell.swift in Sources */,
 				35C80C6D2ABF59DE0063553E /* RemindersSettingsView.swift in Sources */,
 				359CDC542AB4C69600DFFDC7 /* OnboardingView.swift in Sources */,
