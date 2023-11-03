@@ -22,12 +22,13 @@ struct GoalDetailView: View {
   @State private var showAddMoney = false
   @State private var showEditGoal = false
   @State private var showDeleteAlert = false
+  
+  @State private var showAnalytics = false
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing, content: {
         ScrollView {
           goalInfo()
-          GoalAnalyticsView(goal: goal)
           transactionList()
         }
         .applyMargins()
@@ -95,11 +96,14 @@ struct GoalDetailView: View {
           .padding(.top, 10)
       }
       
-      if goal.isFailed {
+      else if goal.isFailed {
         EXInfoCard(title: "Not this time:(", icon: Source.Images.InfoCardIcon.topCategory, text: "You couldn't finish goal before deadline, but you can still make it with other goals!")
           .padding(.top, 10)
       }
-      
+      else {
+        GoalAnalyticsView(goalVM: GoalAnalyticsViewModel(goal: goal))
+          .padding(.top, 10)
+      }
     }
     .padding(.top, 20)
   }
@@ -126,7 +130,7 @@ struct GoalDetailView: View {
 
 struct GoalDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    GoalDetailView(goal: DefaultGoals.goal2)
+    GoalDetailView(goal: DefaultGoals.goal1)
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
