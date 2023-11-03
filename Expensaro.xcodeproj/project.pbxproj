@@ -18,6 +18,8 @@
 		353E5C322ACA1F6600430978 /* RecurrentPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353E5C312ACA1F6600430978 /* RecurrentPayment.swift */; };
 		353F1FDD2AF432FB001BE114 /* CategoryDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353F1FDC2AF432FB001BE114 /* CategoryDescription.swift */; };
 		353FF4892AF499AF000BF57A /* GoalAnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353FF4882AF499AF000BF57A /* GoalAnalyticsView.swift */; };
+		3540BEFA2AF586CC00F7E41F /* EXEmptyStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3540BEF92AF586CC00F7E41F /* EXEmptyStates.swift */; };
+		3540BEFC2AF58CAD00F7E41F /* EXEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3540BEFB2AF58CAD00F7E41F /* EXEmptyStateView.swift */; };
 		354A7C0B2ABDE57900934E4E /* CategoriesSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354A7C0A2ABDE57900934E4E /* CategoriesSettingsView.swift */; };
 		354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B042AB8C860002516F1 /* AddGoalView.swift */; };
 		354F2B0B2AB8D24B002516F1 /* DateSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */; };
@@ -87,6 +89,8 @@
 		353E5C312ACA1F6600430978 /* RecurrentPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPayment.swift; sourceTree = "<group>"; };
 		353F1FDC2AF432FB001BE114 /* CategoryDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDescription.swift; sourceTree = "<group>"; };
 		353FF4882AF499AF000BF57A /* GoalAnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalAnalyticsView.swift; sourceTree = "<group>"; };
+		3540BEF92AF586CC00F7E41F /* EXEmptyStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXEmptyStates.swift; sourceTree = "<group>"; };
+		3540BEFB2AF58CAD00F7E41F /* EXEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXEmptyStateView.swift; sourceTree = "<group>"; };
 		354A7C0A2ABDE57900934E4E /* CategoriesSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesSettingsView.swift; sourceTree = "<group>"; };
 		354F2B042AB8C860002516F1 /* AddGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalView.swift; sourceTree = "<group>"; };
 		354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectorView.swift; sourceTree = "<group>"; };
@@ -340,6 +344,7 @@
 			children = (
 				35825BFF2AC9FDEB00713AD8 /* EXDatePicker.swift */,
 				35DE97DD2AE747F900CEF68D /* EXErrorView.swift */,
+				3540BEFB2AF58CAD00F7E41F /* EXEmptyStateView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -479,6 +484,7 @@
 			children = (
 				35DE97DB2AE7437400CEF68D /* EXErrors.swift */,
 				353F1FDC2AF432FB001BE114 /* CategoryDescription.swift */,
+				3540BEF92AF586CC00F7E41F /* EXEmptyStates.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -656,6 +662,7 @@
 				35C883F32ACE186600F6E1FB /* TransactionDetailView.swift in Sources */,
 				353311072ACD064100EEB64B /* TransactionsListView.swift in Sources */,
 				35BEF3632AB38088005D1138 /* BottomSheetModifier.swift in Sources */,
+				3540BEFC2AF58CAD00F7E41F /* EXEmptyStateView.swift in Sources */,
 				35C80C6F2ABF84880063553E /* ContactSettingsView.swift in Sources */,
 				35BEF3652AB38814005D1138 /* AddRecurrentPaymentView.swift in Sources */,
 				3564D81F2ACB71EB00553ECB /* EditGoalView.swift in Sources */,
@@ -683,6 +690,7 @@
 				353E5C2F2ACA01D400430978 /* Date+Extension.swift in Sources */,
 				35DE97DE2AE747F900CEF68D /* EXErrorView.swift in Sources */,
 				354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */,
+				3540BEFA2AF586CC00F7E41F /* EXEmptyStates.swift in Sources */,
 				359CDC622AB50C0000DFFDC7 /* AddTransactionView.swift in Sources */,
 				359CDC5C2AB4DE3300DFFDC7 /* TabBarView.swift in Sources */,
 				358E6B7F2AC0840900ABA818 /* CategorySelectorView.swift in Sources */,

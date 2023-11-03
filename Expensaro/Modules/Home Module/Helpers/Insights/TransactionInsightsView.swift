@@ -13,8 +13,8 @@ struct TransactionInsightsView: View {
   @ObservedObject var viewModel: TransactionInsightsViewModel
   var body: some View {
     Group {
-      if viewModel.totalSpentInCategory == 0 {
-        emptyState()
+      if viewModel.isLocked {
+        EXEmptyStateView(type: .noTransactionInsights)
       } else {
         VStack(alignment: .leading, spacing: 10) {
           VStack(alignment: .leading, spacing: -5) {
@@ -52,24 +52,6 @@ struct TransactionInsightsView: View {
       }
     }
   }
-  
-  @ViewBuilder
-  func emptyState() -> some View {
-    VStack(alignment: .center, spacing: 3) {
-      Text("There's nothing to show right now")
-        .font(.mukta(.semibold, size: 15))
-        .multilineTextAlignment(.center)
-      Text("We don't have enough data to make insights")
-        .font(.mukta(.regular, size: 13))
-        .foregroundColor(.darkGrey)
-        .multilineTextAlignment(.center)
-    }
-    .padding(.vertical, 15)
-    .padding(.horizontal, 20)
-    .frame(maxWidth: .infinity)
-    .background(Color.backgroundGrey)
-    .cornerRadius(12)
-  }
 }
 
 class TransactionInsightsViewModel: ObservableObject {
@@ -77,6 +59,7 @@ class TransactionInsightsViewModel: ObservableObject {
   @Published var selectedCategory: String = ""
   @Published var monthlyBudget: Double = 0.0
   @Published var totalSpentInCategory: Double = 0.0
+  @Published var isLocked = false
   
   init(category: String, budget: Double) {
     self.selectedCategory = category
@@ -87,7 +70,12 @@ class TransactionInsightsViewModel: ObservableObject {
   /// Calculating total amount spent on selected category
   func calculateTotalSpentInCategory() {
     let selectedCategoryTransactions = transactions.filter({$0.categoryName == self.selectedCategory})
-    totalSpentInCategory = selectedCategoryTransactions.reduce(0.0) { $0 + $1.amount }
+    if selectedCategoryTransactions.count <= 5 {
+      isLocked = true
+    }
+    else {
+      totalSpentInCategory = selectedCategoryTransactions.reduce(0.0) { $0 + $1.amount }
+    }
   }
   
   /// Calculating average amount spent on selected category

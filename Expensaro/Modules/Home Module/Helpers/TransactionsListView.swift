@@ -22,7 +22,7 @@ struct TransactionsListView: View {
       ScrollView(showsIndicators: false) {
         headerView().padding(.top, 20)
         if groupedTransactions.isEmpty {
-          Appearance.shared.emptyState()
+          EXEmptyStateView(type: .noTransactions, isCard: false).padding(.top, 30)
         } else {
           LazyVStack {
             ForEach(groupedTransactions.keys.sorted(by: >), id: \.self) { date in
@@ -118,22 +118,6 @@ extension TransactionsListView {
     let backIcon = Source.Images.Navigation.back
     let addIcon = Source.Images.ButtonIcons.add
     
-    @ViewBuilder
-    func emptyState() -> some View {
-      VStack(alignment: .center, spacing: 5) {
-        Source.Images.EmptyStates.noTransactions
-          .resizable()
-          .frame(width: 120, height: 120)
-        VStack(spacing: 0) {
-          Text("You have no transactions")
-            .font(.mukta(.semibold, size: 20))
-          Text("Create a new one with plus icon on the top")
-            .font(.mukta(.regular, size: 17))
-            .foregroundColor(.darkGrey)
-        }
-      }
-      .padding(.top, 30)
-    }
   }
 }
 

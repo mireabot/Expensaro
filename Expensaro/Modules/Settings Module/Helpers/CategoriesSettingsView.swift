@@ -36,7 +36,7 @@ struct CategoriesSettingsView: View {
           }
           .listRowSeparator(.hidden)
           if categories.isEmpty {
-            emptyState()
+            EXEmptyStateView(type: .noCustomCategories)
               .listRowSeparator(.hidden)
           } else {
             ForEach(categories) { category in
@@ -96,27 +96,5 @@ extension CategoriesSettingsView {
     
     let backIcon = Source.Images.Navigation.back
     let addIcon = Source.Images.ButtonIcons.add
-  }
-}
-
-
-// MARK: - Helper Views
-extension CategoriesSettingsView {
-  @ViewBuilder
-  func emptyState() -> some View {
-    VStack(alignment: .center, spacing: 3) {
-      Text("You haven't created own categories yet")
-        .font(.mukta(.semibold, size: 15))
-        .multilineTextAlignment(.center)
-      Text("Click the button on the top to create one")
-        .font(.mukta(.regular, size: 13))
-        .foregroundColor(.darkGrey)
-        .multilineTextAlignment(.center)
-    }
-    .padding(.vertical, 15)
-    .padding(.horizontal, 20)
-    .frame(maxWidth: .infinity)
-    .background(Color.backgroundGrey)
-    .cornerRadius(12)
   }
 }

@@ -115,7 +115,7 @@ struct GoalDetailView: View {
         .font(.mukta(.semibold, size: 17))
         .frame(maxWidth: .infinity, alignment: .leading)
       if goal.transactions.isEmpty {
-        emptyState()
+        EXEmptyStateView(type: .noTransactionForGoal)
       } else {
         LazyVStack(spacing: 10) {
           ForEach(goal.transactions) { goalTransaction in
@@ -190,23 +190,6 @@ extension GoalDetailView {
       .font(.mukta(.regular, size: 15))
       .menuOrder(.fixed)
     }
-  }
-  
-  @ViewBuilder
-  func emptyState() -> some View {
-    VStack(alignment: .center, spacing: 3) {
-      Text("You have no transactions related to this goal")
-        .font(.mukta(.semibold, size: 15))
-        .multilineTextAlignment(.center)
-      Text("You can create one with menu button")
-        .font(.mukta(.regular, size: 13))
-        .foregroundColor(.darkGrey)
-        .multilineTextAlignment(.center)
-    }
-    .padding(.vertical, 15)
-    .padding(.horizontal, 20)
-    .background(Color.backgroundGrey)
-    .cornerRadius(12)
   }
 }
 

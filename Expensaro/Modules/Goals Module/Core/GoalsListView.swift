@@ -21,7 +21,7 @@ struct GoalsListView: View {
         LazyVStack(spacing: 10, pinnedViews: [.sectionHeaders]) {
           Section {
             if goals.isEmpty {
-              emptyState()
+              EXEmptyStateView(type: .noGoals, isCard: false).padding(.top, 30)
             } else {
               LazyVStack(spacing: 10) {
                 ForEach(goals) { goal in
@@ -109,23 +109,6 @@ extension GoalsListView {
         .cornerRadius(12)
         .shadowXS()
     )
-  }
-  
-  @ViewBuilder
-  func emptyState() -> some View {
-    VStack(alignment: .center, spacing: 5) {
-      Source.Images.EmptyStates.noGoals
-        .resizable()
-        .frame(width: 120, height: 120)
-      VStack(spacing: 0) {
-        Text("No goals for now")
-          .font(.mukta(.semibold, size: 20))
-        Text("Set Goals, Achieve Dreams")
-          .font(.mukta(.regular, size: 17))
-          .foregroundColor(.darkGrey)
-      }
-    }
-    .padding(.top, 30)
   }
 }
 

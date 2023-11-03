@@ -51,7 +51,7 @@ struct RecurrentPaymentsListView: View {
             }
           }
           else {
-            emptyState()
+            EXEmptyStateView(type: .noRecurringPayments)
           }
         }
         .applyMargins()
@@ -156,23 +156,6 @@ extension RecurrentPaymentsListView {
 
 // MARK: - Helper Views
 extension RecurrentPaymentsListView {
-  @ViewBuilder
-  func emptyState() -> some View {
-    VStack(alignment: .center, spacing: 3) {
-      Text("You have no recurring payments for this date")
-        .font(.mukta(.semibold, size: 15))
-        .multilineTextAlignment(.center)
-      Text("You can create one with plus button on the top")
-        .font(.mukta(.regular, size: 13))
-        .foregroundColor(.darkGrey)
-        .multilineTextAlignment(.center)
-    }
-    .padding(.vertical, 15)
-    .padding(.horizontal, 20)
-    .background(Color.backgroundGrey)
-    .cornerRadius(12)
-  }
-  
   @ViewBuilder
   func headerView() -> some View {
     HStack(alignment: .center, spacing: 35) {

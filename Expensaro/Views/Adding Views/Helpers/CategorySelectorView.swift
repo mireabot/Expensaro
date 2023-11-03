@@ -40,7 +40,7 @@ struct CategorySelectorView: View {
         }
         .listRowSeparator(.hidden)
         if categories.isEmpty {
-          emptyState()
+          EXEmptyStateView(type: .noCustomCategories)
             .listRowSeparator(.hidden)
         } else {
           ForEach(categories) { category in
@@ -113,26 +113,5 @@ struct CategorySelectorView_Previews: PreviewProvider {
   static var previews: some View {
     CategorySelectorView(title: .constant(""), icon: .constant(""))
       .environment(\.realmConfiguration, RealmMigrator.configuration)
-  }
-}
-
-// MARK: - Helper Views
-extension CategorySelectorView {
-  @ViewBuilder
-  func emptyState() -> some View {
-    VStack(alignment: .center, spacing: 3) {
-      Text("You haven't created own categories yet")
-        .font(.mukta(.semibold, size: 15))
-        .multilineTextAlignment(.center)
-      Text("Click the button on the top to create one")
-        .font(.mukta(.regular, size: 13))
-        .foregroundColor(.darkGrey)
-        .multilineTextAlignment(.center)
-    }
-    .padding(.vertical, 15)
-    .padding(.horizontal, 20)
-    .frame(maxWidth: .infinity)
-    .background(Color.backgroundGrey)
-    .cornerRadius(12)
   }
 }

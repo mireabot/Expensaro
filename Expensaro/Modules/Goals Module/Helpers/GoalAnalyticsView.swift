@@ -17,8 +17,8 @@ struct GoalAnalyticsView: View {
         .padding(8)
         .background(Color.backgroundGrey)
         .cornerRadius(12)
-      Text("\(Appearance.shared.text) We estimated your payment for each week to complete goal sooner")
-        .font(.mukta(.medium, size: 15))
+      Text("\(Appearance.shared.text) We estimated your weekly payments to complete goal faster")
+        .font(.mukta(.semibold, size: 17))
         .foregroundColor(.black)
       Divider()
         .foregroundColor(.border)
@@ -52,7 +52,7 @@ extension GoalAnalyticsView {
     
     let icon = Image(Source.Strings.Categories.Images.hobby)
     var text: Text {
-      return Text("Close goal faster!").foregroundColor(.primaryGreen).font(.mukta(.bold, size: 17))
+      return Text("Close goal faster!").foregroundColor(.primaryGreen).font(.mukta(.semibold, size: 17))
     }
   }
 }

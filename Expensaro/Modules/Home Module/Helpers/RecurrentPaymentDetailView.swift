@@ -113,16 +113,6 @@ struct RecurrentPaymentDetailView: View {
           }
           .padding(.top, 10)
           
-          // MARK: Analytics
-          VStack(spacing: 10) {
-            Text("Insights")
-              .font(.mukta(.regular, size: 13))
-              .foregroundColor(.darkGrey)
-              .frame(maxWidth: .infinity, alignment: .leading)
-            emptyState()
-          }
-          .padding(.top, 10)
-          
         }
         bottomActionButton().padding(.bottom, 16)
       })
@@ -219,24 +209,6 @@ extension RecurrentPaymentDetailView {
         }
       }
     }
-  }
-  
-  @ViewBuilder
-  func emptyState() -> some View {
-    VStack(alignment: .center, spacing: 3) {
-      Text("There's nothing to show right now")
-        .font(.mukta(.semibold, size: 15))
-        .multilineTextAlignment(.center)
-      Text("We don't have enough data to make insights")
-        .font(.mukta(.regular, size: 13))
-        .foregroundColor(.darkGrey)
-        .multilineTextAlignment(.center)
-    }
-    .padding(.vertical, 15)
-    .padding(.horizontal, 20)
-    .frame(maxWidth: .infinity)
-    .background(Color.backgroundGrey)
-    .cornerRadius(12)
   }
   
   @ViewBuilder

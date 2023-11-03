@@ -26,6 +26,10 @@ enum Source {
       static let noExpenses = Image(systemName: "list.bullet")
       static let noGoals = Image("noGoals")
       static let noTransactions = Image("noTransactions")
+      static let noCategories = Image("noCategories")
+      static let noInsights = Image("month2month")
+      static let noRecurringPayments = Image("recurrentPayments")
+      static let noGoalTransaction = Image("buttonTransaction")
     }
     enum Onboarding {
       static let onb1 = Image("onb1")
