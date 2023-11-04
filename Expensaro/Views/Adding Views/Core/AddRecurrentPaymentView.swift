@@ -30,6 +30,7 @@ struct AddRecurrentPaymentView: View {
   @State private var budgetValue: Double = 0
   @State private var isBudgetAvailable = true
   @State private var isLoading = false
+  @State private var savedDate = Date()
   
   // MARK: Error
   @State private var errorType = EXErrors.none
@@ -82,6 +83,7 @@ struct AddRecurrentPaymentView: View {
         if isUpdating {
           amountValue = String(recurringPayment.amount)
           budgetValue = budget.amount
+          savedDate = recurringPayment.dueDate
         } else {
           budgetValue = budget.amount
         }
@@ -350,7 +352,7 @@ extension AddRecurrentPaymentView {
     recurringPayment.amount = Double(amountValue) ?? 0
     let formatterDate = recurringPayment.dueDate.formatted(.dateTime.day().month().year())
     print(formatterDate)
-//    recurringPayment.dueDate = formatterDate
+    //    recurringPayment.dueDate = formatterDate
     try? realm.write {
       realm.add(recurringPayment)
     }
@@ -395,6 +397,15 @@ extension AddRecurrentPaymentView {
     } else if recurringPayment.name.isEmpty {
       errorType = .emptyName
       showError.toggle()
+      return
+    } else if recurringPayment.dueDate < Date() {
+      errorType = .pastDate
+      showError.toggle()
+      if let newPayment = recurringPayment.thaw(), let realm = newPayment.realm {
+        try? realm.write {
+          newPayment.dueDate = savedDate
+        }
+      }
       return
     } else {
       if isUpdating {

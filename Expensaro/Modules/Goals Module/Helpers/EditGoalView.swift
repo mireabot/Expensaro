@@ -17,6 +17,9 @@ struct EditGoalView: View {
   // MARK: Realm
   @ObservedRealmObject var goal: Goal
   
+  // MARK: Variables
+  @State private var savedDate = Date()
+  
   // MARK: Presentation
   @State private var showDateSelector = false
   var body: some View {
@@ -55,6 +58,7 @@ struct EditGoalView: View {
       })
       .onAppear {
         amountValue = String(goal.finalAmount)
+        savedDate = goal.dueDate
       }
       .sheet(isPresented: $showDateSelector, content: {
         DateSelectorView(type: .updateGoalDate, selectedDate: $goal.dueDate)

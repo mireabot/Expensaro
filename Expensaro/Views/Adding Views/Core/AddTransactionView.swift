@@ -36,7 +36,6 @@ struct AddTransactionView: View {
   // MARK: Presentation
   @State private var showCategoriesSelector = false
   @State private var showError = false
-  @State private var showDateSelector = false
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
@@ -53,16 +52,6 @@ struct AddTransactionView: View {
             EXLargeSelector(text: $transaction.categoryName, icon: $transaction.categoryIcon, buttonText: "Change", action: {
               showCategoriesSelector.toggle()
             })
-            if isUpdating {
-              EXLargeSelector(text: .constant(Source.Functions.showString(from: transaction.date)), icon: .constant("calendarYear"), buttonText: "Change", action: {
-                showDateSelector.toggle()
-              })
-            } else {
-              Text(Appearance.shared.infoText)
-                .font(.mukta(.regular, size: 13))
-                .foregroundColor(.darkGrey)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
           }
         }
         EXNumberKeyboard(textValue: $amountValue) {
@@ -94,10 +83,6 @@ struct AddTransactionView: View {
       .sheet(isPresented: $showCategoriesSelector, content: {
         CategorySelectorView(title: $transaction.categoryName, icon: $transaction.categoryIcon)
           .presentationDetents([.fraction(0.9)])
-      })
-      .sheet(isPresented: $showDateSelector, content: {
-        DateSelectorView(type: .updateTransaction, selectedDate: $transaction.date)
-          .presentationDetents([.fraction(0.5)])
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -133,7 +118,6 @@ extension AddTransactionView {
     let title = "Add transaction"
     let updateTitle = "Edit transaction"
     let textFieldPlaceholder = "Ex. House Rent"
-    let infoText = "For your convenience date of transaction will be today. You can change it anytime in transaction card"
     
     let closeIcon = Source.Images.Navigation.close
     let cameraIcon = Source.Images.System.scan
