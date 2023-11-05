@@ -167,6 +167,10 @@ extension AddGoalView {
     } else if Double(amountValue) ?? 0 == 0 {
       errorType = .zeroAmount
       showError.toggle()
+    } else if goal.dueDate < Date() {
+      errorType = .pastDate
+      showError.toggle()
+      return
     } else {
       createGoal {
         makeDismiss()

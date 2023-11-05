@@ -14,6 +14,8 @@ enum EXErrors {
   case zeroAmount
   case budgetExceed
   case zeroBudget
+  case wrongDate
+  case pastDate
   
   var text: String {
     switch self {
@@ -27,6 +29,10 @@ enum EXErrors {
       return "You are over  the budget"
     case .zeroBudget:
       return "You need to create a budget first"
+    case .wrongDate:
+      return "Date should be in current month"
+    case .pastDate:
+      return "Date cannot be in the past"
     }
   }
 }
