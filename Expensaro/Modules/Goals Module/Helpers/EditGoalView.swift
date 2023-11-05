@@ -8,6 +8,7 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
+import PopupView
 
 struct EditGoalView: View {
   // MARK: Essential
@@ -20,8 +21,12 @@ struct EditGoalView: View {
   // MARK: Variables
   @State private var savedDate = Date()
   
+  // MARK: Error
+  @State private var errorType = EXErrors.none
+  
   // MARK: Presentation
   @State private var showDateSelector = false
+  @State private var showError = false
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
@@ -50,9 +55,7 @@ struct EditGoalView: View {
         }
         
         EXNumberKeyboard(textValue: $amountValue) {
-          updateGoal {
-            makeDismiss()
-          }
+          validateGoal()
         }
         .applyMargins()
       })
@@ -63,6 +66,15 @@ struct EditGoalView: View {
       .sheet(isPresented: $showDateSelector, content: {
         DateSelectorView(type: .updateGoalDate, selectedDate: $goal.dueDate)
           .presentationDetents([.fraction(0.5)])
+      })
+      .popup(isPresented: $showError, view: {
+        EXErrorView(type: $errorType)
+      }, customize: {
+        $0
+          .isOpaque(true)
+          .type(.floater())
+          .position(.top)
+          .autohideIn(1.5)
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -136,12 +148,33 @@ extension EditGoalView {
 
 // MARK: - Realm Functions
 extension EditGoalView {
-  func updateGoal(completion: @escaping() -> Void) {
+  func updateGoal() {
     if let newGoal = goal.thaw(), let realm = newGoal.realm {
       try? realm.write {
         newGoal.finalAmount = Double(amountValue) ?? 0
       }
-      completion()
     }
+  }
+}
+
+// MARK: - Helper Functions
+extension EditGoalView {
+  func validateGoal() {
+    if goal.dueDate < Date() {
+      errorType = .pastDate
+      showError.toggle()
+      if let newGoal = goal.thaw(), let goalRealm = newGoal.realm {
+        try? goalRealm.write {
+          newGoal.dueDate = savedDate
+        }
+      }
+      return
+    } else if Double(amountValue) == 0 {
+      errorType = .zeroAmount
+      showError.toggle()
+      return
+    }
+    updateGoal()
+    makeDismiss()
   }
 }

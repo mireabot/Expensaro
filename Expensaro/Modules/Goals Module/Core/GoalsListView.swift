@@ -14,7 +14,7 @@ struct GoalsListView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   @State private var showAddGoalView = false
   
-  @ObservedResults(Goal.self) var goals
+  @ObservedResults(Goal.self, sortDescriptor: SortDescriptor(keyPath: \Goal.dueDate, ascending: true)) var goals
   var body: some View {
     NavigationView {
       ScrollView(showsIndicators: false) {
