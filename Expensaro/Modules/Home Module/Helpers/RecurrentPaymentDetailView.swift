@@ -110,6 +110,8 @@ struct RecurrentPaymentDetailView: View {
               )
             }
             .buttonStyle(EXPlainButtonStyle())
+            
+            EXToggleCard(type: .paymentReminder, isOn: $isOn)
           }
           .padding(.top, 10)
           

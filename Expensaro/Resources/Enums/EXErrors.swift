@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// Enum with types of validation errors
-enum EXErrors {
+enum EXErrors: CaseIterable {
   case none
   case emptyName
   case zeroAmount
@@ -26,7 +26,7 @@ enum EXErrors {
     case .zeroAmount:
       return "Amount cannot be $0"
     case .budgetExceed:
-      return "You are over  the budget"
+      return "You are over the budget"
     case .zeroBudget:
       return "You need to create a budget first"
     case .wrongDate:
