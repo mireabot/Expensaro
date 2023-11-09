@@ -72,8 +72,7 @@ struct AddRecurrentPaymentView: View {
           }
         }
         EXNumberKeyboard(textValue: $amountValue) {
-//          validateBudget()
-          showReminderAlert.toggle()
+          validateBudget()
         }
       })
       .ignoresSafeArea(.keyboard, edges: .all)
@@ -108,7 +107,22 @@ struct AddRecurrentPaymentView: View {
           .presentationDetents([.fraction(0.5)])
       })
       .sheet(isPresented: $showReminderAlert, content: {
-        CreateReminderView(isPresented: $showReminderAlert)
+        CreateReminderView(isPresented: $showReminderAlert, onSubmit: {
+          recurringPayment.isReminder = true
+          LocalNotificationsManager.shared.createNotification(for: recurringPayment)
+          createPayment()
+          DispatchQueue.main.async {
+            showReminderAlert.toggle()
+            makeDismiss()
+          }
+        }, onDeny: {
+          recurringPayment.isReminder = false
+          createPayment()
+          DispatchQueue.main.async {
+            showReminderAlert.toggle()
+            makeDismiss()
+          }
+        })
           .presentationDetents([.fraction(0.3)])
       })
       .sheet(isPresented: $showCategoryelector, content: {
@@ -295,9 +309,6 @@ extension AddRecurrentPaymentView {
 extension AddRecurrentPaymentView {
   func createPayment() {
     recurringPayment.amount = Double(amountValue) ?? 0
-    let formatterDate = recurringPayment.dueDate.formatted(.dateTime.day().month().year())
-    print(formatterDate)
-    //    recurringPayment.dueDate = formatterDate
     try? realm.write {
       realm.add(recurringPayment)
     }
@@ -346,19 +357,21 @@ extension AddRecurrentPaymentView {
     } else if recurringPayment.dueDate < Date() {
       errorType = .pastDate
       showError.toggle()
-      if let newPayment = recurringPayment.thaw(), let realm = newPayment.realm {
-        try? realm.write {
-          newPayment.dueDate = savedDate
+      if isUpdating {
+        if let newPayment = recurringPayment.thaw(), let realm = newPayment.realm {
+          try? realm.write {
+            newPayment.dueDate = savedDate
+          }
         }
       }
       return
     } else {
       if isUpdating {
         updatePayment()
+        makeDismiss()
       } else {
-        createPayment()
+        showReminderAlert.toggle()
       }
-      makeDismiss()
     }
   }
 }

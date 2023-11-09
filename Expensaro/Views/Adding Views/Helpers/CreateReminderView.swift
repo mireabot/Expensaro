@@ -10,6 +10,8 @@ import ExpensaroUIKit
 
 struct CreateReminderView: View {
   @Binding var isPresented: Bool
+  let onSubmit: () -> Void
+  let onDeny: () -> Void
   var body: some View {
     NavigationView {
       ScrollView {
@@ -29,12 +31,16 @@ struct CreateReminderView: View {
         HStack {
           Button(action: {
             isPresented.toggle()
+            onDeny()
           }, label: {
             Text("No, thank you")
               .font(.mukta(.semibold, size: 17))
           })
           .buttonStyle(EXSecondaryPrimaryButtonStyle(showLoader: .constant(false)))
-          Button(action: {}, label: {
+          Button(action: {
+            isPresented.toggle()
+            onSubmit()
+          }, label: {
             Text("Yes, I'm in")
               .font(.mukta(.semibold, size: 17))
           })
@@ -48,5 +54,5 @@ struct CreateReminderView: View {
 }
 
 #Preview {
-  CreateReminderView(isPresented: .constant(true))
+  CreateReminderView(isPresented: .constant(true), onSubmit: {}, onDeny: {})
 }

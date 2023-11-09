@@ -16,7 +16,6 @@ struct RecurrentPaymentDetailView: View {
   @ObservedRealmObject var transaction: RecurringTransaction
   @ObservedRealmObject var budget: Budget
   
-  @State private var isOn = false
   @State private var showDeleteAlert = false
   @State private var showEditPayment = false
   @State private var showNoteView = false
@@ -25,18 +24,25 @@ struct RecurrentPaymentDetailView: View {
       ZStack(alignment: .bottomTrailing, content: {
         ScrollView {
           // MARK: Transaction header
-          VStack(alignment: .leading, spacing: 3) {
-            Text(transaction.name)
-              .font(.mukta(.medium, size: 20))
+          HStack {
+            VStack(alignment: .leading, spacing: 3) {
+              Text(transaction.name)
+                .font(.mukta(.medium, size: 20))
+              
+              Text("$\(transaction.amount.clean)")
+                .font(.mukta(.bold, size: 34))
+              
+              Text("Next payment date: \(Source.Functions.showString(from: transaction.dueDate))")
+                .font(.mukta(.regular, size: 15))
+                .foregroundColor(.darkGrey)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
             
-            Text("$\(transaction.amount.clean)")
-              .font(.mukta(.bold, size: 34))
-            
-            Text("Next payment date: \(Source.Functions.showString(from: transaction.dueDate))")
-              .font(.mukta(.regular, size: 15))
-              .foregroundColor(.darkGrey)
+            if transaction.isReminder {
+              Source.Images.System.reminder
+                .foregroundColor(.darkGrey)
+            }
           }
-          .frame(maxWidth: .infinity, alignment: .leading)
           
           // MARK: Transaction detail
           VStack(spacing: 10) {
@@ -110,17 +116,12 @@ struct RecurrentPaymentDetailView: View {
               )
             }
             .buttonStyle(EXPlainButtonStyle())
-            
-            EXToggleCard(type: .paymentReminder, isOn: $isOn)
           }
           .padding(.top, 10)
           
         }
         bottomActionButton().padding(.bottom, 16)
       })
-      .onAppear {
-        isOn = transaction.isReminder
-      }
       .popup(isPresented: $showDeleteAlert) {
         EXAlert(type: .deleteTransaction, primaryAction: { deletePayment() }, secondaryAction: {showDeleteAlert.toggle()}).applyMargins()
       } customize: {

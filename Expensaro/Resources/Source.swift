@@ -54,6 +54,7 @@ enum Source {
       static let remove = Image("remove")
       static let alertError = Image("alertError")
       static let appTools = Image("appTools")
+      static let reminder = Image("reminder")
     }
     enum ButtonIcons {
       static let add = Image("buttonAdd")
@@ -96,6 +97,16 @@ enum Source {
       dateFormatter.dateFormat = "MMMM"
       
       return dateFormatter.string(from: currentDate)
+    }
+    
+    /// Function which converts Date to TimeInterval for local notification date
+    /// - Parameter date: Date to be converted
+    /// - Returns: Converted date
+    static func dateToTimeInterval(_ date: Date) -> TimeInterval {
+      let modifiedDate = Calendar.current.date(byAdding: .day, value: -1, to: date) ?? Date()
+      let timeInterval = modifiedDate.timeIntervalSince1970
+      
+      return timeInterval
     }
   }
   
