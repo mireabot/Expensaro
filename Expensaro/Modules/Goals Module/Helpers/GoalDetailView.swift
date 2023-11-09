@@ -7,7 +7,6 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import SwiftUIIntrospect
 import RealmSwift
 import PopupView
 
@@ -31,10 +30,8 @@ struct GoalDetailView: View {
           goalInfo()
           transactionList()
         }
+        .applyBounce()
         .applyMargins()
-        .introspect(.scrollView, on: .iOS(.v16,.v17)) { scrollView in
-          scrollView.bounces = false
-        }
         
         bottomActionButton().padding(16)
       })

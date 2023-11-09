@@ -7,7 +7,6 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import SwiftUIIntrospect
 import RealmSwift
 
 struct RecurrentPaymentsListView: View {
@@ -57,6 +56,7 @@ struct RecurrentPaymentsListView: View {
         .applyMargins()
         .padding(.bottom, 10)
       }
+      .applyBounce()
       .navigationBarTitleDisplayMode(.inline)
       .fullScreenCover(isPresented: $showAddPayment, content: {
         AddRecurrentPaymentView(recurringPayment: RecurringTransaction(), budget: budget)
@@ -84,9 +84,6 @@ struct RecurrentPaymentsListView: View {
               .foregroundColor(.black)
           }
         }
-      }
-      .introspect(.scrollView, on: .iOS(.v16,.v17)) { scrollView in
-        scrollView.bounces = false
       }
     }
   }

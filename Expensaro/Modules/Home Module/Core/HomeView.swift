@@ -108,7 +108,7 @@ extension HomeView {
     static let shared = Appearance()
     let title = "Home"
     
-    let settingsIcon = Source.Images.System.appTools
+    let settingsIcon = Source.Images.System.settings
   }
 }
 

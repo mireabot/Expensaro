@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		351061282AD74AEB006E6DF4 /* Budget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351061272AD74AEB006E6DF4 /* Budget.swift */; };
+		3510F6E22AFD542D000B5532 /* ScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */; };
 		351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351839AE2AAF94C3008216F3 /* GoalsListView.swift */; };
 		351A02F52AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */; };
 		351A14F92AC1F21300BCBD07 /* OverviewInfoBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A14F82AC1F21300BCBD07 /* OverviewInfoBottomView.swift */; };
@@ -80,6 +81,7 @@
 
 /* Begin PBXFileReference section */
 		351061272AD74AEB006E6DF4 /* Budget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Budget.swift; sourceTree = "<group>"; };
+		3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollView+Extensions.swift"; sourceTree = "<group>"; };
 		351839AE2AAF94C3008216F3 /* GoalsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsListView.swift; sourceTree = "<group>"; };
 		351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPaymentDetailView.swift; sourceTree = "<group>"; };
 		351A14F82AC1F21300BCBD07 /* OverviewInfoBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewInfoBottomView.swift; sourceTree = "<group>"; };
@@ -464,6 +466,7 @@
 			children = (
 				359094B62AAE575D00428B39 /* View+Extensions.swift */,
 				353E5C2E2ACA01D400430978 /* Date+Extension.swift */,
+				3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -674,6 +677,7 @@
 				359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */,
 				356EB7AA2AEC119F001E6FD6 /* TransactionInsightsView.swift in Sources */,
 				359094A22AAE341E00428B39 /* NavigationViewBuilder.swift in Sources */,
+				3510F6E22AFD542D000B5532 /* ScrollView+Extensions.swift in Sources */,
 				35BEF35D2AB378DB005D1138 /* Source.swift in Sources */,
 				3580315B2AF2C4E200DFDBF1 /* EXRecurringPaymentRenewCell.swift in Sources */,
 				351A14F92AC1F21300BCBD07 /* OverviewInfoBottomView.swift in Sources */,
@@ -842,7 +846,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 50;
+				CURRENT_PROJECT_VERSION = 52;
 				DEVELOPMENT_ASSET_PATHS = "\"Expensaro/Preview Content\"";
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;
@@ -877,7 +881,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 50;
+				CURRENT_PROJECT_VERSION = 52;
 				DEVELOPMENT_ASSET_PATHS = "\"Expensaro/Preview Content\"";
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;

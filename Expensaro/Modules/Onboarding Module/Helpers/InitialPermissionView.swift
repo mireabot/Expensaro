@@ -58,6 +58,8 @@ struct InitialPermissionView: View {
         showAnimation.toggle()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
           showAnimation.toggle()
+          UserDefaults.standard.setValue(UIDevice.current.identifierForVendor?.uuidString, forKey: "DeviceID")
+          UserDefaults.standard.synchronize()
           isUserLoggedIn = true
         }
       } label: {
