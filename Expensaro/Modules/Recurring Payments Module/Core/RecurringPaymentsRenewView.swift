@@ -69,7 +69,7 @@ struct RecurringPaymentsRenewView: View {
               Text("Renew payment")
                 .font(.mukta(.semibold, size: 17))
             })
-            .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+            .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
             
             Button(action: {
               if currentIndex == (payments.count - 1) {
@@ -89,7 +89,7 @@ struct RecurringPaymentsRenewView: View {
               Text("Delete payment")
                 .font(.mukta(.semibold, size: 17))
             })
-            .buttonStyle(SmallPrimaryButtonStyle(showLoader: .constant(false)))
+            .buttonStyle(EXSecondaryPrimaryButtonStyle(showLoader: .constant(false)))
           }
           
           if showAnimation {
@@ -99,7 +99,7 @@ struct RecurringPaymentsRenewView: View {
               Text("Done")
                 .font(.mukta(.semibold, size: 17))
             })
-            .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+            .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
           }
         }
         .applyMargins()

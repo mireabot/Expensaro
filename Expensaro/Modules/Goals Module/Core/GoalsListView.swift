@@ -93,7 +93,7 @@ extension GoalsListView {
             Text("Add goal")
               .font(.mukta(.semibold, size: 15))
           }
-        }.buttonStyle(SmallButtonStyle())
+        }.buttonStyle(EXSmallButtonStyle())
         
       }
       .padding(.top, 5)

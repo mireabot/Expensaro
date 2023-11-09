@@ -30,7 +30,7 @@ struct OnboardingView: View {
         Text("Get started")
           .font(.mukta(.semibold, size: 17))
       }
-      .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+      .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
       .padding(.bottom, 20)
     }
     .sheet(isPresented: $showPermission, content: {

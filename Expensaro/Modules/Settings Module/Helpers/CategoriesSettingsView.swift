@@ -23,7 +23,7 @@ struct CategoriesSettingsView: View {
           Text("Create new category")
             .font(.mukta(.regular, size: 17))
         }
-        .buttonStyle(StretchButtonStyle(icon: Appearance.shared.addIcon))
+        .buttonStyle(EXStretchButtonStyle(icon: Appearance.shared.addIcon))
         .padding(.top, 20)
         .applyMargins()
         

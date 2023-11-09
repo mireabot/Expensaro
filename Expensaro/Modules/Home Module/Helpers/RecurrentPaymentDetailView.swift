@@ -191,7 +191,7 @@ extension RecurrentPaymentDetailView {
           Text("Add note")
             .font(.mukta(.semibold, size: 17))
         }
-        .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+        .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
         .applyMargins()
         .padding(.bottom, 20)
       }

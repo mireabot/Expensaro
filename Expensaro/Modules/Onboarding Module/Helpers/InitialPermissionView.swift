@@ -66,7 +66,7 @@ struct InitialPermissionView: View {
         Text("Finish")
           .font(.mukta(.semibold, size: 17))
       }
-      .buttonStyle(PrimaryButtonStyle(showLoader: $showAnimation))
+      .buttonStyle(EXPrimaryButtonStyle(showLoader: $showAnimation))
       .padding(.bottom, 20)
       
     })

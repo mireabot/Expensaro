@@ -72,7 +72,8 @@ struct AddRecurrentPaymentView: View {
           }
         }
         EXNumberKeyboard(textValue: $amountValue) {
-          validateBudget()
+//          validateBudget()
+          showReminderAlert.toggle()
         }
       })
       .ignoresSafeArea(.keyboard, edges: .all)
@@ -107,7 +108,7 @@ struct AddRecurrentPaymentView: View {
           .presentationDetents([.fraction(0.5)])
       })
       .sheet(isPresented: $showReminderAlert, content: {
-        reminderBottomView()
+        CreateReminderView(isPresented: $showReminderAlert)
           .presentationDetents([.fraction(0.3)])
       })
       .sheet(isPresented: $showCategoryelector, content: {
@@ -163,62 +164,6 @@ private extension AddRecurrentPaymentView {
 // MARK: - Helper Views
 extension AddRecurrentPaymentView {
   @ViewBuilder
-  func reminderBottomView() -> some View {
-    VStack(spacing: 10) {
-      Text(showAnimation ? Appearance.shared.successTitle : Appearance.shared.reminderTitle)
-        .font(.mukta(.semibold, size: 20))
-      Text(showAnimation ? Appearance.shared.successText : Appearance.shared.reminderText)
-        .multilineTextAlignment(.center)
-        .font(.mukta(.regular, size: 17))
-        .foregroundColor(.darkGrey)
-        .padding(.bottom, 25)
-    }
-    .safeAreaInset(edge: .bottom, content: {
-      ZStack {
-        if showAnimation {
-          Button {
-            showReminderAlert.toggle()
-            makeDismiss()
-          } label: {
-            Text("Done")
-              .font(.mukta(.semibold, size: 17))
-          }
-          .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
-          .zIndex(1)
-          .transition(.move(edge: .trailing))
-        }
-        
-        HStack {
-          Button {
-            createPayment()
-            showReminderAlert.toggle()
-            makeDismiss()
-          } label: {
-            Text("No, thank you")
-              .font(.mukta(.semibold, size: 17))
-          }
-          .buttonStyle(SmallPrimaryButtonStyle(showLoader: .constant(false)))
-          Button {
-            recurringPayment.isReminder.toggle()
-            createPayment()
-            withAnimation(.interactiveSpring(response: 0.5,dampingFraction: 0.9, blendDuration: 0.9)) {
-              showAnimation.toggle()
-            }
-          } label: {
-            Text("Yes, I'm in")
-              .font(.mukta(.semibold, size: 17))
-          }
-          .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
-        }
-        .background(.white)
-        .zIndex(showAnimation ? 0 : 1)
-      }
-    })
-    .applyMargins()
-    .interactiveDismissDisabled()
-  }
-  
-  @ViewBuilder
   func dateSelector(date: Binding<Date>, title: Binding<String>, action: @escaping() -> Void) -> some View {
     HStack {
       HStack(spacing: 10) {
@@ -242,7 +187,7 @@ extension AddRecurrentPaymentView {
         Text("Change")
           .font(.mukta(.medium, size: 15))
       }
-      .buttonStyle(SmallButtonStyle())
+      .buttonStyle(EXSmallButtonStyle())
     }
     .padding(.horizontal, 12)
     .padding(.vertical, 12)
