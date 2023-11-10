@@ -150,6 +150,7 @@ extension AddGoalView {
 extension AddGoalView {
   func createGoal(completion: @escaping() -> Void) {
     goal.finalAmount = Double(amountValue) ?? 0
+    goal.dateCreated = .now
     try? realm.write {
       realm.add(goal)
     }

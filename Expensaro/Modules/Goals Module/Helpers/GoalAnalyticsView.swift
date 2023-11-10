@@ -84,9 +84,8 @@ class GoalAnalyticsViewModel : ObservableObject {
   }
   
   func optimalAmountPerWeek() {
-    let currentDate = Date()
     let calendar = Calendar.current
-    let weeksUntilDueDate = calendar.dateComponents([.weekOfYear], from: currentDate, to: goal.dueDate).weekOfYear ?? 0
+    let weeksUntilDueDate = calendar.dateComponents([.weekOfYear], from: goal.dateCreated, to: goal.dueDate).weekOfYear ?? 0
     
     if weeksUntilDueDate > 0 {
       amount = goal.finalAmount / Double(weeksUntilDueDate)
@@ -94,9 +93,8 @@ class GoalAnalyticsViewModel : ObservableObject {
   }
   
   func numberOfWeeks() {
-    let currentDate = Date()
     let calendar = Calendar.current
-    let weeksUntilDueDate = calendar.dateComponents([.weekOfYear], from: currentDate, to: goal.dueDate).weekOfYear ?? 0
+    let weeksUntilDueDate = calendar.dateComponents([.weekOfYear], from: goal.dateCreated, to: goal.dueDate).weekOfYear ?? 0
     weeks = max(0, weeksUntilDueDate)
   }
 }

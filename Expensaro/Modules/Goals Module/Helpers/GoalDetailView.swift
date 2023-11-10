@@ -85,6 +85,7 @@ struct GoalDetailView: View {
       HStack(spacing: 25) {
         smallInfoView(title: "Money left", text: "$\(goal.amountLeft.clean)")
         smallInfoView(title: "Days left", text: "\(goal.isCompleted || goal.isFailed ? 0 : goal.daysLeft) days left")
+        smallInfoView(title: "Goal started", text: "\(Source.Functions.showString(from: goal.dateCreated))")
       }
       .padding(.top, 5)
       

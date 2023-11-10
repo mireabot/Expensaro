@@ -41,15 +41,22 @@ enum RealmMigrator {
       }
     }
     
-    // Migration version 5 - Current
+    // Migration version 5
     if oldSchemaVersion < 5 {
       migration.enumerateObjects(ofType: Goal.className()) { _, newObject in
         newObject?["transactions"] = List<GoalTransaction>()
       }
     }
+    
+    // Migration version 6 - Current
+    if oldSchemaVersion < 6 {
+      migration.enumerateObjects(ofType: Goal.className()) { _, newObject in
+        newObject?["dateCreated"] = Date()
+      }
+    }
   }
 
   static var configuration: Realm.Configuration {
-    Realm.Configuration(schemaVersion: 5, migrationBlock: migrationBlock)
+    Realm.Configuration(schemaVersion: 6, migrationBlock: migrationBlock)
   }
 }

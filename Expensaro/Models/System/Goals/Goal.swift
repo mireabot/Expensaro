@@ -16,6 +16,7 @@ final class Goal: Object, ObjectKeyIdentifiable {
   @Persisted var finalAmount: Double
   @Persisted var currentAmount: Double
   @Persisted var dueDate: Date
+  @Persisted var dateCreated: Date
   
   @Persisted var transactions: RealmSwift.List<GoalTransaction> = RealmSwift.List<GoalTransaction>()
 }
