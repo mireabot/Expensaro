@@ -7,7 +7,6 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import SwiftUIIntrospect
 import RealmSwift
 
 struct GoalsListView: View {
@@ -17,7 +16,7 @@ struct GoalsListView: View {
   @ObservedResults(Goal.self, sortDescriptor: SortDescriptor(keyPath: \Goal.dueDate, ascending: true)) var goals
   var body: some View {
     NavigationView {
-      ScrollView(showsIndicators: false) {
+      ScrollView {
         LazyVStack(spacing: 10, pinnedViews: [.sectionHeaders]) {
           Section {
             if goals.isEmpty {
@@ -40,9 +39,7 @@ struct GoalsListView: View {
           }
         }
       }
-      .introspect(.scrollView, on: .iOS(.v16, .v17), customize: { scrollView in
-        scrollView.bounces = false
-      })
+      .applyBounce()
       .navigationBarTitleDisplayMode(.inline)
       .fullScreenCover(isPresented: $showAddGoalView, content: {
         AddGoalView(goal: Goal())
@@ -96,7 +93,7 @@ extension GoalsListView {
             Text("Add goal")
               .font(.mukta(.semibold, size: 15))
           }
-        }.buttonStyle(SmallButtonStyle())
+        }.buttonStyle(EXSmallButtonStyle())
         
       }
       .padding(.top, 5)

@@ -108,7 +108,7 @@ extension HomeView {
     static let shared = Appearance()
     let title = "Home"
     
-    let settingsIcon = Source.Images.System.appTools
+    let settingsIcon = Source.Images.System.settings
   }
 }
 
@@ -171,7 +171,7 @@ extension HomeView {
           }
           .frame(maxWidth: .infinity)
         }
-        .buttonStyle(SmallButtonStyle())
+        .buttonStyle(EXSmallButtonStyle())
         .padding(.top, 20)
       }
       .fullScreenCover(isPresented: $showUpdateBudget) {
@@ -200,7 +200,7 @@ extension HomeView {
             Text("See all")
               .font(.mukta(.semibold, size: 15))
           }
-          .buttonStyle(TextButtonStyle())
+          .buttonStyle(EXTextButtonStyle())
         }
         
         VStack {
@@ -257,7 +257,7 @@ extension HomeView {
             Text("See all")
               .font(.mukta(.semibold, size: 15))
           }
-          .buttonStyle(TextButtonStyle())
+          .buttonStyle(EXTextButtonStyle())
         }
         VStack {
           ForEach(transactions.reversed().prefix(3)) { transaction in

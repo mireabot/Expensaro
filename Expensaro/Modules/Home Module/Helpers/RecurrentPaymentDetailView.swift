@@ -11,12 +11,17 @@ import PopupView
 import RealmSwift
 
 struct RecurrentPaymentDetailView: View {
+  // MARK: - Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   
+  // MARK: - Realm
   @ObservedRealmObject var transaction: RecurringTransaction
   @ObservedRealmObject var budget: Budget
   
-  @State private var isOn = false
+  // MARK: - Variables
+  @State private var isReminder = false
+  
+  // MARK: - Presentation
   @State private var showDeleteAlert = false
   @State private var showEditPayment = false
   @State private var showNoteView = false
@@ -25,18 +30,20 @@ struct RecurrentPaymentDetailView: View {
       ZStack(alignment: .bottomTrailing, content: {
         ScrollView {
           // MARK: Transaction header
-          VStack(alignment: .leading, spacing: 3) {
-            Text(transaction.name)
-              .font(.mukta(.medium, size: 20))
-            
-            Text("$\(transaction.amount.clean)")
-              .font(.mukta(.bold, size: 34))
-            
-            Text("Next payment date: \(Source.Functions.showString(from: transaction.dueDate))")
-              .font(.mukta(.regular, size: 15))
-              .foregroundColor(.darkGrey)
+          HStack {
+            VStack(alignment: .leading, spacing: 3) {
+              Text(transaction.name)
+                .font(.mukta(.medium, size: 20))
+              
+              Text("$\(transaction.amount.clean)")
+                .font(.mukta(.bold, size: 34))
+              
+              Text("Next payment date: \(Source.Functions.showString(from: transaction.dueDate))")
+                .font(.mukta(.regular, size: 15))
+                .foregroundColor(.darkGrey)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
           }
-          .frame(maxWidth: .infinity, alignment: .leading)
           
           // MARK: Transaction detail
           VStack(spacing: 10) {
@@ -111,16 +118,16 @@ struct RecurrentPaymentDetailView: View {
             }
             .buttonStyle(EXPlainButtonStyle())
             
-            EXToggleCard(type: .paymentReminder, isOn: $isOn)
+            EXToggleCard(type: .paymentReminder, isOn: $isReminder)
+              .onChange(of: isReminder) { value in
+                updateNotification(with: value)
+              }
           }
           .padding(.top, 10)
           
         }
         bottomActionButton().padding(.bottom, 16)
       })
-      .onAppear {
-        isOn = transaction.isReminder
-      }
       .popup(isPresented: $showDeleteAlert) {
         EXAlert(type: .deleteTransaction, primaryAction: { deletePayment() }, secondaryAction: {showDeleteAlert.toggle()}).applyMargins()
       } customize: {
@@ -137,6 +144,9 @@ struct RecurrentPaymentDetailView: View {
         noteView()
           .presentationDetents([.large])
       })
+      .onAppear {
+        isReminder = transaction.isReminder
+      }
       .applyMargins()
       .scrollDisabled(true)
       .navigationBarTitleDisplayMode(.inline)
@@ -191,7 +201,7 @@ extension RecurrentPaymentDetailView {
           Text("Add note")
             .font(.mukta(.semibold, size: 17))
         }
-        .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+        .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
         .applyMargins()
         .padding(.bottom, 20)
       }
@@ -242,17 +252,30 @@ extension RecurrentPaymentDetailView {
   func deletePayment() {
     showDeleteAlert.toggle()
     
-    if let newBudget = budget.thaw(), let realm = newBudget.realm {
-      try? realm.write {
-        newBudget.amount += transaction.amount
+    if let newTransaction = transaction.thaw(), let realm = newTransaction.realm {
+      if let newBudget = budget.thaw(), let realm = newBudget.realm {
+        try? realm.write {
+          newBudget.amount += newTransaction.amount
+        }
       }
-    }
-    
-    if let transaction = transaction.thaw(), let realm = transaction.realm {
       try? realm.write {
-        realm.delete(transaction)
+        realm.delete(newTransaction)
       }
     }
     router.nav?.popViewController(animated: true)
+  }
+  
+  func updateNotification(with value: Bool) {
+    if let newTransaction = transaction.thaw(), let newRealm = newTransaction.realm {
+      if value {
+        LocalNotificationsManager.shared.createNotification(for: newTransaction)
+      }
+      else {
+        LocalNotificationsManager.shared.deleteNotification(for: newTransaction)
+      }
+      try? newRealm.write {
+        newTransaction.isReminder = value
+      }
+    }
   }
 }

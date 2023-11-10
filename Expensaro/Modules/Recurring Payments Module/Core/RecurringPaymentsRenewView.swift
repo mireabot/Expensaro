@@ -53,26 +53,6 @@ struct RecurringPaymentsRenewView: View {
           HStack {
             Button(action: {
               if currentIndex == (payments.count - 1) {
-                renewPayment(for: payments[currentIndex]) {
-                  withAnimation(.easeInOut){
-                    showAnimation.toggle()
-                  }
-                }
-              } else {
-                renewPayment(for: payments[currentIndex]) {
-                  withAnimation(.easeInOut){
-                    currentIndex += 1
-                  }
-                }
-              }
-            }, label: {
-              Text("Renew payment")
-                .font(.mukta(.semibold, size: 17))
-            })
-            .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
-            
-            Button(action: {
-              if currentIndex == (payments.count - 1) {
                 deletePayment(for: payments[currentIndex]) {
                   withAnimation(.easeInOut){
                     showAnimation.toggle()
@@ -89,7 +69,28 @@ struct RecurringPaymentsRenewView: View {
               Text("Delete payment")
                 .font(.mukta(.semibold, size: 17))
             })
-            .buttonStyle(SmallPrimaryButtonStyle(showLoader: .constant(false)))
+            .buttonStyle(EXSecondaryPrimaryButtonStyle(showLoader: .constant(false)))
+            
+            Button(action: {
+              if currentIndex == (payments.count - 1) {
+                renewPayment(for: payments[currentIndex]) {
+                  withAnimation(.easeInOut){
+                    showAnimation.toggle()
+                  }
+                }
+              } else {
+                renewPayment(for: payments[currentIndex]) {
+                  withAnimation(.easeInOut){
+                    currentIndex += 1
+                  }
+                }
+              }
+            }, label: {
+              Text("Renew payment")
+                .font(.mukta(.semibold, size: 17))
+            })
+            .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
+            
           }
           
           if showAnimation {
@@ -99,7 +100,7 @@ struct RecurringPaymentsRenewView: View {
               Text("Done")
                 .font(.mukta(.semibold, size: 17))
             })
-            .buttonStyle(PrimaryButtonStyle(showLoader: .constant(false)))
+            .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
           }
         }
         .applyMargins()
@@ -178,6 +179,9 @@ extension RecurringPaymentsRenewView {
     if let newPayment = payment.thaw(), let paymentRealm = newPayment.realm {
       try? paymentRealm.write {
         newPayment.dueDate = newDate
+      }
+      if newPayment.isReminder {
+        LocalNotificationsManager.shared.createNotification(for: newPayment)
       }
       // Update budget
       if let newBudget = budget.thaw(), let budgetRealm = newBudget.realm {

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		351061282AD74AEB006E6DF4 /* Budget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351061272AD74AEB006E6DF4 /* Budget.swift */; };
+		3510F6E22AFD542D000B5532 /* ScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */; };
+		3510F6E42AFD58C7000B5532 /* CreateReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3510F6E32AFD58C7000B5532 /* CreateReminderView.swift */; };
+		3510F6E72AFD62F2000B5532 /* LocalNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3510F6E62AFD62F2000B5532 /* LocalNotificationsManager.swift */; };
 		351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351839AE2AAF94C3008216F3 /* GoalsListView.swift */; };
 		351A02F52AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */; };
 		351A14F92AC1F21300BCBD07 /* OverviewInfoBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A14F82AC1F21300BCBD07 /* OverviewInfoBottomView.swift */; };
@@ -80,6 +83,9 @@
 
 /* Begin PBXFileReference section */
 		351061272AD74AEB006E6DF4 /* Budget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Budget.swift; sourceTree = "<group>"; };
+		3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollView+Extensions.swift"; sourceTree = "<group>"; };
+		3510F6E32AFD58C7000B5532 /* CreateReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateReminderView.swift; sourceTree = "<group>"; };
+		3510F6E62AFD62F2000B5532 /* LocalNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsManager.swift; sourceTree = "<group>"; };
 		351839AE2AAF94C3008216F3 /* GoalsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsListView.swift; sourceTree = "<group>"; };
 		351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPaymentDetailView.swift; sourceTree = "<group>"; };
 		351A14F82AC1F21300BCBD07 /* OverviewInfoBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewInfoBottomView.swift; sourceTree = "<group>"; };
@@ -163,6 +169,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3510F6E52AFD629E000B5532 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				3510F6E62AFD62F2000B5532 /* LocalNotificationsManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		351839AC2AAF9451008216F3 /* Goals Module */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +254,7 @@
 				354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */,
 				358E6B7E2AC0840900ABA818 /* CategorySelectorView.swift */,
 				35E874392ACC7EE2002368DB /* PeriodicitySelectorView.swift */,
+				3510F6E32AFD58C7000B5532 /* CreateReminderView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -404,6 +419,7 @@
 			isa = PBXGroup;
 			children = (
 				35DFA06B2AC397870008246A /* Info.plist */,
+				3510F6E52AFD629E000B5532 /* Managers */,
 				352CB2752ABA40F8006C1CEF /* Models */,
 				3590949C2AAD404400428B39 /* Navigation */,
 				358773CB2AB772E80078B297 /* Views */,
@@ -464,6 +480,7 @@
 			children = (
 				359094B62AAE575D00428B39 /* View+Extensions.swift */,
 				353E5C2E2ACA01D400430978 /* Date+Extension.swift */,
+				3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -674,6 +691,7 @@
 				359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */,
 				356EB7AA2AEC119F001E6FD6 /* TransactionInsightsView.swift in Sources */,
 				359094A22AAE341E00428B39 /* NavigationViewBuilder.swift in Sources */,
+				3510F6E22AFD542D000B5532 /* ScrollView+Extensions.swift in Sources */,
 				35BEF35D2AB378DB005D1138 /* Source.swift in Sources */,
 				3580315B2AF2C4E200DFDBF1 /* EXRecurringPaymentRenewCell.swift in Sources */,
 				351A14F92AC1F21300BCBD07 /* OverviewInfoBottomView.swift in Sources */,
@@ -705,12 +723,14 @@
 				35825BF92AC9CDB600713AD8 /* EXRecurringTransactionCell.swift in Sources */,
 				35C80C6D2ABF59DE0063553E /* RemindersSettingsView.swift in Sources */,
 				359CDC542AB4C69600DFFDC7 /* OnboardingView.swift in Sources */,
+				3510F6E42AFD58C7000B5532 /* CreateReminderView.swift in Sources */,
 				358031592AF2C44E00DFDBF1 /* RecurringPaymentsRenewView.swift in Sources */,
 				3592EFFB2AF32D10008138EE /* FirstAppear.swift in Sources */,
 				35BB8A3B2AD89C1C0099E71F /* Category.swift in Sources */,
 				35825C002AC9FDEB00713AD8 /* EXDatePicker.swift in Sources */,
 				35825BFB2AC9D01C00713AD8 /* EXTransactionCell.swift in Sources */,
 				358BA4B82AD5D06500229504 /* ResizableTextFieldModifier.swift in Sources */,
+				3510F6E72AFD62F2000B5532 /* LocalNotificationsManager.swift in Sources */,
 				355BB4082ABCB1DE00A71834 /* AddCategoryView.swift in Sources */,
 				351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */,
 				35ACB7E82AB3EDB800F7ECE5 /* OverviewView.swift in Sources */,
@@ -842,7 +862,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 50;
+				CURRENT_PROJECT_VERSION = 52;
 				DEVELOPMENT_ASSET_PATHS = "\"Expensaro/Preview Content\"";
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;
@@ -877,7 +897,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 50;
+				CURRENT_PROJECT_VERSION = 52;
 				DEVELOPMENT_ASSET_PATHS = "\"Expensaro/Preview Content\"";
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;
