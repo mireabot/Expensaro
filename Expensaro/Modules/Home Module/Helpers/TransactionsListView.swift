@@ -78,7 +78,7 @@ struct TransactionsListView: View {
   func headerView() -> some View {
     HStack(alignment: .center, spacing: 35) {
       VStack(alignment: .center, spacing: -3) {
-        Text("$\(currentBudget.amount, specifier: "%.2f")")
+        Text("$\(currentBudget.amount.withDecimals)")
           .font(.mukta(.semibold, size: 17))
         Text("Budget left")
           .font(.mukta(.regular, size: 15))
@@ -87,7 +87,7 @@ struct TransactionsListView: View {
       Text("\(Source.Functions.currentMonth())")
         .font(.mukta(.semibold, size: 20))
       VStack(alignment: .center, spacing: -3) {
-        Text("$\(totalSpent.clean)")
+        Text("$\(totalSpent.withDecimals)")
           .font(.mukta(.semibold, size: 17))
         Text("Total spent")
           .font(.mukta(.regular, size: 15))

@@ -79,7 +79,7 @@ extension GoalsListView {
           Text("You saved in total")
             .font(.mukta(.regular, size: 15))
             .foregroundColor(.darkGrey)
-          Text("$\(totalSavings.clean)")
+          Text("$\(totalSavings, specifier: "%.0f")")
             .font(.mukta(.medium, size: 20))
         }
         Spacer()

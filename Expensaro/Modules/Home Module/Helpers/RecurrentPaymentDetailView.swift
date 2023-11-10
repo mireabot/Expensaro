@@ -35,7 +35,7 @@ struct RecurrentPaymentDetailView: View {
               Text(transaction.name)
                 .font(.mukta(.medium, size: 20))
               
-              Text("$\(transaction.amount.clean)")
+              Text("$\(transaction.amount.withDecimals)")
                 .font(.mukta(.bold, size: 34))
               
               Text("Next payment date: \(Source.Functions.showString(from: transaction.dueDate))")

@@ -18,7 +18,7 @@ struct EXGoalTransactionCell: View {
         .background(Color.backgroundGrey)
         .cornerRadius(12)
       VStack(alignment: .leading, spacing: -3) {
-        Text("Goal top up")
+        Text("Goal contribution")
           .font(.mukta(.medium, size: 15))
           .foregroundColor(.black)
         Text("\(Source.Functions.showString(from: goalTransaction.date))")
@@ -29,7 +29,7 @@ struct EXGoalTransactionCell: View {
       Spacer()
       
       VStack(alignment: .trailing, spacing: -3) {
-        Text("$\(goalTransaction.amount.clean)")
+        Text("$\(goalTransaction.amount.withDecimals)")
           .font(.mukta(.medium, size: 15))
           .foregroundColor(.black)
       }

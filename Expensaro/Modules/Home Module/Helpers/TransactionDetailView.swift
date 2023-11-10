@@ -31,11 +31,11 @@ struct TransactionDetailView: View {
             Text(transaction.name)
               .font(.mukta(.medium, size: 20))
             if transaction.type == "Refill" {
-              Text("+ $\(transaction.amount.clean)")
+              Text("+ $\(transaction.amount.withDecimals)")
                 .font(.mukta(.bold, size: 34))
                 .foregroundStyle(Color.green)
             } else {
-              Text("$\(transaction.amount.clean)")
+              Text("$\(transaction.amount.withDecimals)")
                 .font(.mukta(.bold, size: 34))
             }
             Text(Source.Functions.showString(from: transaction.date))
