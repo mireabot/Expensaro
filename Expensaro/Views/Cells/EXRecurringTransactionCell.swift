@@ -21,12 +21,6 @@ struct EXRecurringTransactionCell: View {
         HStack(alignment: .top, spacing: 3) {
           Text(transaction.name)
             .font(.mukta(.medium, size: 15))
-          if transaction.isReminder {
-            Source.Images.System.reminder
-              .resizable()
-              .frame(width: 15, height: 15)
-              .foregroundColor(.darkGrey)
-          }
         }
         Text("Due \(Source.Functions.showString(from: transaction.dueDate))")
           .font(.mukta(.regular, size: 13))

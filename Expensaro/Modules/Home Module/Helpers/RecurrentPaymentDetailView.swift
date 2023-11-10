@@ -11,11 +11,17 @@ import PopupView
 import RealmSwift
 
 struct RecurrentPaymentDetailView: View {
+  // MARK: - Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   
+  // MARK: - Realm
   @ObservedRealmObject var transaction: RecurringTransaction
   @ObservedRealmObject var budget: Budget
   
+  // MARK: - Variables
+  @State private var isReminder = false
+  
+  // MARK: - Presentation
   @State private var showDeleteAlert = false
   @State private var showEditPayment = false
   @State private var showNoteView = false
@@ -37,11 +43,6 @@ struct RecurrentPaymentDetailView: View {
                 .foregroundColor(.darkGrey)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            
-            if transaction.isReminder {
-              Source.Images.System.reminder
-                .foregroundColor(.darkGrey)
-            }
           }
           
           // MARK: Transaction detail
@@ -116,6 +117,11 @@ struct RecurrentPaymentDetailView: View {
               )
             }
             .buttonStyle(EXPlainButtonStyle())
+            
+            EXToggleCard(type: .paymentReminder, isOn: $transaction.isReminder)
+              .onChange(of: transaction.isReminder) { value in
+                updateNotification(with: value)
+              }
           }
           .padding(.top, 10)
           
@@ -250,10 +256,25 @@ extension RecurrentPaymentDetailView {
     }
     
     if let transaction = transaction.thaw(), let realm = transaction.realm {
+      LocalNotificationsManager.shared.deleteNotification(for: transaction)
       try? realm.write {
         realm.delete(transaction)
       }
     }
     router.nav?.popViewController(animated: true)
+  }
+  
+  func updateNotification(with value: Bool) {
+    if let newTransaction = transaction.thaw(), let newRealm = newTransaction.realm {
+      if value {
+        LocalNotificationsManager.shared.createNotification(for: newTransaction)
+      }
+      else {
+        LocalNotificationsManager.shared.deleteNotification(for: newTransaction)
+      }
+      try? newRealm.write {
+        newTransaction.isReminder = value
+      }
+    }
   }
 }
