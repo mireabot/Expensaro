@@ -118,8 +118,8 @@ struct RecurrentPaymentDetailView: View {
             }
             .buttonStyle(EXPlainButtonStyle())
             
-            EXToggleCard(type: .paymentReminder, isOn: $transaction.isReminder)
-              .onChange(of: transaction.isReminder) { value in
+            EXToggleCard(type: .paymentReminder, isOn: $isReminder)
+              .onChange(of: isReminder) { value in
                 updateNotification(with: value)
               }
           }
@@ -144,6 +144,9 @@ struct RecurrentPaymentDetailView: View {
         noteView()
           .presentationDetents([.large])
       })
+      .onAppear {
+        isReminder = transaction.isReminder
+      }
       .applyMargins()
       .scrollDisabled(true)
       .navigationBarTitleDisplayMode(.inline)
@@ -249,16 +252,14 @@ extension RecurrentPaymentDetailView {
   func deletePayment() {
     showDeleteAlert.toggle()
     
-    if let newBudget = budget.thaw(), let realm = newBudget.realm {
-      try? realm.write {
-        newBudget.amount += transaction.amount
+    if let newTransaction = transaction.thaw(), let realm = newTransaction.realm {
+      if let newBudget = budget.thaw(), let realm = newBudget.realm {
+        try? realm.write {
+          newBudget.amount += newTransaction.amount
+        }
       }
-    }
-    
-    if let transaction = transaction.thaw(), let realm = transaction.realm {
-      LocalNotificationsManager.shared.deleteNotification(for: transaction)
       try? realm.write {
-        realm.delete(transaction)
+        realm.delete(newTransaction)
       }
     }
     router.nav?.popViewController(animated: true)

@@ -53,6 +53,26 @@ struct RecurringPaymentsRenewView: View {
           HStack {
             Button(action: {
               if currentIndex == (payments.count - 1) {
+                deletePayment(for: payments[currentIndex]) {
+                  withAnimation(.easeInOut){
+                    showAnimation.toggle()
+                  }
+                }
+              } else {
+                deletePayment(for: payments[currentIndex]) {
+                  withAnimation(.easeInOut) {
+                    currentIndex += 1
+                  }
+                }
+              }
+            }, label: {
+              Text("Delete payment")
+                .font(.mukta(.semibold, size: 17))
+            })
+            .buttonStyle(EXSecondaryPrimaryButtonStyle(showLoader: .constant(false)))
+            
+            Button(action: {
+              if currentIndex == (payments.count - 1) {
                 renewPayment(for: payments[currentIndex]) {
                   withAnimation(.easeInOut){
                     showAnimation.toggle()
@@ -71,25 +91,6 @@ struct RecurringPaymentsRenewView: View {
             })
             .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
             
-            Button(action: {
-              if currentIndex == (payments.count - 1) {
-                deletePayment(for: payments[currentIndex]) {
-                  withAnimation(.easeInOut){
-                    showAnimation.toggle()
-                  }
-                }
-              } else {
-                deletePayment(for: payments[currentIndex]) {
-                  withAnimation(.easeInOut) {
-                    currentIndex += 1
-                  }
-                }
-              }
-            }, label: {
-              Text("Delete payment")
-                .font(.mukta(.semibold, size: 17))
-            })
-            .buttonStyle(EXSecondaryPrimaryButtonStyle(showLoader: .constant(false)))
           }
           
           if showAnimation {
@@ -178,6 +179,9 @@ extension RecurringPaymentsRenewView {
     if let newPayment = payment.thaw(), let paymentRealm = newPayment.realm {
       try? paymentRealm.write {
         newPayment.dueDate = newDate
+      }
+      if newPayment.isReminder {
+        LocalNotificationsManager.shared.createNotification(for: newPayment)
       }
       // Update budget
       if let newBudget = budget.thaw(), let budgetRealm = newBudget.realm {

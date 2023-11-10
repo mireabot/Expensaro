@@ -26,6 +26,7 @@ final class LocalNotificationsManager : ObservableObject {
     
     // add our notification request
     UNUserNotificationCenter.current().add(request)
+    print(request)
   }
   
   func deleteNotification(for payment: RecurringTransaction) {
