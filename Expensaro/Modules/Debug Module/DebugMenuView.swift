@@ -14,6 +14,7 @@ struct DebugMenuView: View {
   
   // MARK: - Realm
   @ObservedResults(Budget.self) var budgets
+  @ObservedResults(Transaction.self) var transactions
   
   @State private var notifications: [UNNotificationRequest] = []
   var body: some View {
@@ -32,6 +33,12 @@ struct DebugMenuView: View {
         Section(header: Text("Pending notifications")) {
           ForEach(notifications, id: \.identifier) { notification in
             Text(notification.content.title)
+          }
+        }
+        
+        Section(header: Text("Spendings")) {
+          ForEach(Array(groupTransactionsByMonth(transactions: transactions.toArray())), id: \.0) { month, transactions in
+            Text("Total for \(month): \(transactions.reduce(0) { $0 + $1.amount })")
           }
         }
       })
@@ -58,13 +65,21 @@ struct DebugMenuView: View {
       }
     }
   }
-  
   func getPendingNotifications() {
     UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
       DispatchQueue.main.async {
         self.notifications = requests
       }
     }
+  }
+  
+  func groupTransactionsByMonth(transactions: [Transaction]) -> [(String, [Transaction])] {
+    let groupedByMonth = Dictionary(grouping: transactions) { transaction in
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "MMMM yyyy"
+      return dateFormatter.string(from: transaction.date)
+    }
+    return groupedByMonth.sorted { $0.0 < $1.0 }
   }
 }
 
@@ -82,5 +97,11 @@ extension DebugMenuView {
     
     let backIcon = Source.Images.Navigation.back
     
+  }
+}
+
+extension Results {
+  func toArray() -> [Element] {
+    return self.map { $0 }
   }
 }
