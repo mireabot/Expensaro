@@ -131,7 +131,7 @@ extension AddBudgetView {
   
   /// Gets freezed copy of budget object and updates amount field
   func updateBudget() {
-    let incomeTransaction = Source.Realm.createTransaction(name: "Budget top up", date: Date(), category: (Source.Strings.Categories.Images.income, "Added funds"), amount: Double(amountValue) ?? 0, type: "Refill")
+    let incomeTransaction = Source.Realm.createTransaction(name: "Budget deposit", date: Date(), category: (Source.Strings.Categories.Images.income, "Added funds"), amount: Double(amountValue) ?? 0, type: "Refill")
     
     if let newBudget = budget.thaw(), let realm = newBudget.realm {
       try? realm.write {

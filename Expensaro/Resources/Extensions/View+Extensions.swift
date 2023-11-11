@@ -18,7 +18,6 @@ extension View {
     self.modifier(ReadHeightModifier())
   }
   
-  
   /// Enables return button for resizable textfield
   func multilineSubmitEnabled(
     for text: Binding<String>,
@@ -36,17 +35,5 @@ extension View {
   /// Runs code only when view appeares
   func onFirstAppear(_ action: @escaping () -> ()) -> some View {
     modifier(FirstAppear(action: action))
-  }
-}
-
-extension Float {
-  var clean: String {
-    return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
-  }
-}
-
-extension Double {
-  var clean: String {
-    return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
   }
 }

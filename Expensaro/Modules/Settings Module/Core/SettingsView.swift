@@ -64,6 +64,16 @@ struct SettingsView: View {
           Text(Appearance.shared.title)
             .font(.mukta(.medium, size: 17))
         }
+        
+        ToolbarItem(placement: .topBarTrailing) {
+          Button {
+            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(DebugMenuView()))
+          } label: {
+            Appearance.shared.debugIcon
+              .font(.callout)
+              .foregroundColor(.black)
+          }
+        }
       }
     }
   }
@@ -83,7 +93,7 @@ extension SettingsView {
     let title = "Tools"
     
     let backIcon = Source.Images.Navigation.back
-    
+    let debugIcon = Source.Images.System.appTools
   }
 }
 

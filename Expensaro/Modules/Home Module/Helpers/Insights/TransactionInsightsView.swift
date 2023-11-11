@@ -29,14 +29,14 @@ struct TransactionInsightsView: View {
               Text("Average amount")
                 .font(.mukta(.regular, size: 13))
                 .foregroundColor(.darkGrey)
-              Text("$\(viewModel.calculateAverageAmountForCategory(), specifier: "%.2f")")
+              Text("$\(viewModel.calculateAverageAmountForCategory().clean)")
                 .font(.mukta(.regular, size: 15))
             }
             VStack(alignment: .leading, spacing: -3) {
               Text("Budget cut")
                 .font(.mukta(.regular, size: 13))
                 .foregroundColor(.darkGrey)
-              Text("\(viewModel.calculatePercentageSpentOnCategory(), specifier: "%.2f")%")
+              Text("\(viewModel.calculatePercentageSpentOnCategory().clean)%")
                 .font(.mukta(.regular, size: 15))
             }
           }

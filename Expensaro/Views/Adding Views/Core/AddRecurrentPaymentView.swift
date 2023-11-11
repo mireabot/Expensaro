@@ -8,7 +8,6 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
-import Shimmer
 import PopupView
 
 struct AddRecurrentPaymentView: View {

@@ -30,7 +30,7 @@ struct EXRecurringTransactionCell: View {
       Spacer()
       
       VStack(alignment: .trailing, spacing: -3) {
-        Text("$\(transaction.amount.clean)")
+        Text("$\(transaction.amount.withDecimals)")
           .font(.mukta(.medium, size: 15))
         Text("\(Int(transaction.daysLeftUntilDueDate)) days left")
           .font(.mukta(.medium, size: 13))

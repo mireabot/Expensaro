@@ -25,7 +25,7 @@ struct GoalAnalyticsView: View {
       HStack {
         smallInfoView(title: "Weeks in your plan", text: "\(goalVM.weeks)")
         Spacer()
-        Text("$\(goalVM.amount,specifier: "%.2f")/week")
+        Text("$\(goalVM.amount.clean)/week")
           .font(.mukta(.semibold, size: 17))
           .foregroundColor(.primaryGreen)
       }
