@@ -117,10 +117,12 @@ struct RecurrentPaymentDetailView: View {
             }
             .buttonStyle(EXPlainButtonStyle())
             
-            EXToggleCard(type: .paymentReminder, isOn: $transaction.isReminder)
-              .onChange(of: transaction.isReminder) { value in
-                updateNotification(with: value)
+            EXToggleCard(type: .paymentReminder, isOn: Binding(
+              get: { transaction.isReminder },
+              set: { newValue in
+                  updateNotification(with: newValue)
               }
+          ))
           }
           .padding(.top, 10)
           
@@ -254,6 +256,7 @@ extension RecurrentPaymentDetailView {
           newBudget.amount += newTransaction.amount
         }
       }
+      notificationManager.deleteNotification(for: newTransaction)
       try? realm.write {
         realm.delete(newTransaction)
       }

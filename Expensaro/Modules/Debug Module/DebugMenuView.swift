@@ -17,7 +17,7 @@ struct DebugMenuView: View {
   @ObservedResults(Budget.self) var budgets
   @ObservedResults(Transaction.self) var transactions
   
-  @State private var notifications = ""
+  @State private var notifications : [String] = []
   var body: some View {
     NavigationView {
       VStack {
@@ -33,7 +33,9 @@ struct DebugMenuView: View {
           }
           
           Section(header: Text("Pending notifications")) {
-            Text(notifications)
+            ForEach(notifications, id: \.self) { data in
+              Text(data)
+            }
           }
           
           Section(header: Text("Spendings")) {

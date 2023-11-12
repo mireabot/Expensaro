@@ -106,8 +106,8 @@ struct AddRecurrentPaymentView: View {
         DateSelectorView(type: .setRecurrentDate, selectedDate: $recurringPayment.dueDate)
           .presentationDetents([.fraction(0.5)])
       })
-      .sheet(isPresented: $showReminderAlert, content: {
-        CreateReminderView(isPresented: $showReminderAlert, onSubmit: {
+      .popup(isPresented: $showReminderAlert) {
+        EXAlert(type: .createReminder) {
           recurringPayment.isReminder = true
           notificationManager.scheduleTriggerNotification(for: recurringPayment)
           createPayment()
@@ -115,16 +115,22 @@ struct AddRecurrentPaymentView: View {
             showReminderAlert.toggle()
             makeDismiss()
           }
-        }, onDeny: {
+        } secondaryAction: {
           recurringPayment.isReminder = false
           createPayment()
           DispatchQueue.main.async {
             showReminderAlert.toggle()
             makeDismiss()
           }
-        })
-          .presentationDetents([.fraction(0.3)])
-      })
+        }
+        .applyMargins()
+      } customize: {
+        $0
+          .animation(.spring())
+          .closeOnTapOutside(false)
+          .backgroundColor(.black.opacity(0.3))
+          .isOpaque(true)
+      }
       .sheet(isPresented: $showCategoryelector, content: {
         CategorySelectorView(title: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon)
           .presentationDetents([.fraction(0.9)])

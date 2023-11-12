@@ -61,14 +61,21 @@ final class NotificationManager: NSObject, UNUserNotificationCenterDelegate{
   }
   
   ///Prints to console schduled notifications
-  func printNotifications(completion: @escaping (String) -> Void) {
+  func printNotifications(completion: @escaping ([String]) -> Void) {
     print(#function)
     notificationCenter.getPendingNotificationRequests { request in
-      for req in request{
+      for req in request {
         if req.trigger is UNCalendarNotificationTrigger {
-          completion((req.trigger as! UNCalendarNotificationTrigger).nextTriggerDate()?.description ?? "invalid next trigger date")
+          print("---------------------------------------------")
+          print(req.identifier)
+          print(req.content.title)
+          print(req.content.body)
+          print(req.content.subtitle)
+          print(req.trigger?.description ?? "")
+          print("---------------------------------------------")
         }
       }
+      completion([request.description])
     }
   }
   //MARK: UNUserNotificationCenterDelegate
