@@ -18,6 +18,8 @@ struct InitialPermissionView: View {
   @AppStorage("isUserLoggedIn") private var isUserLoggedIn = false
   
   @State private var showAnimation = false
+  
+  let notificationManager: NotificationManager = NotificationManager.shared
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: 0) {
@@ -34,14 +36,12 @@ struct InitialPermissionView: View {
         EXToggleCard(type: .notifications, isOn: $notificationsSelected)
           .onChange(of: notificationsSelected, perform: { value in
             if value {
-              print("Notifications granted!")
               DispatchQueue.main.async {
                 UIApplication.shared.registerForRemoteNotifications()
                 UserDefaults.standard.setValue(true, forKey: "notificationsEnabled")
                 UserDefaults.standard.synchronize()
               }
             } else {
-              print("Notifications not granted!")
               DispatchQueue.main.async {
                 UIApplication.shared.unregisterForRemoteNotifications()
                 UserDefaults.standard.setValue(false, forKey: "notificationsEnabled")
@@ -73,7 +73,17 @@ struct InitialPermissionView: View {
     .applyMargins()
     .scrollDisabled(true)
     .onAppear {
-      requestNotificationPermissions()
+      notificationManager.requestAuthorization {
+        DispatchQueue.main.async {
+          UIApplication.shared.registerForRemoteNotifications()
+          notificationsSelected.toggle()
+          UserDefaults.standard.setValue(true, forKey: "notificationsEnabled")
+          UserDefaults.standard.synchronize()
+        }
+      } onFail: {
+        UserDefaults.standard.setValue(false, forKey: "notificationsEnabled")
+        UserDefaults.standard.synchronize()
+      }
     }
   }
 }
@@ -81,31 +91,5 @@ struct InitialPermissionView: View {
 struct InitialPermissionView_Previews: PreviewProvider {
   static var previews: some View {
     InitialPermissionView()
-  }
-}
-
-// MARK: - Helper Functions
-private extension InitialPermissionView {
-  func requestNotificationPermissions() {
-    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-      if let error = error {
-        print("Error requesting notification permissions: \(error.localizedDescription)")
-        return
-      }
-      
-      if granted {
-        print("Notifications granted!")
-        DispatchQueue.main.async {
-          UIApplication.shared.registerForRemoteNotifications()
-          notificationsSelected.toggle()
-          UserDefaults.standard.setValue(true, forKey: "notificationsEnabled")
-          UserDefaults.standard.synchronize()
-        }
-      } else {
-        print("Notifications not granted")
-        UserDefaults.standard.setValue(false, forKey: "notificationsEnabled")
-        UserDefaults.standard.synchronize()
-      }
-    }
   }
 }

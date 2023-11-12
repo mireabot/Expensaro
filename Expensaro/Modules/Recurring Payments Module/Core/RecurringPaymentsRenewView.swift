@@ -13,6 +13,7 @@ struct RecurringPaymentsRenewView: View {
   // MARK: Essential
   @Environment(\.dismiss) var makeDismiss
   @State private var currentIndex: Int = 0
+  let notificationManager: NotificationManager = NotificationManager.shared
   
   // MARK: Realm
   @ObservedRealmObject var budget: Budget
@@ -181,7 +182,7 @@ extension RecurringPaymentsRenewView {
         newPayment.dueDate = newDate
       }
       if newPayment.isReminder {
-        LocalNotificationsManager.shared.createNotification(for: newPayment)
+        notificationManager.scheduleTriggerNotification(for: newPayment)
       }
       // Update budget
       if let newBudget = budget.thaw(), let budgetRealm = newBudget.realm {

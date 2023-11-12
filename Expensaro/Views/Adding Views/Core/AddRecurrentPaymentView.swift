@@ -14,6 +14,7 @@ struct AddRecurrentPaymentView: View {
   // MARK: Essential
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
+  let notificationManager: NotificationManager = NotificationManager.shared
   
   // MARK: Realm
   @Environment(\.realm) var realm
@@ -108,7 +109,7 @@ struct AddRecurrentPaymentView: View {
       .sheet(isPresented: $showReminderAlert, content: {
         CreateReminderView(isPresented: $showReminderAlert, onSubmit: {
           recurringPayment.isReminder = true
-          LocalNotificationsManager.shared.createNotification(for: recurringPayment)
+          notificationManager.scheduleTriggerNotification(for: recurringPayment)
           createPayment()
           DispatchQueue.main.async {
             showReminderAlert.toggle()

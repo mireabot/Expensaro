@@ -13,13 +13,12 @@ import RealmSwift
 struct RecurrentPaymentDetailView: View {
   // MARK: - Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
+  let notificationManager: NotificationManager = NotificationManager.shared
   
   // MARK: - Realm
   @ObservedRealmObject var transaction: RecurringTransaction
   @ObservedRealmObject var budget: Budget
   
-  // MARK: - Variables
-  @State private var isReminder = false
   
   // MARK: - Presentation
   @State private var showDeleteAlert = false
@@ -118,8 +117,8 @@ struct RecurrentPaymentDetailView: View {
             }
             .buttonStyle(EXPlainButtonStyle())
             
-            EXToggleCard(type: .paymentReminder, isOn: $isReminder)
-              .onChange(of: isReminder) { value in
+            EXToggleCard(type: .paymentReminder, isOn: $transaction.isReminder)
+              .onChange(of: transaction.isReminder) { value in
                 updateNotification(with: value)
               }
           }
@@ -144,9 +143,6 @@ struct RecurrentPaymentDetailView: View {
         noteView()
           .presentationDetents([.large])
       })
-      .onAppear {
-        isReminder = transaction.isReminder
-      }
       .applyMargins()
       .scrollDisabled(true)
       .navigationBarTitleDisplayMode(.inline)
@@ -268,10 +264,10 @@ extension RecurrentPaymentDetailView {
   func updateNotification(with value: Bool) {
     if let newTransaction = transaction.thaw(), let newRealm = newTransaction.realm {
       if value {
-        LocalNotificationsManager.shared.createNotification(for: newTransaction)
+        notificationManager.scheduleTriggerNotification(for: newTransaction)
       }
       else {
-        LocalNotificationsManager.shared.deleteNotification(for: newTransaction)
+        notificationManager.deleteNotification(for: newTransaction)
       }
       try? newRealm.write {
         newTransaction.isReminder = value

@@ -8,28 +8,72 @@
 import SwiftUI
 import UserNotifications
 
-final class LocalNotificationsManager : ObservableObject {
+final class NotificationManager: NSObject, UNUserNotificationCenterDelegate{
+  //Singleton is requierd because of delegate
+  static let shared: NotificationManager = NotificationManager()
+  let notificationCenter = UNUserNotificationCenter.current()
   
-  static let shared = LocalNotificationsManager()
+  private override init(){
+    super.init()
+    //This assigns the delegate
+    notificationCenter.delegate = self
+  }
   
-  func createNotification(for payment: RecurringTransaction) {
+  func requestAuthorization(onSuccess: @escaping() -> Void, onFail: @escaping() -> Void) {
+    print(#function)
+    notificationCenter.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+      if granted {
+        print("Access Granted!")
+        onSuccess()
+      } else {
+        print("Access Not Granted")
+        onFail()
+      }
+    }
+  }
+  
+  func deleteNotifications(){
+    print(#function)
+    notificationCenter.removeAllPendingNotificationRequests()
+  }
+  ///This is just a reusable form of all the copy and paste you did in your buttons. If you have to copy and paste make it reusable.
+  func scheduleTriggerNotification(for payment: RecurringTransaction) {
+    print(#function)
     let content = UNMutableNotificationContent()
     content.title = "\(payment.name) payment is due tomorrow"
-    content.subtitle = "Open app to renew it in advance"
+    content.body = "Open app to renew it in advance"
     content.sound = UNNotificationSound.default
     
-    // show this notification five seconds from now
-    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Source.Functions.dateToTimeInterval(payment.dueDate), repeats: false)
+    let modifiedDate = Calendar.current.date(byAdding: .day, value: -1, to: payment.dueDate) ?? Date()
     
-    // choose a random identifier
+    let comps = Calendar.current.dateComponents([.year,.month,.day], from: modifiedDate)
+    
+    let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
+    
     let request = UNNotificationRequest(identifier: "Transaction\(payment.id)", content: content, trigger: trigger)
-    
-    // add our notification request
-    UNUserNotificationCenter.current().add(request)
     print(request)
+    notificationCenter.add(request)
   }
   
   func deleteNotification(for payment: RecurringTransaction) {
+    print(#function)
     UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["Transaction\(payment.id)"])
+  }
+  
+  ///Prints to console schduled notifications
+  func printNotifications(completion: @escaping (String) -> Void) {
+    print(#function)
+    notificationCenter.getPendingNotificationRequests { request in
+      for req in request{
+        if req.trigger is UNCalendarNotificationTrigger {
+          completion((req.trigger as! UNCalendarNotificationTrigger).nextTriggerDate()?.description ?? "invalid next trigger date")
+        }
+      }
+    }
+  }
+  //MARK: UNUserNotificationCenterDelegate
+  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    
+    completionHandler(.banner)
   }
 }

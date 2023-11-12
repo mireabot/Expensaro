@@ -11,39 +11,42 @@ import RealmSwift
 
 struct DebugMenuView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
+  let notificationManager: NotificationManager = NotificationManager.shared
   
   // MARK: - Realm
   @ObservedResults(Budget.self) var budgets
   @ObservedResults(Transaction.self) var transactions
   
-  @State private var notifications: [UNNotificationRequest] = []
+  @State private var notifications = ""
   var body: some View {
     NavigationView {
-      List(content: {
-        Section(header: Text("Budgets")) {
-          ForEach(budgets) { budget in
-            HStack {
-              Text("$\(budget.amount.withDecimals)")
-              Spacer()
-              Text("\(Source.Functions.showString(from: budget.dateCreated))")
+      VStack {
+        List {
+          Section(header: Text("Budgets")) {
+            ForEach(budgets) { budget in
+              HStack {
+                Text("$\(budget.amount.withDecimals)")
+                Spacer()
+                Text("\(Source.Functions.showString(from: budget.dateCreated))")
+              }
+            }
+          }
+          
+          Section(header: Text("Pending notifications")) {
+            Text(notifications)
+          }
+          
+          Section(header: Text("Spendings")) {
+            ForEach(Array(groupTransactionsByMonth(transactions: transactions.toArray())), id: \.0) { month, transactions in
+              Text("Total for \(month): \(transactions.reduce(0) { $0 + $1.amount })")
             }
           }
         }
-        
-        Section(header: Text("Pending notifications")) {
-          ForEach(notifications, id: \.identifier) { notification in
-            Text(notification.content.title)
-          }
-        }
-        
-        Section(header: Text("Spendings")) {
-          ForEach(Array(groupTransactionsByMonth(transactions: transactions.toArray())), id: \.0) { month, transactions in
-            Text("Total for \(month): \(transactions.reduce(0) { $0 + $1.amount })")
-          }
-        }
-      })
+      }
       .onFirstAppear {
-        getPendingNotifications()
+        notificationManager.printNotifications { result in
+          notifications = result
+        }
       }
       .navigationBarTitleDisplayMode(.inline)
       .toolbarBackground(.white, for: .bottomBar)
@@ -65,14 +68,6 @@ struct DebugMenuView: View {
       }
     }
   }
-  func getPendingNotifications() {
-    UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-      DispatchQueue.main.async {
-        self.notifications = requests
-      }
-    }
-  }
-  
   func groupTransactionsByMonth(transactions: [Transaction]) -> [(String, [Transaction])] {
     let groupedByMonth = Dictionary(grouping: transactions) { transaction in
       let dateFormatter = DateFormatter()
