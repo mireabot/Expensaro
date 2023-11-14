@@ -29,7 +29,6 @@ struct HomeView: View {
   @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
   @ObservedResults(Transaction.self, filter: NSPredicate(format: "date >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var transactions
   @ObservedResults(RecurringTransaction.self, sortDescriptor: SortDescriptor(keyPath: \RecurringTransaction.dueDate, ascending: true)) var recurringTransactions
-  @ObservedResults(RecurringTransaction.self, filter: NSPredicate(format: "dueDate <= %@", Date() as CVarArg)) var renewingPayments
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing) {
@@ -46,7 +45,7 @@ struct HomeView: View {
           .padding(16)
       }
       .onFirstAppear {
-        if renewingPayments.count != 0 {
+        if recurringTransactions.filter(NSPredicate(format: "dueDate <= %@", Date() as CVarArg)).count != 0 {
           showRenewView.toggle()
         }
       }
