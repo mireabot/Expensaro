@@ -25,9 +25,9 @@ struct RecurringPaymentsRenewView: View {
     NavigationView(content: {
       ScrollView {
         VStack(alignment: .leading, spacing: 0, content: {
-          Text("You have payments which are due tomorrow")
+          Text("You have payments which are due today")
             .font(.mukta(.medium, size: 20))
-          Text("Renew them or delete from list")
+          Text("Not sure? You can review them later payment details screen.")
             .font(.mukta(.regular, size: 15))
             .foregroundStyle(Color.darkGrey)
         })
@@ -123,6 +123,10 @@ struct RecurringPaymentsRenewView: View {
   }
 }
 
+#Preview {
+  RecurringPaymentsRenewView(budget: Budget())
+}
+
 // MARK: - Apperance
 extension RecurringPaymentsRenewView {
   struct Appearance {
@@ -150,10 +154,10 @@ extension RecurringPaymentsRenewView {
           .foregroundStyle(Color.darkGrey)
       })
     }
+    .frame(maxWidth: .infinity)
     .padding(12)
     .background(Color.backgroundGrey)
     .cornerRadius(12)
-    .frame(maxWidth: .infinity)
   }
 }
 

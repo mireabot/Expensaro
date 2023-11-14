@@ -70,6 +70,10 @@ extension RecurringTransaction {
     let remainingDays = Double(daysLeftUntilDueDate)
     return min(1.0, max(0.0, (totalDays - remainingDays) / totalDays))
   }
+  
+  var isDue: Bool {
+    return dueDate <= Date()
+  }
 }
 
 // MARK: Default recurring transactions for previews
@@ -90,7 +94,7 @@ enum DefaultRecurringTransactions {
     let transaction = RecurringTransaction()
     transaction.name = "Gym Membership"
     transaction.amount = 29.99
-    transaction.dueDate = Calendar.current.date(byAdding: .day, value: 12, to: Date()) ?? Date()
+    transaction.dueDate = Date()
     transaction.type = "Credit"
     transaction.categoryName = "Subscription"
     transaction.categoryIcon = Source.Strings.Categories.Images.subscriptions
