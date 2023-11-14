@@ -71,8 +71,8 @@ enum DefaultGoals {
 extension Goal {
   var daysLeft: Int {
     let calendar = Calendar.current
-    let currentDate = Date()
-    let components = calendar.dateComponents([.day], from: currentDate, to: dueDate)
+    let currentDate = Source.Functions.localDate(with: .now)
+    let components = calendar.dateComponents([.day], from: currentDate, to: Source.Functions.localDate(with: dueDate))
     return components.day ?? 0
   }
   
@@ -85,7 +85,7 @@ extension Goal {
   }
   
   var isFailed: Bool {
-    return currentAmount < finalAmount && Date() >= dueDate
+    return currentAmount < finalAmount && Source.Functions.localDate(with: .now) >= Source.Functions.localDate(with: dueDate)
   }
   
   var goalTitle: String {

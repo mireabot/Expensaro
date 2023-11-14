@@ -45,21 +45,21 @@ enum RecurringSchedule: String, CaseIterable, PersistableEnum {
 extension RecurringTransaction {
   var daysInCurrentMonth: Int {
     let calendar = Calendar.current
-    let range = calendar.range(of: .day, in: .month, for: Date())
+    let range = calendar.range(of: .day, in: .month, for: Source.Functions.localDate(with: .now))
     return range?.count ?? 0
   }
   
   var daysLeftUntilDueDate: Int {
     let calendar = Calendar.current
-    let currentDate = Date()
-    let components = calendar.dateComponents([.day], from: currentDate, to: dueDate)
+    let currentDate = Source.Functions.localDate(with: .now)
+    let components = calendar.dateComponents([.day], from: currentDate, to: Source.Functions.localDate(with: dueDate))
     return components.day ?? 0
   }
   
   var daysPastDueDate: Int {
     let calendar = Calendar.current
-    let currentDate = Date()
-    if let days = calendar.dateComponents([.day], from: dueDate, to: currentDate).day, days > 0 {
+    let currentDate = Source.Functions.localDate(with: .now)
+    if let days = calendar.dateComponents([.day], from: Source.Functions.localDate(with: dueDate), to: currentDate).day, days > 0 {
       return days
     }
     return 0

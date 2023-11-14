@@ -44,20 +44,20 @@ final class NotificationManager: NSObject, UNUserNotificationCenterDelegate{
     content.body = "Open app to renew it in advance"
     content.sound = UNNotificationSound.default
     
-    let modifiedDate = Calendar.current.date(byAdding: .day, value: -1, to: payment.dueDate) ?? Date()
+    let modifiedDate = Calendar.current.date(byAdding: .day, value: -1, to: Source.Functions.localDate(with: payment.dueDate)) ?? Date()
     
     let comps = Calendar.current.dateComponents([.year,.month,.day], from: modifiedDate)
     
     let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
     
-    let request = UNNotificationRequest(identifier: "Transaction\(payment.id)", content: content, trigger: trigger)
+    let request = UNNotificationRequest(identifier: "Payment\(payment.id)", content: content, trigger: trigger)
     print(request)
     notificationCenter.add(request)
   }
   
   func deleteNotification(for payment: RecurringTransaction) {
     print(#function)
-    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["Transaction\(payment.id)"])
+    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["Payment\(payment.id)"])
   }
   
   ///Prints to console schduled notifications

@@ -108,6 +108,17 @@ enum Source {
       
       return timeInterval
     }
+    
+    
+    /// Functions which converts date to local timezone
+    /// - Parameter date: Date to convert
+    /// - Returns: Converted date to local timezone
+    static func localDate(with date: Date) -> Date {
+      let timeZoneOffset = Double(TimeZone.current.secondsFromGMT(for: date))
+      guard let localDate = Calendar.current.date(byAdding: .second, value: Int(timeZoneOffset), to: date) else {return Date()}
+      
+      return localDate
+    }
   }
   
   enum Strings {
