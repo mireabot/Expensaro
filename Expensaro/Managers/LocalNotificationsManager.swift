@@ -44,9 +44,7 @@ final class NotificationManager: NSObject, UNUserNotificationCenterDelegate{
     content.body = "Open app to renew it in advance"
     content.sound = UNNotificationSound.default
     
-    let modifiedDate = Calendar.current.date(byAdding: .day, value: -1, to: Source.Functions.localDate(with: payment.dueDate)) ?? Date()
-    
-    let comps = Calendar.current.dateComponents([.year,.month,.day], from: modifiedDate)
+    let comps = Calendar.current.dateComponents([.year,.month,.day], from: Source.Functions.localDate(with: payment.dueDate))
     
     let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
     

@@ -17,7 +17,7 @@ struct RecurringPaymentsRenewView: View {
   
   // MARK: Realm
   @ObservedRealmObject var budget: Budget
-  @ObservedResults(RecurringTransaction.self, filter: NSPredicate(format: "dueDate <= %@", Calendar.current.date(byAdding: .day, value: 1, to: Date())! as CVarArg)) var payments
+  @ObservedResults(RecurringTransaction.self, filter: NSPredicate(format: "dueDate <= %@", Date() as CVarArg)) var payments
   
   // MARK: Presentation
   @State private var showAnimation = false

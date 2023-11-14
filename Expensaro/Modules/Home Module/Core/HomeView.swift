@@ -29,7 +29,7 @@ struct HomeView: View {
   @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
   @ObservedResults(Transaction.self, filter: NSPredicate(format: "date >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var transactions
   @ObservedResults(RecurringTransaction.self, sortDescriptor: SortDescriptor(keyPath: \RecurringTransaction.dueDate, ascending: true)) var recurringTransactions
-  @ObservedResults(RecurringTransaction.self, filter: NSPredicate(format: "dueDate <= %@", Calendar.current.date(byAdding: .day, value: 1, to: Date())! as CVarArg)) var renewingPayments
+  @ObservedResults(RecurringTransaction.self, filter: NSPredicate(format: "dueDate <= %@", Date() as CVarArg)) var renewingPayments
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing) {
