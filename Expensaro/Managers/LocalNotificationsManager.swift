@@ -51,7 +51,6 @@ final class NotificationManager: NSObject, UNUserNotificationCenterDelegate{
     let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
     
     let request = UNNotificationRequest(identifier: "Payment\(payment.id)", content: content, trigger: trigger)
-    print(request)
     notificationCenter.add(request)
   }
   

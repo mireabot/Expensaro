@@ -51,15 +51,15 @@ extension RecurringTransaction {
   
   var daysLeftUntilDueDate: Int {
     let calendar = Calendar.current
-    let currentDate = Source.Functions.localDate(with: .now)
-    let components = calendar.dateComponents([.day], from: currentDate, to: Source.Functions.localDate(with: dueDate))
+    let currentDate = Date()
+    let components = calendar.dateComponents([.day], from: currentDate, to: dueDate)
     return components.day ?? 0
   }
   
   var daysPastDueDate: Int {
     let calendar = Calendar.current
-    let currentDate = Source.Functions.localDate(with: .now)
-    if let days = calendar.dateComponents([.day], from: Source.Functions.localDate(with: dueDate), to: currentDate).day, days > 0 {
+    let currentDate = Date()
+    if let days = calendar.dateComponents([.day], from: dueDate, to: currentDate).day, days > 0 {
       return days
     }
     return 0
