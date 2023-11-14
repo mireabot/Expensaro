@@ -37,11 +37,21 @@ struct RecurrentPaymentDetailView: View {
               Text("$\(transaction.amount.withDecimals)")
                 .font(.mukta(.bold, size: 34))
               
-              Text("Next payment date: \(Source.Functions.showString(from: transaction.dueDate))")
+              Text("Next payment date: \(transaction.isDue ? "Today" : Source.Functions.showString(from: transaction.dueDate))")
                 .font(.mukta(.regular, size: 15))
                 .foregroundColor(.darkGrey)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+          }
+          
+          if transaction.isDue {
+            Button {
+              
+            } label: {
+              Text("Renew now")
+                .font(.mukta(.medium, size: 15))
+            }
+            .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
           }
           
           // MARK: Transaction detail
@@ -91,31 +101,33 @@ struct RecurrentPaymentDetailView: View {
                 .stroke(Color.border, lineWidth: 1)
             )
             
-            Button {
-              showNoteView.toggle()
-            } label: {
-              HStack {
-                Source.Images.ButtonIcons.edit
-                  .padding(8)
-                VStack(alignment: .leading, spacing: -3) {
-                  Text("Note")
-                    .font(.mukta(.regular, size: 15))
-                    .foregroundColor(.darkGrey)
-                  Text(transaction.note)
-                    .font(.mukta(.medium, size: 15))
-                    .foregroundColor(.black)
+            if !transaction.note.isEmpty {
+              Button {
+                showNoteView.toggle()
+              } label: {
+                HStack {
+                  Source.Images.ButtonIcons.note
+                    .padding(8)
+                  VStack(alignment: .leading, spacing: -3) {
+                    Text("Note")
+                      .font(.mukta(.regular, size: 15))
+                      .foregroundColor(.darkGrey)
+                    Text(transaction.note)
+                      .font(.mukta(.medium, size: 15))
+                      .foregroundColor(.black)
+                  }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(10)
+                .background(.white)
+                .overlay(
+                  RoundedRectangle(cornerRadius: 12)
+                    .inset(by: 0.5)
+                    .stroke(Color.border, lineWidth: 1)
+                )
               }
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .padding(10)
-              .background(.white)
-              .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                  .inset(by: 0.5)
-                  .stroke(Color.border, lineWidth: 1)
-              )
+              .buttonStyle(EXPlainButtonStyle())
             }
-            .buttonStyle(EXPlainButtonStyle())
             
             EXToggleCard(type: .paymentReminder, isOn: Binding(
               get: { transaction.isReminder },
@@ -128,7 +140,7 @@ struct RecurrentPaymentDetailView: View {
           
         }
         bottomActionButton().padding(.bottom, 16)
-        Text(transaction.isDue.description)
+        
       })
       .popup(isPresented: $showDeleteAlert) {
         EXAlert(type: .deleteTransaction, primaryAction: { deletePayment() }, secondaryAction: {showDeleteAlert.toggle()}).applyMargins()
@@ -165,7 +177,7 @@ struct RecurrentPaymentDetailView: View {
 
 struct RecurrentPaymentDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    RecurrentPaymentDetailView(transaction: DefaultRecurringTransactions.transaction1, budget: Budget())
+    RecurrentPaymentDetailView(transaction: DefaultRecurringTransactions.transaction2, budget: Budget())
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
@@ -228,6 +240,12 @@ extension RecurrentPaymentDetailView {
       Menu {
         Button(action: { showEditPayment.toggle() }) {
           Label("Edit payment", image: "buttonEdit")
+        }
+        
+        if transaction.note.isEmpty {
+          Button(action: { showNoteView.toggle() }) {
+            Label("Create note", image: "buttonNote")
+          }
         }
         
         Button(role: .destructive, action: { showDeleteAlert.toggle() }) {

@@ -92,31 +92,33 @@ struct TransactionDetailView: View {
                 .stroke(Color.border, lineWidth: 1)
             )
             
-            Button {
-              showNoteView.toggle()
-            } label: {
-              HStack {
-                Source.Images.ButtonIcons.edit
-                  .padding(8)
-                VStack(alignment: .leading, spacing: -3) {
-                  Text("Note")
-                    .font(.mukta(.regular, size: 15))
-                    .foregroundColor(.darkGrey)
-                  Text(transaction.note)
-                    .font(.mukta(.medium, size: 15))
-                    .foregroundColor(.black)
+            if !transaction.note.isEmpty {
+              Button {
+                showNoteView.toggle()
+              } label: {
+                HStack {
+                  Source.Images.ButtonIcons.note
+                    .padding(8)
+                  VStack(alignment: .leading, spacing: -3) {
+                    Text("Note")
+                      .font(.mukta(.regular, size: 15))
+                      .foregroundColor(.darkGrey)
+                    Text(transaction.note)
+                      .font(.mukta(.medium, size: 15))
+                      .foregroundColor(.black)
+                  }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(12)
+                .background(.white)
+                .overlay(
+                  RoundedRectangle(cornerRadius: 12)
+                    .inset(by: 0.5)
+                    .stroke(Color.border, lineWidth: 1)
+                )
               }
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .padding(12)
-              .background(.white)
-              .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                  .inset(by: 0.5)
-                  .stroke(Color.border, lineWidth: 1)
-              )
+              .buttonStyle(EXPlainButtonStyle())
             }
-            .buttonStyle(EXPlainButtonStyle())
           }
           .padding(.top, 10)
           
@@ -234,6 +236,12 @@ private extension TransactionDetailView {
         if transaction.type != "Refill" {
           Button(action: { showEditTransaction.toggle() }) {
             Label("Edit transaction", image: "buttonEdit")
+          }
+        }
+        
+        if transaction.note.isEmpty {
+          Button(action: { showNoteView.toggle() }) {
+            Label("Create note", image: "buttonNote")
           }
         }
         

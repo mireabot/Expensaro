@@ -67,6 +67,7 @@ enum Source {
       static let save = Image("buttonSave")
       static let share = Image("buttonShare")
       static let selector = Image("buttonSelect")
+      static let note = Image("buttonNote")
     }
     enum InfoCardIcon {
       static let month2month = Image("month2month")
