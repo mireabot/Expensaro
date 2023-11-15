@@ -60,6 +60,7 @@ struct HomeView: View {
       })
       .sheet(isPresented: $showRenewView, content: {
         RecurringPaymentsRenewView(budget: currentBudget)
+          .presentationDragIndicator(.visible)
           .presentationDetents([.medium])
       })
       .fullScreenCover(isPresented: $showAddBudget, content: {

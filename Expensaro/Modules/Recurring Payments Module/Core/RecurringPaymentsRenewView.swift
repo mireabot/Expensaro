@@ -22,103 +22,90 @@ struct RecurringPaymentsRenewView: View {
   // MARK: Presentation
   @State private var showAnimation = false
   var body: some View {
-    NavigationView(content: {
-      ScrollView {
-        VStack(alignment: .leading, spacing: 0, content: {
-          Text("You have payments which are due today")
-            .font(.mukta(.medium, size: 20))
-          Text("Not sure? You can review them later payment details screen.")
-            .font(.mukta(.regular, size: 15))
-            .foregroundStyle(Color.darkGrey)
-        })
-        .frame(maxWidth: .infinity, alignment: .leading)
-        GeometryReader{_ in
-          if showAnimation {
-            successView()
-          } else {
-            ForEach(payments.indices,id: \.self) { index in
-              if currentIndex == index {
-                EXRecurringPaymentRenewCell(payment: payments[currentIndex])
-                  .frame(maxWidth: .infinity)
-                  .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
-              }
+    ScrollView {
+      VStack(alignment: .leading, spacing: 0, content: {
+        Text("You have payments which are due today")
+          .font(.mukta(.medium, size: 20))
+        Text("Not sure? You can review them later payment details screen.")
+          .font(.mukta(.regular, size: 15))
+          .foregroundStyle(Color.darkGrey)
+      })
+      .frame(maxWidth: .infinity, alignment: .leading)
+      GeometryReader{_ in
+        if showAnimation {
+          successView()
+        } else {
+          ForEach(payments.indices,id: \.self) { index in
+            if currentIndex == index {
+              EXRecurringPaymentRenewCell(payment: payments[currentIndex])
+                .frame(maxWidth: .infinity)
+                .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
             }
           }
         }
       }
-      .applyMargins()
-      .scrollDisabled(true)
-      .interactiveDismissDisabled(true)
-      .safeAreaInset(edge: .bottom, content: {
-        ZStack {
-          HStack {
-            Button(action: {
-              if currentIndex == (payments.count - 1) {
-                deletePayment(for: payments[currentIndex]) {
-                  withAnimation(.easeInOut){
-                    showAnimation.toggle()
-                  }
-                }
-              } else {
-                deletePayment(for: payments[currentIndex]) {
-                  withAnimation(.easeInOut) {
-                    currentIndex += 1
-                  }
+    }
+    .applyMargins()
+    .padding(.top, 20)
+    .scrollDisabled(true)
+    .safeAreaInset(edge: .bottom, content: {
+      ZStack {
+        HStack {
+          Button(action: {
+            if currentIndex == (payments.count - 1) {
+              deletePayment(for: payments[currentIndex]) {
+                withAnimation(.easeInOut){
+                  showAnimation.toggle()
                 }
               }
-            }, label: {
-              Text("Delete payment")
-                .font(.mukta(.semibold, size: 17))
-            })
-            .buttonStyle(EXSecondaryPrimaryButtonStyle(showLoader: .constant(false)))
-            
-            Button(action: {
-              if currentIndex == (payments.count - 1) {
-                renewPayment(for: payments[currentIndex]) {
-                  withAnimation(.easeInOut){
-                    showAnimation.toggle()
-                  }
-                }
-              } else {
-                renewPayment(for: payments[currentIndex]) {
-                  withAnimation(.easeInOut){
-                    currentIndex += 1
-                  }
+            } else {
+              deletePayment(for: payments[currentIndex]) {
+                withAnimation(.easeInOut) {
+                  currentIndex += 1
                 }
               }
-            }, label: {
-              Text("Renew payment")
-                .font(.mukta(.semibold, size: 17))
-            })
-            .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
-            
-          }
+            }
+          }, label: {
+            Text("Delete payment")
+              .font(.mukta(.semibold, size: 17))
+          })
+          .buttonStyle(EXSecondaryPrimaryButtonStyle(showLoader: .constant(false)))
           
-          if showAnimation {
-            Button(action: {
-              makeDismiss()
-            }, label: {
-              Text("Done")
-                .font(.mukta(.semibold, size: 17))
-            })
-            .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
-          }
+          Button(action: {
+            if currentIndex == (payments.count - 1) {
+              renewPayment(for: payments[currentIndex]) {
+                withAnimation(.easeInOut){
+                  showAnimation.toggle()
+                }
+              }
+            } else {
+              renewPayment(for: payments[currentIndex]) {
+                withAnimation(.easeInOut){
+                  currentIndex += 1
+                }
+              }
+            }
+          }, label: {
+            Text("Renew payment")
+              .font(.mukta(.semibold, size: 17))
+          })
+          .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
+          
         }
-        .applyMargins()
-        .padding(.bottom, 15)
-        .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
-      })
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar(content: {
-        ToolbarItem(placement: .topBarTrailing) {
-          Button {
+        
+        if showAnimation {
+          Button(action: {
             makeDismiss()
-          } label: {
-            Appearance.shared.closeIcon
-              .foregroundColor(.black)
-          }
+          }, label: {
+            Text("Done")
+              .font(.mukta(.semibold, size: 17))
+          })
+          .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
         }
-      })
+      }
+      .applyMargins()
+      .padding(.bottom, 15)
+      .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
     })
   }
 }

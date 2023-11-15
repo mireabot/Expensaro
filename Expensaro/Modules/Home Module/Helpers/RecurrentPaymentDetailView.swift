@@ -46,7 +46,7 @@ struct RecurrentPaymentDetailView: View {
           
           if transaction.isDue {
             Button {
-              
+              renewPayment()
             } label: {
               Text("Renew now")
                 .font(.mukta(.medium, size: 15))
@@ -293,6 +293,39 @@ extension RecurrentPaymentDetailView {
       }
       try? newRealm.write {
         newTransaction.isReminder = value
+      }
+    }
+  }
+  
+  func renewPayment() {
+    var newDate = Date()
+    switch transaction.schedule {
+    case .everyWeek:
+      print("Now date: \(Source.Functions.showString(from: transaction.dueDate)) -> Next date \(Source.Functions.showString(from: getSampleDate(offset: 7, date: transaction.dueDate)))")
+      newDate = getSampleDate(offset: 7, date: transaction.dueDate)
+    case .everyMonth:
+      print("Now date: \(Source.Functions.showString(from: transaction.dueDate)) -> Next date \(Source.Functions.showString(from: getSampleDate(offset: 31, date: transaction.dueDate)))")
+      newDate = getSampleDate(offset: 31, date: transaction.dueDate)
+    case .every3Month:
+      print("Now date: \(Source.Functions.showString(from: transaction.dueDate)) -> Next date \(Source.Functions.showString(from: getSampleDate(offset: 90, date: transaction.dueDate)))")
+      newDate = getSampleDate(offset: 90, date: transaction.dueDate)
+    case .everyYear:
+      print("Now date: \(Source.Functions.showString(from: transaction.dueDate)) -> Next date \(Source.Functions.showString(from: getSampleDate(offset: 365, date: transaction.dueDate)))")
+      newDate = getSampleDate(offset: 365, date: transaction.dueDate)
+    }
+    // Set new due date
+    if let newPayment = transaction.thaw(), let paymentRealm = newPayment.realm {
+      try? paymentRealm.write {
+        newPayment.dueDate = newDate
+      }
+      if newPayment.isReminder {
+        notificationManager.scheduleTriggerNotification(for: newPayment)
+      }
+      // Update budget
+      if let newBudget = budget.thaw(), let budgetRealm = newBudget.realm {
+        try? budgetRealm.write {
+          newBudget.amount += newPayment.amount
+        }
       }
     }
   }
