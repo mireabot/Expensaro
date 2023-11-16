@@ -92,6 +92,21 @@ struct RecurrentPaymentDetailView: View {
                 }
               }
               .frame(maxWidth: .infinity, alignment: .leading)
+              
+              HStack {
+                Source.Images.System.transactionType
+                  .foregroundColor(.black)
+                  .padding(8)
+                VStack(alignment: .leading, spacing: -3) {
+                  Text("Type")
+                    .font(.mukta(.regular, size: 15))
+                    .foregroundColor(.darkGrey)
+                  Text(transaction.type)
+                    .font(.mukta(.medium, size: 15))
+                    .foregroundColor(.black)
+                }
+              }
+              .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(10)
             .background(.white)

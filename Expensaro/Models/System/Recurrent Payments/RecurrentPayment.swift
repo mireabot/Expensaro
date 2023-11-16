@@ -51,9 +51,11 @@ extension RecurringTransaction {
   
   var daysLeftUntilDueDate: Int {
     let calendar = Calendar.current
-    let currentDate = Date()
-    let components = calendar.dateComponents([.day], from: currentDate, to: dueDate)
-    return components.day ?? 0
+    let fromDate = calendar.startOfDay(for: Date())
+    let toDate = calendar.startOfDay(for: dueDate)
+    let numberOfDays = calendar.dateComponents([.day], from: fromDate, to: toDate)
+    
+    return numberOfDays.day!
   }
   
   var daysPastDueDate: Int {
@@ -72,7 +74,7 @@ extension RecurringTransaction {
   }
   
   var isDue: Bool {
-    return dueDate <= Date()
+    return Calendar.current.isDate(dueDate, inSameDayAs: Date())
   }
 }
 
@@ -92,7 +94,7 @@ enum DefaultRecurringTransactions {
   
   static var transaction2: RecurringTransaction {
     let transaction = RecurringTransaction()
-    transaction.name = "Gym Membership"
+    transaction.name = "Gym Membership long name"
     transaction.amount = 29.99
     transaction.dueDate = Date()
     transaction.type = "Credit"

@@ -22,7 +22,6 @@ struct HomeView: View {
   // MARK: Presentation
   @State private var showUpdateBudget = false
   @State private var showAlert = false
-  @State private var showRenewView = false
   
   // MARK: Realm
   @Environment(\.realm) var realm
@@ -44,11 +43,6 @@ struct HomeView: View {
         bottomActionButton()
           .padding(16)
       }
-      .onFirstAppear {
-        if recurringTransactions.filter(NSPredicate(format: "dueDate <= %@", Date() as CVarArg)).count != 0 {
-          showRenewView.toggle()
-        }
-      }
       .popup(isPresented: $showAlert, view: {
         EXErrorView(type: .constant(.zeroBudget))
       }, customize: {
@@ -57,11 +51,6 @@ struct HomeView: View {
           .position(.top)
           .type(.floater())
           .autohideIn(1.5)
-      })
-      .sheet(isPresented: $showRenewView, content: {
-        RecurringPaymentsRenewView(budget: currentBudget)
-          .presentationDragIndicator(.visible)
-          .presentationDetents([.medium])
       })
       .fullScreenCover(isPresented: $showAddBudget, content: {
         AddBudgetView(type: .addBudget, budget: Budget())
@@ -204,25 +193,26 @@ extension HomeView {
         }
         
         VStack {
-          ForEach(recurringTransactions.prefix(1)) { payment in
-            Button {
-              router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(transaction: payment, budget: currentBudget)))
-            } label: {
-              EXRecurringTransactionCell(transaction: payment)
-            }
-            .buttonStyle(EXPlainButtonStyle())
-            
-            if recurringTransactions.count >= 2 {
-              HStack {
-                Text("+ \(recurringTransactions.count - 1) recurring payments")
-                  .font(.mukta(.regular, size: 13))
-                  .foregroundColor(.darkGrey)
-                  .frame(maxWidth: .infinity, alignment: .center)
-                  .padding(5)
+          HStack {
+            ForEach(recurringTransactions.prefix(2)) { payment in
+              Button {
+                router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(transaction: payment, budget: currentBudget)))
+              } label: {
+                EXRecurringTransactionCell(payment: payment)
               }
-              .background(Color.backgroundGrey)
-              .cornerRadius(5)
+              .buttonStyle(EXPlainButtonStyle())
             }
+          }
+          if recurringTransactions.count >= 3 {
+            HStack {
+              Text("+ \(recurringTransactions.count - 2) recurring payments")
+                .font(.mukta(.regular, size: 13))
+                .foregroundColor(.darkGrey)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(5)
+            }
+            .background(Color.backgroundGrey)
+            .cornerRadius(5)
           }
         }
       }
