@@ -42,7 +42,7 @@ struct RecurrentPaymentsListView: View {
                   Button {
                     router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(transaction: paymentData, budget: budget)))
                   } label: {
-                    EXRecurringTransactionCell(transaction: paymentData)
+                    EXRecurringTransactionCell(payment: paymentData)
                   }
                   .buttonStyle(EXPlainButtonStyle())
                 }

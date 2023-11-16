@@ -33,8 +33,6 @@
 		3564D81F2ACB71EB00553ECB /* EditGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3564D81E2ACB71EB00553ECB /* EditGoalView.swift */; };
 		356847742ACB2D4E00FFC864 /* GoalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356847732ACB2D4E00FFC864 /* GoalDetailView.swift */; };
 		356EB7AA2AEC119F001E6FD6 /* TransactionInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356EB7A92AEC119F001E6FD6 /* TransactionInsightsView.swift */; };
-		358031592AF2C44E00DFDBF1 /* RecurringPaymentsRenewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358031582AF2C44E00DFDBF1 /* RecurringPaymentsRenewView.swift */; };
-		3580315B2AF2C4E200DFDBF1 /* EXRecurringPaymentRenewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3580315A2AF2C4E200DFDBF1 /* EXRecurringPaymentRenewCell.swift */; };
 		35825BF92AC9CDB600713AD8 /* EXRecurringTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BF82AC9CDB600713AD8 /* EXRecurringTransactionCell.swift */; };
 		35825BFB2AC9D01C00713AD8 /* EXTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BFA2AC9D01C00713AD8 /* EXTransactionCell.swift */; };
 		35825BFD2AC9E71700713AD8 /* RecurrentPaymentsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BFC2AC9E71700713AD8 /* RecurrentPaymentsListView.swift */; };
@@ -106,8 +104,6 @@
 		3564D81E2ACB71EB00553ECB /* EditGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGoalView.swift; sourceTree = "<group>"; };
 		356847732ACB2D4E00FFC864 /* GoalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailView.swift; sourceTree = "<group>"; };
 		356EB7A92AEC119F001E6FD6 /* TransactionInsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionInsightsView.swift; sourceTree = "<group>"; };
-		358031582AF2C44E00DFDBF1 /* RecurringPaymentsRenewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringPaymentsRenewView.swift; sourceTree = "<group>"; };
-		3580315A2AF2C4E200DFDBF1 /* EXRecurringPaymentRenewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXRecurringPaymentRenewCell.swift; sourceTree = "<group>"; };
 		35825BF82AC9CDB600713AD8 /* EXRecurringTransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXRecurringTransactionCell.swift; sourceTree = "<group>"; };
 		35825BFA2AC9D01C00713AD8 /* EXTransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXTransactionCell.swift; sourceTree = "<group>"; };
 		35825BFC2AC9E71700713AD8 /* RecurrentPaymentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPaymentsListView.swift; sourceTree = "<group>"; };
@@ -326,22 +322,6 @@
 			path = Insights;
 			sourceTree = "<group>";
 		};
-		358031562AF2C41400DFDBF1 /* Recurring Payments Module */ = {
-			isa = PBXGroup;
-			children = (
-				358031572AF2C42F00DFDBF1 /* Core */,
-			);
-			path = "Recurring Payments Module";
-			sourceTree = "<group>";
-		};
-		358031572AF2C42F00DFDBF1 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				358031582AF2C44E00DFDBF1 /* RecurringPaymentsRenewView.swift */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
 		35825BF72AC9CD9900713AD8 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -349,7 +329,6 @@
 				35825BFA2AC9D01C00713AD8 /* EXTransactionCell.swift */,
 				3558FBBD2ACA3F8E00624EBD /* EXGoalCell.swift */,
 				35CE33E52AE18CEB00BC93C2 /* EXGoalTransactionCell.swift */,
-				3580315A2AF2C4E200DFDBF1 /* EXRecurringPaymentRenewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -465,7 +444,6 @@
 			children = (
 				358978D72AFEC08300E8C378 /* Debug Module */,
 				359CDC5A2AB4DE2100DFFDC7 /* Tab Bar Module */,
-				358031562AF2C41400DFDBF1 /* Recurring Payments Module */,
 				354F2B0F2AB9040C002516F1 /* Settings Module */,
 				359CDC522AB4C49C00DFFDC7 /* Onboarding Module */,
 				359094AE2AAE390900428B39 /* Home Module */,
@@ -699,7 +677,6 @@
 				359094A22AAE341E00428B39 /* NavigationViewBuilder.swift in Sources */,
 				3510F6E22AFD542D000B5532 /* ScrollView+Extensions.swift in Sources */,
 				35BEF35D2AB378DB005D1138 /* Source.swift in Sources */,
-				3580315B2AF2C4E200DFDBF1 /* EXRecurringPaymentRenewCell.swift in Sources */,
 				351A14F92AC1F21300BCBD07 /* OverviewInfoBottomView.swift in Sources */,
 				353E5C322ACA1F6600430978 /* RecurrentPayment.swift in Sources */,
 				35B9BEE32ADB88AC00DD5BAE /* EXNumberKeyboard.swift in Sources */,
@@ -732,7 +709,6 @@
 				35C80C6D2ABF59DE0063553E /* RemindersSettingsView.swift in Sources */,
 				359CDC542AB4C69600DFFDC7 /* OnboardingView.swift in Sources */,
 				3510F6E42AFD58C7000B5532 /* CreateReminderView.swift in Sources */,
-				358031592AF2C44E00DFDBF1 /* RecurringPaymentsRenewView.swift in Sources */,
 				3592EFFB2AF32D10008138EE /* FirstAppear.swift in Sources */,
 				35BB8A3B2AD89C1C0099E71F /* Category.swift in Sources */,
 				35825C002AC9FDEB00713AD8 /* EXDatePicker.swift in Sources */,

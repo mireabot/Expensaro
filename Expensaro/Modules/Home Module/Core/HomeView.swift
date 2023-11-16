@@ -22,14 +22,12 @@ struct HomeView: View {
   // MARK: Presentation
   @State private var showUpdateBudget = false
   @State private var showAlert = false
-  @State private var showRenewView = false
   
   // MARK: Realm
   @Environment(\.realm) var realm
   @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
   @ObservedResults(Transaction.self, filter: NSPredicate(format: "date >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var transactions
   @ObservedResults(RecurringTransaction.self, sortDescriptor: SortDescriptor(keyPath: \RecurringTransaction.dueDate, ascending: true)) var recurringTransactions
-  @ObservedResults(RecurringTransaction.self, filter: NSPredicate(format: "dueDate <= %@", Calendar.current.date(byAdding: .day, value: 1, to: Date())! as CVarArg)) var renewingPayments
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing) {
@@ -45,11 +43,6 @@ struct HomeView: View {
         bottomActionButton()
           .padding(16)
       }
-      .onFirstAppear {
-        if renewingPayments.count != 0 {
-          showRenewView.toggle()
-        }
-      }
       .popup(isPresented: $showAlert, view: {
         EXErrorView(type: .constant(.zeroBudget))
       }, customize: {
@@ -58,10 +51,6 @@ struct HomeView: View {
           .position(.top)
           .type(.floater())
           .autohideIn(1.5)
-      })
-      .sheet(isPresented: $showRenewView, content: {
-        RecurringPaymentsRenewView(budget: currentBudget)
-          .presentationDetents([.medium])
       })
       .fullScreenCover(isPresented: $showAddBudget, content: {
         AddBudgetView(type: .addBudget, budget: Budget())
@@ -156,7 +145,7 @@ extension HomeView {
         Text("Your budget")
           .font(.mukta(.regular, size: 17))
           .foregroundColor(.darkGrey)
-        Text("$ \(currentBudget.amount.withDecimals)")
+        Text("$\(currentBudget.amount.withDecimals)")
           .font(.mukta(.bold, size: 34))
           .foregroundColor(.black)
         
@@ -204,25 +193,26 @@ extension HomeView {
         }
         
         VStack {
-          ForEach(recurringTransactions.prefix(1)) { payment in
-            Button {
-              router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(transaction: payment, budget: currentBudget)))
-            } label: {
-              EXRecurringTransactionCell(transaction: payment)
-            }
-            .buttonStyle(EXPlainButtonStyle())
-            
-            if recurringTransactions.count >= 2 {
-              HStack {
-                Text("+ \(recurringTransactions.count - 1) recurring payments")
-                  .font(.mukta(.regular, size: 13))
-                  .foregroundColor(.darkGrey)
-                  .frame(maxWidth: .infinity, alignment: .center)
-                  .padding(5)
+          HStack {
+            ForEach(recurringTransactions.prefix(2)) { payment in
+              Button {
+                router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(transaction: payment, budget: currentBudget)))
+              } label: {
+                EXRecurringTransactionCell(payment: payment)
               }
-              .background(Color.backgroundGrey)
-              .cornerRadius(5)
+              .buttonStyle(EXPlainButtonStyle())
             }
+          }
+          if recurringTransactions.count >= 3 {
+            HStack {
+              Text("+ \(recurringTransactions.count - 2) recurring payments")
+                .font(.mukta(.regular, size: 13))
+                .foregroundColor(.darkGrey)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(5)
+            }
+            .background(Color.backgroundGrey)
+            .cornerRadius(5)
           }
         }
       }

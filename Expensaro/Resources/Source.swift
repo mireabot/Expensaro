@@ -56,6 +56,13 @@ enum Source {
       static let appTools = Image("appTools")
       static let reminder = Image("reminder")
     }
+    enum Settings {
+      static let categories = Image("categories")
+      static let reminders = Image("reminders")
+      static let exportData = Image("exportData")
+      static let resetData = Image("resetData")
+      static let contact = Image("contact")
+    }
     enum ButtonIcons {
       static let add = Image("buttonAdd")
       static let how = Image("buttonHow")
@@ -67,6 +74,7 @@ enum Source {
       static let save = Image("buttonSave")
       static let share = Image("buttonShare")
       static let selector = Image("buttonSelect")
+      static let note = Image("buttonNote")
     }
     enum InfoCardIcon {
       static let month2month = Image("month2month")

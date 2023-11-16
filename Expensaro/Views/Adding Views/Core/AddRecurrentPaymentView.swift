@@ -373,7 +373,9 @@ extension AddRecurrentPaymentView {
       return
     } else {
       if isUpdating {
+        notificationManager.deleteNotification(for: recurringPayment)
         updatePayment()
+        notificationManager.scheduleTriggerNotification(for: recurringPayment)
         makeDismiss()
       } else {
         showReminderAlert.toggle()

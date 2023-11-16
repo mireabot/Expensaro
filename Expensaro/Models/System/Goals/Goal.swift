@@ -71,9 +71,11 @@ enum DefaultGoals {
 extension Goal {
   var daysLeft: Int {
     let calendar = Calendar.current
-    let currentDate = Source.Functions.localDate(with: .now)
-    let components = calendar.dateComponents([.day], from: currentDate, to: Source.Functions.localDate(with: dueDate))
-    return components.day ?? 0
+    let fromDate = calendar.startOfDay(for: Date())
+    let toDate = calendar.startOfDay(for: dueDate)
+    let numberOfDays = calendar.dateComponents([.day], from: fromDate, to: toDate)
+    
+    return numberOfDays.day!
   }
   
   var amountLeft: Double {

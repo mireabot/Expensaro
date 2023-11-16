@@ -37,11 +37,23 @@ struct RecurrentPaymentDetailView: View {
               Text("$\(transaction.amount.withDecimals)")
                 .font(.mukta(.bold, size: 34))
               
-              Text("Next payment date: \(Source.Functions.showString(from: transaction.dueDate))")
+              Text("Next payment date: \(transaction.isDue ? daysLeftString(for: transaction.daysLeftUntilDueDate) : Source.Functions.showString(from: transaction.dueDate))")
                 .font(.mukta(.regular, size: 15))
                 .foregroundColor(.darkGrey)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+          }
+          
+          if transaction.isDue {
+            Button {
+              withAnimation(.easeOut) {
+                renewPayment()
+              }
+            } label: {
+              Text("Renew now")
+                .font(.mukta(.medium, size: 15))
+            }
+            .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
           }
           
           // MARK: Transaction detail
@@ -82,6 +94,21 @@ struct RecurrentPaymentDetailView: View {
                 }
               }
               .frame(maxWidth: .infinity, alignment: .leading)
+              
+              HStack {
+                Source.Images.System.transactionType
+                  .foregroundColor(.black)
+                  .padding(8)
+                VStack(alignment: .leading, spacing: -3) {
+                  Text("Type")
+                    .font(.mukta(.regular, size: 15))
+                    .foregroundColor(.darkGrey)
+                  Text(transaction.type)
+                    .font(.mukta(.medium, size: 15))
+                    .foregroundColor(.black)
+                }
+              }
+              .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(10)
             .background(.white)
@@ -91,31 +118,33 @@ struct RecurrentPaymentDetailView: View {
                 .stroke(Color.border, lineWidth: 1)
             )
             
-            Button {
-              showNoteView.toggle()
-            } label: {
-              HStack {
-                Source.Images.ButtonIcons.edit
-                  .padding(8)
-                VStack(alignment: .leading, spacing: -3) {
-                  Text("Note")
-                    .font(.mukta(.regular, size: 15))
-                    .foregroundColor(.darkGrey)
-                  Text(transaction.note)
-                    .font(.mukta(.medium, size: 15))
-                    .foregroundColor(.black)
+            if !transaction.note.isEmpty {
+              Button {
+                showNoteView.toggle()
+              } label: {
+                HStack {
+                  Source.Images.ButtonIcons.note
+                    .padding(8)
+                  VStack(alignment: .leading, spacing: -3) {
+                    Text("Note")
+                      .font(.mukta(.regular, size: 15))
+                      .foregroundColor(.darkGrey)
+                    Text(transaction.note)
+                      .font(.mukta(.medium, size: 15))
+                      .foregroundColor(.black)
+                  }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(10)
+                .background(.white)
+                .overlay(
+                  RoundedRectangle(cornerRadius: 12)
+                    .inset(by: 0.5)
+                    .stroke(Color.border, lineWidth: 1)
+                )
               }
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .padding(10)
-              .background(.white)
-              .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                  .inset(by: 0.5)
-                  .stroke(Color.border, lineWidth: 1)
-              )
+              .buttonStyle(EXPlainButtonStyle())
             }
-            .buttonStyle(EXPlainButtonStyle())
             
             EXToggleCard(type: .paymentReminder, isOn: Binding(
               get: { transaction.isReminder },
@@ -128,6 +157,7 @@ struct RecurrentPaymentDetailView: View {
           
         }
         bottomActionButton().padding(.bottom, 16)
+        
       })
       .popup(isPresented: $showDeleteAlert) {
         EXAlert(type: .deleteTransaction, primaryAction: { deletePayment() }, secondaryAction: {showDeleteAlert.toggle()}).applyMargins()
@@ -160,11 +190,22 @@ struct RecurrentPaymentDetailView: View {
       }
     }
   }
+  
+  func daysLeftString(for days: Int) -> String {
+    switch days {
+    case -1:
+      return "Overdue 1 day"
+    case 0:
+      return "Today"
+    default:
+      return "Overdue \(abs(days)) days"
+    }
+  }
 }
 
 struct RecurrentPaymentDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    RecurrentPaymentDetailView(transaction: DefaultRecurringTransactions.transaction1, budget: Budget())
+    RecurrentPaymentDetailView(transaction: DefaultRecurringTransactions.transaction2, budget: Budget())
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
@@ -229,6 +270,12 @@ extension RecurrentPaymentDetailView {
           Label("Edit payment", image: "buttonEdit")
         }
         
+        if transaction.note.isEmpty {
+          Button(action: { showNoteView.toggle() }) {
+            Label("Create note", image: "buttonNote")
+          }
+        }
+        
         Button(role: .destructive, action: { showDeleteAlert.toggle() }) {
           Label("Delete payment", image: "buttonDelete")
         }
@@ -274,6 +321,39 @@ extension RecurrentPaymentDetailView {
       }
       try? newRealm.write {
         newTransaction.isReminder = value
+      }
+    }
+  }
+  
+  func renewPayment() {
+    var newDate = Date()
+    switch transaction.schedule {
+    case .everyWeek:
+      print("Now date: \(Source.Functions.showString(from: transaction.dueDate)) -> Next date \(Source.Functions.showString(from: getSampleDate(offset: 7, date: transaction.dueDate)))")
+      newDate = getSampleDate(offset: 7, date: transaction.dueDate)
+    case .everyMonth:
+      print("Now date: \(Source.Functions.showString(from: transaction.dueDate)) -> Next date \(Source.Functions.showString(from: getSampleDate(offset: 31, date: transaction.dueDate)))")
+      newDate = getSampleDate(offset: 31, date: transaction.dueDate)
+    case .every3Month:
+      print("Now date: \(Source.Functions.showString(from: transaction.dueDate)) -> Next date \(Source.Functions.showString(from: getSampleDate(offset: 90, date: transaction.dueDate)))")
+      newDate = getSampleDate(offset: 90, date: transaction.dueDate)
+    case .everyYear:
+      print("Now date: \(Source.Functions.showString(from: transaction.dueDate)) -> Next date \(Source.Functions.showString(from: getSampleDate(offset: 365, date: transaction.dueDate)))")
+      newDate = getSampleDate(offset: 365, date: transaction.dueDate)
+    }
+    // Set new due date
+    if let newPayment = transaction.thaw(), let paymentRealm = newPayment.realm {
+      try? paymentRealm.write {
+        newPayment.dueDate = newDate
+      }
+      if newPayment.isReminder {
+        notificationManager.scheduleTriggerNotification(for: newPayment)
+      }
+      // Update budget
+      if let newBudget = budget.thaw(), let budgetRealm = newBudget.realm {
+        try? budgetRealm.write {
+          newBudget.amount -= newPayment.amount
+        }
       }
     }
   }

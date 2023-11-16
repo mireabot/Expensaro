@@ -40,13 +40,11 @@ final class NotificationManager: NSObject, UNUserNotificationCenterDelegate{
   func scheduleTriggerNotification(for payment: RecurringTransaction) {
     print(#function)
     let content = UNMutableNotificationContent()
-    content.title = "\(payment.name) payment is due tomorrow"
-    content.body = "Open app to renew it in advance"
+    content.title = "\(payment.name) payment is due today"
+    content.body = "Time to Take Action! Open the app to update your payment—keep or cancel, your choice."
     content.sound = UNNotificationSound.default
     
-    let modifiedDate = Calendar.current.date(byAdding: .day, value: -1, to: Source.Functions.localDate(with: payment.dueDate)) ?? Date()
-    
-    let comps = Calendar.current.dateComponents([.year,.month,.day], from: modifiedDate)
+    let comps = Calendar.current.dateComponents([.year,.month,.day], from: Source.Functions.localDate(with: payment.dueDate))
     
     let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
     
