@@ -145,7 +145,7 @@ extension HomeView {
         Text("Your budget")
           .font(.mukta(.regular, size: 17))
           .foregroundColor(.darkGrey)
-        Text("$ \(currentBudget.amount.withDecimals)")
+        Text("$\(currentBudget.amount.withDecimals)")
           .font(.mukta(.bold, size: 34))
           .foregroundColor(.black)
         

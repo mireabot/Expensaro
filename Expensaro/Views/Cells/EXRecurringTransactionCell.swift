@@ -59,10 +59,14 @@ extension EXRecurringTransactionCell {
   
   func daysLeftString(for days: Int) -> String {
     switch days {
+    case -1:
+      return "Overdue 1 day"
     case 0:
       return "Today"
     case 1:
       return "1 day left"
+    case let negativeDays where negativeDays < 0:
+      return "Overdue \(abs(negativeDays)) days"
     default:
       return "\(days) days left"
     }

@@ -74,7 +74,7 @@ extension RecurringTransaction {
   }
   
   var isDue: Bool {
-    return Calendar.current.isDate(dueDate, inSameDayAs: Date())
+    return Calendar.current.isDate(dueDate, inSameDayAs: Date()) || dueDate < Date()
   }
 }
 

@@ -37,7 +37,7 @@ struct RecurrentPaymentDetailView: View {
               Text("$\(transaction.amount.withDecimals)")
                 .font(.mukta(.bold, size: 34))
               
-              Text("Next payment date: \(transaction.isDue ? "Today" : Source.Functions.showString(from: transaction.dueDate))")
+              Text("Next payment date: \(transaction.isDue ? daysLeftString(for: transaction.daysLeftUntilDueDate) : Source.Functions.showString(from: transaction.dueDate))")
                 .font(.mukta(.regular, size: 15))
                 .foregroundColor(.darkGrey)
             }
@@ -46,7 +46,9 @@ struct RecurrentPaymentDetailView: View {
           
           if transaction.isDue {
             Button {
-              renewPayment()
+              withAnimation(.easeOut) {
+                renewPayment()
+              }
             } label: {
               Text("Renew now")
                 .font(.mukta(.medium, size: 15))
@@ -186,6 +188,17 @@ struct RecurrentPaymentDetailView: View {
           }
         }
       }
+    }
+  }
+  
+  func daysLeftString(for days: Int) -> String {
+    switch days {
+    case -1:
+      return "Overdue 1 day"
+    case 0:
+      return "Today"
+    default:
+      return "Overdue \(abs(days)) days"
     }
   }
 }
@@ -339,7 +352,7 @@ extension RecurrentPaymentDetailView {
       // Update budget
       if let newBudget = budget.thaw(), let budgetRealm = newBudget.realm {
         try? budgetRealm.write {
-          newBudget.amount += newPayment.amount
+          newBudget.amount -= newPayment.amount
         }
       }
     }
