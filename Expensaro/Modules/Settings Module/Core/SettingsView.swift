@@ -32,15 +32,15 @@ struct SettingsView: View {
         
         VStack {
           HStack {
-            EXSettingsCell(category: $selectedCategory, type: .categories, action: {navigateTo()})
-            EXSettingsCell(category: $selectedCategory, type: .reminders, action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory, type: .categories, icon: Source.Images.Settings.categories, action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory, type: .reminders, icon: Source.Images.Settings.reminders, action: {navigateTo()})
           }
           HStack {
-            EXSettingsCell(category: $selectedCategory, type: .exportData, action: {navigateTo()})
-            EXSettingsCell(category: $selectedCategory, type: .resetAccount, action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory, type: .exportData, icon: Source.Images.Settings.exportData, action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory, type: .resetAccount, icon: Source.Images.Settings.resetData, action: {navigateTo()})
           }
           HStack {
-            EXSettingsCell(category: $selectedCategory, type: .contact, action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory, type: .contact, icon: Source.Images.Settings.contact, action: {navigateTo()})
           }
         }
         .applyMargins()
