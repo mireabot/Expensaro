@@ -19,11 +19,15 @@ struct RecurrentPaymentDetailView: View {
   @ObservedRealmObject var transaction: RecurringTransaction
   @ObservedRealmObject var budget: Budget
   
+  // MARK: - Variables
+  @State private var errorType = EXErrors.none
+  
   
   // MARK: - Presentation
   @State private var showDeleteAlert = false
   @State private var showEditPayment = false
   @State private var showNoteView = false
+  @State private var showError = false
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing, content: {
@@ -47,7 +51,7 @@ struct RecurrentPaymentDetailView: View {
           if transaction.isDue {
             Button {
               withAnimation(.easeOut) {
-                renewPayment()
+                validateRenewal()
               }
             } label: {
               Text("Renew now")
@@ -168,6 +172,15 @@ struct RecurrentPaymentDetailView: View {
           .backgroundColor(.black.opacity(0.3))
           .isOpaque(true)
       }
+      .popup(isPresented: $showError, view: {
+        EXErrorView(type: $errorType)
+      }, customize: {
+        $0
+          .isOpaque(true)
+          .type(.floater())
+          .position(.top)
+          .autohideIn(1.5)
+      })
       .fullScreenCover(isPresented: $showEditPayment, content: {
         AddRecurrentPaymentView(recurringPayment: transaction, budget: budget)
       })
@@ -299,8 +312,10 @@ extension RecurrentPaymentDetailView {
     
     if let newTransaction = transaction.thaw(), let realm = newTransaction.realm {
       if let newBudget = budget.thaw(), let realm = newBudget.realm {
-        try? realm.write {
-          newBudget.amount += newTransaction.amount
+        if !newTransaction.isDue {
+          try? realm.write {
+            newBudget.amount += newTransaction.amount
+          }
         }
       }
       notificationManager.deleteNotification(for: newTransaction)
@@ -355,6 +370,15 @@ extension RecurrentPaymentDetailView {
           newBudget.amount -= newPayment.amount
         }
       }
+    }
+  }
+  
+  func validateRenewal() {
+    if transaction.amount > budget.amount {
+      errorType = .budgetExceed
+      showError.toggle()
+    } else {
+      renewPayment()
     }
   }
 }
