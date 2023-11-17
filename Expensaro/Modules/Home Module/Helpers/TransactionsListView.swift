@@ -124,7 +124,7 @@ extension TransactionsListView {
 // MARK: - Helper Functions
 private extension TransactionsListView {
   var groupedTransactions: [Date: [Transaction]] {
-    Dictionary(grouping: transactions) { transaction in
+    Dictionary(grouping: transactions.reversed()) { transaction in
       let calendar = Calendar.current
       return calendar.startOfDay(for: transaction.date)
     }
