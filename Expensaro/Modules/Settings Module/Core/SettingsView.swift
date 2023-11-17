@@ -90,7 +90,7 @@ extension SettingsView {
   struct Appearance {
     static let shared = Appearance()
     
-    let title = "Tools"
+    let title = "Settings"
     
     let backIcon = Source.Images.Navigation.back
     let debugIcon = Source.Images.System.appTools
