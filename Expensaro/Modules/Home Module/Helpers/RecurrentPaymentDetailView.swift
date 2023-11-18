@@ -20,7 +20,7 @@ struct RecurrentPaymentDetailView: View {
   @ObservedRealmObject var budget: Budget
   
   // MARK: - Variables
-  @State private var errorType = EXErrors.none
+  @State private var errorType = EXToasts.none
   
   
   // MARK: - Presentation
@@ -173,7 +173,7 @@ struct RecurrentPaymentDetailView: View {
           .isOpaque(true)
       }
       .popup(isPresented: $showError, view: {
-        EXErrorView(type: $errorType)
+        EXToast(type: $errorType)
       }, customize: {
         $0
           .isOpaque(true)

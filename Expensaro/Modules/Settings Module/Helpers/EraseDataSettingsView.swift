@@ -9,6 +9,7 @@ import SwiftUI
 import ExpensaroUIKit
 
 struct EraseDataSettingsView: View {
+  // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   var body: some View {
     NavigationView {
@@ -18,7 +19,7 @@ struct EraseDataSettingsView: View {
             Text("Reset account")
               .font(.mukta(.semibold, size: 15))
           })
-          .buttonStyle(EXDestructiveButtonStyle())
+          .buttonStyle(EXDestructiveButtonStyle(showLoader: .constant(false)))
           .padding(.top, 15)
         })
         .padding(.top, 20)

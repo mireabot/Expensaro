@@ -22,7 +22,7 @@ struct EditGoalView: View {
   @State private var savedDate = Date()
   
   // MARK: Error
-  @State private var errorType = EXErrors.none
+  @State private var errorType = EXToasts.none
   
   // MARK: Presentation
   @State private var showDateSelector = false
@@ -68,7 +68,7 @@ struct EditGoalView: View {
           .presentationDetents([.fraction(0.5)])
       })
       .popup(isPresented: $showError, view: {
-        EXErrorView(type: $errorType)
+        EXToast(type: $errorType)
       }, customize: {
         $0
           .isOpaque(true)

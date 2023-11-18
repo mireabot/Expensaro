@@ -7,10 +7,21 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import PopupView
+import RealmSwift
 
 struct RemindersSettingsView: View {
+  // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   @State private var reminderOn = UserDefaults.standard.bool(forKey: "notificationsEnabled")
+  let notificationManager: NotificationManager = NotificationManager.shared
+  
+  // MARK: Realm
+  @Environment(\.realm) var realm
+  
+  // MARK: Presentation
+  @State private var showToast = false
+  @State private var showLoader = false
   var body: some View {
     NavigationView {
       ScrollView {
@@ -44,11 +55,13 @@ struct RemindersSettingsView: View {
               .foregroundColor(.darkGrey)
               .font(.mukta(.regular, size: 13))
             EXDialog(type: .deleteReminders) {
-              Button(action: {}, label: {
+              Button(action: {
+                deleteReminders()
+              }, label: {
                 Text("Delete all reminders")
                   .font(.mukta(.semibold, size: 15))
               })
-              .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
+              .buttonStyle(EXPrimaryButtonStyle(showLoader: $showLoader))
               .padding(.top, 15)
             }
           }
@@ -57,6 +70,15 @@ struct RemindersSettingsView: View {
       }
       .scrollDisabled(true)
       .applyMargins()
+      .popup(isPresented: $showToast, view: {
+        EXToast(type: .constant(.remindersDeleted))
+      }, customize: {
+        $0
+          .isOpaque(true)
+          .type(.floater())
+          .position(.top)
+          .autohideIn(1.5)
+      })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -91,5 +113,22 @@ extension RemindersSettingsView {
     let title = "Reminders"
     
     let backIcon = Source.Images.Navigation.back
+  }
+}
+
+// MARK: - Realm Functions
+extension RemindersSettingsView {
+  func deleteReminders() {
+    showLoader.toggle()
+    let payments = realm.objects(RecurringTransaction.self)
+    
+    try? realm.write {
+      payments.setValue(false, forKey: "isReminder")
+    }
+    notificationManager.deleteNotifications()
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+      showLoader.toggle()
+      showToast.toggle()
+    }
   }
 }

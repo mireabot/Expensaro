@@ -31,7 +31,7 @@ struct AddTransactionView: View {
   @State private var isLoading = false
   
   // MARK: Errors
-  @State private var errorType = EXErrors.none
+  @State private var errorType = EXToasts.none
   
   // MARK: Presentation
   @State private var showCategoriesSelector = false
@@ -72,7 +72,7 @@ struct AddTransactionView: View {
       }
       .applyMargins()
       .popup(isPresented: $showError, view: {
-        EXErrorView(type: $errorType)
+        EXToast(type: $errorType)
       }, customize: {
         $0
           .isOpaque(true)
