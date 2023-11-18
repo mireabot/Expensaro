@@ -15,24 +15,43 @@ struct RemindersSettingsView: View {
     NavigationView {
       ScrollView {
         VStack(spacing: 20) {
-          EXToggleCard(type: .notifications, isOn: $reminderOn)
-            .onChange(of: reminderOn, perform: { value in
-              if value {
-                print("Notifications granted!")
-                DispatchQueue.main.async {
-                  UIApplication.shared.registerForRemoteNotifications()
-                  UserDefaults.standard.setValue(true, forKey: "notificationsEnabled")
-                  UserDefaults.standard.synchronize()
+          VStack(alignment: .leading, spacing: 5) {
+            Text("General")
+              .foregroundColor(.darkGrey)
+              .font(.mukta(.regular, size: 13))
+            EXToggleCard(type: .notifications, isOn: $reminderOn)
+              .onChange(of: reminderOn, perform: { value in
+                if value {
+                  print("Notifications granted!")
+                  DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                    UserDefaults.standard.setValue(true, forKey: "notificationsEnabled")
+                    UserDefaults.standard.synchronize()
+                  }
+                } else {
+                  print("Notifications not granted!")
+                  DispatchQueue.main.async {
+                    UIApplication.shared.unregisterForRemoteNotifications()
+                    UserDefaults.standard.setValue(false, forKey: "notificationsEnabled")
+                    UserDefaults.standard.synchronize()
+                  }
                 }
-              } else {
-                print("Notifications not granted!")
-                DispatchQueue.main.async {
-                  UIApplication.shared.unregisterForRemoteNotifications()
-                  UserDefaults.standard.setValue(false, forKey: "notificationsEnabled")
-                  UserDefaults.standard.synchronize()
-                }
-              }
-            })
+              })
+          }
+          
+          VStack(alignment: .leading, spacing: 5) {
+            Text("In-app notifications")
+              .foregroundColor(.darkGrey)
+              .font(.mukta(.regular, size: 13))
+            EXDialog(type: .deleteReminders) {
+              Button(action: {}, label: {
+                Text("Delete all reminders")
+                  .font(.mukta(.semibold, size: 15))
+              })
+              .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
+              .padding(.top, 15)
+            }
+          }
         }
         .padding(.top, 20)
       }

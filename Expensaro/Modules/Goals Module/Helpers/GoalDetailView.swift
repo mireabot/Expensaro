@@ -118,7 +118,7 @@ struct GoalDetailView: View {
         EXEmptyStateView(type: .noTransactionForGoal)
       } else {
         LazyVStack(spacing: 10) {
-          ForEach(goal.transactions) { goalTransaction in
+          ForEach(goal.transactions.reversed()) { goalTransaction in
             EXGoalTransactionCell(goalTransaction: goalTransaction)
           }
         }
