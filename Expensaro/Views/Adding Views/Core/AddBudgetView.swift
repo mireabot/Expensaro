@@ -44,7 +44,7 @@ struct AddBudgetView: View {
         })
       })
       .popup(isPresented: $showError, view: {
-        EXErrorView(type: .constant(.zeroAmount))
+        EXToast(type: .constant(.zeroAmount))
       }, customize: {
         $0
           .isOpaque(true)

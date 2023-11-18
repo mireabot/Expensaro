@@ -44,7 +44,7 @@ struct HomeView: View {
           .padding(16)
       }
       .popup(isPresented: $showAlert, view: {
-        EXErrorView(type: .constant(.zeroBudget))
+        EXToast(type: .constant(.zeroBudget))
       }, customize: {
         $0
           .isOpaque(true)
@@ -205,7 +205,7 @@ extension HomeView {
           }
           if recurringTransactions.count >= 3 {
             HStack {
-              Text("+ \(recurringTransactions.count - 2) recurring payments")
+              Text("+ \(checkPaymentDifference(recurringTransactions.count, comparator: 2))")
                 .font(.mukta(.regular, size: 13))
                 .foregroundColor(.darkGrey)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -260,7 +260,7 @@ extension HomeView {
           }
           if transactions.count >= 4 {
             HStack {
-              Text("+ \(transactions.count - 3) transactions")
+              Text("+ \(checkTransactionDifference(transactions.count, comparator: 3))")
                 .font(.mukta(.regular, size: 13))
                 .foregroundColor(.darkGrey)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -282,6 +282,29 @@ extension HomeView {
         }
       })
       .padding(.top, 15)
+    }
+  }
+}
+
+// MARK: - Helper Functions
+extension HomeView {
+  func checkTransactionDifference(_ number: Int, comparator: Int) -> String {
+    let difference = abs(number - comparator)
+    
+    if difference == 1 {
+      return "1 transaction"
+    } else {
+      return "\(difference) transactions"
+    }
+  }
+  
+  func checkPaymentDifference(_ number: Int, comparator: Int) -> String {
+    let difference = abs(number - comparator)
+    
+    if difference == 1 {
+      return "1 recurring payment"
+    } else {
+      return "\(difference) recurring payments"
     }
   }
 }

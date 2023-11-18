@@ -21,7 +21,7 @@ struct AddGoalView: View {
   @ObservedRealmObject var goal: Goal
   
   // MARK: Error
-  @State private var errorType = EXErrors.none
+  @State private var errorType = EXToasts.none
   
   // MARK: Presentation
   @State private var showInitPaymentSheet = false
@@ -58,7 +58,7 @@ struct AddGoalView: View {
       }
       .applyMargins()
       .popup(isPresented: $showError, view: {
-        EXErrorView(type: $errorType)
+        EXToast(type: $errorType)
       }, customize: {
         $0
           .isOpaque(true)

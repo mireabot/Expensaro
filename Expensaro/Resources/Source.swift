@@ -53,6 +53,7 @@ enum Source {
       static let transactionType = Image("transactionType")
       static let remove = Image("remove")
       static let alertError = Image("alertError")
+      static let alertSuccess = Image("alertSuccess")
       static let appTools = Image("appTools")
       static let reminder = Image("reminder")
     }
