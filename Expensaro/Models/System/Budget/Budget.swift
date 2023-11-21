@@ -11,5 +11,6 @@ import RealmSwift
 final class Budget: Object, ObjectKeyIdentifiable {
   @Persisted(primaryKey: true) var id: ObjectId
   @Persisted var amount: Double
+  @Persisted var initialAmount: Double
   @Persisted var dateCreated: Date = Date()
 }

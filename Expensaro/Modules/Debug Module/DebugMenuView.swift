@@ -25,7 +25,10 @@ struct DebugMenuView: View {
           Section(header: Text("Budgets")) {
             ForEach(budgets) { budget in
               HStack {
-                Text("$\(budget.amount.withDecimals)")
+                VStack(alignment: .leading, spacing: 3) {
+                  Text("Current amount $\(budget.amount.withDecimals)")
+                  Text("Initial amount $\(budget.initialAmount.withDecimals)")
+                }
                 Spacer()
                 Text("\(Source.Functions.showString(from: budget.dateCreated))")
               }

@@ -40,6 +40,8 @@ struct GoalDetailView: View {
       } customize: {
         $0
           .animation(.spring())
+          .position(.bottom)
+          .type(.floater(useSafeAreaInset: true))
           .closeOnTapOutside(false)
           .backgroundColor(.black.opacity(0.3))
           .isOpaque(true)

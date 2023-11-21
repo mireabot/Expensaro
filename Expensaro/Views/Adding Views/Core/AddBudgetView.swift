@@ -124,6 +124,7 @@ extension AddBudgetView {
   /// Creates new copy of budget objects and saves in memory
   func addBudget() {
     budget.amount = Double(amountValue) ?? 0
+    budget.initialAmount = Double(amountValue) ?? 0
     try? realm.write {
       realm.add(budget)
     }
