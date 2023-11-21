@@ -37,9 +37,9 @@ struct EXGoalCell: View {
           .foregroundColor(goal.barTint)
       }
     }
-    .padding(10)
+    .padding(12)
     .background(Color.backgroundGrey)
-    .cornerRadius(12)
+    .cornerRadius(16)
     .frame(maxWidth: .infinity, alignment: .leading)
   }
   
@@ -69,6 +69,6 @@ struct EXGoalCell: View {
 
 struct GoalCell_Previews: PreviewProvider {
   static var previews: some View {
-    EXGoalCell(goal: DefaultGoals.goal2).applyMargins()
+    EXGoalCell(goal: DefaultGoals.goal1).applyMargins()
   }
 }

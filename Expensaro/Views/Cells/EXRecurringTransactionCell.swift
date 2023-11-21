@@ -28,7 +28,7 @@ struct EXRecurringTransactionCell: View {
     .frame(maxWidth: .infinity, alignment: .leading)
     .padding(12)
     .background(Color.backgroundGrey)
-    .cornerRadius(12)
+    .cornerRadius(16)
   }
 }
 

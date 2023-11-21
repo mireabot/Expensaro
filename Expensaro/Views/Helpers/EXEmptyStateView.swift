@@ -22,9 +22,9 @@ struct EXEmptyStateView: View {
           .font(.mukta(.semibold, size: 17))
           .frame(maxWidth: .infinity, alignment: .leading)
       })
-      .padding(12)
+      .padding(14)
       .background(Color.backgroundGrey)
-      .cornerRadius(12)
+      .cornerRadius(16)
     } else {
       VStack(alignment: .center, spacing: 5) {
         type.image
@@ -42,5 +42,5 @@ struct EXEmptyStateView: View {
 }
 
 #Preview {
-  EXEmptyStateView(type: .noTransactions, isCard: false).applyMargins()
+  EXEmptyStateView(type: .noCustomCategories, isCard: true).applyMargins()
 }

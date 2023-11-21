@@ -32,9 +32,9 @@ struct GoalAnalyticsView: View {
       .padding([.top,.leading,.trailing], 5)
     })
     .background(.white)
-    .padding(12)
+    .padding(14)
     .overlay(
-      RoundedRectangle(cornerRadius: 12)
+      RoundedRectangle(cornerRadius: 16)
         .inset(by: 0.5)
         .stroke(Color.border, lineWidth: 1)
     )

@@ -61,7 +61,7 @@ struct AddCategoryView: View {
             .frame(maxWidth: .infinity)
             .background(.white)
             .overlay(
-              RoundedRectangle(cornerRadius: 12)
+              RoundedRectangle(cornerRadius: 16)
                 .inset(by: 0.5)
                 .stroke(Color.border, lineWidth: 1)
             )

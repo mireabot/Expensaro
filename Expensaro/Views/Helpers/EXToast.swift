@@ -34,7 +34,7 @@ struct EXToast: View {
     .padding(12)
     .frame(maxWidth: .infinity, alignment: .leading)
     .background(type.isSuccess ? Color.alertGreenOpacity : Color.alertRedOpacity)
-    .cornerRadius(12)
+    .cornerRadius(16)
     .applyMargins()
   }
 }

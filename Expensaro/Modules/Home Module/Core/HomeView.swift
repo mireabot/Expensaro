@@ -141,12 +141,12 @@ extension HomeView {
   @ViewBuilder
   func budgetSection() -> some View {
     if let currentBudget = budget.first {
-      VStack(alignment: .center, spacing: -5) {
+      VStack(alignment: .leading, spacing: -5) {
         Text("Your budget")
-          .font(.mukta(.regular, size: 17))
+          .font(.mukta(.regular, size: 15))
           .foregroundColor(.darkGrey)
         Text("$\(currentBudget.amount.withDecimals)")
-          .font(.mukta(.bold, size: 34))
+          .font(.mukta(.bold, size: 40))
           .foregroundColor(.black)
         
         Button {

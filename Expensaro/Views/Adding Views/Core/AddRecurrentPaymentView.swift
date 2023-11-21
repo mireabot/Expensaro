@@ -71,6 +71,7 @@ struct AddRecurrentPaymentView: View {
             }
           }
         }
+        .applyBounce()
         EXNumberKeyboard(textValue: $amountValue) {
           validateBudget()
         }
@@ -186,41 +187,6 @@ private extension AddRecurrentPaymentView {
 // MARK: - Helper Views
 extension AddRecurrentPaymentView {
   @ViewBuilder
-  func dateSelector(date: Binding<Date>, title: Binding<String>, action: @escaping() -> Void) -> some View {
-    HStack {
-      HStack(spacing: 10) {
-        Image("timer")
-          .foregroundColor(.primaryGreen)
-          .padding(10)
-          .background(Color.backgroundGrey)
-          .cornerRadius(12)
-        VStack(alignment: .leading, spacing: 0) {
-          Text(title.wrappedValue)
-            .font(.mukta(.regular, size: 17))
-          Text("\(Source.Functions.showString(from: date.wrappedValue))")
-            .font(.mukta(.regular, size: 13))
-            .foregroundColor(.darkGrey)
-        }
-      }
-      Spacer()
-      
-      
-      Button(action: action) {
-        Text("Change")
-          .font(.mukta(.medium, size: 15))
-      }
-      .buttonStyle(EXSmallButtonStyle())
-    }
-    .padding(.horizontal, 12)
-    .padding(.vertical, 12)
-    .overlay(
-      RoundedRectangle(cornerRadius: 12)
-        .inset(by: 0.5)
-        .stroke(Color.border, lineWidth: 1)
-    )
-  }
-  
-  @ViewBuilder
   func scheduleView() -> some View {
     HStack {
       Button {
@@ -239,7 +205,7 @@ extension AddRecurrentPaymentView {
         .padding(10)
         .background(.white)
         .overlay(
-          RoundedRectangle(cornerRadius: 12)
+          RoundedRectangle(cornerRadius: 16)
             .inset(by: 0.5)
             .stroke(Color.border, lineWidth: 1)
         )
@@ -263,7 +229,7 @@ extension AddRecurrentPaymentView {
           .padding(10)
           .background(.white)
           .overlay(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: 16)
               .inset(by: 0.5)
               .stroke(Color.border, lineWidth: 1)
           )

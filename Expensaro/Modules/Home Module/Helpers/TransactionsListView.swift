@@ -97,7 +97,7 @@ struct TransactionsListView: View {
     .frame(maxWidth: .infinity, alignment: .center)
     .padding(20)
     .background(Color.backgroundGrey)
-    .cornerRadius(12)
+    .cornerRadius(16)
   }
 }
 
