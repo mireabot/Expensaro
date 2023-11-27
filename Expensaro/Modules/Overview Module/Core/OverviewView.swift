@@ -24,16 +24,18 @@ struct OverviewView: View {
         .padding(.top, 16)
       }
       .sheet(isPresented: $showSpendingsInfoSheet, content: {
-        EXBottomInfoView(type: .spendings, image: Source.Images.BottomInfo.spendings)
-          .applyMargins()
-          .presentationDetents([.fraction(0.4)])
-          .presentationDragIndicator(.visible)
+        EXBottomInfoView(type: .spendings, bottomView: {
+          EmptyView()
+        })
+        .applyMargins()
+        .presentationDetents([.fraction(0.4)])
       })
       .sheet(isPresented: $showTopCategoryInfoSheet, content: {
-        EXBottomInfoView(type: .topCategory, image: Source.Images.BottomInfo.topCategory)
-          .applyMargins()
-          .presentationDetents([.fraction(0.4)])
-          .presentationDragIndicator(.visible)
+        EXBottomInfoView(type: .topCategory, bottomView: {
+          EXTopCategoryView()
+        })
+        .applyMargins()
+        .presentationDetents([.fraction(0.4)])
       })
       .applyMargins()
       .scrollDisabled(true)

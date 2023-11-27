@@ -11,11 +11,10 @@ import ExpensaroUIKit
 struct OverviewInfoBottomView: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 5) {
-      Image("topCategoryInfo")
-        .padding(.vertical, 15)
-        .frame(maxWidth: .infinity, alignment: .center)
+      EXTopCategoryView()
+        .padding(16)
         .background(Color.backgroundGrey)
-        .cornerRadius(12)
+        .cornerRadius(16)
       Text("Keep track of your spendings progress")
         .font(.mukta(.semibold, size: 17))
       Text("We will calculate the percentage of changes in spending at the end of this month and the previous month")
