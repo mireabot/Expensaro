@@ -75,7 +75,7 @@ struct TransactionDetailView: View {
                   .padding(8)
                 VStack(alignment: .leading, spacing: 3) {
                   Text("Type")
-                  font(.system(.footnote, weight: .regular))
+                    .font(.system(.footnote, weight: .regular))
                     .foregroundColor(.darkGrey)
                   Text(transaction.type)
                     .font(.system(.subheadline, weight: .medium))
@@ -83,6 +83,7 @@ struct TransactionDetailView: View {
                 }
               }
               .frame(maxWidth: .infinity, alignment: .leading)
+              .background(.white)
             }
             .padding(12)
             .background(.white)
