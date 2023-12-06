@@ -86,7 +86,7 @@ struct KeyPadButton: View {
     Button(action: { self.action(self.key) }) {
       if key == "Done" {
         Text(key)
-          .font(.mukta(.semibold, size: 20))
+          .font(.system(.title3, weight: .semibold))
           .foregroundColor(.white)
           .frame(maxWidth: .infinity)
           .padding(10)
@@ -94,7 +94,7 @@ struct KeyPadButton: View {
           .cornerRadius(12)
       } else {
         Text(key)
-          .font(.mukta(.semibold, size: 20))
+          .font(.system(.title3, weight: .semibold))
           .frame(maxWidth: .infinity)
           .padding(10)
           .background(Color.backgroundGrey)

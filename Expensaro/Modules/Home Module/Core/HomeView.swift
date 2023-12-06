@@ -68,7 +68,7 @@ struct HomeView: View {
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 24))
+            .font(.system(.title2, weight: .semibold))
         }
         
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -125,7 +125,7 @@ extension HomeView {
               .foregroundColor(.primaryGreen)
           }
         }
-        .font(.mukta(.regular, size: 15))
+        .font(.system(.subheadline, weight: .regular))
         .menuOrder(.fixed)
       }
     }
@@ -141,12 +141,12 @@ extension HomeView {
   @ViewBuilder
   func budgetSection() -> some View {
     if let currentBudget = budget.first {
-      VStack(alignment: .leading, spacing: -5) {
+      VStack(alignment: .leading, spacing: 5) {
         Text("Your budget")
-          .font(.mukta(.regular, size: 15))
+          .font(.system(.subheadline, weight: .regular))
           .foregroundColor(.darkGrey)
         Text("$\(currentBudget.amount.withDecimals)")
-          .font(.mukta(.bold, size: 40))
+          .font(.system(.largeTitle, weight: .bold))
           .foregroundColor(.black)
         
         Button {
@@ -156,12 +156,12 @@ extension HomeView {
             Source.Images.ButtonIcons.add
               .foregroundColor(.primaryGreen)
             Text("Add money")
-              .font(.mukta(.semibold, size: 15))
+              .font(.system(.headline, weight: .semibold))
           }
           .frame(maxWidth: .infinity)
         }
         .buttonStyle(EXSmallButtonStyle())
-        .padding(.top, 20)
+        .padding(.top, 16)
       }
       .fullScreenCover(isPresented: $showUpdateBudget) {
         AddBudgetView(type: .updateBudget, budget: currentBudget)
@@ -180,14 +180,14 @@ extension HomeView {
       VStack(spacing: 15) {
         HStack {
           Text("Recurring payments")
-            .font(.mukta(.semibold, size: 17))
+            .font(.system(.headline, weight: .semibold))
             .foregroundColor(.black)
           Spacer()
           Button(action: {
             router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentsListView(budget: currentBudget)))
           }) {
             Text("See all")
-              .font(.mukta(.semibold, size: 15))
+              .font(.system(.subheadline, weight: .semibold))
           }
           .buttonStyle(EXTextButtonStyle())
         }
@@ -206,16 +206,17 @@ extension HomeView {
           if recurringTransactions.count >= 3 {
             HStack {
               Text("+ \(checkPaymentDifference(recurringTransactions.count, comparator: 2))")
-                .font(.mukta(.regular, size: 13))
+                .font(.system(.footnote, weight: .regular))
                 .foregroundColor(.darkGrey)
                 .frame(maxWidth: .infinity, alignment: .center)
-                .padding(5)
+                .padding(10)
             }
             .background(Color.backgroundGrey)
             .cornerRadius(5)
           }
         }
       }
+      .padding(.top, 15)
     } else {
       EXSmallEmptyState(type: .noRecurrentPayments, action: {
         if currentBudget.amount == 0 {
@@ -233,19 +234,19 @@ extension HomeView {
     if !transactions.isEmpty {
       VStack(spacing: 15) {
         HStack {
-          VStack(alignment: .leading, spacing: -5) {
+          VStack(alignment: .leading, spacing: 5) {
             Text("Spendings for")
-              .font(.mukta(.regular, size: 15))
+              .font(.system(.subheadline, weight: .regular))
               .foregroundColor(.darkGrey)
             Text("\(Source.Functions.currentMonth())")
-              .font(.mukta(.semibold, size: 20))
+              .font(.system(.title3, weight: .semibold))
           }
           Spacer()
           Button(action: {
             router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionsListView()))
           }) {
             Text("See all")
-              .font(.mukta(.semibold, size: 15))
+              .font(.system(.subheadline, weight: .semibold))
           }
           .buttonStyle(EXTextButtonStyle())
         }
@@ -257,14 +258,15 @@ extension HomeView {
               EXTransactionCell(transaction: transaction)
             }
             .buttonStyle(EXPlainButtonStyle())
+            .padding(.bottom, 5)
           }
           if transactions.count >= 4 {
             HStack {
               Text("+ \(checkTransactionDifference(transactions.count, comparator: 3))")
-                .font(.mukta(.regular, size: 13))
+                .font(.system(.footnote, weight: .regular))
                 .foregroundColor(.darkGrey)
                 .frame(maxWidth: .infinity, alignment: .center)
-                .padding(5)
+                .padding(10)
             }
             .background(Color.backgroundGrey)
             .cornerRadius(5)
@@ -272,7 +274,7 @@ extension HomeView {
         }
         .padding(.bottom, 5)
       }
-      .padding(.top, 10)
+      .padding(.top, 15)
     } else {
       EXLargeEmptyState(type: .noExpenses, icon: Source.Images.EmptyStates.noExpenses, action: {
         if currentBudget.amount == 0 {

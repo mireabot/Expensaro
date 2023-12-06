@@ -47,7 +47,7 @@ struct GoalsListView: View {
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 24))
+            .font(.system(.title2, weight: .semibold))
         }
       }
     }
@@ -75,12 +75,12 @@ extension GoalsListView {
   func goalOverviewHeader() -> some View {
     HStack {
       HStack {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading, spacing: 3) {
           Text("You saved in total")
-            .font(.mukta(.regular, size: 15))
+            .font(.system(.subheadline, weight: .regular))
             .foregroundColor(.darkGrey)
           Text("$\(totalSavings, specifier: "%.0f")")
-            .font(.mukta(.medium, size: 20))
+            .font(.system(.title3, weight: .medium))
         }
         Spacer()
         
@@ -91,7 +91,7 @@ extension GoalsListView {
             Source.Images.ButtonIcons.add
             
             Text("Add goal")
-              .font(.mukta(.semibold, size: 15))
+              .font(.system(.subheadline, weight: .semibold))
           }
         }.buttonStyle(EXSmallButtonStyle())
         

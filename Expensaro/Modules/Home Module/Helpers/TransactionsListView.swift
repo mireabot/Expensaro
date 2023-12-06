@@ -59,7 +59,7 @@ struct TransactionsListView: View {
         
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -77,20 +77,20 @@ struct TransactionsListView: View {
   @ViewBuilder
   func headerView() -> some View {
     HStack(alignment: .center, spacing: 35) {
-      VStack(alignment: .center, spacing: -3) {
+      VStack(alignment: .center, spacing: 3) {
         Text("$\(currentBudget.amount.withDecimals)")
-          .font(.mukta(.semibold, size: 17))
+          .font(.system(.headline, weight: .semibold))
         Text("Budget left")
-          .font(.mukta(.regular, size: 15))
+          .font(.system(.subheadline, weight: .regular))
           .foregroundColor(.darkGrey)
       }
       Text("\(Source.Functions.currentMonth())")
-        .font(.mukta(.semibold, size: 20))
-      VStack(alignment: .center, spacing: -3) {
+        .font(.system(.title3, weight: .semibold))
+      VStack(alignment: .center, spacing: 3) {
         Text("$\(totalSpent.withDecimals)")
-          .font(.mukta(.semibold, size: 17))
+          .font(.system(.headline, weight: .semibold))
         Text("Total spent")
-          .font(.mukta(.regular, size: 15))
+          .font(.system(.subheadline, weight: .regular))
           .foregroundColor(.darkGrey)
       }
     }
@@ -145,7 +145,7 @@ private extension TransactionsListView {
   @ViewBuilder
   func listHeader(_ date: Date) -> some View {
     Text(Source.Functions.showString(from: date))
-      .font(.mukta(.regular, size: 15))
+      .font(.system(.subheadline, weight: .regular))
       .foregroundColor(.darkGrey)
       .frame(maxWidth: .infinity, alignment: .leading)
   }

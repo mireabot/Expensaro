@@ -23,17 +23,17 @@ enum EXEmptyStates {
   var title: Text {
     switch self {
     case .noCustomCategories:
-      return Text("Create own category").font(.mukta(.semibold, size: 17)).foregroundColor(.primaryGreen)
+      return Text("Create own category").font(.system(.headline, weight: .bold)).foregroundColor(.primaryGreen)
     case .noTransactionInsights:
-      return Text("Unlock category insights.").font(.mukta(.semibold, size: 17)).foregroundColor(.primaryGreen)
+      return Text("Unlock category insights.").font(.system(.headline, weight: .bold)).foregroundColor(.primaryGreen)
     case .noRecurringPayments:
-      return Text("No payments due.").font(.mukta(.semibold, size: 17)).foregroundColor(.primaryGreen)
+      return Text("No payments due.").font(.system(.headline, weight: .bold)).foregroundColor(.primaryGreen)
     case .noTransactionForGoal:
-      return Text("Use menu button").font(.mukta(.semibold, size: 17)).foregroundColor(.primaryGreen)
+      return Text("Use menu button").font(.system(.headline, weight: .bold)).foregroundColor(.primaryGreen)
     case .noGoals:
-      return  Text("No goals for now").font(.mukta(.semibold, size: 20))
+      return  Text("No goals for now").font(.system(.title3, weight: .bold))
     case .noTransactions:
-      return Text("You have no transactions").font(.mukta(.semibold, size: 20))
+      return Text("You have no transactions").font(.system(.title3, weight: .bold))
     }
   }
   

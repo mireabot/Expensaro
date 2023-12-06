@@ -24,9 +24,9 @@ struct InitialPermissionView: View {
     ScrollView {
       VStack(alignment: .leading, spacing: 0) {
         Text("Permissions")
-          .font(.mukta(.semibold, size: 20))
+          .font(.system(.title3, weight: .semibold))
         Text("Before we start - we need a few things to set up")
-          .font(.mukta(.regular, size: 15))
+          .font(.system(.subheadline, weight: .regular))
           .foregroundColor(.darkGrey)
       }
       .frame(maxWidth: .infinity, alignment: .leading)
@@ -64,7 +64,7 @@ struct InitialPermissionView: View {
         }
       } label: {
         Text("Finish")
-          .font(.mukta(.semibold, size: 17))
+          .font(.system(.headline, weight: .semibold))
       }
       .buttonStyle(EXPrimaryButtonStyle(showLoader: $showAnimation))
       .padding(.bottom, 20)

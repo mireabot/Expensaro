@@ -26,10 +26,10 @@ struct RemindersSettingsView: View {
     NavigationView {
       ScrollView {
         VStack(spacing: 20) {
-          VStack(alignment: .leading, spacing: 5) {
+          VStack(alignment: .leading, spacing: 15) {
             Text("General")
               .foregroundColor(.darkGrey)
-              .font(.mukta(.regular, size: 13))
+              .font(.system(.footnote, weight: .regular))
             EXToggleCard(type: .notifications, isOn: $reminderOn)
               .onChange(of: reminderOn, perform: { value in
                 if value {
@@ -50,16 +50,16 @@ struct RemindersSettingsView: View {
               })
           }
           
-          VStack(alignment: .leading, spacing: 5) {
+          VStack(alignment: .leading, spacing: 15) {
             Text("In-app notifications")
               .foregroundColor(.darkGrey)
-              .font(.mukta(.regular, size: 13))
+              .font(.system(.footnote, weight: .regular))
             EXDialog(type: .deleteReminders) {
               Button(action: {
                 deleteReminders()
               }, label: {
                 Text("Delete all reminders")
-                  .font(.mukta(.semibold, size: 15))
+                  .font(.system(.subheadline, weight: .semibold))
               })
               .buttonStyle(EXPrimaryButtonStyle(showLoader: $showLoader))
               .padding(.top, 15)
@@ -83,7 +83,7 @@ struct RemindersSettingsView: View {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         ToolbarItem(placement: .navigationBarLeading) {
           Button {
@@ -102,6 +102,7 @@ struct RemindersSettingsView: View {
 struct RemindersSettingsView_Previews: PreviewProvider {
   static var previews: some View {
     RemindersSettingsView()
+      .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
 

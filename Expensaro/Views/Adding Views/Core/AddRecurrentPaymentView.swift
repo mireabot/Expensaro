@@ -47,8 +47,8 @@ struct AddRecurrentPaymentView: View {
       ZStack(alignment: .bottom, content: {
         ScrollView {
           EXSegmentControl(currentTab: $recurringPayment.type, type: .transactionType).padding(.top, 20)
-          VStack(spacing: 15) {
-            VStack(spacing: 0) {
+          VStack(spacing: 20) {
+            VStack(spacing: 5) {
               recurringTextField()
               budgetSection()
             }
@@ -57,7 +57,7 @@ struct AddRecurrentPaymentView: View {
               .focused($isFieldFocused)
             VStack(alignment: .leading, spacing: 5) {
               Text("Select payment category")
-                .font(.mukta(.regular, size: 13))
+                .font(.system(.footnote, weight: .regular))
                 .foregroundColor(.darkGrey)
               EXLargeSelector(text: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon, buttonText: "Change", action: {
                 showCategoryelector.toggle()
@@ -65,11 +65,12 @@ struct AddRecurrentPaymentView: View {
             }
             VStack(alignment: .leading, spacing: 5) {
               Text("Select payment schedule")
-                .font(.mukta(.regular, size: 13))
+                .font(.system(.footnote, weight: .regular))
                 .foregroundColor(.darkGrey)
               scheduleView()
             }
           }
+          .padding(.top, 20)
         }
         .applyBounce()
         EXNumberKeyboard(textValue: $amountValue) {
@@ -142,7 +143,7 @@ struct AddRecurrentPaymentView: View {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(isUpdating ? Appearance.shared.updateTitle : Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
@@ -193,12 +194,12 @@ extension AddRecurrentPaymentView {
         showSchedule.toggle()
       } label: {
         HStack(alignment: .top) {
-          VStack(alignment: .leading, spacing: 0) {
+          VStack(alignment: .leading, spacing: 5) {
             Text("Schedule")
-              .font(.mukta(.regular, size: 13))
+              .font(.system(.footnote, weight: .regular))
               .foregroundColor(.darkGrey)
             Text(recurringPayment.schedule.title)
-              .font(.mukta(.regular, size: 17))
+              .font(.system(.headline, weight: .regular))
           }
           .frame(maxWidth: .infinity,alignment: .leading)
         }
@@ -217,12 +218,12 @@ extension AddRecurrentPaymentView {
       } label: {
         HStack {
           HStack(alignment: .top) {
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: 5) {
               Text("Next date")
-                .font(.mukta(.regular, size: 13))
+                .font(.system(.footnote, weight: .regular))
                 .foregroundColor(.darkGrey)
               Text(Source.Functions.showString(from: recurringPayment.dueDate))
-                .font(.mukta(.regular, size: 17))
+                .font(.system(.headline, weight: .regular))
             }
             .frame(maxWidth: .infinity,alignment: .leading)
           }
@@ -244,9 +245,9 @@ extension AddRecurrentPaymentView {
   func recurringTextField() -> some View {
     HStack {
       Text("$")
-        .font(.mukta(.medium, size: 24))
+        .font(.system(.title2, weight: .medium))
       TextField("", text: $amountValue)
-        .font(.mukta(.medium, size: 40))
+        .font(.system(.largeTitle, weight: .medium))
         .tint(.clear)
         .multilineTextAlignment(.leading)
       
@@ -272,7 +273,7 @@ extension AddRecurrentPaymentView {
   func budgetSection() -> some View {
     HStack {
       Text("Budget available: $\(budgetValue.clean)")
-        .font(.mukta(.medium, size: 17))
+        .font(.system(.headline, weight: .medium))
         .foregroundStyle(Color.primaryGreen)
         .frame(maxWidth: .infinity, alignment: .leading)
     }

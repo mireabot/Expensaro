@@ -33,8 +33,8 @@ struct RecurrentPaymentsListView: View {
             return isSameDay(date1: payment.paymentDueDate, date2: currentDate)
           }){
             VStack {
-              Text("Upcoming payments on \(Text("\(displayDate(date: currentDate))").foregroundColor(.primaryGreen).font(.mukta(.bold, size: 20)))")
-                .font(.mukta(.semibold, size: 17))
+              Text("Upcoming payments on \(Text("\(displayDate(date: currentDate))").foregroundColor(.primaryGreen).font(.system(.title3, weight: .bold)))")
+                .font(.system(.headline, weight: .semibold))
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
               LazyVStack {
@@ -73,7 +73,7 @@ struct RecurrentPaymentsListView: View {
         
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -156,11 +156,11 @@ extension RecurrentPaymentsListView {
   @ViewBuilder
   func headerView() -> some View {
     HStack(alignment: .center, spacing: 35) {
-      VStack(alignment: .center, spacing: -3) {
+      VStack(alignment: .center, spacing: 3) {
         Text("$\(totalRecurringPayments.clean)")
-          .font(.mukta(.semibold, size: 20))
+          .font(.system(.title3, weight: .semibold))
         Text("Total spent on recurring payments")
-          .font(.mukta(.regular, size: 15))
+          .font(.system(.subheadline, weight: .regular))
           .foregroundColor(.darkGrey)
       }
     }

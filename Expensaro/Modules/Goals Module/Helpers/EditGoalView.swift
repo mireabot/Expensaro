@@ -34,7 +34,7 @@ struct EditGoalView: View {
           VStack(spacing: 20) {
             VStack(spacing: 5) {
               Text("Enter new budget for goal")
-                .font(.mukta(.regular, size: 13))
+                .font(.system(.footnote, weight: .regular))
                 .foregroundColor(.darkGrey)
                 .frame(maxWidth: .infinity, alignment: .leading)
               goalTextField()
@@ -42,7 +42,7 @@ struct EditGoalView: View {
             
             VStack(spacing: 5) {
               Text("Select new goal due date")
-                .font(.mukta(.regular, size: 13))
+                .font(.system(.footnote, weight: .regular))
                 .foregroundColor(.darkGrey)
                 .frame(maxWidth: .infinity, alignment: .leading)
               EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant("calendarYear"), buttonText: "Change", action: {
@@ -80,7 +80,7 @@ struct EditGoalView: View {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
             .padding(.top)
         }
         
@@ -123,9 +123,9 @@ extension EditGoalView {
   func goalTextField() -> some View {
     HStack {
       Text("$")
-        .font(.mukta(.medium, size: 24))
+        .font(.system(.title2, weight: .medium))
       TextField("", text: $amountValue)
-        .font(.mukta(.medium, size: 40))
+        .font(.system(.largeTitle, weight: .medium))
         .tint(.clear)
         .multilineTextAlignment(.leading)
       

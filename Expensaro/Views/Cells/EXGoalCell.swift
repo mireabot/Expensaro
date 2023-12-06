@@ -11,21 +11,21 @@ import ExpensaroUIKit
 struct EXGoalCell: View {
   let goal: Goal
   var body: some View {
-    VStack(alignment: .leading, spacing: 2) {
+    VStack(alignment: .leading, spacing: 7) {
       HStack {
         Text(goal.name)
-          .font(.mukta(.medium, size: 15))
+          .font(.system(.subheadline, weight: .medium))
           .multilineTextAlignment(.leading)
         Spacer()
         AnyView(topRightView())
       }
       HStack(alignment: .center, spacing: 1) {
         Text("\(goal.currentAmount.clean)")
-          .font(.mukta(.medium, size: 15))
+          .font(.system(.subheadline, weight: .medium))
           .lineLimit(3)
         Text(" / $\(goal.finalAmount.clean)")
           .foregroundColor(.darkGrey)
-          .font(.mukta(.regular, size: 13))
+          .font(.system(.footnote, weight: .regular))
           .lineLimit(3)
       }
       ProgressView(value: goal.currentAmount, total: goal.finalAmount, label: {})
@@ -33,7 +33,7 @@ struct EXGoalCell: View {
       
       if goal.isFailed || goal.isCompleted {
         Text(goal.goalTitle)
-          .font(.mukta(.regular, size: 13))
+          .font(.system(.footnote, weight: .regular))
           .foregroundColor(goal.barTint)
       }
     }
@@ -48,7 +48,7 @@ struct EXGoalCell: View {
       return AnyView(
         Text("Timer is over!")
           .foregroundColor(.darkGrey)
-          .font(.mukta(.regular, size: 13))
+          .font(.system(.footnote, weight: .regular))
       )
     }
     if goal.isCompleted {
@@ -61,7 +61,7 @@ struct EXGoalCell: View {
       return AnyView(
         Text("\(goal.daysLeft) days left")
           .foregroundColor(.darkGrey)
-          .font(.mukta(.regular, size: 13))
+          .font(.system(.footnote, weight: .regular))
       )
     }
   }

@@ -56,7 +56,7 @@ struct GoalDetailView: View {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(goal.name)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         
         ToolbarItem(placement: .navigationBarLeading) {
@@ -73,13 +73,13 @@ struct GoalDetailView: View {
   
   @ViewBuilder
   func goalInfo() -> some View {
-    VStack(alignment: .leading, spacing: 3) {
+    VStack(alignment: .leading, spacing: 5) {
       HStack(alignment: .center, spacing: 3) {
         Text("$\(goal.currentAmount.clean)")
-          .font(.mukta(.bold, size: 34))
+          .font(.system(.largeTitle, weight: .bold))
           .foregroundColor(.black)
         Text(" / \(goal.finalAmount.clean)")
-          .font(.mukta(.regular, size: 17))
+          .font(.system(.headline, weight: .regular))
           .foregroundColor(.darkGrey)
       }
       ProgressView(value: goal.currentAmount, total: goal.finalAmount, label: {})
@@ -91,7 +91,7 @@ struct GoalDetailView: View {
         }
         smallInfoView(title: "Goal started", text: "\(Source.Functions.showString(from: goal.dateCreated))")
       }
-      .padding(.top, 5)
+      .padding(.top, 10)
       
       if goal.isCompleted {
         EXInfoCard(title: "Champ Champ!", icon: Source.Images.InfoCardIcon.topCategory, text: "You have completed this goal ahead of time. Do your best to close others same way!")
@@ -114,7 +114,7 @@ struct GoalDetailView: View {
   func transactionList() -> some View {
     VStack(spacing: 10) {
       Text("Transactions")
-        .font(.mukta(.semibold, size: 17))
+        .font(.system(.headline, weight: .semibold))
         .frame(maxWidth: .infinity, alignment: .leading)
       if goal.transactions.isEmpty {
         EXEmptyStateView(type: .noTransactionForGoal)
@@ -151,12 +151,12 @@ extension GoalDetailView {
 extension GoalDetailView {
   @ViewBuilder
   func smallInfoView(title: String, text: String) -> some View {
-    VStack(alignment: .leading, spacing: -3) {
+    VStack(alignment: .leading, spacing: 3) {
       Text(title)
-        .font(.mukta(.regular, size: 13))
+        .font(.system(.footnote, weight: .regular))
         .foregroundColor(.darkGrey)
       Text(text)
-        .font(.mukta(.regular, size: 15))
+        .font(.system(.subheadline, weight: .regular))
     }
   }
   
@@ -189,7 +189,7 @@ extension GoalDetailView {
           .background(Color.secondaryYellow)
           .cornerRadius(40)
       }
-      .font(.mukta(.regular, size: 15))
+      .font(.system(.subheadline, weight: .regular))
       .menuOrder(.fixed)
     }
   }

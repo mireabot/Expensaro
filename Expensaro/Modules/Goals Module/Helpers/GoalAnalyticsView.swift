@@ -18,15 +18,16 @@ struct GoalAnalyticsView: View {
         .background(Color.backgroundGrey)
         .cornerRadius(12)
       Text("\(Appearance.shared.text) We estimated your weekly payments to complete goal faster")
-        .font(.mukta(.semibold, size: 17))
+        .font(.system(.headline, weight: .medium))
         .foregroundColor(.black)
       Divider()
         .foregroundColor(.border)
+        .padding(.vertical, 5)
       HStack {
         smallInfoView(title: "Weeks in your plan", text: "\(goalVM.weeks)")
         Spacer()
-        Text("$\(goalVM.amount.clean)/week")
-          .font(.mukta(.semibold, size: 17))
+        Text("$\(goalVM.amount.clean) / week")
+          .font(.system(.headline, weight: .semibold))
           .foregroundColor(.primaryGreen)
       }
       .padding([.top,.leading,.trailing], 5)
@@ -52,7 +53,7 @@ extension GoalAnalyticsView {
     
     let icon = Image(Source.Strings.Categories.Images.hobby)
     var text: Text {
-      return Text("Close goal faster!").foregroundColor(.primaryGreen).font(.mukta(.semibold, size: 17))
+      return Text("Close goal faster!").foregroundColor(.primaryGreen).font(.system(.headline, weight: .semibold))
     }
   }
 }
@@ -61,12 +62,12 @@ extension GoalAnalyticsView {
 extension GoalAnalyticsView {
   @ViewBuilder
   func smallInfoView(title: String, text: String) -> some View {
-    VStack(alignment: .leading, spacing: -3) {
+    VStack(alignment: .leading, spacing: 3) {
       Text(title)
-        .font(.mukta(.regular, size: 13))
+        .font(.system(.footnote, weight: .regular))
         .foregroundColor(.darkGrey)
       Text(text)
-        .font(.mukta(.regular, size: 15))
+        .font(.system(.subheadline, weight: .regular))
     }
   }
 }

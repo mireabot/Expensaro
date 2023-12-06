@@ -19,7 +19,7 @@ struct EXEmptyStateView: View {
           .frame(width: 24, height: 24)
           .foregroundColor(.primaryGreen)
         Text("\(type.title) \(type.text)")
-          .font(.mukta(.semibold, size: 17))
+          .font(.system(.headline, weight: .semibold))
           .frame(maxWidth: .infinity, alignment: .leading)
       })
       .padding(14)
@@ -30,10 +30,10 @@ struct EXEmptyStateView: View {
         type.image
           .resizable()
           .frame(width: 120, height: 120)
-        VStack(spacing: 0) {
+        VStack(spacing: 5) {
           type.title
           Text(type.text)
-            .font(.mukta(.regular, size: 17))
+            .font(.system(.headline, weight: .semibold))
             .foregroundColor(.darkGrey)
         }
       }

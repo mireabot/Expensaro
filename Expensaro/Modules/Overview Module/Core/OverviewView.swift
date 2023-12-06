@@ -43,7 +43,7 @@ struct OverviewView: View {
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 24))
+            .font(.system(.title2, weight: .semibold))
         }
       }
     }

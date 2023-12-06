@@ -28,10 +28,10 @@ struct AddBudgetView: View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
         ScrollView {
-          VStack(alignment: .leading, spacing: -10) {
+          VStack(alignment: .leading, spacing: 5) {
             budgetTextField()
             Text(type.infoText)
-              .font(.mukta(.regular, size: 13))
+              .font(.system(.footnote, weight: .regular))
               .foregroundColor(.darkGrey)
           }
           .padding(.top, 20)
@@ -58,7 +58,7 @@ struct AddBudgetView: View {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(type.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
@@ -96,9 +96,9 @@ extension AddBudgetView {
   func budgetTextField() -> some View {
     HStack {
       Text("$")
-        .font(.mukta(.medium, size: 24))
+        .font(.system(.title2, weight: .medium))
       TextField("", text: $amountValue)
-        .font(.mukta(.medium, size: 40))
+        .font(.system(.largeTitle, weight: .medium))
         .tint(.clear)
         .multilineTextAlignment(.leading)
       

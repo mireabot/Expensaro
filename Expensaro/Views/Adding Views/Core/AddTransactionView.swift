@@ -42,7 +42,7 @@ struct AddTransactionView: View {
         ScrollView {
           EXSegmentControl(currentTab: $transaction.type, type: .transactionType).padding(.top, 20)
           VStack(spacing: 15) {
-            VStack(spacing: 0) {
+            VStack(spacing: 5) {
               transactionTextField()
               budgetSection()
             }
@@ -53,6 +53,7 @@ struct AddTransactionView: View {
               showCategoriesSelector.toggle()
             })
           }
+          .padding(.top, 20)
         }
         EXNumberKeyboard(textValue: $amountValue) {
           validateBudget()
@@ -88,7 +89,7 @@ struct AddTransactionView: View {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(isUpdating ? Appearance.shared.updateTitle : Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
@@ -163,9 +164,9 @@ extension AddTransactionView {
   func transactionTextField() -> some View {
     HStack {
       Text("$")
-        .font(.mukta(.medium, size: 24))
+        .font(.system(.title2, weight: .medium))
       TextField("", text: $amountValue)
-        .font(.mukta(.medium, size: 40))
+        .font(.system(.largeTitle, weight: .medium))
         .tint(.clear)
         .multilineTextAlignment(.leading)
       
@@ -192,7 +193,7 @@ extension AddTransactionView {
   func budgetSection() -> some View {
     HStack {
       Text("Budget available: $\(budgetValue.clean)")
-        .font(.mukta(.medium, size: 17))
+        .font(.system(.headline, weight: .medium))
         .foregroundStyle(Color.primaryGreen)
         .frame(maxWidth: .infinity, alignment: .leading)
     }

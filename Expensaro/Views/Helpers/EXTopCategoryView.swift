@@ -13,17 +13,17 @@ struct EXTopCategoryView: View {
     VStack(alignment: .leading, spacing: 5) {
       HStack(alignment: .center) {
         Text("Top Category")
-          .font(.mukta(.medium, size: 15))
+          .font(.system(.subheadline, weight: .semibold))
           .foregroundColor(.primaryGreen)
         Spacer()
         Source.Images.Navigation.redirect
           .foregroundColor(.darkGrey)
       }
-      VStack(alignment: .leading, spacing: -4) {
+      VStack(alignment: .leading, spacing: 5) {
         Text("Amazon")
-          .font(.mukta(.bold, size: 24))
+          .font(.system(.title2, weight: .bold))
         Text("You have spent $1500 on this category")
-          .font(.mukta(.regular, size: 15))
+          .font(.system(.subheadline, weight: .regular))
           .foregroundColor(.darkGrey)
       }
     }

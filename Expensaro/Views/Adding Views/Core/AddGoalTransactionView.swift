@@ -30,7 +30,7 @@ struct AddGoalTransactionView: View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
         ScrollView {
-          VStack(alignment: .leading, spacing: -10) {
+          VStack(alignment: .leading, spacing: 5) {
             goalTransactionTextField()
             moneyLeft()
           }
@@ -60,7 +60,7 @@ struct AddGoalTransactionView: View {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
@@ -93,9 +93,9 @@ extension AddGoalTransactionView {
   func goalTransactionTextField() -> some View {
     HStack {
       Text("$")
-        .font(.mukta(.medium, size: 24))
+        .font(.system(.title2, weight: .medium))
       TextField("", text: $amountValue)
-        .font(.mukta(.medium, size: 40))
+        .font(.system(.largeTitle, weight: .medium))
         .tint(.clear)
         .multilineTextAlignment(.leading)
       
@@ -119,7 +119,7 @@ extension AddGoalTransactionView {
   func moneyLeft() -> some View {
     HStack {
       Text("Remaining funds: $\(budgetValue.clean)")
-        .font(.mukta(.medium, size: 17))
+        .font(.system(.headline, weight: .medium))
         .foregroundStyle(Color.primaryGreen)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -135,21 +135,6 @@ extension AddGoalTransactionView {
     } else {
       showError.toggle()
     }
-  }
-  
-  @ViewBuilder
-  func alertView() -> some View {
-    HStack {
-      Source.Images.System.alertError
-        .foregroundColor(.red)
-      Text("Invalid entry")
-        .font(.mukta(.medium, size: 17))
-        .foregroundColor(.red)
-    }
-    .padding(.horizontal, 15)
-    .padding(.vertical, 10)
-    .background(Color.backgroundGrey)
-    .cornerRadius(12)
   }
 }
 

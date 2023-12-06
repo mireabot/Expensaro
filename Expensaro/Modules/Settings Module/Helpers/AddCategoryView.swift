@@ -35,7 +35,7 @@ struct AddCategoryView: View {
           VStack(alignment: .leading, spacing: 5) {
             Text("Name")
               .foregroundColor(.darkGrey)
-              .font(.mukta(.regular, size: 13))
+              .font(.system(.footnote, weight: .regular))
             EXTextField(text: $category.name, placeholder: "Ex. Metrocard")
               .autocorrectionDisabled()
               .focused($isFocused)
@@ -81,7 +81,7 @@ struct AddCategoryView: View {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         ToolbarItem(placement: .navigationBarLeading) {
           if isSheet {

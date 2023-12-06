@@ -36,13 +36,13 @@ struct RecurrentPaymentDetailView: View {
           HStack {
             VStack(alignment: .leading, spacing: 3) {
               Text(transaction.name)
-                .font(.mukta(.medium, size: 20))
+                .font(.system(.title3, weight: .medium))
               
               Text("$\(transaction.amount.withDecimals)")
-                .font(.mukta(.bold, size: 34))
+                .font(.system(.largeTitle, weight: .bold))
               
               Text("Next payment date: \(transaction.isDue ? daysLeftString(for: transaction.daysLeftUntilDueDate) : Source.Functions.showString(from: transaction.dueDate))")
-                .font(.mukta(.regular, size: 15))
+                .font(.system(.subheadline, weight: .regular))
                 .foregroundColor(.darkGrey)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -55,7 +55,7 @@ struct RecurrentPaymentDetailView: View {
               }
             } label: {
               Text("Renew now")
-                .font(.mukta(.medium, size: 15))
+                .font(.system(.subheadline, weight: .semibold))
             }
             .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
           }
@@ -63,7 +63,7 @@ struct RecurrentPaymentDetailView: View {
           // MARK: Transaction detail
           VStack(spacing: 10) {
             Text("Information")
-              .font(.mukta(.regular, size: 13))
+              .font(.system(.footnote, weight: .regular))
               .foregroundColor(.darkGrey)
               .frame(maxWidth: .infinity, alignment: .leading)
             VStack(spacing: 15) {
@@ -73,12 +73,12 @@ struct RecurrentPaymentDetailView: View {
                   .padding(8)
                   .background(Color.backgroundGrey)
                   .cornerRadius(12)
-                VStack(alignment: .leading, spacing: -3) {
+                VStack(alignment: .leading, spacing: 3) {
                   Text("Category")
-                    .font(.mukta(.regular, size: 15))
+                    .font(.system(.footnote, weight: .regular))
                     .foregroundColor(.darkGrey)
                   Text(transaction.categoryName)
-                    .font(.mukta(.medium, size: 15))
+                    .font(.system(.subheadline, weight: .medium))
                     .foregroundColor(.black)
                 }
               }
@@ -88,12 +88,12 @@ struct RecurrentPaymentDetailView: View {
                 Source.Images.System.calendarYear
                   .foregroundColor(.black)
                   .padding(8)
-                VStack(alignment: .leading, spacing: -3) {
+                VStack(alignment: .leading, spacing: 3) {
                   Text("Schedule")
-                    .font(.mukta(.regular, size: 15))
+                    .font(.system(.footnote, weight: .regular))
                     .foregroundColor(.darkGrey)
                   Text(transaction.schedule.title)
-                    .font(.mukta(.medium, size: 15))
+                    .font(.system(.subheadline, weight: .medium))
                     .foregroundColor(.black)
                 }
               }
@@ -103,12 +103,12 @@ struct RecurrentPaymentDetailView: View {
                 Source.Images.System.transactionType
                   .foregroundColor(.black)
                   .padding(8)
-                VStack(alignment: .leading, spacing: -3) {
+                VStack(alignment: .leading, spacing: 3) {
                   Text("Type")
-                    .font(.mukta(.regular, size: 15))
+                    .font(.system(.footnote, weight: .regular))
                     .foregroundColor(.darkGrey)
                   Text(transaction.type)
-                    .font(.mukta(.medium, size: 15))
+                    .font(.system(.subheadline, weight: .medium))
                     .foregroundColor(.black)
                 }
               }
@@ -131,10 +131,10 @@ struct RecurrentPaymentDetailView: View {
                     .padding(8)
                   VStack(alignment: .leading, spacing: -3) {
                     Text("Note")
-                      .font(.mukta(.regular, size: 15))
+                      .font(.system(.footnote, weight: .regular))
                       .foregroundColor(.darkGrey)
                     Text(transaction.note)
-                      .font(.mukta(.medium, size: 15))
+                      .font(.system(.subheadline, weight: .medium))
                       .foregroundColor(.black)
                   }
                 }
@@ -253,7 +253,7 @@ extension RecurrentPaymentDetailView {
           showNoteView.toggle()
         } label: {
           Text("Add note")
-            .font(.mukta(.semibold, size: 17))
+            .font(.system(.headline, weight: .semibold))
         }
         .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
         .applyMargins()
@@ -262,7 +262,7 @@ extension RecurrentPaymentDetailView {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text("Create note")
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -301,7 +301,7 @@ extension RecurrentPaymentDetailView {
           .background(Color.secondaryYellow)
           .cornerRadius(40)
       }
-      .font(.mukta(.regular, size: 15))
+      .font(.system(.subheadline, weight: .regular))
       .menuOrder(.fixed)
     }
   }

@@ -16,9 +16,9 @@ struct OverviewInfoBottomView: View {
         .background(Color.backgroundGrey)
         .cornerRadius(16)
       Text("Keep track of your spendings progress")
-        .font(.mukta(.semibold, size: 17))
+        .font(.system(.headline, weight: .semibold))
       Text("We will calculate the percentage of changes in spending at the end of this month and the previous month")
-        .font(.mukta(.regular, size: 15))
+        .font(.system(.subheadline, weight: .regular))
         .foregroundColor(.darkGrey)
         .multilineTextAlignment(.leading)
     }

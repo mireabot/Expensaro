@@ -11,18 +11,17 @@ import ExpensaroUIKit
 struct EXRecurringTransactionCell: View {
   var payment: RecurringTransaction
   var body: some View {
-    VStack(alignment: .leading, spacing: 0, content: {
+    VStack(alignment: .leading, spacing: 5, content: {
       Image(payment.categoryIcon)
         .foregroundColor(.primaryGreen)
       Text(payment.name)
-        .font(.mukta(.semibold, size: 17))
+        .font(.system(.headline, weight: .semibold))
         .multilineTextAlignment(.leading)
         .lineLimit(1)
       Text("$\(payment.amount.withDecimals)")
-        .font(.mukta(.semibold, size: 17))
-      HStack(alignment: .center, spacing: 15, content: {
-        smallInfoView(title: "Due \(Source.Functions.showString(from: payment.dueDate))", text: daysLeftString(for: payment.daysLeftUntilDueDate))
-      })
+        .font(.system(.headline, weight: .semibold))
+      
+      smallInfoView(title: "Due \(Source.Functions.showString(from: payment.dueDate))", text: daysLeftString(for: payment.daysLeftUntilDueDate))
       .padding(.top, 3)
     })
     .frame(maxWidth: .infinity, alignment: .leading)
@@ -47,12 +46,12 @@ struct RecurrentPaymentCell_Previews: PreviewProvider {
 extension EXRecurringTransactionCell {
   @ViewBuilder
   func smallInfoView(title: String, text: String) -> some View {
-    VStack(alignment: .leading, spacing: -3) {
+    VStack(alignment: .leading, spacing: 3) {
       Text(title)
-        .font(.mukta(.regular, size: 13))
+        .font(.system(.footnote, weight: .regular))
         .foregroundColor(.darkGrey)
       Text(text)
-        .font(.mukta(.medium, size: 15))
+        .font(.system(.subheadline, weight: .semibold))
         .foregroundColor(.primaryGreen)
     }
   }
