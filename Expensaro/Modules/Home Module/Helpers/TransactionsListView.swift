@@ -24,7 +24,7 @@ struct TransactionsListView: View {
         if groupedTransactions.isEmpty {
           EXEmptyStateView(type: .noTransactions, isCard: false).padding(.top, 30)
         } else {
-          LazyVStack {
+          LazyVStack(spacing: 10) {
             ForEach(groupedTransactions.keys.sorted(by: >), id: \.self) { date in
               Section(header: listHeader(date)) {
                 ForEach(groupedTransactions[date]!) { transaction in

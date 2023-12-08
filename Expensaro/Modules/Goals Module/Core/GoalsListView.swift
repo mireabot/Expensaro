@@ -87,11 +87,10 @@ extension GoalsListView {
         Button {
           showAddGoalView.toggle()
         } label: {
-          HStack(spacing: 5) {
+          HStack {
             Source.Images.ButtonIcons.add
-            
             Text("Add goal")
-              .font(.system(.subheadline, weight: .semibold))
+              .font(.headlineSemibold)
           }
         }.buttonStyle(EXSmallButtonStyle())
         

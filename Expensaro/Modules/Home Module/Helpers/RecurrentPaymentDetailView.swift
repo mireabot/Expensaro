@@ -129,7 +129,7 @@ struct RecurrentPaymentDetailView: View {
                 HStack {
                   Source.Images.ButtonIcons.note
                     .padding(8)
-                  VStack(alignment: .leading, spacing: -3) {
+                  VStack(alignment: .leading, spacing: 3) {
                     Text("Note")
                       .font(.system(.footnote, weight: .regular))
                       .foregroundColor(.darkGrey)

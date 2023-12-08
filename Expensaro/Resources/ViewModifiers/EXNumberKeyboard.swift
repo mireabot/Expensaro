@@ -89,14 +89,14 @@ struct KeyPadButton: View {
           .font(.system(.title3, weight: .semibold))
           .foregroundColor(.white)
           .frame(maxWidth: .infinity)
-          .padding(10)
+          .padding(12)
           .background(Color.primaryGreen)
           .cornerRadius(12)
       } else {
         Text(key)
-          .font(.system(.title3, weight: .semibold))
+          .font(.title3Semibold)
           .frame(maxWidth: .infinity)
-          .padding(10)
+          .padding(12)
           .background(Color.backgroundGrey)
           .cornerRadius(12)
       }
@@ -119,14 +119,9 @@ extension EnvironmentValues {
 }
 
 #if DEBUG
-struct KeyPadButton_Previews: PreviewProvider {
-  static var previews: some View {
-    KeyPadButton(key: "Done")
-      .padding()
-      .frame(height: 80)
-      .previewLayout(.sizeThatFits)
-  }
-}
+#Preview(body: {
+  EXNumberKeyboard(textValue: .constant(""), submitAction: {}).applyMargins()
+})
 #endif
 
 struct KeyPadRow: View {
