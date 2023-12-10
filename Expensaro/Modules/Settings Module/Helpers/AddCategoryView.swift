@@ -32,14 +32,11 @@ struct AddCategoryView: View {
               .background(Color.backgroundGrey)
               .cornerRadius(12)
           }
-          VStack(alignment: .leading, spacing: 5) {
-            Text("Name")
-              .foregroundColor(.darkGrey)
-              .font(.system(.footnote, weight: .regular))
-            EXTextField(text: $category.name, placeholder: "Ex. Metrocard")
-              .autocorrectionDisabled()
-              .focused($isFocused)
-          }
+          
+          EXTextField(text: $category.name, header: "Category name", placeholder: "Ex. Metrocard")
+            .autocorrectionDisabled()
+            .focused($isFocused)
+          
           VStack(alignment: .leading, spacing: 5) {
             LazyHGrid(rows: Appearance.shared.items, alignment: .center, spacing: 20) {
               ForEach(CategoryDescription.allCases, id: \.self) { item in
@@ -51,7 +48,7 @@ struct AddCategoryView: View {
                   Image(item.icon)
                     .foregroundColor(category.icon == item.icon ? .white : .primaryGreen)
                     .padding(8)
-                    .background(category.icon == item.icon ? Color.primaryGreen : Color.backgroundGrey)
+                    .background(category.icon == item.icon ? Color.primaryGreen : Color.white)
                     .cornerRadius(12)
                 }
                 .buttonStyle(EXPlainButtonStyle())
@@ -59,12 +56,8 @@ struct AddCategoryView: View {
             }
             .padding(16)
             .frame(maxWidth: .infinity)
-            .background(.white)
-            .overlay(
-              RoundedRectangle(cornerRadius: 16)
-                .inset(by: 0.5)
-                .stroke(Color.border, lineWidth: 1)
-            )
+            .background(Color.backgroundGrey)
+            .cornerRadius(12)
           }
         }
         .padding(.top, 20)

@@ -22,51 +22,35 @@ struct TopCategoryOverviewView: View {
           .applyMargins()
           .padding(.top, 16)
         // MARK: Top Category breakdown
-        VStack(spacing: 10) {
-          HStack(spacing: 5) {
-            VStack(alignment: .leading, spacing: 5) {
-              Text("Total amount spent")
-                .font(.footnoteRegular)
-                .foregroundColor(.darkGrey)
-              Text("$1450")
-                .font(.title2Bold)
-                .foregroundColor(.primaryGreen)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(12)
-            .background(.white)
-            .cornerRadius(16)
-            
-            VStack(alignment: .leading, spacing: 5) {
-              Text("Transactions made")
-                .font(.footnoteRegular)
-                .foregroundColor(.darkGrey)
-              Text("22")
-                .font(.title2Bold)
-                .foregroundColor(.primaryGreen)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(12)
-            .background(.white)
-            .cornerRadius(16)
-            
-            VStack(alignment: .leading, spacing: 5) {
-              Text("Budget percentage")
-                .font(.footnoteRegular)
-                .foregroundColor(.darkGrey)
-              Text("37%")
-                .font(.title2Bold)
-                .foregroundColor(.primaryGreen)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(10)
-            .background(.white)
-            .cornerRadius(16)
+        HStack(alignment: .top, spacing: 5) {
+          VStack(alignment: .leading, spacing: 0) {
+            Text("Total amount spent")
+              .font(.footnoteRegular)
+              .foregroundColor(.darkGrey)
+            Spacer()
+            Text("$1450.99")
+              .font(.system(size: 30, weight: .bold))
+              .foregroundColor(.primaryGreen)
           }
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(12)
+          .background(Color.backgroundGrey)
+          .cornerRadius(16)
+          
+          VStack(alignment: .leading, spacing: 0) {
+            Text("Transactions made")
+              .font(.footnoteRegular)
+              .foregroundColor(.darkGrey)
+            Spacer()
+            Text("22")
+              .font(.system(size: 30, weight: .bold))
+              .foregroundColor(.primaryGreen)
+          }
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(12)
+          .background(Color.backgroundGrey)
+          .cornerRadius(16)
         }
-        .padding(16)
-        .background(Color.backgroundGrey)
-        .cornerRadius(16)
         .applyMargins()
       }
       .navigationBarTitleDisplayMode(.inline)

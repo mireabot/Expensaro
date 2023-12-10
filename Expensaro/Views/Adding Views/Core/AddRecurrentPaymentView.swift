@@ -48,33 +48,43 @@ struct AddRecurrentPaymentView: View {
         ScrollView {
           EXSegmentControl(currentTab: $recurringPayment.type, type: .transactionType).padding(.top, 20)
           VStack(spacing: 20) {
-            VStack(spacing: 5) {
+            VStack(spacing: 10) {
               recurringTextField()
               budgetSection()
             }
-            EXTextField(text: $recurringPayment.name, placeholder: Appearance.shared.textFieldPlaceholder)
+            EXTextField(text: $recurringPayment.name, header: "Payment name", placeholder: Appearance.shared.textFieldPlaceholder)
               .autocorrectionDisabled()
               .focused($isFieldFocused)
-            VStack(alignment: .leading, spacing: 5) {
-              Text("Select payment category")
-                .font(.system(.footnote, weight: .regular))
-                .foregroundColor(.darkGrey)
-              EXLargeSelector(text: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon, buttonText: "Change", action: {
-                showCategoryelector.toggle()
-              })
+            Button(action: {
+              showCategoryelector.toggle()
+            }) {
+              EXLargeSelector(text: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon, header: "Category", rightIcon: "swipeDown")
             }
-            VStack(alignment: .leading, spacing: 5) {
-              Text("Select payment schedule")
-                .font(.system(.footnote, weight: .regular))
-                .foregroundColor(.darkGrey)
-              scheduleView()
-            }
+            .buttonStyle(EXPlainButtonStyle())
           }
           .padding(.top, 20)
         }
         .applyBounce()
-        EXNumberKeyboard(textValue: $amountValue) {
-          validateBudget()
+        
+        VStack {
+          HStack {
+            Button(action: {
+              showSchedule.toggle()
+            }) {
+              EXSmallSelector(activeText: .constant(recurringPayment.schedule.title), icon: "buttonRecurrent")
+            }
+            .buttonStyle(EXPlainButtonStyle())
+            
+            Button(action: {
+              showNextDate.toggle()
+            }) {
+              EXSmallSelector(activeText: .constant(Source.Functions.showString(from: recurringPayment.dueDate)), icon: "calendarYear")
+            }
+            .buttonStyle(EXPlainButtonStyle())
+          }
+          EXNumberKeyboard(textValue: $amountValue) {
+            validateBudget()
+          }
         }
       })
       .ignoresSafeArea(.keyboard, edges: .all)
@@ -172,7 +182,7 @@ private extension AddRecurrentPaymentView {
     static let shared = Appearance()
     let title = "Add recurring payment"
     let updateTitle = "Edit recurring payment"
-    let textFieldPlaceholder = "Ex. House Rent"
+    let textFieldPlaceholder = "What is the recurring payment for?"
     
     let closeIcon = Source.Images.Navigation.close
     let timerIcon = Source.Images.System.calendarYear
@@ -188,60 +198,6 @@ private extension AddRecurrentPaymentView {
 // MARK: - Helper Views
 extension AddRecurrentPaymentView {
   @ViewBuilder
-  func scheduleView() -> some View {
-    HStack {
-      Button {
-        showSchedule.toggle()
-      } label: {
-        HStack(alignment: .top) {
-          VStack(alignment: .leading, spacing: 5) {
-            Text("Schedule")
-              .font(.system(.footnote, weight: .regular))
-              .foregroundColor(.darkGrey)
-            Text(recurringPayment.schedule.title)
-              .font(.system(.headline, weight: .regular))
-          }
-          .frame(maxWidth: .infinity,alignment: .leading)
-        }
-        .padding(10)
-        .background(.white)
-        .overlay(
-          RoundedRectangle(cornerRadius: 16)
-            .inset(by: 0.5)
-            .stroke(Color.border, lineWidth: 1)
-        )
-      }
-      .buttonStyle(EXPlainButtonStyle())
-      
-      Button {
-        showNextDate.toggle()
-      } label: {
-        HStack {
-          HStack(alignment: .top) {
-            VStack(alignment: .leading, spacing: 5) {
-              Text("Next date")
-                .font(.system(.footnote, weight: .regular))
-                .foregroundColor(.darkGrey)
-              Text(Source.Functions.showString(from: recurringPayment.dueDate))
-                .font(.system(.headline, weight: .regular))
-            }
-            .frame(maxWidth: .infinity,alignment: .leading)
-          }
-          .padding(10)
-          .background(.white)
-          .overlay(
-            RoundedRectangle(cornerRadius: 16)
-              .inset(by: 0.5)
-              .stroke(Color.border, lineWidth: 1)
-          )
-        }
-      }
-      .buttonStyle(EXPlainButtonStyle())
-      
-    }
-  }
-  
-  @ViewBuilder
   func recurringTextField() -> some View {
     HStack {
       Text("$")
@@ -250,6 +206,7 @@ extension AddRecurrentPaymentView {
         .font(.system(.largeTitle, weight: .medium))
         .tint(.clear)
         .multilineTextAlignment(.leading)
+        .disabled(true)
       
       Spacer()
       
@@ -271,11 +228,16 @@ extension AddRecurrentPaymentView {
   
   @ViewBuilder
   func budgetSection() -> some View {
-    HStack {
-      Text("Budget available: $\(budgetValue.clean)")
-        .font(.system(.headline, weight: .medium))
-        .foregroundStyle(Color.primaryGreen)
-        .frame(maxWidth: .infinity, alignment: .leading)
+    EXBaseCard {
+      VStack(alignment: .leading) {
+        Text("$\(budgetValue.clean)")
+          .font(.title3Semibold)
+          .foregroundColor(.primaryGreen)
+        Text("Budget remaining")
+          .font(.footnoteRegular)
+          .foregroundColor(.darkGrey)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
     }
   }
 }

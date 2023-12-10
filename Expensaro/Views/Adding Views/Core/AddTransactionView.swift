@@ -42,16 +42,19 @@ struct AddTransactionView: View {
         ScrollView {
           EXSegmentControl(currentTab: $transaction.type, type: .transactionType).padding(.top, 20)
           VStack(spacing: 15) {
-            VStack(spacing: 5) {
+            VStack(spacing: 10) {
               transactionTextField()
               budgetSection()
             }
-            EXTextField(text: $transaction.name, placeholder: Appearance.shared.textFieldPlaceholder)
+            EXTextField(text: $transaction.name, header: "Transaction name", placeholder: Appearance.shared.textFieldPlaceholder)
               .autocorrectionDisabled()
               .focused($isFieldFocused)
-            EXLargeSelector(text: $transaction.categoryName, icon: $transaction.categoryIcon, buttonText: "Change", action: {
+            Button(action: {
               showCategoriesSelector.toggle()
+            }, label: {
+              EXLargeSelector(text: $transaction.categoryName, icon: $transaction.categoryIcon, header: "Category", rightIcon: "swipeDown")
             })
+            .buttonStyle(EXPlainButtonStyle())
           }
           .padding(.top, 20)
         }
@@ -118,7 +121,7 @@ extension AddTransactionView {
     static let shared = Appearance()
     let title = "Add transaction"
     let updateTitle = "Edit transaction"
-    let textFieldPlaceholder = "Ex. House Rent"
+    let textFieldPlaceholder = "What did you spend money on?"
     
     let closeIcon = Source.Images.Navigation.close
     let cameraIcon = Source.Images.System.scan
@@ -169,6 +172,7 @@ extension AddTransactionView {
         .font(.system(.largeTitle, weight: .medium))
         .tint(.clear)
         .multilineTextAlignment(.leading)
+        .disabled(true)
       
       Spacer()
       
@@ -191,11 +195,16 @@ extension AddTransactionView {
   
   @ViewBuilder
   func budgetSection() -> some View {
-    HStack {
-      Text("Budget available: $\(budgetValue.clean)")
-        .font(.system(.headline, weight: .medium))
-        .foregroundStyle(Color.primaryGreen)
-        .frame(maxWidth: .infinity, alignment: .leading)
+    EXBaseCard {
+      VStack(alignment: .leading) {
+        Text("$\(budgetValue.clean)")
+          .font(.title3Semibold)
+          .foregroundColor(.primaryGreen)
+        Text("Budget remaining")
+          .font(.footnoteRegular)
+          .foregroundColor(.darkGrey)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
     }
   }
 }

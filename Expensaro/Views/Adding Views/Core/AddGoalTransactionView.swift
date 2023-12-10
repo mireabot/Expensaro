@@ -26,11 +26,10 @@ struct AddGoalTransactionView: View {
   // MARK: Presentation
   @State private var showError = false
   var body: some View {
-    // TODO: Create textfield same as in transaction view and make section with money left to current goal
     NavigationView {
       ZStack(alignment: .bottom, content: {
         ScrollView {
-          VStack(alignment: .leading, spacing: 5) {
+          VStack(alignment: .leading, spacing: 10) {
             goalTransactionTextField()
             moneyLeft()
           }
@@ -98,6 +97,7 @@ extension AddGoalTransactionView {
         .font(.system(.largeTitle, weight: .medium))
         .tint(.clear)
         .multilineTextAlignment(.leading)
+        .disabled(true)
       
       Spacer()
       
@@ -117,11 +117,16 @@ extension AddGoalTransactionView {
   
   @ViewBuilder
   func moneyLeft() -> some View {
-    HStack {
-      Text("Remaining funds: $\(budgetValue.clean)")
-        .font(.system(.headline, weight: .medium))
-        .foregroundStyle(Color.primaryGreen)
-        .frame(maxWidth: .infinity, alignment: .leading)
+    EXBaseCard {
+      VStack(alignment: .leading) {
+        Text("$\(budgetValue.clean)")
+          .font(.title3Semibold)
+          .foregroundColor(.primaryGreen)
+        Text("Funds needed for goal")
+          .font(.footnoteRegular)
+          .foregroundColor(.darkGrey)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
     }
   }
 }

@@ -31,7 +31,7 @@ struct ContactSettingsView: View {
           }
           
           VStack(alignment: .leading, spacing: 5) {
-            EXTextField(text: $email, placeholder: "What's your email")
+            EXTextField(text: $email, header: "Contact email", placeholder: "What's your email")
               .keyboardType(.emailAddress)
               .focused($isFocused)
             Text("Just so we can get back to you. We won't use your email for anything else.")

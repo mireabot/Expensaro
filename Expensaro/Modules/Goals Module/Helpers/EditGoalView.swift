@@ -32,23 +32,14 @@ struct EditGoalView: View {
       ZStack(alignment: .bottom, content: {
         ScrollView(showsIndicators: false) {
           VStack(spacing: 20) {
-            VStack(spacing: 5) {
-              Text("Enter new budget for goal")
-                .font(.system(.footnote, weight: .regular))
-                .foregroundColor(.darkGrey)
-                .frame(maxWidth: .infinity, alignment: .leading)
-              goalTextField()
-            }
+            goalTextField()
             
-            VStack(spacing: 5) {
-              Text("Select new goal due date")
-                .font(.system(.footnote, weight: .regular))
-                .foregroundColor(.darkGrey)
-                .frame(maxWidth: .infinity, alignment: .leading)
-              EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant("calendarYear"), buttonText: "Change", action: {
-                showDateSelector.toggle()
-              })
+            Button(action: {
+              showDateSelector.toggle()
+            }) {
+              EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant("calendarYear"), header: "Goal due date", rightIcon: "swipeDown")
             }
+            .buttonStyle(EXPlainButtonStyle())
           }
           .applyMargins()
           .padding(.top, 20)

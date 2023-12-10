@@ -32,18 +32,16 @@ struct AddGoalView: View {
       ZStack(alignment: .bottom, content: {
         ScrollView {
           VStack(spacing: 20) {
-            EXTextField(text: $goal.name, placeholder: Appearance.shared.placeholder)
+            goalTextField()
+            
+            EXTextField(text: $goal.name, header: "Goal name", placeholder: Appearance.shared.placeholder)
               .autocorrectionDisabled()
               .focused($isFieldFocused)
-            goalTextField()
-            VStack(alignment: .leading, spacing: 5) {
-              Text(Appearance.shared.infoText)
-                .font(.system(.footnote, weight: .regular))
-                .foregroundColor(.darkGrey)
-              EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant("timer"), buttonText: "Change") {
-                showDateSheet.toggle()
-              }
-            }
+            
+            Button(action: { showDateSheet.toggle() }, label: {
+              EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant("timer"), header: "Goal completion date", rightIcon: "swipeDown")
+            })
+            .buttonStyle(EXPlainButtonStyle())
           }
           .padding(.top, 25)
         }
@@ -102,7 +100,7 @@ extension AddGoalView {
   struct Appearance {
     static let shared = Appearance()
     let title = "Create goal"
-    let placeholder = "Ex.Trip to Paris"
+    let placeholder = "What do you want to save for?"
     let buttonText = "Create goal"
     let infoText = "Set a goal completion date"
     
@@ -128,6 +126,7 @@ extension AddGoalView {
         .font(.system(.largeTitle, weight: .medium))
         .tint(.clear)
         .multilineTextAlignment(.leading)
+        .disabled(true)
       
       Spacer()
       

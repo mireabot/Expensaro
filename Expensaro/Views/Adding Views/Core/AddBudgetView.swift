@@ -28,11 +28,14 @@ struct AddBudgetView: View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
         ScrollView {
-          VStack(alignment: .leading, spacing: 5) {
+          VStack(alignment: .leading, spacing: 10) {
             budgetTextField()
-            Text(type.infoText)
-              .font(.system(.footnote, weight: .regular))
-              .foregroundColor(.darkGrey)
+            EXBaseCard {
+              Text(type.infoText)
+                .font(.system(.footnote, weight: .regular))
+                .foregroundColor(.darkGrey)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
           }
           .padding(.top, 20)
         }
@@ -101,6 +104,7 @@ extension AddBudgetView {
         .font(.system(.largeTitle, weight: .medium))
         .tint(.clear)
         .multilineTextAlignment(.leading)
+        .disabled(true)
       
       Spacer()
       
