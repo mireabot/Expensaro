@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mireabot/ExpensaroUIKit",
       "state" : {
-        "revision" : "a61252610504370ef85af82f1f0b8a7d11e0edc4",
-        "version" : "1.1.56"
+        "revision" : "a73211470e7a03e717443b151c324c085cec7e83",
+        "version" : "1.1.59"
       }
     },
     {

@@ -76,28 +76,27 @@ struct TransactionsListView: View {
   
   @ViewBuilder
   func headerView() -> some View {
-    HStack(alignment: .center, spacing: 35) {
-      VStack(alignment: .center, spacing: 3) {
-        Text("$\(currentBudget.amount.withDecimals)")
-          .font(.system(.headline, weight: .semibold))
-        Text("Budget left")
-          .font(.system(.subheadline, weight: .regular))
-          .foregroundColor(.darkGrey)
+    EXBaseCard {
+      HStack(alignment: .center, spacing: 35) {
+        VStack(alignment: .center, spacing: 0) {
+          Text("$\(currentBudget.amount.withDecimals)")
+            .font(.headlineSemibold)
+          Text("Budget left")
+            .font(.footnoteRegular)
+            .foregroundColor(.darkGrey)
+        }
+        Text("\(Source.Functions.currentMonth())")
+          .font(.headlineSemibold)
+        VStack(alignment: .center, spacing: 0) {
+          Text("$\(totalSpent.withDecimals)")
+            .font(.headlineSemibold)
+          Text("Total spent")
+            .font(.footnoteRegular)
+            .foregroundColor(.darkGrey)
+        }
       }
-      Text("\(Source.Functions.currentMonth())")
-        .font(.system(.title3, weight: .semibold))
-      VStack(alignment: .center, spacing: 3) {
-        Text("$\(totalSpent.withDecimals)")
-          .font(.system(.headline, weight: .semibold))
-        Text("Total spent")
-          .font(.system(.subheadline, weight: .regular))
-          .foregroundColor(.darkGrey)
-      }
+      .frame(maxWidth: .infinity, alignment: .center)
     }
-    .frame(maxWidth: .infinity, alignment: .center)
-    .padding(20)
-    .background(Color.backgroundGrey)
-    .cornerRadius(16)
   }
 }
 

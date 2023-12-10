@@ -24,7 +24,7 @@ struct EXEmptyStateView: View {
       })
       .padding(14)
       .background(Color.backgroundGrey)
-      .cornerRadius(16)
+      .cornerRadius(12)
     } else {
       VStack(alignment: .center, spacing: 5) {
         type.image

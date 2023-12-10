@@ -35,6 +35,8 @@ struct AddGoalTransactionView: View {
           }
           .padding(.top, 20)
         }
+        .applyBounce()
+        
         EXNumberKeyboard(textValue: $amountValue, submitAction: {
           validate {
             makeDismiss()

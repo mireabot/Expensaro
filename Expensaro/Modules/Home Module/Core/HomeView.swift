@@ -186,7 +186,7 @@ extension HomeView {
           Button(action: {
             router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentsListView(budget: currentBudget)))
           }) {
-            Text("See all")
+            Text("View all")
               .font(.system(.subheadline, weight: .semibold))
           }
           .buttonStyle(EXTextButtonStyle())
@@ -245,7 +245,7 @@ extension HomeView {
           Button(action: {
             router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionsListView()))
           }) {
-            Text("See all")
+            Text("View all")
               .font(.system(.subheadline, weight: .semibold))
           }
           .buttonStyle(EXTextButtonStyle())

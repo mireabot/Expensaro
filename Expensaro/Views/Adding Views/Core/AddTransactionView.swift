@@ -58,6 +58,7 @@ struct AddTransactionView: View {
           }
           .padding(.top, 20)
         }
+        .applyBounce()
         EXNumberKeyboard(textValue: $amountValue) {
           validateBudget()
         }

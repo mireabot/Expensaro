@@ -27,76 +27,38 @@ struct TransactionDetailView: View {
       ZStack(alignment: .bottomTrailing, content: {
         ScrollView(showsIndicators: false) {
           // MARK: Transaction header
-          VStack(alignment: .leading, spacing: 5) {
+          VStack(alignment: .leading, spacing: 3) {
             Text(transaction.name)
-              .font(.system(.title3, weight: .medium))
+              .font(.title3Medium)
             if transaction.type == "Refill" {
               Text("+ $\(transaction.amount.withDecimals)")
-                .font(.system(.largeTitle, weight: .bold))
+                .font(.largeTitleBold)
                 .foregroundStyle(Color.green)
             } else {
               Text("$\(transaction.amount.withDecimals)")
-                .font(.system(.largeTitle, weight: .bold))
+                .font(.largeTitleBold)
             }
             Text(Source.Functions.showString(from: transaction.date))
-              .font(.system(.subheadline, weight: .regular))
+              .font(.footnoteRegular)
               .foregroundColor(.darkGrey)
           }
           .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.top, 16)
+          
+          // MARK: Transaction info
+          HStack(spacing: 5) {
+            EXChip(icon: transaction.categoryIcon, text: transaction.categoryName)
+            EXChip(icon: "transactionType", text: transaction.type)
+          }
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.top, 5)
           
           // MARK: Transaction detail
-          VStack(spacing: 10) {
-            Text("Information")
-              .font(.system(.footnote, weight: .regular))
-              .foregroundColor(.darkGrey)
-              .frame(maxWidth: .infinity, alignment: .leading)
-            VStack(spacing: 15) {
-              HStack {
-                Image(transaction.categoryIcon)
-                  .foregroundColor(.primaryGreen)
-                  .padding(8)
-                  .background(Color.backgroundGrey)
-                  .cornerRadius(12)
-                VStack(alignment: .leading, spacing: 3) {
-                  Text("Category")
-                    .font(.system(.footnote, weight: .regular))
-                    .foregroundColor(.darkGrey)
-                  Text(transaction.categoryName)
-                    .font(.system(.subheadline, weight: .medium))
-                    .foregroundColor(.black)
-                }
-              }
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .background(.white)
-              
-              HStack {
-                Source.Images.System.transactionType
-                  .foregroundColor(.black)
-                  .padding(8)
-                VStack(alignment: .leading, spacing: 3) {
-                  Text("Type")
-                    .font(.system(.footnote, weight: .regular))
-                    .foregroundColor(.darkGrey)
-                  Text(transaction.type)
-                    .font(.system(.subheadline, weight: .medium))
-                    .foregroundColor(.black)
-                }
-              }
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .background(.white)
-            }
-            .padding(12)
-            .background(.white)
-            .overlay(
-              RoundedRectangle(cornerRadius: 16)
-                .inset(by: 0.5)
-                .stroke(Color.border, lineWidth: 1)
-            )
-            
-            if !transaction.note.isEmpty {
-              Button {
-                showNoteView.toggle()
-              } label: {
+          VStack {
+            Button {
+              showNoteView.toggle()
+            } label: {
+              EXBaseCard {
                 HStack {
                   Source.Images.ButtonIcons.note
                     .padding(8)
@@ -104,37 +66,25 @@ struct TransactionDetailView: View {
                     Text("Note")
                       .font(.system(.footnote, weight: .regular))
                       .foregroundColor(.darkGrey)
-                    Text(transaction.note)
+                    Text(transaction.note.isEmpty ? "Add note" : transaction.note)
                       .font(.system(.subheadline, weight: .medium))
                       .foregroundColor(.black)
                   }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(12)
-                .background(.white)
-                .overlay(
-                  RoundedRectangle(cornerRadius: 16)
-                    .inset(by: 0.5)
-                    .stroke(Color.border, lineWidth: 1)
-                )
               }
-              .buttonStyle(EXPlainButtonStyle())
             }
+            .buttonStyle(EXPlainButtonStyle())
           }
-          .padding(.top, 10)
+          .padding(.top, 5)
           
           // MARK: Analytics
           if transaction.type != "Refill" {
-            VStack(spacing: 10) {
-              Text("Insights")
-                .font(.system(.footnote, weight: .regular))
-                .foregroundColor(.darkGrey)
-                .frame(maxWidth: .infinity, alignment: .leading)
-              TransactionInsightsView(viewModel: TransactionInsightsViewModel(category: transaction.categoryName, budget: budget.amount))
-            }
-            .padding([.top, .bottom], 10)
+            TransactionInsightsView(viewModel: TransactionInsightsViewModel(category: transaction.categoryName, budget: budget.amount))
+              .padding([.top, .bottom], 5)
           }
         }
+        .applyBounce()
         bottomActionButton()
           .padding(.bottom, 16)
       })

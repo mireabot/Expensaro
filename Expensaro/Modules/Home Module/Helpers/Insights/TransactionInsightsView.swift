@@ -45,7 +45,7 @@ struct TransactionInsightsView: View {
         .background(.white)
         .frame(maxWidth: .infinity, alignment: .leading)
         .overlay(
-          RoundedRectangle(cornerRadius: 16)
+          RoundedRectangle(cornerRadius: 12)
             .inset(by: 0.5)
             .stroke(Color.border, lineWidth: 1)
         )

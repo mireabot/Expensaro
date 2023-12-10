@@ -155,18 +155,15 @@ extension RecurrentPaymentsListView {
 extension RecurrentPaymentsListView {
   @ViewBuilder
   func headerView() -> some View {
-    HStack(alignment: .center, spacing: 35) {
+    EXBaseCard {
       VStack(alignment: .center, spacing: 3) {
         Text("$\(totalRecurringPayments.clean)")
-          .font(.system(.title3, weight: .semibold))
+          .font(.title3Semibold)
         Text("Total spent on recurring payments")
-          .font(.system(.subheadline, weight: .regular))
+          .font(.footnoteRegular)
           .foregroundColor(.darkGrey)
       }
+      .frame(maxWidth: .infinity)
     }
-    .frame(maxWidth: .infinity, alignment: .center)
-    .padding(20)
-    .background(Color.backgroundGrey)
-    .cornerRadius(16)
   }
 }

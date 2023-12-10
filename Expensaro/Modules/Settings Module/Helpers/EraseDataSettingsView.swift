@@ -20,7 +20,6 @@ struct EraseDataSettingsView: View {
               .font(.system(.subheadline, weight: .semibold))
           })
           .buttonStyle(EXDestructiveButtonStyle(showLoader: .constant(false)))
-          .padding(.top, 15)
         })
         .padding(.top, 20)
       }

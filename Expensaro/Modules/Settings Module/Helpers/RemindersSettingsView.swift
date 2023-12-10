@@ -62,7 +62,6 @@ struct RemindersSettingsView: View {
                   .font(.system(.subheadline, weight: .semibold))
               })
               .buttonStyle(EXPrimaryButtonStyle(showLoader: $showLoader))
-              .padding(.top, 15)
             }
           }
         }
