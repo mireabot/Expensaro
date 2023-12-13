@@ -24,7 +24,6 @@ struct RecurrentPaymentsListView: View {
   var body: some View {
     NavigationView {
       ScrollView {
-        headerView().padding(.top, 16).applyMargins()
         EXDatePicker(currentDate: $currentDate, recurringTransactions: recurringTransactions)
           .padding(.top, 16)
         
@@ -163,6 +162,7 @@ extension RecurrentPaymentsListView {
           .font(.footnoteRegular)
           .foregroundColor(.darkGrey)
       }
+      .padding(4)
       .frame(maxWidth: .infinity)
     }
   }

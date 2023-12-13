@@ -77,7 +77,7 @@ struct TransactionsListView: View {
   @ViewBuilder
   func headerView() -> some View {
     EXBaseCard {
-      HStack(alignment: .center, spacing: 35) {
+      HStack(alignment: .center, spacing: 30) {
         VStack(alignment: .center, spacing: 0) {
           Text("$\(currentBudget.amount.withDecimals)")
             .font(.headlineSemibold)
@@ -86,7 +86,7 @@ struct TransactionsListView: View {
             .foregroundColor(.darkGrey)
         }
         Text("\(Source.Functions.currentMonth())")
-          .font(.headlineSemibold)
+          .font(.title3Semibold)
         VStack(alignment: .center, spacing: 0) {
           Text("$\(totalSpent.withDecimals)")
             .font(.headlineSemibold)
@@ -95,6 +95,7 @@ struct TransactionsListView: View {
             .foregroundColor(.darkGrey)
         }
       }
+      .padding(4)
       .frame(maxWidth: .infinity, alignment: .center)
     }
   }

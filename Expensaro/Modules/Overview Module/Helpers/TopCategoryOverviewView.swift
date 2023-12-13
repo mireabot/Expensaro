@@ -58,17 +58,14 @@ struct TopCategoryOverviewView: View {
         .padding(.top, 5)
         
         EXBaseCard {
-          VStack(alignment: .leading, spacing: 5) {
-            HStack {
-              ProgressView(value: 0.5, total: 1, label: {
-                Text("50%").font(.bodySemibold).foregroundColor(.black)
-              })
-                .tint(.primaryGreen)
-            }
+          VStack(alignment: .leading, spacing: 10) {
+            EXCircleProgressView(progress: 0.3)
+              .frame(width: 70, height: 70)
             Text("See how much you've spent in percentage")
               .font(.footnoteRegular)
               .foregroundColor(.darkGrey)
           }
+          .frame(maxWidth: .infinity, alignment: .leading)
         }
         .applyMargins()
         .padding(.top, 5)
@@ -116,32 +113,6 @@ extension TopCategoryOverviewView {
     
     var currentMonth: Text {
       return Text("\(Source.Functions.currentMonth())").foregroundColor(.primaryGreen).font(.footnoteSemibold)
-    }
-  }
-}
-
-
-struct CustomProgressView: View {
-  let progress: CGFloat
-
-  var body: some View {
-    GeometryReader { geometry in
-      ZStack(alignment: .leading) {
-        Rectangle()
-          .frame(width: geometry.size.width, height: 15)
-          .opacity(0.3)
-          .foregroundColor(Color(uiColor: .systemGray3))
-          .cornerRadius(12)
-
-        Rectangle()
-          .frame(
-            width: min(progress * geometry.size.width,
-                       geometry.size.width),
-            height: 15
-          )
-          .foregroundColor(.primaryGreen)
-          .cornerRadius(12)
-      }
     }
   }
 }

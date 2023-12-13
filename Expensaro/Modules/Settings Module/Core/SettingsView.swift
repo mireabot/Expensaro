@@ -36,11 +36,8 @@ struct SettingsView: View {
             EXSettingsCell(category: $selectedCategory, type: .reminders, icon: Source.Images.Settings.reminders, action: {navigateTo()})
           }
           HStack {
-            EXSettingsCell(category: $selectedCategory, type: .exportData, icon: Source.Images.Settings.exportData, action: {navigateTo()})
-            EXSettingsCell(category: $selectedCategory, type: .resetAccount, icon: Source.Images.Settings.resetData, action: {navigateTo()})
-          }
-          HStack {
             EXSettingsCell(category: $selectedCategory, type: .contact, icon: Source.Images.Settings.contact, action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory, type: .resetAccount, icon: Source.Images.Settings.resetData, action: {navigateTo()})
           }
         }
         .applyMargins()
