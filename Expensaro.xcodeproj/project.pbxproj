@@ -31,6 +31,7 @@
 		3558FBC12ACA415500624EBD /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3558FBC02ACA415500624EBD /* Goal.swift */; };
 		355BB4082ABCB1DE00A71834 /* AddCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BB4072ABCB1DE00A71834 /* AddCategoryView.swift */; };
 		3564D81F2ACB71EB00553ECB /* EditGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3564D81E2ACB71EB00553ECB /* EditGoalView.swift */; };
+		3567EADB2B2B7D8A009E76D6 /* TopCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3567EADA2B2B7D8A009E76D6 /* TopCategories.swift */; };
 		356847742ACB2D4E00FFC864 /* GoalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356847732ACB2D4E00FFC864 /* GoalDetailView.swift */; };
 		356EB7AA2AEC119F001E6FD6 /* TransactionInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356EB7A92AEC119F001E6FD6 /* TransactionInsightsView.swift */; };
 		357562AE2B2A182A002082A0 /* EXCircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357562AD2B2A182A002082A0 /* EXCircleProgressView.swift */; };
@@ -103,6 +104,7 @@
 		3558FBC02ACA415500624EBD /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		355BB4072ABCB1DE00A71834 /* AddCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryView.swift; sourceTree = "<group>"; };
 		3564D81E2ACB71EB00553ECB /* EditGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGoalView.swift; sourceTree = "<group>"; };
+		3567EADA2B2B7D8A009E76D6 /* TopCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCategories.swift; sourceTree = "<group>"; };
 		356847732ACB2D4E00FFC864 /* GoalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailView.swift; sourceTree = "<group>"; };
 		356EB7A92AEC119F001E6FD6 /* TransactionInsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionInsightsView.swift; sourceTree = "<group>"; };
 		357562AD2B2A182A002082A0 /* EXCircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXCircleProgressView.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 		352CB2762ABA4194006C1CEF /* System */ = {
 			isa = PBXGroup;
 			children = (
+				3567EAD92B2B7D7B009E76D6 /* Analytics */,
 				35AAD3C32AD72B10000974A6 /* Budget */,
 				35E8743B2ACC8990002368DB /* Transaction */,
 				3558FBBF2ACA414A00624EBD /* Goals */,
@@ -304,6 +307,14 @@
 				35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		3567EAD92B2B7D7B009E76D6 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				3567EADA2B2B7D8A009E76D6 /* TopCategories.swift */,
+			);
+			path = Analytics;
 			sourceTree = "<group>";
 		};
 		356847722ACB2D3B00FFC864 /* Helpers */ = {
@@ -692,6 +703,7 @@
 				359CDC602AB4DF4400DFFDC7 /* InitialPermissionView.swift in Sources */,
 				353F1FDD2AF432FB001BE114 /* CategoryDescription.swift in Sources */,
 				353E5C2F2ACA01D400430978 /* Date+Extension.swift in Sources */,
+				3567EADB2B2B7D8A009E76D6 /* TopCategories.swift in Sources */,
 				35DE97DE2AE747F900CEF68D /* EXToast.swift in Sources */,
 				354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */,
 				3540BEFA2AF586CC00F7E41F /* EXEmptyStates.swift in Sources */,

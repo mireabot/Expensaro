@@ -11,34 +11,27 @@ import ExpensaroUIKit
 struct GoalAnalyticsView: View {
   @ObservedObject var goalVM: GoalAnalyticsViewModel
   var body: some View {
-    VStack(alignment: .leading, spacing: 5, content: {
-      Appearance.shared.icon
-        .foregroundColor(.primaryGreen)
-        .padding(8)
-        .background(Color.backgroundGrey)
-        .cornerRadius(12)
-      Text("\(Appearance.shared.text) We estimated your weekly payments to complete goal faster")
-        .font(.system(.headline, weight: .medium))
-        .foregroundColor(.black)
-      Divider()
-        .foregroundColor(.border)
-        .padding(.vertical, 5)
-      HStack {
-        smallInfoView(title: "Weeks in your plan", text: "\(goalVM.weeks)")
-        Spacer()
-        Text("$\(goalVM.amount.clean) / week")
-          .font(.system(.headline, weight: .semibold))
+    EXBaseCard {
+      VStack(alignment: .leading, spacing: 5, content: {
+        Appearance.shared.icon
           .foregroundColor(.primaryGreen)
-      }
-      .padding([.top,.leading,.trailing], 5)
-    })
-    .background(.white)
-    .padding(14)
-    .overlay(
-      RoundedRectangle(cornerRadius: 16)
-        .inset(by: 0.5)
-        .stroke(Color.border, lineWidth: 1)
-    )
+          .padding(.bottom, 5)
+        Text("\(Appearance.shared.text) We estimated your weekly payments to make things faster")
+          .font(.system(.headline, weight: .medium))
+          .foregroundColor(.black)
+        Divider()
+          .foregroundColor(.border)
+          .padding(.vertical, 5)
+        HStack {
+          smallInfoView(title: "Weeks in your plan", text: "\(goalVM.weeks)")
+          Spacer()
+          Text("$\(goalVM.amount.clean) / week")
+            .font(.system(.headline, weight: .semibold))
+            .foregroundColor(.primaryGreen)
+        }
+        .padding([.top,.leading,.trailing], 5)
+      })
+    }
   }
 }
 

@@ -7,11 +7,13 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import Charts
 
 struct TopCategoryOverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   
+  let maxXaxis = topCategoriesData.map { $0.amount }.max()! + 100
   var body: some View {
     NavigationView {
       ScrollView {
@@ -57,17 +59,9 @@ struct TopCategoryOverviewView: View {
         .applyMargins()
         .padding(.top, 5)
         
-        EXBaseCard {
-          VStack(alignment: .leading, spacing: 10) {
-            EXCircleProgressView(progress: 0.3)
-              .frame(width: 70, height: 70)
-            Text("See how much you've spent in percentage")
-              .font(.footnoteRegular)
-              .foregroundColor(.darkGrey)
-          }
-          .frame(maxWidth: .infinity, alignment: .leading)
+        VStack {
+          ReusableBar(value: 1500, maxValue: 2000)
         }
-        .applyMargins()
         .padding(.top, 5)
         
         // MARK: Other categories
@@ -77,6 +71,12 @@ struct TopCategoryOverviewView: View {
           .frame(maxWidth: .infinity, alignment: .leading)
           .applyMargins()
           .padding(.top, 15)
+        
+        VStack(alignment: .leading, spacing: 10) {
+          ForEach(topCategoriesData) { data in
+            TopCategoryBar(total: 2000, category: data)
+          }
+        }
       }
       .applyBounce()
       .navigationBarTitleDisplayMode(.inline)
@@ -107,12 +107,91 @@ struct TopCategoryOverviewView: View {
 extension TopCategoryOverviewView {
   struct Appearance {
     static let shared = Appearance()
-    let title = "Top category"
+    let title = "Top category analytics"
     
     let backIcon = Source.Images.Navigation.back
     
     var currentMonth: Text {
       return Text("\(Source.Functions.currentMonth())").foregroundColor(.primaryGreen).font(.footnoteSemibold)
+    }
+  }
+}
+
+
+struct TopCategoryBar: View {
+  var total: Int
+  var category: TopCategories
+  var screenWidth: CGFloat {UIScreen.main.bounds.size.width }
+  var maxWidth: CGFloat { screenWidth - 32 }
+  
+  private var insetWidth: CGFloat {
+    return CGFloat((category.amount * maxWidth) / CGFloat(total))
+  }
+  private var percentage: Double {
+    return (category.amount / 2000) * 100
+  }
+  var body: some View {
+    ZStack(alignment: .leading) {
+      ZStack(alignment: .trailing) {
+        Rectangle()
+          .fill(Color.backgroundGrey)
+          .frame(width: self.maxWidth, height: 50)
+          .cornerRadius(12)
+        
+        Text("\(percentage.clean)%")
+          .font(.calloutSemibold)
+          .foregroundColor(.darkGrey)
+          .padding(.trailing, 12)
+      }
+      Rectangle()
+        .fill(Color(uiColor: .systemGray5))
+        .frame(width: self.insetWidth, height: 50)
+        .cornerRadius(12)
+      
+      VStack(alignment: .leading, spacing: 3) {
+        Text("\(category.name)")
+          .font(.calloutBold)
+        Text("$\(category.amount.clean)")
+          .font(.footnoteSemibold)
+          .foregroundColor(.primaryGreen)
+      }
+      .padding(.leading, 12)
+    }
+  }
+}
+
+
+struct ReusableBar: View {
+  var value: Double
+  var maxValue: Int
+  var screenWidth: CGFloat {UIScreen.main.bounds.size.width }
+  var maxWidth: CGFloat { screenWidth - 32 }
+  
+  private var insetWidth: CGFloat {
+    return CGFloat((value * maxWidth) / CGFloat(maxValue))
+  }
+  private var percentage: Double {
+    return (value / Double(maxValue)) * 100
+  }
+  var body: some View {
+    ZStack(alignment: .leading) {
+      Rectangle()
+        .fill(Color.backgroundGrey)
+        .frame(width: self.maxWidth, height: 55)
+        .cornerRadius(12)
+      Rectangle()
+        .fill(Color.primaryGreen)
+        .frame(width: self.insetWidth, height: 55)
+        .cornerRadius(12)
+      
+      VStack(alignment: .leading, spacing: 3) {
+        Text("\(percentage.clean)%")
+          .font(.calloutBold)
+        Text("From your budget")
+          .font(.footnoteRegular)
+      }
+      .foregroundColor(.white)
+      .padding(.leading, 12)
     }
   }
 }
