@@ -17,27 +17,27 @@ struct TransactionInsightsView: View {
         EXEmptyStateView(type: .noTransactionInsights)
       } else {
         VStack(alignment: .leading, spacing: 10) {
-          VStack(alignment: .leading, spacing: -5) {
+          VStack(alignment: .leading, spacing: 5) {
             Text("$\(viewModel.totalSpentInCategory.clean)")
-              .font(.mukta(.semibold, size: 20))
-            Text("You have spent on \(Text(viewModel.selectedCategory).font(.mukta(.medium, size: 15)).foregroundColor(.primaryGreen)) this month")
-              .font(.mukta(.medium, size: 15))
+              .font(.system(.title3, weight: .semibold))
+            Text("You have spent on \(Text(viewModel.selectedCategory).font(.system(.subheadline, weight: .medium)).foregroundColor(.primaryGreen)) this month")
+              .font(.system(.subheadline, weight: .medium))
               .foregroundStyle(Color.darkGrey)
           }
           HStack(spacing: 20) {
-            VStack(alignment: .leading, spacing: -3) {
+            VStack(alignment: .leading, spacing: 3) {
               Text("Average amount")
-                .font(.mukta(.regular, size: 13))
+                .font(.system(.footnote, weight: .regular))
                 .foregroundColor(.darkGrey)
               Text("$\(viewModel.calculateAverageAmountForCategory().clean)")
-                .font(.mukta(.regular, size: 15))
+                .font(.system(.subheadline, weight: .regular))
             }
-            VStack(alignment: .leading, spacing: -3) {
+            VStack(alignment: .leading, spacing: 3) {
               Text("Budget cut")
-                .font(.mukta(.regular, size: 13))
+                .font(.system(.footnote, weight: .regular))
                 .foregroundColor(.darkGrey)
               Text("\(viewModel.calculatePercentageSpentOnCategory().clean)%")
-                .font(.mukta(.regular, size: 15))
+                .font(.system(.subheadline, weight: .regular))
             }
           }
         }
@@ -45,7 +45,7 @@ struct TransactionInsightsView: View {
         .background(.white)
         .frame(maxWidth: .infinity, alignment: .leading)
         .overlay(
-          RoundedRectangle(cornerRadius: 16)
+          RoundedRectangle(cornerRadius: 12)
             .inset(by: 0.5)
             .stroke(Color.border, lineWidth: 1)
         )

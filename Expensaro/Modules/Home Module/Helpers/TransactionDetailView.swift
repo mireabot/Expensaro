@@ -29,111 +29,62 @@ struct TransactionDetailView: View {
           // MARK: Transaction header
           VStack(alignment: .leading, spacing: 3) {
             Text(transaction.name)
-              .font(.mukta(.medium, size: 20))
+              .font(.title3Medium)
             if transaction.type == "Refill" {
               Text("+ $\(transaction.amount.withDecimals)")
-                .font(.mukta(.bold, size: 34))
+                .font(.largeTitleBold)
                 .foregroundStyle(Color.green)
             } else {
               Text("$\(transaction.amount.withDecimals)")
-                .font(.mukta(.bold, size: 34))
+                .font(.largeTitleBold)
             }
             Text(Source.Functions.showString(from: transaction.date))
-              .font(.mukta(.regular, size: 15))
+              .font(.footnoteRegular)
               .foregroundColor(.darkGrey)
           }
           .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.top, 16)
+          
+          // MARK: Transaction info
+          HStack(spacing: 5) {
+            EXChip(icon: transaction.categoryIcon, text: transaction.categoryName)
+            EXChip(icon: "transactionType", text: transaction.type)
+          }
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.top, 5)
           
           // MARK: Transaction detail
-          VStack(spacing: 10) {
-            Text("Information")
-              .font(.mukta(.regular, size: 13))
-              .foregroundColor(.darkGrey)
-              .frame(maxWidth: .infinity, alignment: .leading)
-            VStack(spacing: 15) {
-              HStack {
-                Image(transaction.categoryIcon)
-                  .foregroundColor(.primaryGreen)
-                  .padding(8)
-                  .background(Color.backgroundGrey)
-                  .cornerRadius(12)
-                VStack(alignment: .leading, spacing: -3) {
-                  Text("Category")
-                    .font(.mukta(.regular, size: 15))
-                    .foregroundColor(.darkGrey)
-                  Text(transaction.categoryName)
-                    .font(.mukta(.medium, size: 15))
-                    .foregroundColor(.black)
-                }
-              }
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .background(.white)
-              
-              HStack {
-                Source.Images.System.transactionType
-                  .foregroundColor(.black)
-                  .padding(8)
-                VStack(alignment: .leading, spacing: -3) {
-                  Text("Type")
-                    .font(.mukta(.regular, size: 15))
-                    .foregroundColor(.darkGrey)
-                  Text(transaction.type)
-                    .font(.mukta(.medium, size: 15))
-                    .foregroundColor(.black)
-                }
-              }
-              .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .padding(12)
-            .background(.white)
-            .overlay(
-              RoundedRectangle(cornerRadius: 16)
-                .inset(by: 0.5)
-                .stroke(Color.border, lineWidth: 1)
-            )
-            
-            if !transaction.note.isEmpty {
-              Button {
-                showNoteView.toggle()
-              } label: {
+          VStack {
+            Button {
+              showNoteView.toggle()
+            } label: {
+              EXBaseCard {
                 HStack {
                   Source.Images.ButtonIcons.note
                     .padding(8)
-                  VStack(alignment: .leading, spacing: -3) {
+                  VStack(alignment: .leading, spacing: 3) {
                     Text("Note")
-                      .font(.mukta(.regular, size: 15))
+                      .font(.system(.footnote, weight: .regular))
                       .foregroundColor(.darkGrey)
-                    Text(transaction.note)
-                      .font(.mukta(.medium, size: 15))
+                    Text(transaction.note.isEmpty ? "Add note" : transaction.note)
+                      .font(.system(.subheadline, weight: .medium))
                       .foregroundColor(.black)
                   }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(12)
-                .background(.white)
-                .overlay(
-                  RoundedRectangle(cornerRadius: 16)
-                    .inset(by: 0.5)
-                    .stroke(Color.border, lineWidth: 1)
-                )
               }
-              .buttonStyle(EXPlainButtonStyle())
             }
+            .buttonStyle(EXPlainButtonStyle())
           }
-          .padding(.top, 10)
+          .padding(.top, 5)
           
           // MARK: Analytics
           if transaction.type != "Refill" {
-            VStack(spacing: 10) {
-              Text("Insights")
-                .font(.mukta(.regular, size: 13))
-                .foregroundColor(.darkGrey)
-                .frame(maxWidth: .infinity, alignment: .leading)
-              TransactionInsightsView(viewModel: TransactionInsightsViewModel(category: transaction.categoryName, budget: budget.amount))
-            }
-            .padding([.top, .bottom], 10)
+            TransactionInsightsView(viewModel: TransactionInsightsViewModel(category: transaction.categoryName, budget: budget.amount))
+              .padding([.top, .bottom], 5)
           }
         }
+        .applyBounce()
         bottomActionButton()
           .padding(.bottom, 16)
       })
@@ -171,12 +122,6 @@ struct TransactionDetailView: View {
   }
 }
 
-struct TransactionDetailView_Previews: PreviewProvider {
-  static var previews: some View {
-    TransactionDetailView(transaction: DefaultTransactions.transaction2, budget: Budget())
-      .environment(\.realmConfiguration, RealmMigrator.configuration)
-  }
-}
 
 // MARK: - Appearance
 extension TransactionDetailView {
@@ -207,7 +152,7 @@ private extension TransactionDetailView {
           showNoteView.toggle()
         } label: {
           Text("Add note")
-            .font(.mukta(.semibold, size: 17))
+            .font(.system(.headline, weight: .semibold))
         }
         .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
         .applyMargins()
@@ -216,7 +161,7 @@ private extension TransactionDetailView {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text("Create note")
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -257,7 +202,7 @@ private extension TransactionDetailView {
           .background(Color.secondaryYellow)
           .cornerRadius(40)
       }
-      .font(.mukta(.regular, size: 15))
+      .font(.system(.subheadline, weight: .regular))
       .menuOrder(.fixed)
     }
   }

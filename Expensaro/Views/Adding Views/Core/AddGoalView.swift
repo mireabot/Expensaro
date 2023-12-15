@@ -32,21 +32,20 @@ struct AddGoalView: View {
       ZStack(alignment: .bottom, content: {
         ScrollView {
           VStack(spacing: 20) {
-            EXTextField(text: $goal.name, placeholder: Appearance.shared.placeholder)
+            goalTextField()
+            
+            EXTextField(text: $goal.name, header: "Goal name", placeholder: Appearance.shared.placeholder)
               .autocorrectionDisabled()
               .focused($isFieldFocused)
-            goalTextField()
-            VStack(alignment: .leading, spacing: 5) {
-              Text(Appearance.shared.infoText)
-                .font(.mukta(.regular, size: 13))
-                .foregroundColor(.darkGrey)
-              EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant("timer"), buttonText: "Change") {
-                showDateSheet.toggle()
-              }
-            }
+            
+            Button(action: { showDateSheet.toggle() }, label: {
+              EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant("timer"), header: "Goal completion date", rightIcon: "swipeDown")
+            })
+            .buttonStyle(EXPlainButtonStyle())
           }
           .padding(.top, 25)
         }
+        .applyBounce()
         
         EXNumberKeyboard(textValue: $amountValue) {
           validateGoal()
@@ -74,7 +73,7 @@ struct AddGoalView: View {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
@@ -102,7 +101,7 @@ extension AddGoalView {
   struct Appearance {
     static let shared = Appearance()
     let title = "Create goal"
-    let placeholder = "Ex.Trip to Paris"
+    let placeholder = "What do you want to save for?"
     let buttonText = "Create goal"
     let infoText = "Set a goal completion date"
     
@@ -111,7 +110,7 @@ extension AddGoalView {
     
     var bottomView: any View {
       Text("Budget for your goal")
-        .font(.mukta(.regular, size: 15))
+        .font(.system(.subheadline, weight: .regular))
         .foregroundColor(.primaryGreen)
     }
   }
@@ -123,11 +122,12 @@ extension AddGoalView {
   func goalTextField() -> some View {
     HStack {
       Text("$")
-        .font(.mukta(.medium, size: 24))
+        .font(.system(.title2, weight: .medium))
       TextField("", text: $amountValue)
-        .font(.mukta(.medium, size: 40))
+        .font(.system(.largeTitle, weight: .medium))
         .tint(.clear)
         .multilineTextAlignment(.leading)
+        .disabled(true)
       
       Spacer()
       

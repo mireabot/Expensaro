@@ -22,7 +22,7 @@ struct ContactSettingsView: View {
           
           VStack(alignment: .leading, spacing: 0) {
             Text("What's on your mind?")
-              .font(.mukta(.regular, size: 17))
+              .font(.system(.headline, weight: .regular))
               .foregroundColor(.black)
             EXResizableTextField(message: $message, characterLimit: 1500)
               .autocorrectionDisabled()
@@ -31,11 +31,11 @@ struct ContactSettingsView: View {
           }
           
           VStack(alignment: .leading, spacing: 5) {
-            EXTextField(text: $email, placeholder: "What's your email")
+            EXTextField(text: $email, header: "Contact email", placeholder: "What's your email")
               .keyboardType(.emailAddress)
               .focused($isFocused)
             Text("Just so we can get back to you. We won't use your email for anything else.")
-              .font(.mukta(.regular, size: 13))
+              .font(.system(.footnote, weight: .regular))
               .foregroundColor(.darkGrey)
           }
         }
@@ -49,7 +49,7 @@ struct ContactSettingsView: View {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         ToolbarItem(placement: .navigationBarLeading) {
           Button {

@@ -24,7 +24,7 @@ struct TransactionsListView: View {
         if groupedTransactions.isEmpty {
           EXEmptyStateView(type: .noTransactions, isCard: false).padding(.top, 30)
         } else {
-          LazyVStack {
+          LazyVStack(spacing: 10) {
             ForEach(groupedTransactions.keys.sorted(by: >), id: \.self) { date in
               Section(header: listHeader(date)) {
                 ForEach(groupedTransactions[date]!) { transaction in
@@ -59,7 +59,7 @@ struct TransactionsListView: View {
         
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -76,28 +76,28 @@ struct TransactionsListView: View {
   
   @ViewBuilder
   func headerView() -> some View {
-    HStack(alignment: .center, spacing: 35) {
-      VStack(alignment: .center, spacing: -3) {
-        Text("$\(currentBudget.amount.withDecimals)")
-          .font(.mukta(.semibold, size: 17))
-        Text("Budget left")
-          .font(.mukta(.regular, size: 15))
-          .foregroundColor(.darkGrey)
+    EXBaseCard {
+      HStack(alignment: .center, spacing: 30) {
+        VStack(alignment: .center, spacing: 0) {
+          Text("$\(currentBudget.amount.withDecimals)")
+            .font(.headlineSemibold)
+          Text("Budget left")
+            .font(.footnoteRegular)
+            .foregroundColor(.darkGrey)
+        }
+        Text("\(Source.Functions.currentMonth())")
+          .font(.title3Semibold)
+        VStack(alignment: .center, spacing: 0) {
+          Text("$\(totalSpent.withDecimals)")
+            .font(.headlineSemibold)
+          Text("Total spent")
+            .font(.footnoteRegular)
+            .foregroundColor(.darkGrey)
+        }
       }
-      Text("\(Source.Functions.currentMonth())")
-        .font(.mukta(.semibold, size: 20))
-      VStack(alignment: .center, spacing: -3) {
-        Text("$\(totalSpent.withDecimals)")
-          .font(.mukta(.semibold, size: 17))
-        Text("Total spent")
-          .font(.mukta(.regular, size: 15))
-          .foregroundColor(.darkGrey)
-      }
+      .padding(4)
+      .frame(maxWidth: .infinity, alignment: .center)
     }
-    .frame(maxWidth: .infinity, alignment: .center)
-    .padding(20)
-    .background(Color.backgroundGrey)
-    .cornerRadius(16)
   }
 }
 
@@ -145,7 +145,7 @@ private extension TransactionsListView {
   @ViewBuilder
   func listHeader(_ date: Date) -> some View {
     Text(Source.Functions.showString(from: date))
-      .font(.mukta(.regular, size: 15))
+      .font(.system(.subheadline, weight: .regular))
       .foregroundColor(.darkGrey)
       .frame(maxWidth: .infinity, alignment: .leading)
   }

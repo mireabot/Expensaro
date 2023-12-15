@@ -26,7 +26,7 @@ struct CategorySelectorView: View {
             showCategory.toggle()
           } label: {
             Text("Create new category")
-              .font(.mukta(.regular, size: 17))
+              .font(.system(.subheadline, weight: .medium))
           }
           .buttonStyle(EXStretchButtonStyle(icon: Appearance.shared.addIcon))
         }
@@ -34,7 +34,7 @@ struct CategorySelectorView: View {
         
         Section {
           Text("Custom categories")
-            .font(.mukta(.regular, size: 13))
+            .font(.system(.footnote, weight: .regular))
             .foregroundColor(.darkGrey)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -56,7 +56,7 @@ struct CategorySelectorView: View {
         
         Section {
           Text("Default categories")
-            .font(.mukta(.regular, size: 13))
+            .font(.system(.footnote, weight: .regular))
             .foregroundColor(.darkGrey)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -81,7 +81,7 @@ struct CategorySelectorView: View {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {

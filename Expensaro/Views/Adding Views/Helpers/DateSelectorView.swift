@@ -29,7 +29,7 @@ struct DateSelectorView: View {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(type.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {

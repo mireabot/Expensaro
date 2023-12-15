@@ -19,11 +19,11 @@ struct EXDatePicker: View {
       HStack(alignment: .center, spacing: 20){
         VStack(alignment: .leading, spacing: 0) {
           Text(extraDate()[0])
-            .font(.mukta(.regular, size: 13))
+            .font(.system(.footnote, weight: .regular))
             .foregroundColor(.darkGrey)
           
           Text(extraDate()[1])
-            .font(.mukta(.semibold, size: 20))
+            .font(.system(.title3, weight: .bold))
         }
         
         Spacer(minLength: 0)
@@ -56,7 +56,7 @@ struct EXDatePicker: View {
         ForEach(EXDatePicker.days,id: \.self){day in
           
           Text(day)
-            .font(.mukta(.regular, size: 13))
+            .font(.system(.footnote, weight: .regular))
             .foregroundColor(.darkGrey)
             .frame(maxWidth: .infinity)
         }
@@ -91,7 +91,7 @@ struct EXDatePicker: View {
           return isSameDay(date1: payment.dueDate, date2: value.date)
         }){
           Text("\(value.day)")
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
             .foregroundColor(isSameDay(date1: payment.dueDate, date2: currentDate) ? .white : .primary)
             .frame(maxWidth: .infinity)
           
@@ -103,7 +103,7 @@ struct EXDatePicker: View {
         }
         else {
           Text("\(value.day)")
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
             .foregroundColor(isSameDay(date1: value.date, date2: currentDate) ? .white : .primary)
             .frame(maxWidth: .infinity)
           

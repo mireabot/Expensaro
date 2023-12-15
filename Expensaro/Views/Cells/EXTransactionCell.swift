@@ -17,28 +17,28 @@ struct EXTransactionCell: View {
         .padding(8)
         .background(Color.backgroundGrey)
         .cornerRadius(12)
-      VStack(alignment: .leading, spacing: -3) {
+      VStack(alignment: .leading, spacing: 3) {
         Text(transaction.name)
-          .font(.mukta(.medium, size: 15))
+          .font(.system(.subheadline, weight: .semibold))
         Text("\(Source.Functions.showString(from: transaction.date))")
-          .font(.mukta(.regular, size: 13))
+          .font(.system(.footnote, weight: .medium))
           .foregroundColor(.darkGrey)
       }
       
       Spacer()
       
-      VStack(alignment: .trailing, spacing: -3) {
+      VStack(alignment: .trailing, spacing: 3) {
         if transaction.type == "Refill" {
           Text("+$\(transaction.amount.withDecimals)")
-            .font(.mukta(.medium, size: 15))
+            .font(.system(.subheadline, weight: .semibold))
             .foregroundStyle(Color.green)
         } else {
           Text("$\(transaction.amount.withDecimals)")
-            .font(.mukta(.medium, size: 15))
+            .font(.system(.subheadline, weight: .medium))
         }
         if !transaction.type.isEmpty {
           Text(transaction.type)
-            .font(.mukta(.medium, size: 13))
+            .font(.system(.footnote, weight: .medium))
             .foregroundColor(.primaryGreen)
         }
       }

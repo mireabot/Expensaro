@@ -26,16 +26,17 @@ struct AddGoalTransactionView: View {
   // MARK: Presentation
   @State private var showError = false
   var body: some View {
-    // TODO: Create textfield same as in transaction view and make section with money left to current goal
     NavigationView {
       ZStack(alignment: .bottom, content: {
         ScrollView {
-          VStack(alignment: .leading, spacing: -10) {
+          VStack(alignment: .leading, spacing: 10) {
             goalTransactionTextField()
             moneyLeft()
           }
           .padding(.top, 20)
         }
+        .applyBounce()
+        
         EXNumberKeyboard(textValue: $amountValue, submitAction: {
           validate {
             makeDismiss()
@@ -60,7 +61,7 @@ struct AddGoalTransactionView: View {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
@@ -93,11 +94,12 @@ extension AddGoalTransactionView {
   func goalTransactionTextField() -> some View {
     HStack {
       Text("$")
-        .font(.mukta(.medium, size: 24))
+        .font(.system(.title2, weight: .medium))
       TextField("", text: $amountValue)
-        .font(.mukta(.medium, size: 40))
+        .font(.system(.largeTitle, weight: .medium))
         .tint(.clear)
         .multilineTextAlignment(.leading)
+        .disabled(true)
       
       Spacer()
       
@@ -117,11 +119,16 @@ extension AddGoalTransactionView {
   
   @ViewBuilder
   func moneyLeft() -> some View {
-    HStack {
-      Text("Remaining funds: $\(budgetValue.clean)")
-        .font(.mukta(.medium, size: 17))
-        .foregroundStyle(Color.primaryGreen)
-        .frame(maxWidth: .infinity, alignment: .leading)
+    EXBaseCard {
+      VStack(alignment: .leading) {
+        Text("$\(budgetValue.clean)")
+          .font(.title3Semibold)
+          .foregroundColor(.primaryGreen)
+        Text("Funds needed for goal")
+          .font(.footnoteRegular)
+          .foregroundColor(.darkGrey)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
     }
   }
 }
@@ -135,21 +142,6 @@ extension AddGoalTransactionView {
     } else {
       showError.toggle()
     }
-  }
-  
-  @ViewBuilder
-  func alertView() -> some View {
-    HStack {
-      Source.Images.System.alertError
-        .foregroundColor(.red)
-      Text("Invalid entry")
-        .font(.mukta(.medium, size: 17))
-        .foregroundColor(.red)
-    }
-    .padding(.horizontal, 15)
-    .padding(.vertical, 10)
-    .background(Color.backgroundGrey)
-    .cornerRadius(12)
   }
 }
 

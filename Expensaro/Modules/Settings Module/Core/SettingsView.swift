@@ -17,7 +17,7 @@ struct SettingsView: View {
   var body: some View {
     NavigationView {
       ScrollView {
-        VStack(spacing: 3) {
+        VStack(spacing: 5) {
           Image(uiImage: appIcon!)
             .resizable()
             .frame(width: 70, height: 70)
@@ -25,7 +25,7 @@ struct SettingsView: View {
             .cornerRadius(12)
           
           Text("Version \(appVersion)")
-            .font(.mukta(.regular, size: 15))
+            .font(.system(.subheadline, weight: .regular))
             .foregroundColor(.darkGrey)
         }
         .padding(.top, 20)
@@ -36,11 +36,8 @@ struct SettingsView: View {
             EXSettingsCell(category: $selectedCategory, type: .reminders, icon: Source.Images.Settings.reminders, action: {navigateTo()})
           }
           HStack {
-            EXSettingsCell(category: $selectedCategory, type: .exportData, icon: Source.Images.Settings.exportData, action: {navigateTo()})
-            EXSettingsCell(category: $selectedCategory, type: .resetAccount, icon: Source.Images.Settings.resetData, action: {navigateTo()})
-          }
-          HStack {
             EXSettingsCell(category: $selectedCategory, type: .contact, icon: Source.Images.Settings.contact, action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory, type: .resetAccount, icon: Source.Images.Settings.resetData, action: {navigateTo()})
           }
         }
         .applyMargins()
@@ -62,7 +59,7 @@ struct SettingsView: View {
         
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         
         ToolbarItem(placement: .topBarTrailing) {

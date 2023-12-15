@@ -15,6 +15,7 @@ enum Source {
       static let back = Image("back")
       static let menu = Image("menu")
       static let swipeDown = Image("swipeDown")
+      static let redirect = Image("redirect")
     }
     enum Tabs {
       static let home = "home"

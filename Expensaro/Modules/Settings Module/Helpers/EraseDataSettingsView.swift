@@ -17,10 +17,9 @@ struct EraseDataSettingsView: View {
         EXDialog(type: .eraseData, bottomView: {
           Button(action: {}, label: {
             Text("Reset account")
-              .font(.mukta(.semibold, size: 15))
+              .font(.system(.subheadline, weight: .semibold))
           })
           .buttonStyle(EXDestructiveButtonStyle(showLoader: .constant(false)))
-          .padding(.top, 15)
         })
         .padding(.top, 20)
       }
@@ -30,7 +29,7 @@ struct EraseDataSettingsView: View {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         ToolbarItem(placement: .navigationBarLeading) {
           Button {

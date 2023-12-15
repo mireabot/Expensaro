@@ -15,11 +15,11 @@ struct CreateReminderView: View {
   var body: some View {
     NavigationView {
       ScrollView {
-        VStack(alignment: .leading, spacing: 0, content: {
+        VStack(alignment: .leading, spacing: 5, content: {
           Text("Do you want to create reminder?")
-            .font(.mukta(.bold, size: 20))
+            .font(.system(.title3, weight: .bold))
           Text("Receive a push notification one day prior to your payment")
-            .font(.mukta(.medium, size: 15))
+            .font(.system(.subheadline, weight: .medium))
             .foregroundColor(Color.darkGrey)
         })
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -34,7 +34,7 @@ struct CreateReminderView: View {
             onDeny()
           }, label: {
             Text("No, thank you")
-              .font(.mukta(.semibold, size: 17))
+              .font(.system(.headline, weight: .semibold))
           })
           .buttonStyle(EXSecondaryPrimaryButtonStyle(showLoader: .constant(false)))
           Button(action: {
@@ -42,7 +42,7 @@ struct CreateReminderView: View {
             onSubmit()
           }, label: {
             Text("Yes, I'm in")
-              .font(.mukta(.semibold, size: 17))
+              .font(.system(.headline, weight: .semibold))
           })
           .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
         }

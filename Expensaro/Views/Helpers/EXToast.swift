@@ -23,11 +23,13 @@ struct EXToast: View {
           .frame(width: 30, height: 30)
           .foregroundColor(.alertDarkRed)
       }
-      VStack(alignment: .leading, spacing: -3, content: {
-        Text(type.isSuccess ? "All great!" : "Watch out!").font(.mukta(.semibold, size: 17)).foregroundColor(type.isSuccess ? .alertDarkGreen : .alertDarkRed)
+      VStack(alignment: .leading, spacing: 3, content: {
+        Text(type.isSuccess ? "All great!" : "Watch out!")
+          .font(.system(.title3, weight: .semibold))
+          .foregroundColor(type.isSuccess ? .alertDarkGreen : .alertDarkRed)
         
         Text("\(type.text)")
-          .font(.mukta(.semibold, size: 17))
+          .font(.system(.headline, weight: .medium))
           .foregroundColor(type.isSuccess ? .alertGreen : .alertRed)
       })
     }

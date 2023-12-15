@@ -17,22 +17,20 @@ struct EXGoalTransactionCell: View {
         .padding(8)
         .background(Color.backgroundGrey)
         .cornerRadius(12)
-      VStack(alignment: .leading, spacing: -3) {
+      VStack(alignment: .leading, spacing: 3) {
         Text("Goal contribution")
-          .font(.mukta(.medium, size: 15))
+          .font(.system(.subheadline, weight: .medium))
           .foregroundColor(.black)
         Text("\(Source.Functions.showString(from: goalTransaction.date))")
-          .font(.mukta(.regular, size: 13))
+          .font(.system(.footnote, weight: .regular))
           .foregroundColor(.darkGrey)
       }
       
       Spacer()
       
-      VStack(alignment: .trailing, spacing: -3) {
-        Text("$\(goalTransaction.amount.withDecimals)")
-          .font(.mukta(.medium, size: 15))
-          .foregroundColor(.black)
-      }
+      Text("$\(goalTransaction.amount.withDecimals)")
+        .font(.system(.subheadline, weight: .medium))
+        .foregroundColor(.black)
     }
     .background(.white)
   }

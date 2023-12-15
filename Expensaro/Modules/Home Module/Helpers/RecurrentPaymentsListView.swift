@@ -24,7 +24,6 @@ struct RecurrentPaymentsListView: View {
   var body: some View {
     NavigationView {
       ScrollView {
-        headerView().padding(.top, 16).applyMargins()
         EXDatePicker(currentDate: $currentDate, recurringTransactions: recurringTransactions)
           .padding(.top, 16)
         
@@ -33,8 +32,8 @@ struct RecurrentPaymentsListView: View {
             return isSameDay(date1: payment.paymentDueDate, date2: currentDate)
           }){
             VStack {
-              Text("Upcoming payments on \(Text("\(displayDate(date: currentDate))").foregroundColor(.primaryGreen).font(.mukta(.bold, size: 20)))")
-                .font(.mukta(.semibold, size: 17))
+              Text("Upcoming payments on \(Text("\(displayDate(date: currentDate))").foregroundColor(.primaryGreen).font(.system(.title3, weight: .bold)))")
+                .font(.system(.headline, weight: .semibold))
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
               LazyVStack {
@@ -73,7 +72,7 @@ struct RecurrentPaymentsListView: View {
         
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -155,18 +154,16 @@ extension RecurrentPaymentsListView {
 extension RecurrentPaymentsListView {
   @ViewBuilder
   func headerView() -> some View {
-    HStack(alignment: .center, spacing: 35) {
-      VStack(alignment: .center, spacing: -3) {
+    EXBaseCard {
+      VStack(alignment: .center, spacing: 3) {
         Text("$\(totalRecurringPayments.clean)")
-          .font(.mukta(.semibold, size: 20))
+          .font(.title3Semibold)
         Text("Total spent on recurring payments")
-          .font(.mukta(.regular, size: 15))
+          .font(.footnoteRegular)
           .foregroundColor(.darkGrey)
       }
+      .padding(4)
+      .frame(maxWidth: .infinity)
     }
-    .frame(maxWidth: .infinity, alignment: .center)
-    .padding(20)
-    .background(Color.backgroundGrey)
-    .cornerRadius(16)
   }
 }

@@ -9,10 +9,14 @@ import SwiftUI
 import ExpensaroUIKit
 
 struct OverviewView: View {
+  // MARK: Essential
+  @EnvironmentObject var router: EXNavigationViewsRouter
+  
   @State var detentHeight: CGFloat = 0
   
   @State private var showSpendingsInfoSheet = false
   @State private var showTopCategoryInfoSheet = false
+  @State private var sheetHeight: CGFloat = .zero
   var body: some View {
     NavigationView {
       ScrollView(.vertical, showsIndicators: false) {
@@ -23,17 +27,24 @@ struct OverviewView: View {
         }
         .padding(.top, 16)
       }
-      .sheet(isPresented: $showSpendingsInfoSheet, content: {
-        EXBottomInfoView(type: .spendings, image: Source.Images.BottomInfo.spendings)
-          .applyMargins()
-          .presentationDetents([.fraction(0.4)])
-          .presentationDragIndicator(.visible)
-      })
       .sheet(isPresented: $showTopCategoryInfoSheet, content: {
-        EXBottomInfoView(type: .topCategory, image: Source.Images.BottomInfo.topCategory)
-          .applyMargins()
-          .presentationDetents([.fraction(0.4)])
-          .presentationDragIndicator(.visible)
+        EXBottomInfoView(type: .topCategory, action: {
+          DispatchQueue.main.async {
+            showTopCategoryInfoSheet.toggle()
+          }
+          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView()))
+        }, bottomView: {
+          EXTopCategoryView()
+        })
+        .applyMargins()
+        .presentationDetents([.fraction(0.45)])
+      })
+      .sheet(isPresented: $showSpendingsInfoSheet, content: {
+        EXBottomInfoView(type: .spendings, action: {}, bottomView: {
+          EmptyView()
+        })
+        .applyMargins()
+        .presentationDetents([.fraction(0.45)])
       })
       .applyMargins()
       .scrollDisabled(true)
@@ -41,7 +52,7 @@ struct OverviewView: View {
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
           Text(Appearance.shared.title)
-            .font(.mukta(.medium, size: 24))
+            .font(.system(.title2, weight: .semibold))
         }
       }
     }

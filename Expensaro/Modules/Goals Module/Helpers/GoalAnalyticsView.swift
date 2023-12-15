@@ -11,33 +11,27 @@ import ExpensaroUIKit
 struct GoalAnalyticsView: View {
   @ObservedObject var goalVM: GoalAnalyticsViewModel
   var body: some View {
-    VStack(alignment: .leading, spacing: 5, content: {
-      Appearance.shared.icon
-        .foregroundColor(.primaryGreen)
-        .padding(8)
-        .background(Color.backgroundGrey)
-        .cornerRadius(12)
-      Text("\(Appearance.shared.text) We estimated your weekly payments to complete goal faster")
-        .font(.mukta(.semibold, size: 17))
-        .foregroundColor(.black)
-      Divider()
-        .foregroundColor(.border)
-      HStack {
-        smallInfoView(title: "Weeks in your plan", text: "\(goalVM.weeks)")
-        Spacer()
-        Text("$\(goalVM.amount.clean)/week")
-          .font(.mukta(.semibold, size: 17))
+    EXBaseCard {
+      VStack(alignment: .leading, spacing: 5, content: {
+        Appearance.shared.icon
           .foregroundColor(.primaryGreen)
-      }
-      .padding([.top,.leading,.trailing], 5)
-    })
-    .background(.white)
-    .padding(14)
-    .overlay(
-      RoundedRectangle(cornerRadius: 16)
-        .inset(by: 0.5)
-        .stroke(Color.border, lineWidth: 1)
-    )
+          .padding(.bottom, 5)
+        Text("\(Appearance.shared.text) We estimated your weekly payments to make things faster")
+          .font(.system(.headline, weight: .medium))
+          .foregroundColor(.black)
+        Divider()
+          .foregroundColor(.border)
+          .padding(.vertical, 5)
+        HStack {
+          smallInfoView(title: "Weeks in your plan", text: "\(goalVM.weeks)")
+          Spacer()
+          Text("$\(goalVM.amount.clean) / week")
+            .font(.system(.headline, weight: .semibold))
+            .foregroundColor(.primaryGreen)
+        }
+        .padding([.top,.leading,.trailing], 5)
+      })
+    }
   }
 }
 
@@ -52,7 +46,7 @@ extension GoalAnalyticsView {
     
     let icon = Image(Source.Strings.Categories.Images.hobby)
     var text: Text {
-      return Text("Close goal faster!").foregroundColor(.primaryGreen).font(.mukta(.semibold, size: 17))
+      return Text("Close goal faster!").foregroundColor(.primaryGreen).font(.system(.headline, weight: .semibold))
     }
   }
 }
@@ -61,12 +55,12 @@ extension GoalAnalyticsView {
 extension GoalAnalyticsView {
   @ViewBuilder
   func smallInfoView(title: String, text: String) -> some View {
-    VStack(alignment: .leading, spacing: -3) {
+    VStack(alignment: .leading, spacing: 3) {
       Text(title)
-        .font(.mukta(.regular, size: 13))
+        .font(.system(.footnote, weight: .regular))
         .foregroundColor(.darkGrey)
       Text(text)
-        .font(.mukta(.regular, size: 15))
+        .font(.system(.subheadline, weight: .regular))
     }
   }
 }

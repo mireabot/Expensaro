@@ -22,7 +22,6 @@ struct RecurrentPaymentDetailView: View {
   // MARK: - Variables
   @State private var errorType = EXToasts.none
   
-  
   // MARK: - Presentation
   @State private var showDeleteAlert = false
   @State private var showEditPayment = false
@@ -33,20 +32,19 @@ struct RecurrentPaymentDetailView: View {
       ZStack(alignment: .bottomTrailing, content: {
         ScrollView {
           // MARK: Transaction header
-          HStack {
-            VStack(alignment: .leading, spacing: 3) {
-              Text(transaction.name)
-                .font(.mukta(.medium, size: 20))
-              
-              Text("$\(transaction.amount.withDecimals)")
-                .font(.mukta(.bold, size: 34))
-              
-              Text("Next payment date: \(transaction.isDue ? daysLeftString(for: transaction.daysLeftUntilDueDate) : Source.Functions.showString(from: transaction.dueDate))")
-                .font(.mukta(.regular, size: 15))
-                .foregroundColor(.darkGrey)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
+          VStack(alignment: .leading, spacing: 3) {
+            Text(transaction.name)
+              .font(.title3Medium)
+            
+            Text("$\(transaction.amount.withDecimals)")
+              .font(.largeTitleBold)
+            
+            Text("Next payment date: \(transaction.isDue ? daysLeftString(for: transaction.daysLeftUntilDueDate) : Source.Functions.showString(from: transaction.dueDate))")
+              .font(.footnoteRegular)
+              .foregroundColor(.darkGrey)
           }
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.top, 16)
           
           if transaction.isDue {
             Button {
@@ -55,111 +53,52 @@ struct RecurrentPaymentDetailView: View {
               }
             } label: {
               Text("Renew now")
-                .font(.mukta(.medium, size: 15))
+                .font(.system(.subheadline, weight: .semibold))
             }
             .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
           }
           
-          // MARK: Transaction detail
-          VStack(spacing: 10) {
-            Text("Information")
-              .font(.mukta(.regular, size: 13))
-              .foregroundColor(.darkGrey)
-              .frame(maxWidth: .infinity, alignment: .leading)
-            VStack(spacing: 15) {
-              HStack {
-                Image(transaction.categoryIcon)
-                  .foregroundColor(.primaryGreen)
-                  .padding(8)
-                  .background(Color.backgroundGrey)
-                  .cornerRadius(12)
-                VStack(alignment: .leading, spacing: -3) {
-                  Text("Category")
-                    .font(.mukta(.regular, size: 15))
-                    .foregroundColor(.darkGrey)
-                  Text(transaction.categoryName)
-                    .font(.mukta(.medium, size: 15))
-                    .foregroundColor(.black)
-                }
-              }
-              .frame(maxWidth: .infinity, alignment: .leading)
-              
-              HStack {
-                Source.Images.System.calendarYear
-                  .foregroundColor(.black)
-                  .padding(8)
-                VStack(alignment: .leading, spacing: -3) {
-                  Text("Schedule")
-                    .font(.mukta(.regular, size: 15))
-                    .foregroundColor(.darkGrey)
-                  Text(transaction.schedule.title)
-                    .font(.mukta(.medium, size: 15))
-                    .foregroundColor(.black)
-                }
-              }
-              .frame(maxWidth: .infinity, alignment: .leading)
-              
-              HStack {
-                Source.Images.System.transactionType
-                  .foregroundColor(.black)
-                  .padding(8)
-                VStack(alignment: .leading, spacing: -3) {
-                  Text("Type")
-                    .font(.mukta(.regular, size: 15))
-                    .foregroundColor(.darkGrey)
-                  Text(transaction.type)
-                    .font(.mukta(.medium, size: 15))
-                    .foregroundColor(.black)
-                }
-              }
-              .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .padding(12)
-            .background(.white)
-            .overlay(
-              RoundedRectangle(cornerRadius: 16)
-                .inset(by: 0.5)
-                .stroke(Color.border, lineWidth: 1)
-            )
-            
-            if !transaction.note.isEmpty {
-              Button {
-                showNoteView.toggle()
-              } label: {
-                HStack {
-                  Source.Images.ButtonIcons.note
-                    .padding(8)
-                  VStack(alignment: .leading, spacing: -3) {
-                    Text("Note")
-                      .font(.mukta(.regular, size: 15))
-                      .foregroundColor(.darkGrey)
-                    Text(transaction.note)
-                      .font(.mukta(.medium, size: 15))
-                      .foregroundColor(.black)
-                  }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(12)
-                .background(.white)
-                .overlay(
-                  RoundedRectangle(cornerRadius: 16)
-                    .inset(by: 0.5)
-                    .stroke(Color.border, lineWidth: 1)
-                )
-              }
-              .buttonStyle(EXPlainButtonStyle())
-            }
-            
-            EXToggleCard(type: .paymentReminder, isOn: Binding(
-              get: { transaction.isReminder },
-              set: { newValue in
-                  updateNotification(with: newValue)
-              }
-          ))
+          // MARK: Transaction info
+          HStack(spacing: 5) {
+            EXChip(icon: transaction.categoryIcon, text: transaction.categoryName)
+            EXChip(icon: "calendarYear", text: transaction.schedule.title)
           }
-          .padding(.top, 10)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.top, 5)
           
+          // MARK: Transaction detail
+          Button {
+            showNoteView.toggle()
+          } label: {
+            EXBaseCard {
+              HStack {
+                Source.Images.ButtonIcons.note
+                  .padding(8)
+                VStack(alignment: .leading, spacing: 3) {
+                  Text("Note")
+                    .font(.system(.footnote, weight: .regular))
+                    .foregroundColor(.darkGrey)
+                  Text(transaction.note.isEmpty ? "Add note" : transaction.note)
+                    .font(.system(.subheadline, weight: .medium))
+                    .foregroundColor(.black)
+                }
+              }
+              .frame(maxWidth: .infinity, alignment: .leading)
+            }
+          }
+          .buttonStyle(EXPlainButtonStyle())
+          .padding(.top, 5)
+          
+          // MARK: Transaction reminders
+          EXToggleCard(type: .paymentReminder, isOn: Binding(
+            get: { transaction.isReminder },
+            set: { newValue in
+              updateNotification(with: newValue)
+            }
+          ))
+          .padding(.top, 5)
         }
+        .applyBounce()
         bottomActionButton().padding(.bottom, 16)
         
       })
@@ -253,7 +192,7 @@ extension RecurrentPaymentDetailView {
           showNoteView.toggle()
         } label: {
           Text("Add note")
-            .font(.mukta(.semibold, size: 17))
+            .font(.system(.headline, weight: .semibold))
         }
         .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
         .applyMargins()
@@ -262,7 +201,7 @@ extension RecurrentPaymentDetailView {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text("Create note")
-            .font(.mukta(.medium, size: 17))
+            .font(.system(.headline, weight: .medium))
         }
         
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -301,7 +240,7 @@ extension RecurrentPaymentDetailView {
           .background(Color.secondaryYellow)
           .cornerRadius(40)
       }
-      .font(.mukta(.regular, size: 15))
+      .font(.system(.subheadline, weight: .regular))
       .menuOrder(.fixed)
     }
   }
