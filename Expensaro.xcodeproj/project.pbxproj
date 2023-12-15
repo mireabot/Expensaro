@@ -80,6 +80,7 @@
 		35E8743A2ACC7EE2002368DB /* PeriodicitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E874392ACC7EE2002368DB /* PeriodicitySelectorView.swift */; };
 		35E8743D2ACC899A002368DB /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E8743C2ACC899A002368DB /* Transaction.swift */; };
 		35F207A62ADA3EC400834C52 /* RealmMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F207A52ADA3EC400834C52 /* RealmMigrator.swift */; };
+		35F417A62B2CF06600580422 /* TransactionInsightsDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F417A52B2CF06600580422 /* TransactionInsightsDemoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -153,6 +154,7 @@
 		35E874392ACC7EE2002368DB /* PeriodicitySelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicitySelectorView.swift; sourceTree = "<group>"; };
 		35E8743C2ACC899A002368DB /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		35F207A52ADA3EC400834C52 /* RealmMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrator.swift; sourceTree = "<group>"; };
+		35F417A52B2CF06600580422 /* TransactionInsightsDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionInsightsDemoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -333,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				356EB7A92AEC119F001E6FD6 /* TransactionInsightsView.swift */,
+				35F417A52B2CF06600580422 /* TransactionInsightsDemoView.swift */,
 			);
 			path = Insights;
 			sourceTree = "<group>";
@@ -704,6 +707,7 @@
 				359094A02AAE340D00428B39 /* RootNavigationController.swift in Sources */,
 				350D45822B22A03400E13008 /* TopCategoryOverviewView.swift in Sources */,
 				3558FBC12ACA415500624EBD /* Goal.swift in Sources */,
+				35F417A62B2CF06600580422 /* TransactionInsightsDemoView.swift in Sources */,
 				359CDC602AB4DF4400DFFDC7 /* InitialPermissionView.swift in Sources */,
 				353F1FDD2AF432FB001BE114 /* CategoryDescription.swift in Sources */,
 				353E5C2F2ACA01D400430978 /* Date+Extension.swift in Sources */,

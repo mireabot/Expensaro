@@ -22,6 +22,7 @@ struct TransactionDetailView: View {
   @State private var showTransactionDeleteAlert = false
   @State private var showEditTransaction = false
   @State private var showNoteView = false
+  @State private var showAnalyticsDemo = false
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing, content: {
@@ -80,7 +81,13 @@ struct TransactionDetailView: View {
           
           // MARK: Analytics
           if transaction.type != "Refill" {
-            TransactionInsightsView(viewModel: TransactionInsightsViewModel(category: transaction.categoryName, budget: budget.amount))
+            //TransactionInsightsDemoView()
+            Button(action: {
+              showAnalyticsDemo.toggle()
+            }, label: {
+              EXEmptyStateView(type: .noTransactionInsights, isActive: true)
+            })
+            .buttonStyle(EXPlainButtonStyle())
               .padding([.top, .bottom], 5)
           }
         }
@@ -106,6 +113,13 @@ struct TransactionDetailView: View {
       .sheet(isPresented: $showNoteView, content: {
         noteView()
           .presentationDetents([.large])
+      })
+      .sheet(isPresented: $showAnalyticsDemo, content: {
+        EXBottomInfoView(type: .transactions, action: {}, bottomView: {
+          TransactionInsightsDemoView()
+        })
+        .applyMargins()
+        .presentationDetents([.fraction(0.45)])
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
