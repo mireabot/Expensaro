@@ -60,7 +60,7 @@ struct TopCategoryOverviewView: View {
         .padding(.top, 5)
         
         VStack {
-          ReusableBar(value: 1500, maxValue: 2000)
+          EXChartBar(value: 1500, text: "From your monthly budget", maxValue: 2000)
         }
         .padding(.top, 5)
         
@@ -77,6 +77,14 @@ struct TopCategoryOverviewView: View {
             TopCategoryBar(total: 2000, category: data)
           }
         }
+        
+        EXBaseCard {
+          Text("Percentages shown are based on your monthly budget")
+            .font(.footnoteRegular)
+            .foregroundColor(.darkGrey)
+            .frame(maxWidth: .infinity, alignment: .center)
+        }
+        .applyMargins()
       }
       .applyBounce()
       .navigationBarTitleDisplayMode(.inline)
@@ -121,8 +129,8 @@ extension TopCategoryOverviewView {
 struct TopCategoryBar: View {
   var total: Int
   var category: TopCategories
-  var screenWidth: CGFloat {UIScreen.main.bounds.size.width }
-  var maxWidth: CGFloat { screenWidth - 32 }
+  private var screenWidth: CGFloat {UIScreen.main.bounds.size.width }
+  private var maxWidth: CGFloat { screenWidth - 32 }
   
   private var insetWidth: CGFloat {
     return CGFloat((category.amount * maxWidth) / CGFloat(total))
@@ -155,42 +163,6 @@ struct TopCategoryBar: View {
           .font(.footnoteSemibold)
           .foregroundColor(.primaryGreen)
       }
-      .padding(.leading, 12)
-    }
-  }
-}
-
-
-struct ReusableBar: View {
-  var value: Double
-  var maxValue: Int
-  var screenWidth: CGFloat {UIScreen.main.bounds.size.width }
-  var maxWidth: CGFloat { screenWidth - 32 }
-  
-  private var insetWidth: CGFloat {
-    return CGFloat((value * maxWidth) / CGFloat(maxValue))
-  }
-  private var percentage: Double {
-    return (value / Double(maxValue)) * 100
-  }
-  var body: some View {
-    ZStack(alignment: .leading) {
-      Rectangle()
-        .fill(Color.backgroundGrey)
-        .frame(width: self.maxWidth, height: 55)
-        .cornerRadius(12)
-      Rectangle()
-        .fill(Color.primaryGreen)
-        .frame(width: self.insetWidth, height: 55)
-        .cornerRadius(12)
-      
-      VStack(alignment: .leading, spacing: 3) {
-        Text("\(percentage.clean)%")
-          .font(.calloutBold)
-        Text("From your budget")
-          .font(.footnoteRegular)
-      }
-      .foregroundColor(.white)
       .padding(.leading, 12)
     }
   }

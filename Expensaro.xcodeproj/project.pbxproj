@@ -15,6 +15,7 @@
 		351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351839AE2AAF94C3008216F3 /* GoalsListView.swift */; };
 		351A02F52AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */; };
 		351D3D612AD0D5C00022E696 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 351D3D602AD0D5C00022E696 /* PopupView */; };
+		35239D5D2B2BE81800EE66FF /* EXChartBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35239D5C2B2BE81800EE66FF /* EXChartBar.swift */; };
 		353311072ACD064100EEB64B /* TransactionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353311062ACD064100EEB64B /* TransactionsListView.swift */; };
 		353E5C2F2ACA01D400430978 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353E5C2E2ACA01D400430978 /* Date+Extension.swift */; };
 		353E5C322ACA1F6600430978 /* RecurrentPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353E5C312ACA1F6600430978 /* RecurrentPayment.swift */; };
@@ -89,6 +90,7 @@
 		3510F6E62AFD62F2000B5532 /* LocalNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsManager.swift; sourceTree = "<group>"; };
 		351839AE2AAF94C3008216F3 /* GoalsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsListView.swift; sourceTree = "<group>"; };
 		351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPaymentDetailView.swift; sourceTree = "<group>"; };
+		35239D5C2B2BE81800EE66FF /* EXChartBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXChartBar.swift; sourceTree = "<group>"; };
 		353311062ACD064100EEB64B /* TransactionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsListView.swift; sourceTree = "<group>"; };
 		353E5C2E2ACA01D400430978 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		353E5C312ACA1F6600430978 /* RecurrentPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPayment.swift; sourceTree = "<group>"; };
@@ -354,6 +356,7 @@
 				3540BEFB2AF58CAD00F7E41F /* EXEmptyStateView.swift */,
 				358CEE512B14423F00298391 /* EXTopCategoryView.swift */,
 				357562AD2B2A182A002082A0 /* EXCircleProgressView.swift */,
+				35239D5C2B2BE81800EE66FF /* EXChartBar.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -680,6 +683,7 @@
 				35BEF3632AB38088005D1138 /* BottomSheetModifier.swift in Sources */,
 				3540BEFC2AF58CAD00F7E41F /* EXEmptyStateView.swift in Sources */,
 				35C80C6F2ABF84880063553E /* ContactSettingsView.swift in Sources */,
+				35239D5D2B2BE81800EE66FF /* EXChartBar.swift in Sources */,
 				35BEF3652AB38814005D1138 /* AddRecurrentPaymentView.swift in Sources */,
 				3564D81F2ACB71EB00553ECB /* EditGoalView.swift in Sources */,
 				354F2B0B2AB8D24B002516F1 /* DateSelectorView.swift in Sources */,
