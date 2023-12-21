@@ -12,11 +12,9 @@ struct OverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   
-  @State var detentHeight: CGFloat = 0
-  
+  // MARK: Presentation
   @State private var showSpendingsInfoSheet = false
   @State private var showTopCategoryInfoSheet = false
-  @State private var sheetHeight: CGFloat = .zero
   var body: some View {
     NavigationView {
       ScrollView(.vertical, showsIndicators: false) {
@@ -37,14 +35,14 @@ struct OverviewView: View {
           EXTopCategoryView()
         })
         .applyMargins()
-        .presentationDetents([.fraction(0.45)])
+        .presentationDetents([.fraction(0.4)])
       })
       .sheet(isPresented: $showSpendingsInfoSheet, content: {
         EXBottomInfoView(type: .spendings, action: {}, bottomView: {
           EmptyView()
         })
         .applyMargins()
-        .presentationDetents([.fraction(0.45)])
+        .presentationDetents([.fraction(0.4)])
       })
       .applyMargins()
       .scrollDisabled(true)

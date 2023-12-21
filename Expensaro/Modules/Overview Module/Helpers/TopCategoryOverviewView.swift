@@ -152,7 +152,7 @@ struct TopCategoryBar: View {
           .padding(.trailing, 12)
       }
       Rectangle()
-        .fill(Color(uiColor: .systemGray5))
+        .fill(Color(uiColor: .quaternarySystemFill))
         .frame(width: self.insetWidth, height: 50)
         .cornerRadius(12)
       
