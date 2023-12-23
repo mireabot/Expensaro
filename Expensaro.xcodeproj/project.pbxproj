@@ -40,12 +40,12 @@
 		35825BFB2AC9D01C00713AD8 /* EXTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BFA2AC9D01C00713AD8 /* EXTransactionCell.swift */; };
 		35825BFD2AC9E71700713AD8 /* RecurrentPaymentsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BFC2AC9E71700713AD8 /* RecurrentPaymentsListView.swift */; };
 		35825C002AC9FDEB00713AD8 /* EXDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BFF2AC9FDEB00713AD8 /* EXDatePicker.swift */; };
+		358900E12B375E78009509FC /* MonthRecapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358900E02B375E78009509FC /* MonthRecapOverviewView.swift */; };
 		358978D62AFEBF6400E8C378 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358978D52AFEBF6400E8C378 /* Double+Extension.swift */; };
 		358978D92AFEC0FF00E8C378 /* DebugMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358978D82AFEC0FF00E8C378 /* DebugMenuView.swift */; };
 		3589BC272AD899BA00BA8289 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 3589BC262AD899BA00BA8289 /* Realm */; };
 		3589BC292AD899BA00BA8289 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3589BC282AD899BA00BA8289 /* RealmSwift */; };
 		358BA4B82AD5D06500229504 /* ResizableTextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358BA4B72AD5D06500229504 /* ResizableTextFieldModifier.swift */; };
-		358CEE522B14423F00298391 /* EXTopCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358CEE512B14423F00298391 /* EXTopCategoryView.swift */; };
 		358E6B7F2AC0840900ABA818 /* CategorySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E6B7E2AC0840900ABA818 /* CategorySelectorView.swift */; };
 		3590948F2AAD3EC300428B39 /* ExpensaroApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590948E2AAD3EC300428B39 /* ExpensaroApp.swift */; };
 		359094932AAD3EC400428B39 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 359094922AAD3EC400428B39 /* Assets.xcassets */; };
@@ -115,10 +115,10 @@
 		35825BFA2AC9D01C00713AD8 /* EXTransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXTransactionCell.swift; sourceTree = "<group>"; };
 		35825BFC2AC9E71700713AD8 /* RecurrentPaymentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPaymentsListView.swift; sourceTree = "<group>"; };
 		35825BFF2AC9FDEB00713AD8 /* EXDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXDatePicker.swift; sourceTree = "<group>"; };
+		358900E02B375E78009509FC /* MonthRecapOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthRecapOverviewView.swift; sourceTree = "<group>"; };
 		358978D52AFEBF6400E8C378 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		358978D82AFEC0FF00E8C378 /* DebugMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugMenuView.swift; sourceTree = "<group>"; };
 		358BA4B72AD5D06500229504 /* ResizableTextFieldModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizableTextFieldModifier.swift; sourceTree = "<group>"; };
-		358CEE512B14423F00298391 /* EXTopCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXTopCategoryView.swift; sourceTree = "<group>"; };
 		358E6B7E2AC0840900ABA818 /* CategorySelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectorView.swift; sourceTree = "<group>"; };
 		3590948B2AAD3EC300428B39 /* Expensaro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Expensaro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3590948E2AAD3EC300428B39 /* ExpensaroApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensaroApp.swift; sourceTree = "<group>"; };
@@ -211,6 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				350D45812B22A03400E13008 /* TopCategoryOverviewView.swift */,
+				358900E02B375E78009509FC /* MonthRecapOverviewView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -357,7 +358,6 @@
 				35825BFF2AC9FDEB00713AD8 /* EXDatePicker.swift */,
 				35DE97DD2AE747F900CEF68D /* EXToast.swift */,
 				3540BEFB2AF58CAD00F7E41F /* EXEmptyStateView.swift */,
-				358CEE512B14423F00298391 /* EXTopCategoryView.swift */,
 				357562AD2B2A182A002082A0 /* EXCircleProgressView.swift */,
 				35239D5C2B2BE81800EE66FF /* EXChartBar.swift */,
 			);
@@ -695,6 +695,7 @@
 				35825BFD2AC9E71700713AD8 /* RecurrentPaymentsListView.swift in Sources */,
 				359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */,
 				356EB7AA2AEC119F001E6FD6 /* TransactionInsightsView.swift in Sources */,
+				358900E12B375E78009509FC /* MonthRecapOverviewView.swift in Sources */,
 				359094A22AAE341E00428B39 /* NavigationViewBuilder.swift in Sources */,
 				3510F6E22AFD542D000B5532 /* ScrollView+Extensions.swift in Sources */,
 				35BEF35D2AB378DB005D1138 /* Source.swift in Sources */,
@@ -728,7 +729,6 @@
 				35CE33E42AE1891A00BC93C2 /* AddGoalTransactionView.swift in Sources */,
 				356847742ACB2D4E00FFC864 /* GoalDetailView.swift in Sources */,
 				353FF4892AF499AF000BF57A /* GoalAnalyticsView.swift in Sources */,
-				358CEE522B14423F00298391 /* EXTopCategoryView.swift in Sources */,
 				35825BF92AC9CDB600713AD8 /* EXRecurringTransactionCell.swift in Sources */,
 				35C80C6D2ABF59DE0063553E /* RemindersSettingsView.swift in Sources */,
 				359CDC542AB4C69600DFFDC7 /* OnboardingView.swift in Sources */,

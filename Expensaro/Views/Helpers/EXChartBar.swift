@@ -10,9 +10,13 @@ import ExpensaroUIKit
 
 struct EXChartBar: View {
   var value: Double
-  var text: String?
   var maxValue: Int
-  private var screenWidth: CGFloat {UIScreen.main.bounds.size.width }
+  var height: CGFloat
+  var text: String?
+  var isPlain: Bool?
+  var color: Color?
+  
+  private var screenWidth: CGFloat { UIScreen.main.bounds.size.width }
   private var maxWidth: CGFloat { screenWidth - 32 }
   
   private var insetWidth: CGFloat {
@@ -25,18 +29,24 @@ struct EXChartBar: View {
     ZStack(alignment: .leading) {
       Rectangle()
         .fill(Color.backgroundGrey)
-        .frame(width: self.maxWidth, height: 55)
+        .frame(width: self.maxWidth, height: height)
         .cornerRadius(12)
       Rectangle()
-        .fill(Color.primaryGreen)
-        .frame(width: self.insetWidth, height: 55)
+        .fill(color ?? Color.primaryGreen)
+        .frame(width: self.insetWidth >= self.maxWidth ? self.maxWidth : self.insetWidth, height: height)
         .cornerRadius(12)
       
       VStack(alignment: .leading, spacing: 3) {
-        Text("\(percentage.clean)%")
-          .font(.calloutBold)
-        Text(text ?? "")
-          .font(.footnoteRegular)
+        if isPlain != nil {
+          Text(text ?? "")
+            .font(.headlineRegular)
+        }
+        else {
+          Text("\(percentage.clean)%")
+            .font(.calloutBold)
+          Text(text ?? "")
+            .font(.footnoteRegular)
+        }
       }
       .foregroundColor(.white)
       .padding(.leading, 12)

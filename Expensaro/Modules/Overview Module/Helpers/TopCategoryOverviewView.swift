@@ -60,7 +60,7 @@ struct TopCategoryOverviewView: View {
         .padding(.top, 5)
         
         VStack {
-          EXChartBar(value: 1500, text: "From your monthly budget", maxValue: 2000)
+          EXChartBar(value: 1500, maxValue: 2000, height: 55, text: "From your monthly budget")
         }
         .padding(.top, 5)
         

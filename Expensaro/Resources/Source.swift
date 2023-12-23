@@ -57,6 +57,8 @@ enum Source {
       static let alertSuccess = Image("alertSuccess")
       static let appTools = Image("appTools")
       static let reminder = Image("reminder")
+      static let arrowUp = Image("arrowUp")
+      static let arrowDown = Image("arrowDown")
     }
     enum Settings {
       static let categories = Image("categories")

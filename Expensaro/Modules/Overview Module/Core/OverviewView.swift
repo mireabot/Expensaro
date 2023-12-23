@@ -32,14 +32,19 @@ struct OverviewView: View {
           }
           router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView()))
         }, bottomView: {
-          EXTopCategoryView()
+          EXOverviewCard(header: "Top Category", title: "Shopping", icon: Source.Images.Navigation.redirect, subHeader: "You have spent $1500 on this category")
         })
         .applyMargins()
         .presentationDetents([.fraction(0.4)])
       })
       .sheet(isPresented: $showSpendingsInfoSheet, content: {
-        EXBottomInfoView(type: .spendings, action: {}, bottomView: {
-          EmptyView()
+        EXBottomInfoView(type: .spendings, action: {
+          DispatchQueue.main.async {
+            showSpendingsInfoSheet.toggle()
+          }
+          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView()))
+        }, bottomView: {
+          EXOverviewCard(header: "Month recap", title: "December", icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")
         })
         .applyMargins()
         .presentationDetents([.fraction(0.4)])
