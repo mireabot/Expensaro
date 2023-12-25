@@ -9,19 +9,17 @@ import SwiftUI
 
 // MARK: Sample data for categories breakdown
 struct SampleCategoriesBreakdown: Identifiable {
-  var id: String = UUID().uuidString
-  var categoryName: String
-  var categoryIcon: String
+  var id = UUID()
+  var categoryName: CategoriesSection
   var amount: Double
-  var progress: CGFloat
   var progressColor: Color
 }
 
 var sampleStorageDetails: [SampleCategoriesBreakdown] = [
-  SampleCategoriesBreakdown(categoryName: "Shopping", categoryIcon: "shopping", amount: 600, progress: 0.575, progressColor: .cyan),
-  SampleCategoriesBreakdown(categoryName: "Going out", categoryIcon: "goingOut", amount: 100, progress: 0.25, progressColor: .green),
-  SampleCategoriesBreakdown(categoryName: "Utilities", categoryIcon: "utilities", amount: 400, progress: 0.25, progressColor: .red),
-  SampleCategoriesBreakdown(categoryName: "Bills", categoryIcon: "bills", amount: 1000, progress: 0.625, progressColor: .yellow),
-  SampleCategoriesBreakdown(categoryName: "Travel", categoryIcon: "travel", amount: 760, progress: 0.625, progressColor: .blue)
+  SampleCategoriesBreakdown(categoryName: .entertainment, amount: 600, progressColor: Color(red: 0.612, green: 0.22, blue: 0.282)),
+  SampleCategoriesBreakdown(categoryName: .food, amount: 100, progressColor: Color(red: 1, green: 0.678, blue: 0.412)),
+  SampleCategoriesBreakdown(categoryName: .other, amount: 400, progressColor: Color(red: 0.961, green: 0.902, blue: 0.388)),
+  SampleCategoriesBreakdown(categoryName: .transportation, amount: 1000, progressColor: Color(red: 0.278, green: 0.659, blue: 0.741)),
+  SampleCategoriesBreakdown(categoryName: .lifestyle, amount: 760, progressColor: Color(red: 0.118, green: 0.22, blue: 0.533))
 ]
 

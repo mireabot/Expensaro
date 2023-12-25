@@ -128,7 +128,7 @@ extension MonthRecapOverviewView {
           ForEach(sampleStorageDetails, id: \.categoryName) { data in
             
             BarMark(
-              x: .value("Cup", data.amount),
+              x: .value("", data.amount),
               stacking: .normalized
             )
             .foregroundStyle(data.progressColor)
@@ -146,7 +146,7 @@ extension MonthRecapOverviewView {
                 Circle()
                   .fill(data.progressColor)
                   .frame(width: 7, height: 7)
-                Text(data.categoryName)
+                Text(data.categoryName.rawValue.capitalized)
                   .font(.footnoteRegular)
                   .foregroundColor(.darkGrey)
               }
@@ -158,28 +158,6 @@ extension MonthRecapOverviewView {
     }
   }
 }
-
-extension MonthRecapOverviewView {
-  // MARK: Custom Graph Properties
-  func getIndex(item: SampleCategoriesBreakdown)->Int{
-    return sampleStorageDetails.firstIndex { Citem in
-      return Citem.id == item.id
-    } ?? 0
-  }
-  
-  func getAngle(item: SampleCategoriesBreakdown)->Angle{
-    let index = getIndex(item: item)
-    let prefixItems = sampleStorageDetails.prefix(index)
-    var angle: Angle = .zero
-    for item in prefixItems{
-      // MARK: Since Its Circle
-      angle += .init(degrees: item.progress * 360)
-    }
-    
-    return angle
-  }
-}
-
 
 #Preview {
   MonthRecapOverviewView()
