@@ -230,6 +230,7 @@
 		352CB2762ABA4194006C1CEF /* System */ = {
 			isa = PBXGroup;
 			children = (
+				355FCC1F2B39F0D100BA8F4F /* Sample Data */,
 				3567EAD92B2B7D7B009E76D6 /* Analytics */,
 				35AAD3C32AD72B10000974A6 /* Budget */,
 				35E8743B2ACC8990002368DB /* Transaction */,
@@ -314,6 +315,13 @@
 				35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		355FCC1F2B39F0D100BA8F4F /* Sample Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Sample Data";
 			sourceTree = "<group>";
 		};
 		3567EAD92B2B7D7B009E76D6 /* Analytics */ = {

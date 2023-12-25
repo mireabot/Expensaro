@@ -16,63 +16,55 @@ struct CategorySelectorView: View {
   
   @Binding var title: String
   @Binding var icon: String
+  @Binding var section: String
   
   @State private var showCategory = false
   var body: some View {
     NavigationView {
-      List {
-        VStack {
-          Button {
-            showCategory.toggle()
-          } label: {
-            Text("Create new category")
-              .font(.system(.subheadline, weight: .medium))
-          }
-          .buttonStyle(EXStretchButtonStyle(icon: Appearance.shared.addIcon))
+      VStack {
+        Button {
+          showCategory.toggle()
+        } label: {
+          Text("Create new category")
+            .font(.system(.subheadline, weight: .medium))
         }
-        .listRowSeparator(.hidden)
+        .buttonStyle(EXStretchButtonStyle(icon: Appearance.shared.addIcon))
+        .padding(.top, 20)
+        .applyMargins()
         
-        Section {
-          Text("Custom categories")
-            .font(.system(.footnote, weight: .regular))
-            .foregroundColor(.darkGrey)
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .listRowSeparator(.hidden)
-        if categories.isEmpty {
-          EXEmptyStateView(type: .noCustomCategories)
-            .listRowSeparator(.hidden)
-        } else {
-          ForEach(categories) { category in
-            EXCategoryCell(icon: Image(category.icon), title: category.name)
-              .onTapGesture {
-                title = category.name
-                icon = category.icon
-                makeDismiss()
+        List {
+          ForEach(Dictionary(grouping: categories, by: { $0.section.header }).keys.sorted(), id: \.self) { sectionHeader in
+            Section {
+              ForEach(Dictionary(grouping: categories, by: { $0.section.header })[sectionHeader]!) { category in
+                EXCategoryCell(icon: Image(category.icon), title: category.name)
+                  .onTapGesture {
+                    title = category.name
+                    icon = category.icon
+                    section = category.section.header
+                    makeDismiss()
+                  }
               }
-          }
-          .listRowSeparator(.hidden)
-        }
-        
-        Section {
-          Text("Default categories")
-            .font(.system(.footnote, weight: .regular))
-            .foregroundColor(.darkGrey)
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .listRowSeparator(.hidden)
-        ForEach(CategoryDescription.allCases.sorted { $0.rawValue < $1.rawValue }, id: \.self) { category in
-          EXCategoryCell(icon: Image(category.icon), title: category.name)
-            .onTapGesture {
-              title = category.name
-              icon = category.icon
-              makeDismiss()
+              .listRowSeparator(.hidden)
+            } header: {
+              HStack {
+                Text(sectionHeader)
+                  .font(.footnoteRegular)
+                  .foregroundColor(.darkGrey)
+                  .padding(5)
+                Spacer()
+              }
+              .applyMargins()
+              .background(Color.white)
+              .listRowInsets(EdgeInsets(
+                top: 0,
+                leading: 0,
+                bottom: 0,
+                trailing: 0))
             }
+          }
         }
-        .listRowSeparator(.hidden)
-        
+        .listStyle(.plain)
       }
-      .listStyle(.plain)
       .background(.white)
       .navigationBarTitleDisplayMode(.inline)
       .sheet(isPresented: $showCategory, content: {
@@ -111,7 +103,7 @@ extension CategorySelectorView {
 
 struct CategorySelectorView_Previews: PreviewProvider {
   static var previews: some View {
-    CategorySelectorView(title: .constant(""), icon: .constant(""))
+    CategorySelectorView(title: .constant(""), icon: .constant(""), section: .constant(""))
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }

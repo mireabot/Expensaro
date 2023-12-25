@@ -28,35 +28,34 @@ struct CategoriesSettingsView: View {
         .applyMargins()
         
         List {
-          Section {
-            Text("Custom categories")
-              .font(.system(.footnote, weight: .regular))
-              .foregroundColor(.darkGrey)
-              .frame(maxWidth: .infinity, alignment: .leading)
-          }
-          .listRowSeparator(.hidden)
-          if categories.isEmpty {
-            EXEmptyStateView(type: .noCustomCategories)
+          ForEach(Dictionary(grouping: categories, by: { $0.section.header }).keys.sorted(), id: \.self) { sectionHeader in
+            Section {
+              ForEach(Dictionary(grouping: categories, by: { $0.section.header })[sectionHeader]!) { category in
+                EXCategoryCell(icon: Image(category.icon), title: category.name)
+                  .swipeActions {
+                    Button("Delete", role: .destructive, action: {
+                      deleteCategory(category: category)
+                    })
+                  }
+              }
               .listRowSeparator(.hidden)
-          } else {
-            ForEach(categories) { category in
-              EXCategoryCell(icon: Image(category.icon), title: category.name)
+            } header: {
+              HStack {
+                Text(sectionHeader)
+                  .font(.footnoteRegular)
+                  .foregroundColor(.darkGrey)
+                  .padding(5)
+                Spacer()
+              }
+              .applyMargins()
+              .background(Color.white)
+              .listRowInsets(EdgeInsets(
+                top: 0,
+                leading: 0,
+                bottom: 0,
+                trailing: 0))
             }
-            .onDelete(perform: $categories.remove)
-            .listRowSeparator(.hidden)
           }
-          
-          Section {
-            Text("Default categories")
-              .font(.system(.footnote, weight: .regular))
-              .foregroundColor(.darkGrey)
-              .frame(maxWidth: .infinity, alignment: .leading)
-          }
-          .listRowSeparator(.hidden)
-          ForEach(CategoryDescription.allCases.sorted { $0.rawValue < $1.rawValue }, id: \.self) { category in
-            EXCategoryCell(icon: Image(category.icon), title: category.name)
-          }
-          .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
       }
@@ -96,5 +95,12 @@ extension CategoriesSettingsView {
     
     let backIcon = Source.Images.Navigation.back
     let addIcon = Source.Images.ButtonIcons.add
+  }
+}
+
+// MARK: - Realm Functions
+extension CategoriesSettingsView {
+  func deleteCategory(category: Category) {
+    $categories.remove(category)
   }
 }

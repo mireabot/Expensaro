@@ -8,7 +8,7 @@
 import SwiftUI
 
 // MARK: Sample data for categories breakdown
-struct SampleCategoriesBreakdown: Identifiable{
+struct SampleCategoriesBreakdown: Identifiable {
   var id: String = UUID().uuidString
   var categoryName: String
   var categoryIcon: String

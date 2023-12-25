@@ -86,7 +86,7 @@ struct AddTransactionView: View {
           .autohideIn(1.5)
       })
       .sheet(isPresented: $showCategoriesSelector, content: {
-        CategorySelectorView(title: $transaction.categoryName, icon: $transaction.categoryIcon)
+        CategorySelectorView(title: $transaction.categoryName, icon: $transaction.categoryIcon, section: $transaction.categorySection)
           .presentationDetents([.fraction(0.9)])
       })
       .navigationBarTitleDisplayMode(.inline)

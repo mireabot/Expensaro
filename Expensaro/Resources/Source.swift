@@ -180,5 +180,22 @@ enum Source {
       
       return transaction
     }
+    
+    /// Function which creates Category realm object
+    /// - Parameters:
+    ///   - icon: icon of Category
+    ///   - name: name of Category
+    ///   - tag: tag of Category
+    ///   - section: section of Category
+    /// - Returns: Filled object Category
+    static func createCategory(icon: String, name: String, tag: CategoriesTag, section: CategoriesSection) -> Category {
+      let category = Category()
+      category.icon = icon
+      category.name = name
+      category.tag = tag
+      category.section = section
+      
+      return category
+    }
   }
 }

@@ -55,15 +55,30 @@ enum RealmMigrator {
       }
     }
     
-    // Migration version 7 - Current
+    // Migration version 7
     if oldSchemaVersion < 7 {
       migration.enumerateObjects(ofType: Budget.className()) { _, newObject in
         newObject?["initialAmount"] = 2000
       }
     }
+    
+    // Migration version 8
+    if oldSchemaVersion < 8 {
+      migration.enumerateObjects(ofType: Category.className()) { _, newObject in
+        newObject?["tag"] = CategoriesTag.base
+        newObject?["section"] = CategoriesSection.other
+      }
+    }
+    
+    // Migration version 10 - Current
+    if oldSchemaVersion < 10 {
+      migration.enumerateObjects(ofType: Transaction.className()) { _, newObject in
+        newObject?["categorySection"] = "Other"
+      }
+    }
   }
 
   static var configuration: Realm.Configuration {
-    Realm.Configuration(schemaVersion: 7, migrationBlock: migrationBlock)
+    Realm.Configuration(schemaVersion: 10, migrationBlock: migrationBlock)
   }
 }

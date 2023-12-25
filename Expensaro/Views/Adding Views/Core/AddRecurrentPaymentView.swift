@@ -146,7 +146,7 @@ struct AddRecurrentPaymentView: View {
           .isOpaque(true)
       }
       .sheet(isPresented: $showCategoryelector, content: {
-        CategorySelectorView(title: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon)
+        CategorySelectorView(title: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon, section: .constant(""))
           .presentationDetents([.fraction(0.9)])
       })
       .navigationBarTitleDisplayMode(.inline)
