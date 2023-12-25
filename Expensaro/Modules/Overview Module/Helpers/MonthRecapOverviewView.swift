@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import Charts
 
 struct MonthRecapOverviewView: View {
   // MARK: Essential
@@ -16,6 +17,7 @@ struct MonthRecapOverviewView: View {
       ScrollView {
         header().padding(.top, 16)
         budgetSection().padding(.top, 5)
+        categoriesSection().padding(.top, 5)
       }
       .applyBounce()
       .applyMargins()
@@ -71,109 +73,110 @@ extension MonthRecapOverviewView {
         VStack(alignment: .leading, spacing: 20) {
           HStack(alignment: .bottom) {
             VStack {
-              Text("Initial budget")
-                .font(.footnoteMedium)
-                .foregroundColor(.darkGrey)
-              ZStack(alignment: .bottom) {
-                Rectangle()
-                  .fill(Color.primaryGreen)
-                  .frame(height: (2000 * 0.08))
-                  .cornerRadius(16, corners: [.topLeft,.topRight])
-                Text("$2000")
-                  .font(.headlineBold)
-                  .foregroundColor(.white)
-                  .padding(.bottom, 10)
+              VStack(spacing: 0) {
+                Text("Initial budget")
+                  .font(.footnoteMedium)
+                  .foregroundColor(.darkGrey)
+                Text("$\(2000)")
+                  .font(.calloutBold)
+                  .foregroundColor(.black)
               }
+              Rectangle()
+                .fill(Color.primaryGreen)
+                .frame(height: (2000 * 0.08))
+                .cornerRadius(5, corners: [.topLeft,.topRight])
             }
             VStack {
-              Text("Added funds")
-                .font(.footnoteMedium)
-                .foregroundColor(.darkGrey)
-              ZStack(alignment: .bottom) {
-                Rectangle()
-                  .fill(Color(uiColor: .green).opacity(0.45))
-                  .frame(height: (780 * 0.07))
-                  .cornerRadius(16, corners: [.topLeft,.topRight])
-                
-                Text("$780")
-                  .font(.headlineBold)
+              VStack(spacing: 0) {
+                Text("Added funds")
+                  .font(.footnoteMedium)
+                  .foregroundColor(.darkGrey)
+                Text("$\(780)")
+                  .font(.calloutBold)
                   .foregroundColor(.black)
-                  .padding(.bottom, 10)
               }
+              Rectangle()
+                .fill(Color(red: 0.384, green: 0.78, blue: 0.549))
+                .frame(height: (780 * 0.07))
+                .cornerRadius(5, corners: [.topLeft,.topRight])
             }
             VStack {
-              Text("Total spent")
-                .font(.footnoteMedium)
-                .foregroundColor(.darkGrey)
-              ZStack(alignment: .bottom) {
-                Rectangle()
-                  .fill(Color(uiColor: .quaternarySystemFill))
-                  .frame(height: (1600 * 0.08))
-                  .cornerRadius(16, corners: [.topLeft,.topRight])
-                
-                Text("$1600")
-                  .font(.headlineBold)
+              VStack(spacing: 0) {
+                Text("Total spent")
+                  .font(.footnoteMedium)
+                  .foregroundColor(.darkGrey)
+                Text("$\(1600)")
+                  .font(.calloutBold)
                   .foregroundColor(.black)
-                  .padding(.bottom, 10)
               }
+              Rectangle()
+                .fill(Color(uiColor: .systemGray5))
+                .frame(height: (1600 * 0.08))
+                .cornerRadius(5, corners: [.topLeft,.topRight])
             }
           }
         }
-      }
-      
-      EXBaseCard {
-        VStack {
-          HStack(alignment: .top, spacing: 30) {
-            VStack(alignment: .leading, spacing: 5) {
-              Text("Budget gap")
-                .font(.footnoteMedium)
-                .foregroundColor(.darkGrey)
-              Text("$\(1180)")
-                .font(.title3Bold)
-                .foregroundColor(.black)
-              HStack(spacing: 0) {
-                Source.Images.System.arrowUp
-                  .resizable()
-                  .frame(width: 20, height: 20)
-                  .foregroundColor(.green)
-                Text("\(59)%")
-                  .font(.footnoteSemibold)
-                  .foregroundColor(.green)
-              }
-            }
-            VStack(alignment: .leading, spacing: 5) {
-              Text("Future budget")
-                .font(.footnoteMedium)
-                .foregroundColor(.darkGrey)
-              Text("~$\(1500)")
-                .font(.title3Bold)
-                .foregroundColor(.black)
-              HStack(spacing: 0) {
-                Source.Images.System.arrowDown
-                  .resizable()
-                  .frame(width: 20, height: 20)
-                  .foregroundColor(.red)
-                Text("\(25)%")
-                  .font(.footnoteSemibold)
-                  .foregroundColor(.red)
-              }
-            }
-            VStack(alignment: .leading, spacing: 5) {
-              Text("Budget Mastery")
-                .font(.footnoteMedium)
-                .foregroundColor(.darkGrey)
-              Text("\(43)%")
-                .font(.title3Bold)
-                .foregroundColor(.black)
-              Text("Yellow zone")
-                .font(.footnoteSemibold)
-                .foregroundColor(.yellow)
-            }
-          }
-        }
-        .frame(maxWidth: .infinity, alignment: .center)
       }
     }
+  }
+  
+  @ViewBuilder
+  func categoriesSection() -> some View {
+    EXBaseCard {
+      VStack(alignment: .leading) {
+        Chart {
+          ForEach(sampleStorageDetails, id: \.categoryName) { data in
+            
+            BarMark(
+              x: .value("Cup", data.amount),
+              stacking: .normalized
+            )
+            .foregroundStyle(data.progressColor)
+          }
+        }
+        .chartLegend(.hidden)
+        .chartXAxis(.hidden)
+        .frame(height: 35)
+        .cornerRadius(5)
+        .frame(maxWidth: .infinity)
+        ScrollView(.horizontal, showsIndicators: false) {
+          HStack(spacing: 10) {
+            ForEach(sampleStorageDetails, id: \.categoryName) { data in
+              HStack(spacing: 3) {
+                Circle()
+                  .fill(data.progressColor)
+                  .frame(width: 7, height: 7)
+                Text(data.categoryName)
+                  .font(.footnoteRegular)
+                  .foregroundColor(.darkGrey)
+              }
+              .frame(maxWidth: .infinity)
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+extension MonthRecapOverviewView {
+  // MARK: Custom Graph Properties
+  func getIndex(item: SampleCategoriesBreakdown)->Int{
+    return sampleStorageDetails.firstIndex { Citem in
+      return Citem.id == item.id
+    } ?? 0
+  }
+  
+  func getAngle(item: SampleCategoriesBreakdown)->Angle{
+    let index = getIndex(item: item)
+    let prefixItems = sampleStorageDetails.prefix(index)
+    var angle: Angle = .zero
+    for item in prefixItems{
+      // MARK: Since Its Circle
+      angle += .init(degrees: item.progress * 360)
+    }
+    
+    return angle
   }
 }
 
