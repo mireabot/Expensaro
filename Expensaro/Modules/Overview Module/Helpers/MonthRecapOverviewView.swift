@@ -17,7 +17,8 @@ struct MonthRecapOverviewView: View {
       ScrollView {
         header().padding(.top, 16)
         budgetSection().padding(.top, 5)
-        categoriesSection().padding(.top, 5)
+        categoriesSection().padding(.top, 10)
+        goalsSection().padding(.top, 10)
       }
       .applyBounce()
       .applyMargins()
@@ -46,13 +47,10 @@ extension MonthRecapOverviewView {
     var currentMonth: Text {
       return Text("\(Source.Functions.currentMonth())") .font(.largeTitleBold)
     }
-    
-    var percentage: Text {
-      return Text("30%").foregroundColor(.primaryGreen).font(.footnoteBold)
-    }
   }
 }
 
+// MARK: - Components Views
 extension MonthRecapOverviewView {
   @ViewBuilder
   func header() -> some View {
@@ -69,6 +67,12 @@ extension MonthRecapOverviewView {
   @ViewBuilder
   func budgetSection() -> some View {
     VStack(spacing: 10) {
+      HStack {
+        Text("Budget activity")
+          .font(.subheadlineSemibold)
+          .foregroundColor(.black)
+        Spacer()
+      }
       EXBaseCard {
         VStack(alignment: .leading, spacing: 20) {
           HStack(alignment: .bottom) {
@@ -122,37 +126,81 @@ extension MonthRecapOverviewView {
   
   @ViewBuilder
   func categoriesSection() -> some View {
-    EXBaseCard {
-      VStack(alignment: .leading) {
-        Chart {
-          ForEach(sampleStorageDetails, id: \.categoryName) { data in
-            
-            BarMark(
-              x: .value("", data.amount),
-              stacking: .normalized
-            )
-            .foregroundStyle(data.progressColor)
-          }
-        }
-        .chartLegend(.hidden)
-        .chartXAxis(.hidden)
-        .frame(height: 35)
-        .cornerRadius(5)
-        .frame(maxWidth: .infinity)
-        ScrollView(.horizontal, showsIndicators: false) {
-          HStack(spacing: 10) {
+    VStack(spacing: 10) {
+      HStack {
+        Text("Categories breakdown")
+          .font(.subheadlineSemibold)
+          .foregroundColor(.black)
+        Spacer()
+        Button(action: {}, label: {
+          Text("Learn more")
+            .foregroundColor(.primaryGreen)
+            .font(.footnoteMedium)
+        })
+      }
+      EXBaseCard {
+        VStack(alignment: .leading) {
+          Chart {
             ForEach(sampleStorageDetails, id: \.categoryName) { data in
-              HStack(spacing: 3) {
-                Circle()
-                  .fill(data.progressColor)
-                  .frame(width: 7, height: 7)
-                Text(data.categoryName.rawValue.capitalized)
-                  .font(.footnoteRegular)
-                  .foregroundColor(.darkGrey)
-              }
-              .frame(maxWidth: .infinity)
+              
+              BarMark(
+                x: .value("", data.amount),
+                stacking: .normalized
+              )
+              .foregroundStyle(data.progressColor)
             }
           }
+          .chartLegend(.hidden)
+          .chartXAxis(.hidden)
+          .frame(height: 35)
+          .cornerRadius(5)
+          .frame(maxWidth: .infinity)
+          ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+              ForEach(sampleStorageDetails, id: \.categoryName) { data in
+                HStack(spacing: 3) {
+                  Circle()
+                    .fill(data.progressColor)
+                    .frame(width: 7, height: 7)
+                  Text(data.categoryName.rawValue.capitalized)
+                    .font(.footnoteRegular)
+                    .foregroundColor(.darkGrey)
+                }
+                .frame(maxWidth: .infinity)
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  @ViewBuilder
+  func goalsSection() -> some View {
+    VStack(spacing: 10) {
+      HStack {
+        Text("Goals analytics")
+          .font(.subheadlineSemibold)
+          .foregroundColor(.black)
+        Spacer()
+        Button(action: {}, label: {
+          Text("Learn more")
+            .foregroundColor(.primaryGreen)
+            .font(.footnoteMedium)
+        })
+      }
+      EXBaseCard {
+        HStack {
+          VStack(alignment: .leading, spacing: 3, content: {
+            Text("$\(2450)")
+              .font(.title3Bold)
+            Text("You contributed towards goals")
+              .font(.footnoteRegular)
+              .foregroundColor(.darkGrey)
+          })
+          Spacer()
+          Image(Source.Images.Tabs.goals)
+            .foregroundColor(.primaryGreen)
         }
       }
     }
