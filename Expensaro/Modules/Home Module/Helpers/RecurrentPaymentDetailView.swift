@@ -9,7 +9,6 @@ import SwiftUI
 import ExpensaroUIKit
 import PopupView
 import RealmSwift
-import PartialSheet
 
 struct RecurrentPaymentDetailView: View {
   // MARK: - Essential
@@ -143,7 +142,7 @@ struct RecurrentPaymentDetailView: View {
           }
         }
       }
-    }.attachPartialSheetToRoot()
+    }
   }
   
   func daysLeftString(for days: Int) -> String {
@@ -161,7 +160,6 @@ struct RecurrentPaymentDetailView: View {
 struct RecurrentPaymentDetailView_Previews: PreviewProvider {
   static var previews: some View {
     RecurrentPaymentDetailView(transaction: DefaultRecurringTransactions.transaction2, budget: Budget())
-      .attachPartialSheetToRoot()
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
@@ -174,6 +172,7 @@ extension RecurrentPaymentDetailView {
     let title = "Transactions"
     
     let closeIcon = Source.Images.Navigation.back
+    let dismissIcon = Source.Images.Navigation.close
     let deleteIcon = Source.Images.ButtonIcons.delete
   }
 }
@@ -187,8 +186,14 @@ extension RecurrentPaymentDetailView {
         Text("Create note")
           .font(.title3Semibold)
         Spacer()
+        Button(action: {
+          showNoteView.toggle()
+        }, label: {
+          Appearance.shared.dismissIcon
+            .foregroundColor(.black)
+        })
       }
-      .padding(.top, 16)
+      .padding(.top, 20)
       EXResizableTextField(message: $transaction.note, characterLimit: 300)
         .autocorrectionDisabled()
         .multilineSubmitEnabled(for: $transaction.note)

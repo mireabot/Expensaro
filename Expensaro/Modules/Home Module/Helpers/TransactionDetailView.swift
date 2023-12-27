@@ -9,7 +9,6 @@ import SwiftUI
 import ExpensaroUIKit
 import PopupView
 import RealmSwift
-import PartialSheet
 
 struct TransactionDetailView: View {
   // MARK: Essential
@@ -134,7 +133,6 @@ struct TransactionDetailView: View {
         }
       }
     }
-    .attachPartialSheetToRoot()
   }
 }
 
@@ -147,6 +145,7 @@ extension TransactionDetailView {
     let title = "Transactions"
     
     let closeIcon = Source.Images.Navigation.back
+    let dismissIcon = Source.Images.Navigation.close
     let deleteIcon = Source.Images.ButtonIcons.delete
   }
 }
@@ -160,8 +159,14 @@ private extension TransactionDetailView {
         Text("Create note")
           .font(.title3Semibold)
         Spacer()
+        Button {
+          showNoteView.toggle()
+        } label: {
+          Appearance.shared.dismissIcon
+            .foregroundColor(.black)
+        }
       }
-      .padding(.top, 16)
+      .padding(.top, 20)
       EXResizableTextField(message: $transaction.note, characterLimit: 300)
         .autocorrectionDisabled()
         .multilineSubmitEnabled(for: $transaction.note)

@@ -13,21 +13,31 @@ struct DateSelectorView: View {
   let type: SelectorType
   @Binding var selectedDate: Date
   var body: some View {
-    VStack {
-      HStack {
-        Text(type.title)
-          .font(.title3Semibold)
-        Spacer()
+    ViewThatFits(in: .vertical) {
+      VStack {
+        HStack {
+          Text(type.title)
+            .font(.title3Semibold)
+          Spacer()
+          Button(action: {
+            makeDismiss()
+          }, label: {
+            Source.Images.Navigation.close
+              .foregroundColor(.black)
+          })
+        }.padding(.bottom, 20)
+        DatePicker(
+          "Start Date",
+          selection: $selectedDate,
+          displayedComponents: [.date]
+        )
+        .tint(.primaryGreen)
+        .datePickerStyle(.graphical)
       }
-      DatePicker(
-        "Start Date",
-        selection: $selectedDate,
-        displayedComponents: [.date]
-      )
-      .tint(.primaryGreen)
-      .datePickerStyle(.graphical)
+      .applyMargins()
     }
-    .applyMargins()
+    .padding(.top, 20)
+    .background(.white)
   }
 }
 

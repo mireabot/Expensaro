@@ -12,6 +12,9 @@ struct OverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   
+  // MARK: Variables
+  @State private var sheetHeight: CGFloat = .zero
+  
   // MARK: Presentation
   @State private var showSpendingsInfoSheet = false
   @State private var showTopCategoryInfoSheet = false
@@ -38,16 +41,20 @@ struct OverviewView: View {
         .presentationDetents([.fraction(0.4)])
       })
       .sheet(isPresented: $showSpendingsInfoSheet, content: {
-        EXBottomInfoView(type: .spendings, action: {
-          DispatchQueue.main.async {
-            showSpendingsInfoSheet.toggle()
-          }
-          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView()))
-        }, bottomView: {
-          EXOverviewCard(header: "Month recap", title: "December", icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")
+        ViewThatFits(in: .vertical, content: {
+          EXBottomInfoView(type: .spendings, action: {
+            DispatchQueue.main.async {
+              showSpendingsInfoSheet.toggle()
+            }
+            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView()))
+          }, bottomView: {
+            EXOverviewCard(header: "Month recap", title: "December", icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")
+          })
+          .applyMargins()
         })
-        .applyMargins()
-        .presentationDetents([.fraction(0.4)])
+        .fixedSize(horizontal: false, vertical: true)
+        .modifier(GetHeightModifier(height: $sheetHeight))
+        .presentationDetents([.height(sheetHeight)])
       })
       .applyMargins()
       .scrollDisabled(true)

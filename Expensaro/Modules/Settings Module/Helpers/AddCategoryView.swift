@@ -20,6 +20,9 @@ struct AddCategoryView: View {
   // MARK: Realm
   @ObservedRealmObject var category: Category
   
+  // MARK: Variables
+  @State private var sheetHeight: CGFloat = .zero
+  
   // MARK: Presentation
   @State private var showSelector = false
   var body: some View {
@@ -41,7 +44,7 @@ struct AddCategoryView: View {
           Button(action: {
             showSelector.toggle()
           }, label: {
-            EXLargeSelector(text: .constant(category.section.header), icon: .constant(""), header: "Category header", rightIcon: "swipeDown")
+            EXLargeSelector(text: .constant(category.section.header), icon: .constant(""), header: "Category section", rightIcon: "swipeDown")
           })
           .buttonStyle(EXPlainButtonStyle())
           
@@ -73,7 +76,8 @@ struct AddCategoryView: View {
       }
       .sheet(isPresented: $showSelector, content: {
         selectorView()
-          .presentationDetents([.fraction(0.3)])
+          .modifier(GetHeightModifier(height: $sheetHeight))
+          .presentationDetents([.height(sheetHeight)])
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -122,29 +126,12 @@ struct AddCategoryView: View {
   
   @ViewBuilder
   func selectorView() -> some View {
-    NavigationView {
-      ScrollView(showsIndicators: false) {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
-          ForEach(CategoriesSection.allCases, id: \.header) { folder in
-            Button(action: {
-              category.section = folder
-              showSelector.toggle()
-            }, label: {
-              EXSmallCard(title: folder.rawValue.capitalized)
-            })
-            .buttonStyle(EXPlainButtonStyle())
-          }
-        }
-      }
-      .applyMargins()
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          Text("Select category header")
-            .font(.headlineMedium)
-        }
-        
-        ToolbarItem(placement: .navigationBarTrailing) {
+    ViewThatFits(in: .vertical) {
+      VStack {
+        HStack {
+          Text("Select category section")
+            .font(.title3Bold)
+          Spacer()
           Button {
             showSelector.toggle()
           } label: {
@@ -152,7 +139,17 @@ struct AddCategoryView: View {
               .foregroundColor(.black)
           }
         }
-      }
+        .padding(.vertical, 20)
+        ForEach(CategoriesSection.allCases, id: \.header) { folder in
+          Button(action: {
+            category.section = folder
+            showSelector.toggle()
+          }, label: {
+            EXSelectCell(title: folder.rawValue.capitalized, selectIcon: Source.Images.Navigation.checkmark, condition: category.section == folder)
+          })
+          .buttonStyle(EXPlainButtonStyle())
+        }
+      }.applyMargins()
     }
   }
 }

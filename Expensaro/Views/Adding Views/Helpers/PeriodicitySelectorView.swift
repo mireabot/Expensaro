@@ -13,28 +13,33 @@ struct PeriodicitySelectorView: View {
   @Binding var selectedPeriodicity: RecurringSchedule
   let schedule = RecurringSchedule.allCases
   var body: some View {
-    VStack {
-      HStack {
-        Text("Select payment periodicity")
-          .font(.title3Semibold)
-        Spacer()
-      }
-      .padding(.bottom, 10)
-      ForEach(schedule, id: \.self) { data in
-        Button {
-          DispatchQueue.main.async {
-            withAnimation(.spring) {
-              presentation = false
-              selectedPeriodicity = data
-            }
+    ViewThatFits(in: .vertical) {
+      VStack(alignment: .leading) {
+        HStack {
+          Text(Appearance.shared.title)
+            .font(.title3Semibold)
+          Spacer()
+          Button(action: {
+            presentation = false
+          }, label: {
+            Source.Images.Navigation.close
+              .foregroundColor(.black)
+          })
+        }.padding(.bottom, 20)
+        ForEach(schedule, id: \.self) { data in
+          Button {
+            presentation = false
+            selectedPeriodicity = data
+          } label: {
+            EXSelectCell(title: data.title, selectIcon: Source.Images.Navigation.checkmark, condition: selectedPeriodicity.title == data.title)
           }
-        } label: {
-          EXSmallCard(title: data.title, image: "calendarYear")
+          .buttonStyle(EXPlainButtonStyle())
         }
-        .buttonStyle(EXPlainButtonStyle())
       }
+      .applyMargins()
     }
-    .applyMargins()
+    .padding(.top, 20)
+    .background(.white)
   }
 }
 

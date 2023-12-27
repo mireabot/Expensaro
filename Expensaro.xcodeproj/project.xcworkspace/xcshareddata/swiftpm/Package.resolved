@@ -5,17 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mireabot/ExpensaroUIKit",
       "state" : {
-        "revision" : "e7665d2ed793b895099197ca94e523ef7ee4a545",
-        "version" : "1.2.6"
-      }
-    },
-    {
-      "identity" : "partialsheet",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/AndreaMiotto/PartialSheet",
-      "state" : {
-        "revision" : "6c61890976181274ea7baf6a4c297418346db799",
-        "version" : "3.1.1"
+        "revision" : "cf1bce1de64713493edeffdc9a407f4fc90167e8",
+        "version" : "1.2.8"
       }
     },
     {

@@ -8,7 +8,6 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
-import PartialSheet
 
 @main
 struct ExpensaroApp: SwiftUI.App {

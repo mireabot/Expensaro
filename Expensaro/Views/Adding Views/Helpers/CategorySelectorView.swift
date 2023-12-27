@@ -46,47 +46,55 @@ struct CategorySelectorView: View {
     Source.Realm.createCategory(icon: Source.Strings.Categories.Images.medicine, name: "Healthcare", tag: .base, section: .other),
   ]
   var body: some View {
-    VStack {
-      HStack {
-        Text("Select category")
-          .font(.title3Semibold)
-        Spacer()
-      }
-      .padding(.bottom, 10)
-      ForEach(Dictionary(grouping: loadedCategories, by: { $0.section.header }).keys.sorted(), id: \.self) { sectionHeader in
-        Section {
-          ForEach(Dictionary(grouping: loadedCategories, by: { $0.section.header })[sectionHeader]!) { category in
-            EXCategoryCell(icon: Image(category.icon), title: category.name)
-              .onTapGesture {
-                DispatchQueue.main.async {
-                  withAnimation(.spring) {
-                    presentation = false
-                    title = category.name
-                    icon = category.icon
-                    section = category.section.header
-                  }
+    NavigationView {
+      ScrollView(showsIndicators: false) {
+        ForEach(Dictionary(grouping: loadedCategories, by: { $0.section.header }).keys.sorted(), id: \.self) { sectionHeader in
+          Section {
+            ForEach(Dictionary(grouping: loadedCategories, by: { $0.section.header })[sectionHeader]!) { category in
+              EXCategoryCell(icon: Image(category.icon), title: category.name)
+                .onTapGesture {
+                  presentation = false
+                  title = category.name
+                  icon = category.icon
+                  section = category.section.header
                 }
-              }
+            }
+            .listRowSeparator(.hidden)
+          } header: {
+            HStack {
+              Text(sectionHeader)
+                .font(.footnoteRegular)
+                .foregroundColor(.darkGrey)
+                .padding(5)
+              Spacer()
+            }
+            .background(Color.white)
+            .listRowInsets(EdgeInsets(
+              top: 0,
+              leading: 0,
+              bottom: 0,
+              trailing: 0))
           }
-          .listRowSeparator(.hidden)
-        } header: {
-          HStack {
-            Text(sectionHeader)
-              .font(.footnoteRegular)
-              .foregroundColor(.darkGrey)
-              .padding(5)
-            Spacer()
+        }
+      }
+      .applyMargins()
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbarBackground(.white, for: .navigationBar)
+      .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+          Text(Appearance.shared.title)
+            .font(.title3Semibold)
+        }
+        ToolbarItem(placement: .topBarTrailing) {
+          Button {
+            presentation = false
+          } label: {
+            Appearance.shared.closeIcon
+              .foregroundColor(.black)
           }
-          .background(Color.white)
-          .listRowInsets(EdgeInsets(
-            top: 0,
-            leading: 0,
-            bottom: 0,
-            trailing: 0))
         }
       }
     }
-    .applyMargins()
   }
 }
 

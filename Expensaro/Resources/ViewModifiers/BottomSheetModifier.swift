@@ -6,36 +6,18 @@
 //
 
 import SwiftUI
-import PartialSheet
-import RealmSwift
 
-struct ListExample: View {
-  @State private var isSheetPresented = false
-  @State private var selectedIndex: Int = 0
-  let animationIn: Animation = .spring
+struct GetHeightModifier: ViewModifier {
+  @Binding var height: CGFloat
   
-  var body: some View {
-    Button {
-      withAnimation(animationIn) {
-        isSheetPresented.toggle()
+  func body(content: Content) -> some View {
+    content.background(
+      GeometryReader { geo -> Color in
+        DispatchQueue.main.async {
+          height = geo.size.height
+        }
+        return Color.clear
       }
-    } label: {
-      Text("Show")
-    }
-    .partialSheet(isPresented: $isSheetPresented, type: .scrollView(height: 500, showsIndicators: false)) {
-      CategorySelectorView(presentation: $isSheetPresented, title: .constant(""), icon: .constant(""), section: .constant(""))
-        .environment(\.realmConfiguration, RealmMigrator.configuration)
-    }
-    .navigationBarTitle(Text("List Example"))
-  }
-}
-
-struct ListExample_Previews: PreviewProvider {
-  static var previews: some View {
-    NavigationView {
-      ListExample()
-    }
-    .attachPartialSheetToRoot()
-    .navigationViewStyle(StackNavigationViewStyle())
+    )
   }
 }
