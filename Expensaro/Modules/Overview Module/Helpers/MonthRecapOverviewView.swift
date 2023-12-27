@@ -12,6 +12,9 @@ import Charts
 struct MonthRecapOverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
+  
+  // MARK: Presentation
+  @State private var showCategoriesBreakdown = false
   var body: some View {
     NavigationView {
       ScrollView {
@@ -22,6 +25,11 @@ struct MonthRecapOverviewView: View {
       }
       .applyBounce()
       .applyMargins()
+      .sheet(isPresented: $showCategoriesBreakdown, content: {
+        CategoriesBreakdownOverviewView()
+          .presentationDetents([.fraction(0.95)])
+          .presentationDragIndicator(.visible)
+      })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
@@ -132,7 +140,9 @@ extension MonthRecapOverviewView {
           .font(.subheadlineSemibold)
           .foregroundColor(.black)
         Spacer()
-        Button(action: {}, label: {
+        Button(action: {
+          showCategoriesBreakdown.toggle()
+        }, label: {
           Text("Learn more")
             .foregroundColor(.primaryGreen)
             .font(.footnoteMedium)

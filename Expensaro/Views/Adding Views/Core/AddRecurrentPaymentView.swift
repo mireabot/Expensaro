@@ -112,7 +112,7 @@ struct AddRecurrentPaymentView: View {
       })
       .sheet(isPresented: $showSchedule, content: {
         PeriodicitySelectorView(selectedPeriodicity: $recurringPayment.schedule)
-          .presentationDetents([.fraction(0.45)])
+          .presentationDetents([.fraction(0.5)])
       })
       .sheet(isPresented: $showNextDate, content: {
         DateSelectorView(type: .setRecurrentDate, selectedDate: $recurringPayment.dueDate)

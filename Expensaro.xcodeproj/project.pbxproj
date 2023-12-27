@@ -78,6 +78,7 @@
 		35CE33E62AE18CEB00BC93C2 /* EXGoalTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CE33E52AE18CEB00BC93C2 /* EXGoalTransactionCell.swift */; };
 		35DE97DE2AE747F900CEF68D /* EXToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DE97DD2AE747F900CEF68D /* EXToast.swift */; };
 		35DFA06A2AC385F10008246A /* EraseDataSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */; };
+		35E80A782B3B3184006231F8 /* CategoriesBreakdownOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E80A772B3B3184006231F8 /* CategoriesBreakdownOverviewView.swift */; };
 		35E8743A2ACC7EE2002368DB /* PeriodicitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E874392ACC7EE2002368DB /* PeriodicitySelectorView.swift */; };
 		35E8743D2ACC899A002368DB /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E8743C2ACC899A002368DB /* Transaction.swift */; };
 		35F207A62ADA3EC400834C52 /* RealmMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F207A52ADA3EC400834C52 /* RealmMigrator.swift */; };
@@ -153,6 +154,7 @@
 		35DE97DD2AE747F900CEF68D /* EXToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXToast.swift; sourceTree = "<group>"; };
 		35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EraseDataSettingsView.swift; sourceTree = "<group>"; };
 		35DFA06B2AC397870008246A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		35E80A772B3B3184006231F8 /* CategoriesBreakdownOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesBreakdownOverviewView.swift; sourceTree = "<group>"; };
 		35E874392ACC7EE2002368DB /* PeriodicitySelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicitySelectorView.swift; sourceTree = "<group>"; };
 		35E8743C2ACC899A002368DB /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		35F207A52ADA3EC400834C52 /* RealmMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrator.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 			children = (
 				350D45812B22A03400E13008 /* TopCategoryOverviewView.swift */,
 				358900E02B375E78009509FC /* MonthRecapOverviewView.swift */,
+				35E80A772B3B3184006231F8 /* CategoriesBreakdownOverviewView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -750,6 +753,7 @@
 				35825C002AC9FDEB00713AD8 /* EXDatePicker.swift in Sources */,
 				35825BFB2AC9D01C00713AD8 /* EXTransactionCell.swift in Sources */,
 				358BA4B82AD5D06500229504 /* ResizableTextFieldModifier.swift in Sources */,
+				35E80A782B3B3184006231F8 /* CategoriesBreakdownOverviewView.swift in Sources */,
 				3510F6E72AFD62F2000B5532 /* LocalNotificationsManager.swift in Sources */,
 				355BB4082ABCB1DE00A71834 /* AddCategoryView.swift in Sources */,
 				351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */,

@@ -14,23 +14,22 @@ struct PeriodicitySelectorView: View {
   let schedule = RecurringSchedule.allCases
   var body: some View {
     NavigationView {
-      List {
-        VStack {
+      ScrollView(content: {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
           ForEach(schedule, id: \.self) { data in
             Button {
               selectedPeriodicity = data
               makeDismiss()
             } label: {
-              EXCategoryCell(icon: Source.Images.System.calendarYear, title: data.title)
+              EXSmallCard(title: data.title, image: "calendarYear")
             }
             .buttonStyle(EXPlainButtonStyle())
           }
         }
-        .listRowSeparator(.hidden)
-      }
-      .listStyle(.inset)
-      .background(.white)
-      .scrollDisabled(true)
+        .padding(.top, 10)
+        .applyMargins()
+      })
+      .applyBounce()
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {

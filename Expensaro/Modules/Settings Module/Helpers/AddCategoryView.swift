@@ -73,7 +73,7 @@ struct AddCategoryView: View {
       }
       .sheet(isPresented: $showSelector, content: {
         selectorView()
-          .presentationDetents([.fraction(0.5)])
+          .presentationDetents([.fraction(0.3)])
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -124,18 +124,16 @@ struct AddCategoryView: View {
   func selectorView() -> some View {
     NavigationView {
       ScrollView(showsIndicators: false) {
-        ForEach(CategoriesSection.allCases, id: \.header) { folder in
-          Button(action: {
-            category.section = folder
-            showSelector.toggle()
-          }, label: {
-            EXBaseCard {
-              Text(folder.rawValue.capitalized)
-                .font(.bodyMedium)
-                .frame(maxWidth: .infinity)
-            }
-          })
-          .buttonStyle(EXPlainButtonStyle())
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
+          ForEach(CategoriesSection.allCases, id: \.header) { folder in
+            Button(action: {
+              category.section = folder
+              showSelector.toggle()
+            }, label: {
+              EXSmallCard(title: folder.rawValue.capitalized)
+            })
+            .buttonStyle(EXPlainButtonStyle())
+          }
         }
       }
       .applyMargins()
@@ -143,7 +141,7 @@ struct AddCategoryView: View {
       .toolbar {
         ToolbarItem(placement: .principal) {
           Text("Select category header")
-            .font(.system(.headline, weight: .medium))
+            .font(.headlineMedium)
         }
         
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -178,10 +176,10 @@ extension AddCategoryView {
     let submitIcon = Source.Images.Navigation.checkmark
     
     var items: [GridItem] = [
-      GridItem(.flexible(), spacing: 15),
-      GridItem(.flexible(), spacing: 15),
-      GridItem(.flexible(), spacing: 15),
-      GridItem(.flexible(), spacing: 15),
+      GridItem(.adaptive(minimum: 150)),
+      GridItem(.adaptive(minimum: 150)),
+      GridItem(.adaptive(minimum: 150)),
+      GridItem(.adaptive(minimum: 150)),
     ]
   }
 }
