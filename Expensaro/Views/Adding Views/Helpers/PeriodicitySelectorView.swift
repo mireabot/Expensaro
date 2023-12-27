@@ -9,50 +9,38 @@ import SwiftUI
 import ExpensaroUIKit
 
 struct PeriodicitySelectorView: View {
-  @Environment(\.dismiss) var makeDismiss
+  @Binding var presentation: Bool
   @Binding var selectedPeriodicity: RecurringSchedule
   let schedule = RecurringSchedule.allCases
   var body: some View {
-    NavigationView {
-      ScrollView(content: {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
-          ForEach(schedule, id: \.self) { data in
-            Button {
+    VStack {
+      HStack {
+        Text("Select payment periodicity")
+          .font(.title3Semibold)
+        Spacer()
+      }
+      .padding(.bottom, 10)
+      ForEach(schedule, id: \.self) { data in
+        Button {
+          DispatchQueue.main.async {
+            withAnimation(.spring) {
+              presentation = false
               selectedPeriodicity = data
-              makeDismiss()
-            } label: {
-              EXSmallCard(title: data.title, image: "calendarYear")
             }
-            .buttonStyle(EXPlainButtonStyle())
           }
+        } label: {
+          EXSmallCard(title: data.title, image: "calendarYear")
         }
-        .padding(.top, 10)
-        .applyMargins()
-      })
-      .applyBounce()
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          Text(Appearance.shared.title)
-            .font(.system(.headline, weight: .medium))
-        }
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button {
-            makeDismiss()
-          } label: {
-            Appearance.shared.closeIcon
-              .font(.callout)
-              .foregroundColor(.black)
-          }
-        }
+        .buttonStyle(EXPlainButtonStyle())
       }
     }
+    .applyMargins()
   }
 }
 
 struct PeriodicitySelectorView_Previews: PreviewProvider {
   static var previews: some View {
-    PeriodicitySelectorView(selectedPeriodicity: .constant(RecurringSchedule.everyWeek))
+    PeriodicitySelectorView(presentation: .constant(false), selectedPeriodicity: .constant(RecurringSchedule.everyWeek))
   }
 }
 

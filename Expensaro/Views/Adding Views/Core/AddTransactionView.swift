@@ -9,6 +9,7 @@ import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
 import PopupView
+import PartialSheet
 
 struct AddTransactionView: View {
   // MARK: Essential
@@ -85,10 +86,9 @@ struct AddTransactionView: View {
           .position(.top)
           .autohideIn(1.5)
       })
-      .sheet(isPresented: $showCategoriesSelector, content: {
-        CategorySelectorView(title: $transaction.categoryName, icon: $transaction.categoryIcon, section: $transaction.categorySection)
-          .presentationDetents([.fraction(0.9)])
-      })
+      .partialSheet(isPresented: $showCategoriesSelector, type: .scrollView(height: 500, showsIndicators: false), iPhoneStyle: Source.Styles.sheetStyle) {
+        CategorySelectorView(presentation: $showCategoriesSelector, title: $transaction.categoryName, icon: $transaction.categoryIcon, section: $transaction.categorySection)
+      }
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -106,12 +106,14 @@ struct AddTransactionView: View {
         }
       }
     }
+    .attachPartialSheetToRoot()
   }
 }
 
 struct AddTransactionView_Previews: PreviewProvider {
   static var previews: some View {
     AddTransactionView(transaction: Transaction(), budget: Budget())
+      .attachPartialSheetToRoot()
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }

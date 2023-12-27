@@ -13,11 +13,6 @@ extension View {
     self.padding([.leading, .trailing], 16)
   }
   
-  /// Checks height of view
-  func readHeight() -> some View {
-    self.modifier(ReadHeightModifier())
-  }
-  
   /// Enables return button for resizable textfield
   func multilineSubmitEnabled(
     for text: Binding<String>,

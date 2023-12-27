@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import PartialSheet
+import ExpensaroUIKit
 
 enum Source {
   enum Images {
@@ -197,5 +199,14 @@ enum Source {
       
       return category
     }
+  }
+  
+  enum Styles {
+    static let sheetStyle = PSIphoneStyle(
+      background: .solid(.white),
+      handleBarStyle: .solid(Color.border),
+      cover: .enabled(Color.black.opacity(0.4)),
+      cornerRadius: 10
+    )
   }
 }

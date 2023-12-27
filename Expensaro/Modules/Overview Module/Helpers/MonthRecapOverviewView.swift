@@ -28,7 +28,6 @@ struct MonthRecapOverviewView: View {
       .sheet(isPresented: $showCategoriesBreakdown, content: {
         CategoriesBreakdownOverviewView()
           .presentationDetents([.fraction(0.95)])
-          .presentationDragIndicator(.visible)
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {

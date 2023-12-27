@@ -19,7 +19,7 @@ struct CategoriesBreakdownOverviewView: View {
         Text("Categories")
           .font(.titleBold)
       }
-      .padding(.top, 16)
+      .padding(.top, 20)
       .applyMargins()
       .frame(maxWidth: .infinity, alignment: .leading)
       

@@ -9,6 +9,7 @@ import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
 import PopupView
+import PartialSheet
 
 struct AddGoalView: View {
   // MARK: Essential
@@ -65,10 +66,9 @@ struct AddGoalView: View {
           .position(.top)
           .autohideIn(1.5)
       })
-      .sheet(isPresented: $showDateSheet, content: {
+      .partialSheet(isPresented: $showDateSheet, iPhoneStyle: Source.Styles.sheetStyle) {
         DateSelectorView(type: .setGoalDate, selectedDate: $goal.dueDate)
-          .presentationDetents([.fraction(0.5)])
-      })
+      }
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -86,12 +86,14 @@ struct AddGoalView: View {
         }
       }
     }
+    .attachPartialSheetToRoot()
   }
 }
 
 struct AddGoalView_Previews: PreviewProvider {
   static var previews: some View {
     AddGoalView(goal: Goal())
+      .attachPartialSheetToRoot()
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }

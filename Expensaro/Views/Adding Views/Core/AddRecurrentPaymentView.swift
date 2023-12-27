@@ -9,6 +9,7 @@ import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
 import PopupView
+import PartialSheet
 
 struct AddRecurrentPaymentView: View {
   // MARK: Essential
@@ -110,14 +111,15 @@ struct AddRecurrentPaymentView: View {
           .position(.top)
           .autohideIn(1.5)
       })
-      .sheet(isPresented: $showSchedule, content: {
-        PeriodicitySelectorView(selectedPeriodicity: $recurringPayment.schedule)
-          .presentationDetents([.fraction(0.5)])
-      })
-      .sheet(isPresented: $showNextDate, content: {
+      .partialSheet(isPresented: $showSchedule, iPhoneStyle: Source.Styles.sheetStyle) {
+        PeriodicitySelectorView(presentation: $showSchedule, selectedPeriodicity: $recurringPayment.schedule)
+      }
+      .partialSheet(isPresented: $showNextDate, iPhoneStyle: Source.Styles.sheetStyle) {
         DateSelectorView(type: .setRecurrentDate, selectedDate: $recurringPayment.dueDate)
-          .presentationDetents([.fraction(0.5)])
-      })
+      }
+      .partialSheet(isPresented: $showCategoryelector, type: .scrollView(height: 500, showsIndicators: false), iPhoneStyle: Source.Styles.sheetStyle) {
+        CategorySelectorView(presentation: $showCategoryelector, title: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon, section: .constant(""))
+      }
       .popup(isPresented: $showReminderAlert) {
         EXAlert(type: .createReminder) {
           recurringPayment.isReminder = true
@@ -145,10 +147,6 @@ struct AddRecurrentPaymentView: View {
           .backgroundColor(.black.opacity(0.3))
           .isOpaque(true)
       }
-      .sheet(isPresented: $showCategoryelector, content: {
-        CategorySelectorView(title: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon, section: .constant(""))
-          .presentationDetents([.fraction(0.9)])
-      })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -166,12 +164,14 @@ struct AddRecurrentPaymentView: View {
         }
       }
     }
+    .attachPartialSheetToRoot()
   }
 }
 
 struct AddRecurrentPaymentView_Previews: PreviewProvider {
   static var previews: some View {
     AddRecurrentPaymentView(recurringPayment: RecurringTransaction(), budget: Budget())
+      .attachPartialSheetToRoot()
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }

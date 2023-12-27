@@ -9,6 +9,7 @@ import SwiftUI
 import ExpensaroUIKit
 import PopupView
 import RealmSwift
+import PartialSheet
 
 struct RecurrentPaymentDetailView: View {
   // MARK: - Essential
@@ -127,7 +128,7 @@ struct RecurrentPaymentDetailView: View {
       })
       .sheet(isPresented: $showNoteView, content: {
         noteView()
-          .presentationDetents([.large])
+          .presentationDetents([.fraction(0.95)])
       })
       .applyMargins()
       .scrollDisabled(true)
@@ -142,7 +143,7 @@ struct RecurrentPaymentDetailView: View {
           }
         }
       }
-    }
+    }.attachPartialSheetToRoot()
   }
   
   func daysLeftString(for days: Int) -> String {
@@ -160,6 +161,7 @@ struct RecurrentPaymentDetailView: View {
 struct RecurrentPaymentDetailView_Previews: PreviewProvider {
   static var previews: some View {
     RecurrentPaymentDetailView(transaction: DefaultRecurringTransactions.transaction2, budget: Budget())
+      .attachPartialSheetToRoot()
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }
@@ -180,40 +182,26 @@ extension RecurrentPaymentDetailView {
 extension RecurrentPaymentDetailView {
   @ViewBuilder
   func noteView() -> some View {
-    NavigationView {
-      ScrollView {
-        EXResizableTextField(message: $transaction.note, characterLimit: 300)
-          .autocorrectionDisabled()
+    ScrollView {
+      HStack {
+        Text("Create note")
+          .font(.title3Semibold)
+        Spacer()
       }
-      .applyMargins()
-      .navigationBarTitleDisplayMode(.inline)
-      .safeAreaInset(edge: .bottom) {
-        Button {
-          showNoteView.toggle()
-        } label: {
-          Text("Add note")
-            .font(.system(.headline, weight: .semibold))
-        }
-        .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
-        .applyMargins()
-        .padding(.bottom, 20)
+      .padding(.top, 16)
+      EXResizableTextField(message: $transaction.note, characterLimit: 300)
+        .autocorrectionDisabled()
+        .multilineSubmitEnabled(for: $transaction.note)
+      Button {
+        showNoteView.toggle()
+      } label: {
+        Text("Add note")
+          .font(.system(.headline, weight: .semibold))
       }
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          Text("Create note")
-            .font(.system(.headline, weight: .medium))
-        }
-        
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button {
-            showNoteView.toggle()
-          } label: {
-            Source.Images.Navigation.close
-              .foregroundColor(.black)
-          }
-        }
-      }
+      .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
+      .padding(.top, 20)
     }
+    .applyMargins()
   }
   
   @ViewBuilder

@@ -9,6 +9,7 @@ import SwiftUI
 import ExpensaroUIKit
 import PopupView
 import RealmSwift
+import PartialSheet
 
 struct TransactionDetailView: View {
   // MARK: Essential
@@ -112,7 +113,7 @@ struct TransactionDetailView: View {
       })
       .sheet(isPresented: $showNoteView, content: {
         noteView()
-          .presentationDetents([.large])
+          .presentationDetents([.fraction(0.95)])
       })
       .sheet(isPresented: $showAnalyticsDemo, content: {
         EXBottomInfoView(type: .transactions, action: {}, bottomView: {
@@ -133,6 +134,7 @@ struct TransactionDetailView: View {
         }
       }
     }
+    .attachPartialSheetToRoot()
   }
 }
 
@@ -153,41 +155,26 @@ extension TransactionDetailView {
 private extension TransactionDetailView {
   @ViewBuilder
   func noteView() -> some View {
-    NavigationView {
-      ScrollView {
-        EXResizableTextField(message: $transaction.note, characterLimit: 300)
-          .autocorrectionDisabled()
-          .multilineSubmitEnabled(for: $transaction.note)
+    ScrollView {
+      HStack {
+        Text("Create note")
+          .font(.title3Semibold)
+        Spacer()
       }
-      .applyMargins()
-      .navigationBarTitleDisplayMode(.inline)
-      .safeAreaInset(edge: .bottom) {
-        Button {
-          showNoteView.toggle()
-        } label: {
-          Text("Add note")
-            .font(.system(.headline, weight: .semibold))
-        }
-        .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
-        .applyMargins()
-        .padding(.bottom, 20)
+      .padding(.top, 16)
+      EXResizableTextField(message: $transaction.note, characterLimit: 300)
+        .autocorrectionDisabled()
+        .multilineSubmitEnabled(for: $transaction.note)
+      Button {
+        showNoteView.toggle()
+      } label: {
+        Text("Add note")
+          .font(.system(.headline, weight: .semibold))
       }
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          Text("Create note")
-            .font(.system(.headline, weight: .medium))
-        }
-        
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button {
-            showNoteView.toggle()
-          } label: {
-            Source.Images.Navigation.close
-              .foregroundColor(.black)
-          }
-        }
-      }
+      .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
+      .padding(.top, 20)
     }
+    .applyMargins()
   }
   
   @ViewBuilder
