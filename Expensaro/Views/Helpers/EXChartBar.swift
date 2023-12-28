@@ -15,9 +15,11 @@ struct EXChartBar: View {
   var text: String?
   var isPlain: Bool?
   var color: Color?
+  var radius: CGFloat?
+  var margin: CGFloat?
   
   private var screenWidth: CGFloat { UIScreen.main.bounds.size.width }
-  private var maxWidth: CGFloat { screenWidth - 32 }
+  private var maxWidth: CGFloat { screenWidth - (margin ?? 32) }
   
   private var insetWidth: CGFloat {
     return CGFloat((value * maxWidth) / CGFloat(maxValue))
@@ -30,22 +32,20 @@ struct EXChartBar: View {
       Rectangle()
         .fill(Color.backgroundGrey)
         .frame(width: self.maxWidth, height: height)
-        .cornerRadius(12)
+        .cornerRadius(radius ?? 12)
       Rectangle()
         .fill(color ?? Color.primaryGreen)
         .frame(width: self.insetWidth >= self.maxWidth ? self.maxWidth : self.insetWidth, height: height)
-        .cornerRadius(12)
+        .cornerRadius(radius ?? 12)
       
       VStack(alignment: .leading, spacing: 3) {
         if isPlain != nil {
-          Text(text ?? "")
-            .font(.headlineRegular)
-        }
-        else {
           Text("\(percentage.clean)%")
             .font(.calloutBold)
-          Text(text ?? "")
-            .font(.footnoteRegular)
+          if let text = text {
+            Text(text)
+              .font(.footnoteRegular)
+          }
         }
       }
       .foregroundColor(.white)
