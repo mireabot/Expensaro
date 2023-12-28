@@ -81,14 +81,7 @@ struct TransactionDetailView: View {
           
           // MARK: Analytics
           if transaction.type != "Refill" {
-            //TransactionInsightsDemoView()
-            Button(action: {
-              showAnalyticsDemo.toggle()
-            }, label: {
-              EXEmptyStateView(type: .noTransactionInsights, isActive: true)
-            })
-            .buttonStyle(EXPlainButtonStyle())
-              .padding([.top, .bottom], 5)
+            TransactionInsightsView(viewModel: .init(selectedCategory: transaction.categoryName))
           }
         }
         .applyBounce()

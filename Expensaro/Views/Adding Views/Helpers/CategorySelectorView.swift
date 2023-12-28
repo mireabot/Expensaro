@@ -48,9 +48,9 @@ struct CategorySelectorView: View {
   var body: some View {
     NavigationView {
       ScrollView(showsIndicators: false) {
-        ForEach(Dictionary(grouping: loadedCategories, by: { $0.section.header }).keys.sorted(), id: \.self) { sectionHeader in
+        ForEach(Dictionary(grouping: categories, by: { $0.section.header }).keys.sorted(), id: \.self) { sectionHeader in
           Section {
-            ForEach(Dictionary(grouping: loadedCategories, by: { $0.section.header })[sectionHeader]!) { category in
+            ForEach(Dictionary(grouping: categories, by: { $0.section.header })[sectionHeader]!) { category in
               EXCategoryCell(icon: Image(category.icon), title: category.name)
                 .onTapGesture {
                   presentation = false

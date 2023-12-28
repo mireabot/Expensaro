@@ -65,6 +65,8 @@
 		359CDC602AB4DF4400DFFDC7 /* InitialPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC5F2AB4DF4400DFFDC7 /* InitialPermissionView.swift */; };
 		359CDC622AB50C0000DFFDC7 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC612AB50C0000DFFDC7 /* AddTransactionView.swift */; };
 		35ACB7E82AB3EDB800F7ECE5 /* OverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB7E72AB3EDB800F7ECE5 /* OverviewView.swift */; };
+		35B25D2D2B3DC59A001417F9 /* SelectedCategoryAnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B25D2C2B3DC59A001417F9 /* SelectedCategoryAnalyticsManager.swift */; };
+		35B25D2F2B3DDB58001417F9 /* Realm+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B25D2E2B3DDB58001417F9 /* Realm+Extensions.swift */; };
 		35B9BEE32ADB88AC00DD5BAE /* EXNumberKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9BEE22ADB88AC00DD5BAE /* EXNumberKeyboard.swift */; };
 		35BB8A3B2AD89C1C0099E71F /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BB8A3A2AD89C1C0099E71F /* Category.swift */; };
 		35BEF35D2AB378DB005D1138 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BEF35C2AB378DB005D1138 /* Source.swift */; };
@@ -140,6 +142,8 @@
 		359CDC5F2AB4DF4400DFFDC7 /* InitialPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialPermissionView.swift; sourceTree = "<group>"; };
 		359CDC612AB50C0000DFFDC7 /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
 		35ACB7E72AB3EDB800F7ECE5 /* OverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewView.swift; sourceTree = "<group>"; };
+		35B25D2C2B3DC59A001417F9 /* SelectedCategoryAnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryAnalyticsManager.swift; sourceTree = "<group>"; };
+		35B25D2E2B3DDB58001417F9 /* Realm+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Realm+Extensions.swift"; sourceTree = "<group>"; };
 		35B9BEE22ADB88AC00DD5BAE /* EXNumberKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXNumberKeyboard.swift; sourceTree = "<group>"; };
 		35BB8A3A2AD89C1C0099E71F /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		35BEF35C2AB378DB005D1138 /* Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
@@ -181,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				3510F6E62AFD62F2000B5532 /* LocalNotificationsManager.swift */,
+				35B25D2C2B3DC59A001417F9 /* SelectedCategoryAnalyticsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -504,6 +509,7 @@
 				353E5C2E2ACA01D400430978 /* Date+Extension.swift */,
 				3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */,
 				358978D52AFEBF6400E8C378 /* Double+Extension.swift */,
+				35B25D2E2B3DDB58001417F9 /* Realm+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -707,6 +713,7 @@
 				359094A42AAE342F00428B39 /* NavigationControllers.swift in Sources */,
 				351061282AD74AEB006E6DF4 /* Budget.swift in Sources */,
 				35825BFD2AC9E71700713AD8 /* RecurrentPaymentsListView.swift in Sources */,
+				35B25D2F2B3DDB58001417F9 /* Realm+Extensions.swift in Sources */,
 				359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */,
 				356EB7AA2AEC119F001E6FD6 /* TransactionInsightsView.swift in Sources */,
 				358900E12B375E78009509FC /* MonthRecapOverviewView.swift in Sources */,
@@ -750,6 +757,7 @@
 				3510F6E42AFD58C7000B5532 /* CreateReminderView.swift in Sources */,
 				3592EFFB2AF32D10008138EE /* FirstAppear.swift in Sources */,
 				35BB8A3B2AD89C1C0099E71F /* Category.swift in Sources */,
+				35B25D2D2B3DC59A001417F9 /* SelectedCategoryAnalyticsManager.swift in Sources */,
 				35825C002AC9FDEB00713AD8 /* EXDatePicker.swift in Sources */,
 				35825BFB2AC9D01C00713AD8 /* EXTransactionCell.swift in Sources */,
 				358BA4B82AD5D06500229504 /* ResizableTextFieldModifier.swift in Sources */,
