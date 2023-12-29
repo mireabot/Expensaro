@@ -14,6 +14,7 @@ struct OverviewView: View {
   
   // MARK: Variables
   @State private var sheetHeight: CGFloat = .zero
+  @StateObject var topCategoryService = TopCategoryManager()
   
   // MARK: Presentation
   @State private var showSpendingsInfoSheet = false
@@ -22,20 +23,23 @@ struct OverviewView: View {
     NavigationView {
       ScrollView(.vertical, showsIndicators: false) {
         VStack(spacing: 16) {
-          EXInfoCardWithButton(type: .topCategory, icon: Source.Images.InfoCardIcon.topCategory, buttonIcon: Source.Images.ButtonIcons.how, buttonAction: {showTopCategoryInfoSheet.toggle()})
+          topCategorySection()
           EXInfoCardWithButton(type: .monthToMonth, icon: Source.Images.InfoCardIcon.month2month, buttonIcon: Source.Images.ButtonIcons.how, buttonAction: {showSpendingsInfoSheet.toggle()})
           EXInfoCard(type: .overviewUpdates)
         }
         .padding(.top, 16)
+      }
+      .onFirstAppear {
+        topCategoryService.groupAndFindMaxAmountCategory()
       }
       .sheet(isPresented: $showTopCategoryInfoSheet, content: {
         EXBottomInfoView(type: .topCategory, action: {
           DispatchQueue.main.async {
             showTopCategoryInfoSheet.toggle()
           }
-          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView()))
+          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(isDemo: true, service: topCategoryService)))
         }, bottomView: {
-          EXOverviewCard(header: "Top Category", title: "Shopping", icon: Source.Images.Navigation.redirect, subHeader: "You have spent $1500 on this category")
+          EXOverviewCard(header: "Top Category", title: "Electronics", icon: Source.Images.Navigation.redirect, subHeader: "You have spent $2000 on this category")
         })
         .applyMargins()
         .presentationDetents([.fraction(0.4)])
@@ -80,5 +84,21 @@ extension OverviewView {
   struct Appearance {
     static let shared = Appearance()
     let title = "Overview"
+  }
+}
+
+extension OverviewView {
+  @ViewBuilder
+  func topCategorySection() -> some View {
+    if topCategoryService.transactions.count > 15 {
+      Button(action: {
+        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(isDemo: false, service: topCategoryService)))
+      }, label: {
+        EXOverviewCard(header: "Top Category", title: topCategoryService.topCategory.0, icon: Source.Images.Navigation.redirect, subHeader: "You have spent $\(topCategoryService.topCategory.1.clean) on this category")
+      })
+      .buttonStyle(EXPlainButtonStyle())
+    } else {
+      EXInfoCardWithButton(type: .topCategory, icon: Source.Images.InfoCardIcon.topCategory, buttonIcon: Source.Images.ButtonIcons.how, buttonAction: {showTopCategoryInfoSheet.toggle()})
+    }
   }
 }

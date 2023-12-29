@@ -81,7 +81,7 @@ struct TransactionDetailView: View {
           
           // MARK: Analytics
           if transaction.type != "Refill" {
-            TransactionInsightsView(viewModel: .init(selectedCategory: transaction.categoryName))
+            TransactionInsightsView(service: .init(selectedCategory: transaction.categoryName))
           }
         }
         .applyBounce()
@@ -106,13 +106,6 @@ struct TransactionDetailView: View {
       .sheet(isPresented: $showNoteView, content: {
         noteView()
           .presentationDetents([.fraction(0.95)])
-      })
-      .sheet(isPresented: $showAnalyticsDemo, content: {
-        EXBottomInfoView(type: .transactions, action: {}, bottomView: {
-          TransactionInsightsDemoView()
-        })
-        .applyMargins()
-        .presentationDetents([.fraction(0.45)])
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -182,12 +175,6 @@ private extension TransactionDetailView {
         if transaction.type != "Refill" {
           Button(action: { showEditTransaction.toggle() }) {
             Label("Edit transaction", image: "buttonEdit")
-          }
-        }
-        
-        if transaction.note.isEmpty {
-          Button(action: { showNoteView.toggle() }) {
-            Label("Create note", image: "buttonNote")
           }
         }
         

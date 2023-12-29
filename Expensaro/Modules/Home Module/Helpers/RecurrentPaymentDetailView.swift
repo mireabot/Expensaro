@@ -217,12 +217,6 @@ extension RecurrentPaymentDetailView {
           Label("Edit payment", image: "buttonEdit")
         }
         
-        if transaction.note.isEmpty {
-          Button(action: { showNoteView.toggle() }) {
-            Label("Create note", image: "buttonNote")
-          }
-        }
-        
         Button(role: .destructive, action: { showDeleteAlert.toggle() }) {
           Label("Delete payment", image: "buttonDelete")
         }
