@@ -13,6 +13,7 @@ struct MonthRecapOverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   
+  @StateObject var recapService = MonthRecapService()
   // MARK: Presentation
   @State private var showCategoriesBreakdown = false
   var body: some View {
@@ -26,7 +27,7 @@ struct MonthRecapOverviewView: View {
       .applyBounce()
       .applyMargins()
       .sheet(isPresented: $showCategoriesBreakdown, content: {
-        CategoriesBreakdownOverviewView()
+        CategoriesBreakdownOverviewView(service: recapService)
           .presentationDetents([.fraction(0.95)])
       })
       .navigationBarTitleDisplayMode(.inline)
@@ -150,13 +151,13 @@ extension MonthRecapOverviewView {
       EXBaseCard {
         VStack(alignment: .leading) {
           Chart {
-            ForEach(sampleStorageDetails, id: \.categoryName) { data in
+            ForEach(recapService.groupedTransactions, id: \.section) { data in
               
               BarMark(
-                x: .value("", data.amount),
+                x: .value("", data.totalAmount),
                 stacking: .normalized
               )
-              .foregroundStyle(data.progressColor)
+              .foregroundStyle(data.section.progressColor)
             }
           }
           .chartLegend(.hidden)
@@ -166,12 +167,12 @@ extension MonthRecapOverviewView {
           .frame(maxWidth: .infinity)
           ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
-              ForEach(sampleStorageDetails, id: \.categoryName) { data in
+              ForEach(recapService.groupedTransactions, id: \.section) { data in
                 HStack(spacing: 3) {
                   Circle()
-                    .fill(data.progressColor)
+                    .fill(data.section.progressColor)
                     .frame(width: 7, height: 7)
-                  Text(data.categoryName.rawValue.capitalized)
+                  Text(data.section.header)
                     .font(.footnoteRegular)
                     .foregroundColor(.darkGrey)
                 }

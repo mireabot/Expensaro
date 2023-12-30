@@ -49,4 +49,21 @@ enum CategoriesSection: String, CaseIterable, PersistableEnum {
       return "Other"
     }
   }
+  
+  var progressColor: Color {
+    switch self {
+    case .food:
+      return Color(red: 0.612, green: 0.22, blue: 0.282)
+    case .housing:
+      return Color(red: 1, green: 0.678, blue: 0.412)
+    case .transportation:
+      return Color(red: 0.961, green: 0.902, blue: 0.388)
+    case .entertainment:
+      return Color(red: 0.278, green: 0.659, blue: 0.741)
+    case .lifestyle:
+      return Color(red: 0.118, green: 0.22, blue: 0.533)
+    case .other:
+      return Color(uiColor: .systemGray5)
+    }
+  }
 }

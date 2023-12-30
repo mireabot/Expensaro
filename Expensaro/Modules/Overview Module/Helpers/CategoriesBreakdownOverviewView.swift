@@ -10,6 +10,7 @@ import Charts
 import ExpensaroUIKit
 
 struct CategoriesBreakdownOverviewView: View {
+  @ObservedObject var service: MonthRecapService
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: 0) {
@@ -24,13 +25,13 @@ struct CategoriesBreakdownOverviewView: View {
       .frame(maxWidth: .infinity, alignment: .leading)
       
       Chart {
-        ForEach(sampleStorageDetails, id: \.categoryName) { data in
+        ForEach(service.groupedTransactions, id: \.section) { data in
           
           BarMark(
-            x: .value("", data.amount),
+            x: .value("", data.totalAmount),
             stacking: .normalized
           )
-          .foregroundStyle(data.progressColor)
+          .foregroundStyle(data.section.progressColor)
         }
       }
       .chartLegend(.hidden)
@@ -40,28 +41,20 @@ struct CategoriesBreakdownOverviewView: View {
       .applyMargins()
       
       VStack(alignment: .leading) {
-        Section {
-          HStack {
-            Text("Lifestyle")
-              .font(.bodySemibold)
-            Circle()
-              .fill(Color(red: 0.612, green: 0.22, blue: 0.282))
-              .frame(width: 10, height: 10)
+        ForEach(service.groupedTransactions, id: \.section) { data in
+          Section {
+            HStack {
+              Text(data.section.header)
+                .font(.bodySemibold)
+              Circle()
+                .fill(data.section.progressColor)
+                .frame(width: 10, height: 10)
+            }
           }
-        }
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
-          ForEach(sampleStorageDetails) { item in
-            EXSmallCard(title: "$\(item.amount.clean)", header: item.categoryName.header, image: Source.Strings.Categories.Images.car)
-          }
-        }
-        
-        Section {
-          HStack {
-            Text("Lifestyle")
-              .font(.bodySemibold)
-            Circle()
-              .fill(Color(red: 0.612, green: 0.22, blue: 0.282))
-              .frame(width: 10, height: 10)
+          LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
+            ForEach(data.totalAmountByCategory, id: \.0) { categoryName, totalAmount, categoryIcon in
+              EXSmallCard(title: "$\(totalAmount.clean)", header: categoryName, image: categoryIcon)
+            }
           }
         }
       }
@@ -74,5 +67,5 @@ struct CategoriesBreakdownOverviewView: View {
 }
 
 #Preview {
-  CategoriesBreakdownOverviewView()
+  CategoriesBreakdownOverviewView(service: .init())
 }

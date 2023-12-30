@@ -17,6 +17,7 @@
 		351D3D612AD0D5C00022E696 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 351D3D602AD0D5C00022E696 /* PopupView */; };
 		35239D5D2B2BE81800EE66FF /* EXChartBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35239D5C2B2BE81800EE66FF /* EXChartBar.swift */; };
 		353311072ACD064100EEB64B /* TransactionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353311062ACD064100EEB64B /* TransactionsListView.swift */; };
+		3534A9082B409E1F0019ACEC /* MonthRecapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3534A9072B409E1F0019ACEC /* MonthRecapService.swift */; };
 		353E5C2F2ACA01D400430978 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353E5C2E2ACA01D400430978 /* Date+Extension.swift */; };
 		353E5C322ACA1F6600430978 /* RecurrentPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353E5C312ACA1F6600430978 /* RecurrentPayment.swift */; };
 		353F1FDD2AF432FB001BE114 /* CategoryDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353F1FDC2AF432FB001BE114 /* CategoryDescription.swift */; };
@@ -97,6 +98,7 @@
 		351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPaymentDetailView.swift; sourceTree = "<group>"; };
 		35239D5C2B2BE81800EE66FF /* EXChartBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXChartBar.swift; sourceTree = "<group>"; };
 		353311062ACD064100EEB64B /* TransactionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsListView.swift; sourceTree = "<group>"; };
+		3534A9072B409E1F0019ACEC /* MonthRecapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthRecapService.swift; sourceTree = "<group>"; };
 		353E5C2E2ACA01D400430978 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		353E5C312ACA1F6600430978 /* RecurrentPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPayment.swift; sourceTree = "<group>"; };
 		353F1FDC2AF432FB001BE114 /* CategoryDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDescription.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				3510F6E62AFD62F2000B5532 /* LocalNotificationsManager.swift */,
 				35B25D2C2B3DC59A001417F9 /* SelectedCategoryAnalyticsManager.swift */,
 				35B25D302B3DDD0F001417F9 /* TopCategoryManager.swift */,
+				3534A9072B409E1F0019ACEC /* MonthRecapService.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -239,7 +242,6 @@
 		352CB2762ABA4194006C1CEF /* System */ = {
 			isa = PBXGroup;
 			children = (
-				355FCC1F2B39F0D100BA8F4F /* Sample Data */,
 				3567EAD92B2B7D7B009E76D6 /* Analytics */,
 				35AAD3C32AD72B10000974A6 /* Budget */,
 				35E8743B2ACC8990002368DB /* Transaction */,
@@ -324,13 +326,6 @@
 				35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */,
 			);
 			path = Helpers;
-			sourceTree = "<group>";
-		};
-		355FCC1F2B39F0D100BA8F4F /* Sample Data */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Sample Data";
 			sourceTree = "<group>";
 		};
 		3567EAD92B2B7D7B009E76D6 /* Analytics */ = {
@@ -733,6 +728,7 @@
 				353F1FDD2AF432FB001BE114 /* CategoryDescription.swift in Sources */,
 				355FCC1E2B38D90700BA8F4F /* MonthRecapData.swift in Sources */,
 				353E5C2F2ACA01D400430978 /* Date+Extension.swift in Sources */,
+				3534A9082B409E1F0019ACEC /* MonthRecapService.swift in Sources */,
 				3567EADB2B2B7D8A009E76D6 /* TopCategories.swift in Sources */,
 				35DE97DE2AE747F900CEF68D /* EXToast.swift in Sources */,
 				354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */,

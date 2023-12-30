@@ -170,7 +170,7 @@ enum Source {
     ///   - amount: amount of Transaction
     ///   - type: type of Transaction
     /// - Returns: Filled object Transaction
-    static func createTransaction(name: String, date: Date, category: (String, String, String), amount: Double, type: String, note: String) -> Transaction {
+    static func createTransaction(name: String, date: Date, category: (String, String, CategoriesSection), amount: Double, type: String, note: String) -> Transaction {
       let transaction = Transaction()
       transaction.name = name
       transaction.amount = amount

@@ -17,7 +17,7 @@ final class Transaction: Object, ObjectKeyIdentifiable {
   @Persisted var date: Date
   @Persisted var categoryName: String = "Other"
   @Persisted var categoryIcon: String = Source.Strings.Categories.Images.other
-  @Persisted var categorySection: String = CategoriesSection.other.header
+  @Persisted var categorySection: CategoriesSection = .other
   @Persisted var note: String
 }
 

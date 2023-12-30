@@ -123,7 +123,7 @@ struct AddRecurrentPaymentView: View {
           .presentationDetents([.height(sheetHeight)])
       }
       .sheet(isPresented: $showCategoryelector) {
-        CategorySelectorView(presentation: $showCategoryelector, title: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon, section: .constant(""))
+        CategorySelectorView(presentation: $showCategoryelector, title: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon, section: .constant(.other))
           .frame(height: 600)
           .modifier(GetHeightModifier(height: $sheetHeight))
           .presentationDetents([.height(sheetHeight)])

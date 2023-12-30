@@ -70,15 +70,22 @@ enum RealmMigrator {
       }
     }
     
-    // Migration version 10 - Current
+    // Migration version 10
     if oldSchemaVersion < 10 {
       migration.enumerateObjects(ofType: Transaction.className()) { _, newObject in
         newObject?["categorySection"] = "Other"
       }
     }
+    
+    // Migration version 11 - Current
+    if oldSchemaVersion < 11 {
+      migration.enumerateObjects(ofType: Transaction.className()) { _, newObject in
+        newObject?["categorySection"] = CategoriesSection.other
+      }
+    }
   }
 
   static var configuration: Realm.Configuration {
-    Realm.Configuration(schemaVersion: 10, migrationBlock: migrationBlock)
+    Realm.Configuration(schemaVersion: 11, migrationBlock: migrationBlock)
   }
 }

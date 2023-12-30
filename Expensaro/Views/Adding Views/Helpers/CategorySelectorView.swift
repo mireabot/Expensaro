@@ -16,7 +16,7 @@ struct CategorySelectorView: View {
   
   @Binding var title: String
   @Binding var icon: String
-  @Binding var section: String
+  @Binding var section: CategoriesSection
   
   @State private var showCategory = false
   
@@ -56,7 +56,7 @@ struct CategorySelectorView: View {
                   presentation = false
                   title = category.name
                   icon = category.icon
-                  section = category.section.header
+                  section = category.section
                 }
             }
             .listRowSeparator(.hidden)
@@ -113,7 +113,7 @@ extension CategorySelectorView {
 struct CategorySelectorView_Previews: PreviewProvider {
   static var previews: some View {
     ScrollView {
-      CategorySelectorView(presentation: .constant(false), title: .constant(""), icon: .constant(""), section: .constant(""))
+      CategorySelectorView(presentation: .constant(false), title: .constant(""), icon: .constant(""), section: .constant(.other))
         .environment(\.realmConfiguration, RealmMigrator.configuration)
     }
   }
