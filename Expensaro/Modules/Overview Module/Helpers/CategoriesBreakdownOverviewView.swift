@@ -53,7 +53,7 @@ struct CategoriesBreakdownOverviewView: View {
           }
           LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
             ForEach(data.totalAmountByCategory, id: \.0) { categoryName, totalAmount, categoryIcon in
-              EXSmallCard(title: "$\(totalAmount.clean)", header: categoryName, image: categoryIcon)
+              EXSmallCard(title: "$\(totalAmount.clean)", header: categoryName, image: .imageName(categoryIcon))
             }
           }
         }

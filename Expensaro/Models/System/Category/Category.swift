@@ -10,7 +10,7 @@ import RealmSwift
 
 final class Category: Object, ObjectKeyIdentifiable {
   @Persisted(primaryKey: true) var id: ObjectId
-  @Persisted var icon: String = Source.Strings.Categories.Images.other
+  @Persisted var icon: String = "📔"
   @Persisted var name: String
   @Persisted var tag: CategoriesTag = .base
   @Persisted var section: CategoriesSection = .other

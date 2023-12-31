@@ -31,7 +31,7 @@ struct CategoriesSettingsView: View {
           ForEach(Dictionary(grouping: categories, by: { $0.section.header }).keys.sorted(), id: \.self) { sectionHeader in
             Section {
               ForEach(Dictionary(grouping: categories, by: { $0.section.header })[sectionHeader]!) { category in
-                EXCategoryCell(icon: Image(category.icon), title: category.name)
+                EXCategoryCell(icon: category.icon, title: category.name)
                   .swipeActions {
                     Button("Delete", role: .destructive, action: {
                       deleteCategory(category: category)

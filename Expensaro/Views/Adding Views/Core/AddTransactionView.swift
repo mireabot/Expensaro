@@ -54,7 +54,7 @@ struct AddTransactionView: View {
             Button(action: {
               showCategoriesSelector.toggle()
             }, label: {
-              EXLargeSelector(text: $transaction.categoryName, icon: $transaction.categoryIcon, header: "Category", rightIcon: "swipeDown")
+              EXLargeSelector(text: $transaction.categoryName, icon: .constant(.imageName(transaction.categoryIcon)), header: "Category", rightIcon: "swipeDown")
             })
             .buttonStyle(EXPlainButtonStyle())
           }

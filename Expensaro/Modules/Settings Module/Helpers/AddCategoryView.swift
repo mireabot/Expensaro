@@ -8,6 +8,7 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
+import UIKit
 
 struct AddCategoryView: View {
   // MARK: Essential
@@ -29,13 +30,9 @@ struct AddCategoryView: View {
     NavigationView {
       ScrollView {
         VStack(spacing: 15) {
-          VStack(alignment: .center, spacing: 15) {
-            Image(category.icon)
-              .resizable()
-              .frame(width: 50, height: 50)
-              .foregroundColor(.primaryGreen)
-              .padding(8)
-          }
+          EXEmojiKeyboard(text: $category.icon)
+            .focused($isFocused)
+            .padding(12)
           
           EXTextField(text: $category.name, header: "Category name", placeholder: "Ex. Metrocard")
             .autocorrectionDisabled()
@@ -44,28 +41,9 @@ struct AddCategoryView: View {
           Button(action: {
             showSelector.toggle()
           }, label: {
-            EXLargeSelector(text: .constant(category.section.header), icon: .constant(""), header: "Category section", rightIcon: "swipeDown")
+            EXLargeSelector(text: .constant(category.section.header), icon: .constant(.imageName("")), header: "Category section", rightIcon: "swipeDown")
           })
           .buttonStyle(EXPlainButtonStyle())
-          
-          EXBaseCard {
-            LazyVGrid(columns: Appearance.shared.items, alignment: .center) {
-              ForEach(CategoryDescription.allCases, id: \.self) { item in
-                Button {
-                  withAnimation(.easeOut(duration: 0.5)) {
-                    category.icon = item.icon
-                  }
-                } label: {
-                  Image(item.icon)
-                    .foregroundColor(category.icon == item.icon ? .white : .primaryGreen)
-                    .padding(8)
-                    .background(category.icon == item.icon ? Color.primaryGreen : Color.clear)
-                    .cornerRadius(12)
-                }
-                .buttonStyle(EXPlainButtonStyle())
-              }
-            }
-          }
         }
         .padding(.top, 20)
         

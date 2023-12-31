@@ -60,7 +60,7 @@ struct AddRecurrentPaymentView: View {
             Button(action: {
               showCategoryelector.toggle()
             }) {
-              EXLargeSelector(text: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon, header: "Category", rightIcon: "swipeDown")
+              EXLargeSelector(text: $recurringPayment.categoryName, icon: .constant(.imageName(recurringPayment.categoryIcon)), header: "Category", rightIcon: "swipeDown")
             }
             .buttonStyle(EXPlainButtonStyle())
           }

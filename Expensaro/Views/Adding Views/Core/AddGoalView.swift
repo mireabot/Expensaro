@@ -42,7 +42,7 @@ struct AddGoalView: View {
               .focused($isFieldFocused)
             
             Button(action: { showDateSheet.toggle() }, label: {
-              EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant("timer"), header: "Goal completion date", rightIcon: "swipeDown")
+              EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant(.image(Source.Images.System.timer)), header: "Goal completion date", rightIcon: "swipeDown")
             })
             .buttonStyle(EXPlainButtonStyle())
           }

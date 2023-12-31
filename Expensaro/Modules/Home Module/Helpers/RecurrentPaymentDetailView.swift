@@ -60,8 +60,8 @@ struct RecurrentPaymentDetailView: View {
           
           // MARK: Transaction info
           HStack(spacing: 5) {
-            EXChip(icon: transaction.categoryIcon, text: transaction.categoryName)
-            EXChip(icon: "calendarYear", text: transaction.schedule.title)
+            EXChip(icon: .imageName(transaction.categoryIcon), text: transaction.categoryName)
+            EXChip(icon: .image(Source.Images.System.calendarYear), text: transaction.schedule.title)
           }
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.top, 5)

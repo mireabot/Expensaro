@@ -12,9 +12,9 @@ struct EXGoalTransactionCell: View {
   let goalTransaction: GoalTransaction
   var body: some View {
     HStack(alignment: .center) {
-      Image(Source.Strings.Categories.Images.income)
+      Text("💵")
         .foregroundColor(.primaryGreen)
-        .padding(8)
+        .padding(12)
         .background(Color.backgroundGrey)
         .cornerRadius(12)
       VStack(alignment: .leading, spacing: 3) {

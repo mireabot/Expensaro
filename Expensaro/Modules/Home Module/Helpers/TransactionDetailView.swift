@@ -48,8 +48,8 @@ struct TransactionDetailView: View {
           
           // MARK: Transaction info
           HStack(spacing: 5) {
-            EXChip(icon: transaction.categoryIcon, text: transaction.categoryName)
-            EXChip(icon: "transactionType", text: transaction.type)
+            EXChip(icon: .imageName(transaction.categoryIcon), text: transaction.categoryName)
+            EXChip(icon: .image(Source.Images.System.transactionType), text: transaction.type)
           }
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.top, 5)

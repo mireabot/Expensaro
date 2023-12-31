@@ -12,7 +12,7 @@ struct EXRecurringTransactionCell: View {
   var payment: RecurringTransaction
   var body: some View {
     VStack(alignment: .leading, spacing: 5, content: {
-      Image(payment.categoryIcon)
+      Text(payment.categoryIcon)
         .foregroundColor(.primaryGreen)
       Text(payment.name)
         .font(.system(.headline, weight: .semibold))

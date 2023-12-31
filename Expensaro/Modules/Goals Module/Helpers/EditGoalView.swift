@@ -37,7 +37,7 @@ struct EditGoalView: View {
             Button(action: {
               showDateSelector.toggle()
             }) {
-              EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant("calendarYear"), header: "Goal due date", rightIcon: "swipeDown")
+              EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant(.image(Source.Images.System.calendarYear)), header: "Goal due date", rightIcon: "swipeDown")
             }
             .buttonStyle(EXPlainButtonStyle())
           }
