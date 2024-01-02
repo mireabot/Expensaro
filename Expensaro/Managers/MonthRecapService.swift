@@ -37,6 +37,7 @@ final class MonthRecapService: ObservableObject {
   
   init() {
     groupSections()
+    calculateBudget()
   }
   
   func groupSections() {
@@ -51,7 +52,9 @@ final class MonthRecapService: ObservableObject {
   }
   
   func calculateBudget() {
-    
+    budgetData.0 = 2000
+    budgetData.1 = 780
+    budgetData.2 = 1600
   }
   
   func calculateGoals() {

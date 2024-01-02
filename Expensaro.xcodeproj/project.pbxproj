@@ -87,7 +87,6 @@
 		35E8743A2ACC7EE2002368DB /* PeriodicitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E874392ACC7EE2002368DB /* PeriodicitySelectorView.swift */; };
 		35E8743D2ACC899A002368DB /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E8743C2ACC899A002368DB /* Transaction.swift */; };
 		35F207A62ADA3EC400834C52 /* RealmMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F207A52ADA3EC400834C52 /* RealmMigrator.swift */; };
-		35FB370D2B40D848002C42FA /* EmojiPalette in Frameworks */ = {isa = PBXBuildFile; productRef = 35FB370C2B40D848002C42FA /* EmojiPalette */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -178,7 +177,6 @@
 				3589BC292AD899BA00BA8289 /* RealmSwift in Frameworks */,
 				351D3D612AD0D5C00022E696 /* PopupView in Frameworks */,
 				354F2B152AB9F189002516F1 /* SwiftUIIntrospect in Frameworks */,
-				35FB370D2B40D848002C42FA /* EmojiPalette in Frameworks */,
 				359094AB2AAE365900428B39 /* ExpensaroUIKit in Frameworks */,
 				3589BC272AD899BA00BA8289 /* Realm in Frameworks */,
 			);
@@ -636,7 +634,6 @@
 				351D3D602AD0D5C00022E696 /* PopupView */,
 				3589BC262AD899BA00BA8289 /* Realm */,
 				3589BC282AD899BA00BA8289 /* RealmSwift */,
-				35FB370C2B40D848002C42FA /* EmojiPalette */,
 			);
 			productName = Expensaro;
 			productReference = 3590948B2AAD3EC300428B39 /* Expensaro.app */;
@@ -671,7 +668,6 @@
 				354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
 				351D3D5F2AD0D5C00022E696 /* XCRemoteSwiftPackageReference "PopupView" */,
 				3589BC252AD899BA00BA8289 /* XCRemoteSwiftPackageReference "realm-swift" */,
-				35FB370B2B40D848002C42FA /* XCRemoteSwiftPackageReference "EmojiPalette" */,
 			);
 			productRefGroup = 3590948C2AAD3EC300428B39 /* Products */;
 			projectDirPath = "";
@@ -1018,14 +1014,6 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		35FB370B2B40D848002C42FA /* XCRemoteSwiftPackageReference "EmojiPalette" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Kyome22/EmojiPalette";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.1;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1053,11 +1041,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */;
 			productName = ExpensaroUIKit;
-		};
-		35FB370C2B40D848002C42FA /* EmojiPalette */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 35FB370B2B40D848002C42FA /* XCRemoteSwiftPackageReference "EmojiPalette" */;
-			productName = EmojiPalette;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

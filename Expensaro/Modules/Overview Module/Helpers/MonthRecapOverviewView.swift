@@ -89,13 +89,13 @@ extension MonthRecapOverviewView {
                 Text("Initial budget")
                   .font(.footnoteMedium)
                   .foregroundColor(.darkGrey)
-                Text("$\(2000)")
+                Text("$\(recapService.budgetData.0.clean)")
                   .font(.calloutBold)
                   .foregroundColor(.black)
               }
               Rectangle()
                 .fill(Color.primaryGreen)
-                .frame(height: (2000 * 0.08))
+                .frame(height: (recapService.budgetData.0 * 0.08))
                 .cornerRadius(5, corners: [.topLeft,.topRight])
             }
             VStack {
@@ -103,13 +103,13 @@ extension MonthRecapOverviewView {
                 Text("Added funds")
                   .font(.footnoteMedium)
                   .foregroundColor(.darkGrey)
-                Text("$\(780)")
+                Text("$\(recapService.budgetData.1.clean)")
                   .font(.calloutBold)
                   .foregroundColor(.black)
               }
               Rectangle()
                 .fill(Color(red: 0.384, green: 0.78, blue: 0.549))
-                .frame(height: (780 * 0.07))
+                .frame(height: (recapService.budgetData.1 * 0.08))
                 .cornerRadius(5, corners: [.topLeft,.topRight])
             }
             VStack {
@@ -117,13 +117,13 @@ extension MonthRecapOverviewView {
                 Text("Total spent")
                   .font(.footnoteMedium)
                   .foregroundColor(.darkGrey)
-                Text("$\(1600)")
+                Text("$\(recapService.budgetData.2.clean)")
                   .font(.calloutBold)
                   .foregroundColor(.black)
               }
               Rectangle()
                 .fill(Color(uiColor: .systemGray5))
-                .frame(height: (1600 * 0.08))
+                .frame(height: (recapService.budgetData.2 * 0.08))
                 .cornerRadius(5, corners: [.topLeft,.topRight])
             }
           }

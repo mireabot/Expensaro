@@ -1,15 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "emojipalette",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Kyome22/EmojiPalette",
-      "state" : {
-        "revision" : "b55483497941bdc6c0afdcf27b619e7243340b99",
-        "version" : "0.4.1"
-      }
-    },
-    {
       "identity" : "expensarouikit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mireabot/ExpensaroUIKit",

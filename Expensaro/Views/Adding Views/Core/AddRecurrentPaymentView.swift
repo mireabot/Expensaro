@@ -85,7 +85,12 @@ struct AddRecurrentPaymentView: View {
             .buttonStyle(EXPlainButtonStyle())
           }
           EXNumberKeyboard(textValue: $amountValue) {
-            validateBudget()
+            if Double(amountValue) == recurringPayment.amount && isUpdating {
+              makeDismiss()
+            }
+            else {
+              validateBudget()
+            }
           }
         }
       })

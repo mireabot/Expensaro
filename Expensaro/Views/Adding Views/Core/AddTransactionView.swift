@@ -62,7 +62,12 @@ struct AddTransactionView: View {
         }
         .applyBounce()
         EXNumberKeyboard(textValue: $amountValue) {
-          validateBudget()
+          if Double(amountValue) == transaction.amount && isUpdating {
+            makeDismiss()
+          }
+          else {
+            validateBudget()
+          }
         }
       })
       .ignoresSafeArea(.keyboard, edges: .all)
