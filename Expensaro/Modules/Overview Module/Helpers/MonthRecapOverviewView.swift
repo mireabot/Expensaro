@@ -13,7 +13,7 @@ struct MonthRecapOverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   
-  @StateObject var recapService = MonthRecapService()
+  @ObservedObject var service: MonthRecapService
   // MARK: Presentation
   @State private var showCategoriesBreakdown = false
   var body: some View {
@@ -27,7 +27,7 @@ struct MonthRecapOverviewView: View {
       .applyBounce()
       .applyMargins()
       .sheet(isPresented: $showCategoriesBreakdown, content: {
-        CategoriesBreakdownOverviewView(service: recapService)
+        CategoriesBreakdownOverviewView(service: service)
           .presentationDetents([.fraction(0.95)])
       })
       .navigationBarTitleDisplayMode(.inline)
@@ -66,7 +66,7 @@ extension MonthRecapOverviewView {
       Text("Your month recap for")
         .font(.headlineRegular)
         .foregroundColor(.darkGrey)
-      Appearance.shared.currentMonth
+      Text(service.recapMonth)
         .font(.largeTitleBold)
     }
     .frame(maxWidth: .infinity, alignment: .leading)
@@ -89,13 +89,13 @@ extension MonthRecapOverviewView {
                 Text("Initial budget")
                   .font(.footnoteMedium)
                   .foregroundColor(.darkGrey)
-                Text("$\(recapService.budgetData.0.clean)")
+                Text("$\(service.budgetData.0.clean)")
                   .font(.calloutBold)
                   .foregroundColor(.black)
               }
               Rectangle()
                 .fill(Color.primaryGreen)
-                .frame(height: (recapService.budgetData.0 * 0.08))
+                .frame(height: (service.budgetData.0 * 0.08))
                 .cornerRadius(5, corners: [.topLeft,.topRight])
             }
             VStack {
@@ -103,13 +103,13 @@ extension MonthRecapOverviewView {
                 Text("Added funds")
                   .font(.footnoteMedium)
                   .foregroundColor(.darkGrey)
-                Text("$\(recapService.budgetData.1.clean)")
+                Text("$\(service.budgetData.1.clean)")
                   .font(.calloutBold)
                   .foregroundColor(.black)
               }
               Rectangle()
                 .fill(Color(red: 0.384, green: 0.78, blue: 0.549))
-                .frame(height: (recapService.budgetData.1 * 0.08))
+                .frame(height: (service.budgetData.1 * 0.08))
                 .cornerRadius(5, corners: [.topLeft,.topRight])
             }
             VStack {
@@ -117,13 +117,13 @@ extension MonthRecapOverviewView {
                 Text("Total spent")
                   .font(.footnoteMedium)
                   .foregroundColor(.darkGrey)
-                Text("$\(recapService.budgetData.2.clean)")
+                Text("$\(service.budgetData.2.clean)")
                   .font(.calloutBold)
                   .foregroundColor(.black)
               }
               Rectangle()
                 .fill(Color(uiColor: .systemGray5))
-                .frame(height: (recapService.budgetData.2 * 0.08))
+                .frame(height: (service.budgetData.2 * 0.08))
                 .cornerRadius(5, corners: [.topLeft,.topRight])
             }
           }
@@ -151,7 +151,7 @@ extension MonthRecapOverviewView {
       EXBaseCard {
         VStack(alignment: .leading) {
           Chart {
-            ForEach(recapService.groupedTransactions, id: \.section) { data in
+            ForEach(service.groupedTransactions, id: \.section) { data in
               
               BarMark(
                 x: .value("", data.totalAmount),
@@ -167,7 +167,7 @@ extension MonthRecapOverviewView {
           .frame(maxWidth: .infinity)
           ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
-              ForEach(recapService.groupedTransactions, id: \.section) { data in
+              ForEach(service.groupedTransactions, id: \.section) { data in
                 HStack(spacing: 3) {
                   Circle()
                     .fill(data.section.progressColor)
@@ -193,7 +193,9 @@ extension MonthRecapOverviewView {
           .font(.subheadlineSemibold)
           .foregroundColor(.black)
         Spacer()
-        Button(action: {}, label: {
+        Button(action: {
+          
+        }, label: {
           Text("Learn more")
             .foregroundColor(.primaryGreen)
             .font(.footnoteMedium)
@@ -202,7 +204,7 @@ extension MonthRecapOverviewView {
       EXBaseCard {
         HStack {
           VStack(alignment: .leading, spacing: 3, content: {
-            Text("$\(2450)")
+            Text("$\(service.goalsData.clean)")
               .font(.title3Bold)
             Text("You contributed towards goals")
               .font(.footnoteRegular)
@@ -218,5 +220,5 @@ extension MonthRecapOverviewView {
 }
 
 #Preview {
-  MonthRecapOverviewView()
+  MonthRecapOverviewView(service: .init())
 }

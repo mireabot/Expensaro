@@ -8,12 +8,17 @@
 import SwiftUI
 import Charts
 import ExpensaroUIKit
+import RealmSwift
 
 final class MonthRecapService: ObservableObject {
   @Published var budgetData: (Double, Double, Double) = (0.0, 0.0, 0.0)
   @Published var goalsData: Double = 0.0
   @Published var groupedTransactions: [GroupedTransactionsBySection] = []
+  @Published var isLocked: Bool = true
   
+  var recapMonth: String {
+    formattedDate(date: getPastMonthDates().0)
+  }
   
   let sampleTransactions: [Transaction] = [
     Source.Realm.createTransaction(name: "Gaming Laptop Purchase", date: Date(), category: ("Electronics", "💻", .lifestyle), amount: 1200.00, type: "Credit Card", note: "Ordered the latest gaming laptop."),
@@ -36,13 +41,14 @@ final class MonthRecapService: ObservableObject {
   ]
   
   init() {
-    groupSections()
+    fetchTransactions()
     calculateBudget()
+    calculateGoals()
   }
   
-  func groupSections() {
+  private func groupSections(with array: [Transaction]) {
     var groupedTransactions: [CategoriesSection: [Transaction]] {
-      Dictionary(grouping: sampleTransactions) { transaction in
+      Dictionary(grouping: array) { transaction in
         return transaction.categorySection
       }
     }
@@ -52,13 +58,61 @@ final class MonthRecapService: ObservableObject {
   }
   
   func calculateBudget() {
-    budgetData.0 = 2000
-    budgetData.1 = 780
-    budgetData.2 = 1600
+    let realm = try! Realm()
+    let startDate = getPastMonthDates().0
+    let endDate = getPastMonthDates().1
+    let predicate = NSPredicate(format: "dateCreated >= %@ AND dateCreated <= %@", startDate as NSDate, endDate as NSDate)
+    let addedFundsPredicate = NSPredicate(format: "date >= %@ AND date <= %@ AND categoryName == %@", startDate as NSDate, endDate as NSDate, "Added funds")
+    let pastMonthBudget = realm.objects(Budget.self).filter(predicate)
+    
+    if !pastMonthBudget.isEmpty, let budget = pastMonthBudget.first {
+      budgetData.0 = budget.initialAmount
+      let pastAddedFunds = realm.objects(Transaction.self).filter(addedFundsPredicate)
+      if pastAddedFunds.isEmpty {
+        budgetData.1 = 780
+      } else {
+        var addedFundsValue = pastAddedFunds.toArray().reduce(0) { $0 + $1.amount }
+        budgetData.1 = addedFundsValue
+      }
+    } else {
+      budgetData.0 = 2000
+      budgetData.1 = 780
+    }
   }
   
   func calculateGoals() {
+    let realm = try! Realm()
+    let startDate = getPastMonthDates().0
+    let endDate = getPastMonthDates().1
+    let predicate = NSPredicate(format: "date >= %@ AND date <= %@", startDate as NSDate, endDate as NSDate)
     
+    let goalContributions = realm.objects(GoalTransaction.self).filter(predicate)
+    
+    if goalContributions.isEmpty {
+      goalsData = 2450
+    } else {
+      goalsData = goalContributions.toArray().reduce(0) {$0 + $1.amount }
+    }
+  }
+  
+  // Transactions which exclude refill type
+  func fetchTransactions() {
+    let realm = try! Realm()
+    let startDate = getPastMonthDates().0
+    let endDate = getPastMonthDates().1
+    let predicate = NSPredicate(format: "date >= %@ AND date <= %@ AND categoryName != %@", startDate as NSDate, endDate as NSDate, "Added funds")
+    let pastMonthTransactions = realm.objects(Transaction.self).filter(predicate)
+    
+    if pastMonthTransactions.isEmpty {
+      isLocked = true
+      budgetData.2 = 1600
+      groupSections(with: sampleTransactions)
+    }
+    else {
+      isLocked = false
+      budgetData.2 = pastMonthTransactions.toArray().reduce(0) {$0 + $1.amount }
+      groupSections(with: pastMonthTransactions.toArray())
+    }
   }
 }
 
@@ -91,9 +145,13 @@ struct MonthRecapServiceView: View {
   var body: some View {
     VStack {
       Button {
-        service.groupSections()
+        
       } label: {
         Text("Group transactions")
+      }
+      
+      VStack {
+        Text(service.recapMonth)
       }
       
       VStack {
@@ -138,4 +196,26 @@ struct MonthRecapServiceView: View {
 
 #Preview {
   MonthRecapServiceView()
+}
+
+func getPastMonthDates() -> (Date, Date) {
+  let currentDate = Date()
+  let calendar = Calendar.current
+  
+  // Get the first day of the current month
+  let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: calendar.startOfDay(for: currentDate)))!
+  
+  // Calculate the start of the previous month
+  let startOfPreviousMonth = calendar.date(byAdding: .month, value: -1, to: startOfMonth)!
+  
+  // Get the last day of the previous month
+  let endOfPreviousMonth = calendar.date(byAdding: .day, value: -1, to: startOfMonth)!
+  
+  return (startOfPreviousMonth, endOfPreviousMonth)
+}
+
+func formattedDate(date: Date) -> String {
+  let formatter = DateFormatter()
+  formatter.dateFormat = "MMMM"
+  return formatter.string(from: date)
 }
