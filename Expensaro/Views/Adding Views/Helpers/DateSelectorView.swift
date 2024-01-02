@@ -13,8 +13,19 @@ struct DateSelectorView: View {
   let type: SelectorType
   @Binding var selectedDate: Date
   var body: some View {
-    NavigationView {
-      ScrollView {
+    ViewThatFits(in: .vertical) {
+      VStack {
+        HStack {
+          Text(type.title)
+            .font(.title3Semibold)
+          Spacer()
+          Button(action: {
+            makeDismiss()
+          }, label: {
+            Source.Images.Navigation.close
+              .foregroundColor(.black)
+          })
+        }.padding(.bottom, 20)
         DatePicker(
           "Start Date",
           selection: $selectedDate,
@@ -23,25 +34,10 @@ struct DateSelectorView: View {
         .tint(.primaryGreen)
         .datePickerStyle(.graphical)
       }
-      .scrollDisabled(true)
       .applyMargins()
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          Text(type.title)
-            .font(.system(.headline, weight: .medium))
-        }
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button {
-            makeDismiss()
-          } label: {
-            Appearance.shared.closeIcon
-              .font(.callout)
-              .foregroundColor(.black)
-          }
-        }
-      }
     }
+    .padding(.top, 20)
+    .background(.white)
   }
 }
 

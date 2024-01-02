@@ -12,14 +12,14 @@ import Charts
 struct TopCategoryOverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
-  
-  let maxXaxis = topCategoriesData.map { $0.amount }.max()! + 100
+  var isDemo: Bool
+  @ObservedObject var service : TopCategoryManager
   var body: some View {
     NavigationView {
       ScrollView {
         EXBaseCard {
           VStack(alignment: .leading, spacing: 5) {
-            Text("Shopping")
+            Text(service.topCategory.0)
               .font(.title2Bold)
               .foregroundColor(.black)
             Text("You top category for \(Appearance.shared.currentMonth)")
@@ -35,7 +35,7 @@ struct TopCategoryOverviewView: View {
         HStack {
           EXBaseCard {
             VStack(alignment: .leading, spacing: 3) {
-              Text("$1500")
+              Text("$\(service.topCategory.1.clean)")
                 .font(.title3Bold)
                 .foregroundColor(.black)
               Text("Total amount spent")
@@ -46,7 +46,7 @@ struct TopCategoryOverviewView: View {
           }
           EXBaseCard {
             VStack(alignment: .leading, spacing: 3) {
-              Text("22")
+              Text("\(service.topCategory.2)")
                 .font(.title3Bold)
                 .foregroundColor(.black)
               Text("Transactions made")
@@ -59,9 +59,18 @@ struct TopCategoryOverviewView: View {
         .applyMargins()
         .padding(.top, 5)
         
-        VStack {
-          EXChartBar(value: 1500, text: "From your monthly budget", maxValue: 2000)
-        }
+        EXBaseCard(content: {
+          VStack(alignment: .leading, spacing: 5) {
+            VStack(alignment: .leading, spacing: 0, content: {
+              Text("\(service.topCategoryCut.clean)%")
+                .font(.title3Bold)
+              Text("Based on combined monthly budget")
+                .font(.footnoteRegular)
+                .foregroundColor(.darkGrey)
+            })
+            EXChartBar(value: service.topCategory.1, maxValue: Int(service.combinedBudget), height: 15, radius: 5, margin: 56)
+          }
+        })
         .padding(.top, 5)
         
         // MARK: Other categories
@@ -70,23 +79,29 @@ struct TopCategoryOverviewView: View {
           .foregroundColor(.black)
           .frame(maxWidth: .infinity, alignment: .leading)
           .applyMargins()
-          .padding(.top, 15)
+          .padding(.top, 5)
         
         VStack(alignment: .leading, spacing: 10) {
-          ForEach(topCategoriesData) { data in
-            TopCategoryBar(total: 2000, category: data)
+          ForEach(service.otherCategories, id: \.0) { data in
+            TopCategoryBar(total: Int(service.combinedBudget), category: data)
           }
         }
         
         EXBaseCard {
-          Text("Percentages shown are based on your monthly budget")
+          Text("Percentages shown are based on your combined monthly budget")
             .font(.footnoteRegular)
             .foregroundColor(.darkGrey)
-            .frame(maxWidth: .infinity, alignment: .center)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .applyMargins()
+        .padding(.bottom, 10)
       }
       .applyBounce()
+      .onFirstAppear {
+        if isDemo {
+          service.groupAndFindMaxAmountCategoryDemo()
+        }
+      }
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -108,7 +123,7 @@ struct TopCategoryOverviewView: View {
 }
 
 #Preview {
-  TopCategoryOverviewView()
+  TopCategoryOverviewView(isDemo: true, service: .init())
 }
 
 // MARK: - Apperance
@@ -128,15 +143,15 @@ extension TopCategoryOverviewView {
 
 struct TopCategoryBar: View {
   var total: Int
-  var category: TopCategories
+  var category: (String, Double)
   private var screenWidth: CGFloat {UIScreen.main.bounds.size.width }
   private var maxWidth: CGFloat { screenWidth - 32 }
   
   private var insetWidth: CGFloat {
-    return CGFloat((category.amount * maxWidth) / CGFloat(total))
+    return CGFloat((category.1 * maxWidth) / CGFloat(total))
   }
   private var percentage: Double {
-    return (category.amount / 2000) * 100
+    return (category.1 / Double(total)) * 100
   }
   var body: some View {
     ZStack(alignment: .leading) {
@@ -157,9 +172,9 @@ struct TopCategoryBar: View {
         .cornerRadius(12)
       
       VStack(alignment: .leading, spacing: 3) {
-        Text("\(category.name)")
+        Text("\(category.0)")
           .font(.calloutBold)
-        Text("$\(category.amount.clean)")
+        Text("$\(category.1.clean)")
           .font(.footnoteSemibold)
           .foregroundColor(.primaryGreen)
       }

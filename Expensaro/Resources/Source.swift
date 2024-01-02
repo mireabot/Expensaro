@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ExpensaroUIKit
 
 enum Source {
   enum Images {
@@ -57,6 +58,8 @@ enum Source {
       static let alertSuccess = Image("alertSuccess")
       static let appTools = Image("appTools")
       static let reminder = Image("reminder")
+      static let arrowUp = Image("arrowUp")
+      static let arrowDown = Image("arrowDown")
     }
     enum Settings {
       static let categories = Image("categories")
@@ -167,16 +170,35 @@ enum Source {
     ///   - amount: amount of Transaction
     ///   - type: type of Transaction
     /// - Returns: Filled object Transaction
-    static func createTransaction(name: String, date: Date, category: (String, String), amount: Double, type: String) -> Transaction {
+    static func createTransaction(name: String, date: Date, category: (String, String, CategoriesSection), amount: Double, type: String, note: String) -> Transaction {
       let transaction = Transaction()
       transaction.name = name
-      transaction.date = date
-      transaction.categoryIcon = category.0
-      transaction.categoryName = category.1
       transaction.amount = amount
       transaction.type = type
+      transaction.date = date
+      transaction.categoryName = category.0
+      transaction.categoryIcon = category.1
+      transaction.categorySection = category.2
+      transaction.note = note
       
       return transaction
+    }
+    
+    /// Function which creates Category realm object
+    /// - Parameters:
+    ///   - icon: icon of Category
+    ///   - name: name of Category
+    ///   - tag: tag of Category
+    ///   - section: section of Category
+    /// - Returns: Filled object Category
+    static func createCategory(icon: String, name: String, tag: CategoriesTag, section: CategoriesSection) -> Category {
+      let category = Category()
+      category.icon = icon
+      category.name = name
+      category.tag = tag
+      category.section = section
+      
+      return category
     }
   }
 }

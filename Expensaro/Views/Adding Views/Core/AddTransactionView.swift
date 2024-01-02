@@ -30,6 +30,8 @@ struct AddTransactionView: View {
   @State private var isBudgetAvailable = true
   @State private var isLoading = false
   
+  @State private var sheetHeight: CGFloat = .zero
+  
   // MARK: Errors
   @State private var errorType = EXToasts.none
   
@@ -52,7 +54,7 @@ struct AddTransactionView: View {
             Button(action: {
               showCategoriesSelector.toggle()
             }, label: {
-              EXLargeSelector(text: $transaction.categoryName, icon: $transaction.categoryIcon, header: "Category", rightIcon: "swipeDown")
+              EXLargeSelector(text: $transaction.categoryName, icon: .constant(.imageName(transaction.categoryIcon)), header: "Category", rightIcon: "swipeDown")
             })
             .buttonStyle(EXPlainButtonStyle())
           }
@@ -60,7 +62,12 @@ struct AddTransactionView: View {
         }
         .applyBounce()
         EXNumberKeyboard(textValue: $amountValue) {
-          validateBudget()
+          if Double(amountValue) == transaction.amount && isUpdating {
+            makeDismiss()
+          }
+          else {
+            validateBudget()
+          }
         }
       })
       .ignoresSafeArea(.keyboard, edges: .all)
@@ -85,10 +92,13 @@ struct AddTransactionView: View {
           .position(.top)
           .autohideIn(1.5)
       })
-      .sheet(isPresented: $showCategoriesSelector, content: {
-        CategorySelectorView(title: $transaction.categoryName, icon: $transaction.categoryIcon)
-          .presentationDetents([.fraction(0.9)])
-      })
+      .sheet(isPresented: $showCategoriesSelector) {
+        CategorySelectorView(presentation: $showCategoriesSelector, title: $transaction.categoryName, icon: $transaction.categoryIcon, section: $transaction.categorySection)
+          .frame(height: 600)
+          .modifier(GetHeightModifier(height: $sheetHeight))
+          .presentationDetents([.height(sheetHeight)])
+          .presentationDragIndicator(.visible)
+      }
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {

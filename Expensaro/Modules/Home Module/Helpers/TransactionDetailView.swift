@@ -48,8 +48,8 @@ struct TransactionDetailView: View {
           
           // MARK: Transaction info
           HStack(spacing: 5) {
-            EXChip(icon: transaction.categoryIcon, text: transaction.categoryName)
-            EXChip(icon: "transactionType", text: transaction.type)
+            EXChip(icon: .imageName(transaction.categoryIcon), text: transaction.categoryName)
+            EXChip(icon: .image(Source.Images.System.transactionType), text: transaction.type)
           }
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.top, 5)
@@ -81,14 +81,7 @@ struct TransactionDetailView: View {
           
           // MARK: Analytics
           if transaction.type != "Refill" {
-            //TransactionInsightsDemoView()
-            Button(action: {
-              showAnalyticsDemo.toggle()
-            }, label: {
-              EXEmptyStateView(type: .noTransactionInsights, isActive: true)
-            })
-            .buttonStyle(EXPlainButtonStyle())
-              .padding([.top, .bottom], 5)
+            TransactionInsightsView(service: .init(selectedCategory: transaction.categoryName))
           }
         }
         .applyBounce()
@@ -112,14 +105,7 @@ struct TransactionDetailView: View {
       })
       .sheet(isPresented: $showNoteView, content: {
         noteView()
-          .presentationDetents([.large])
-      })
-      .sheet(isPresented: $showAnalyticsDemo, content: {
-        EXBottomInfoView(type: .transactions, action: {}, bottomView: {
-          TransactionInsightsDemoView()
-        })
-        .applyMargins()
-        .presentationDetents([.fraction(0.45)])
+          .presentationDetents([.fraction(0.95)])
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -145,6 +131,7 @@ extension TransactionDetailView {
     let title = "Transactions"
     
     let closeIcon = Source.Images.Navigation.back
+    let dismissIcon = Source.Images.Navigation.close
     let deleteIcon = Source.Images.ButtonIcons.delete
   }
 }
@@ -153,41 +140,32 @@ extension TransactionDetailView {
 private extension TransactionDetailView {
   @ViewBuilder
   func noteView() -> some View {
-    NavigationView {
-      ScrollView {
-        EXResizableTextField(message: $transaction.note, characterLimit: 300)
-          .autocorrectionDisabled()
-          .multilineSubmitEnabled(for: $transaction.note)
-      }
-      .applyMargins()
-      .navigationBarTitleDisplayMode(.inline)
-      .safeAreaInset(edge: .bottom) {
+    ScrollView {
+      HStack {
+        Text("Create note")
+          .font(.title3Semibold)
+        Spacer()
         Button {
           showNoteView.toggle()
         } label: {
-          Text("Add note")
-            .font(.system(.headline, weight: .semibold))
-        }
-        .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
-        .applyMargins()
-        .padding(.bottom, 20)
-      }
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          Text("Create note")
-            .font(.system(.headline, weight: .medium))
-        }
-        
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button {
-            showNoteView.toggle()
-          } label: {
-            Source.Images.Navigation.close
-              .foregroundColor(.black)
-          }
+          Appearance.shared.dismissIcon
+            .foregroundColor(.black)
         }
       }
+      .padding(.top, 20)
+      EXResizableTextField(message: $transaction.note, characterLimit: 300)
+        .autocorrectionDisabled()
+        .multilineSubmitEnabled(for: $transaction.note)
+      Button {
+        showNoteView.toggle()
+      } label: {
+        Text("Add note")
+          .font(.system(.headline, weight: .semibold))
+      }
+      .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
+      .padding(.top, 20)
     }
+    .applyMargins()
   }
   
   @ViewBuilder
@@ -197,12 +175,6 @@ private extension TransactionDetailView {
         if transaction.type != "Refill" {
           Button(action: { showEditTransaction.toggle() }) {
             Label("Edit transaction", image: "buttonEdit")
-          }
-        }
-        
-        if transaction.note.isEmpty {
-          Button(action: { showNoteView.toggle() }) {
-            Label("Create note", image: "buttonNote")
           }
         }
         

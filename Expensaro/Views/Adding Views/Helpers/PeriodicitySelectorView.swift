@@ -9,51 +9,43 @@ import SwiftUI
 import ExpensaroUIKit
 
 struct PeriodicitySelectorView: View {
-  @Environment(\.dismiss) var makeDismiss
+  @Binding var presentation: Bool
   @Binding var selectedPeriodicity: RecurringSchedule
   let schedule = RecurringSchedule.allCases
   var body: some View {
-    NavigationView {
-      List {
-        VStack {
-          ForEach(schedule, id: \.self) { data in
-            Button {
-              selectedPeriodicity = data
-              makeDismiss()
-            } label: {
-              EXCategoryCell(icon: Source.Images.System.calendarYear, title: data.title)
-            }
-            .buttonStyle(EXPlainButtonStyle())
-          }
-        }
-        .listRowSeparator(.hidden)
-      }
-      .listStyle(.inset)
-      .background(.white)
-      .scrollDisabled(true)
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .principal) {
+    ViewThatFits(in: .vertical) {
+      VStack(alignment: .leading) {
+        HStack {
           Text(Appearance.shared.title)
-            .font(.system(.headline, weight: .medium))
-        }
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button {
-            makeDismiss()
-          } label: {
-            Appearance.shared.closeIcon
-              .font(.callout)
+            .font(.title3Semibold)
+          Spacer()
+          Button(action: {
+            presentation = false
+          }, label: {
+            Source.Images.Navigation.close
               .foregroundColor(.black)
+          })
+        }.padding(.bottom, 20)
+        ForEach(schedule, id: \.self) { data in
+          Button {
+            presentation = false
+            selectedPeriodicity = data
+          } label: {
+            EXSelectCell(title: data.title, selectIcon: Source.Images.Navigation.checkmark, condition: selectedPeriodicity.title == data.title)
           }
+          .buttonStyle(EXPlainButtonStyle())
         }
       }
+      .applyMargins()
     }
+    .padding(.top, 20)
+    .background(.white)
   }
 }
 
 struct PeriodicitySelectorView_Previews: PreviewProvider {
   static var previews: some View {
-    PeriodicitySelectorView(selectedPeriodicity: .constant(RecurringSchedule.everyWeek))
+    PeriodicitySelectorView(presentation: .constant(false), selectedPeriodicity: .constant(RecurringSchedule.everyWeek))
   }
 }
 

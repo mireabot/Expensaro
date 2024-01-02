@@ -12,9 +12,9 @@ struct EXTransactionCell: View {
   var transaction: Transaction
   var body: some View {
     HStack(alignment: .center) {
-      Image(transaction.categoryIcon)
+      Text(transaction.categoryIcon)
         .foregroundColor(.primaryGreen)
-        .padding(8)
+        .padding(12)
         .background(Color.backgroundGrey)
         .cornerRadius(12)
       VStack(alignment: .leading, spacing: 3) {

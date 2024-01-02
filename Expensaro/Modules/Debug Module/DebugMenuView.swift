@@ -66,6 +66,14 @@ struct DebugMenuView: View {
           }
         }
         
+        ToolbarItem(placement: .topBarTrailing) {
+          Button {
+            writeCategories()
+          } label: {
+            Text("Update categories")
+          }
+        }
+        
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
             .font(.system(.headline, weight: .medium))
@@ -80,6 +88,39 @@ struct DebugMenuView: View {
       return dateFormatter.string(from: transaction.date)
     }
     return groupedByMonth.sorted { $0.0 < $1.0 }
+  }
+  
+  func writeCategories() {
+    let loadedCategories: [Category] = [
+      Source.Realm.createCategory(icon: "🔄", name: "Subscription", tag: .base, section: .entertainment),
+      Source.Realm.createCategory(icon: "🎫", name: "Entertainment", tag: .base, section: .entertainment),
+      Source.Realm.createCategory(icon: "🎨", name: "Hobby", tag: .base, section: .entertainment),
+      
+      Source.Realm.createCategory(icon: "🥡", name: "Going out", tag: .base, section: .food),
+      Source.Realm.createCategory(icon: "🛒", name: "Groceries", tag: .base, section: .food),
+      
+      Source.Realm.createCategory(icon: "🧾", name: "Bills", tag: .base, section: .housing),
+      Source.Realm.createCategory(icon: "🏠", name: "Utilities", tag: .base, section: .housing),
+      
+      Source.Realm.createCategory(icon: "🚈", name: "Public transport", tag: .base, section: .transportation),
+      Source.Realm.createCategory(icon: "🚘", name: "Car", tag: .base, section: .transportation),
+      
+      Source.Realm.createCategory(icon: "📚", name: "Education", tag: .base, section: .lifestyle),
+      Source.Realm.createCategory(icon: "🛩️", name: "Travel", tag: .base, section: .lifestyle),
+      Source.Realm.createCategory(icon: "🛍️", name: "Shopping", tag: .base, section: .lifestyle),
+      Source.Realm.createCategory(icon: "📦", name: "Delivery", tag: .base, section: .lifestyle),
+      Source.Realm.createCategory(icon: "🎮", name: "Gaming", tag: .base, section: .lifestyle),
+      Source.Realm.createCategory(icon: "🐾", name: "Animals", tag: .base, section: .lifestyle),
+      
+      Source.Realm.createCategory(icon: "👕", name: "Clothes", tag: .base, section: .other),
+      Source.Realm.createCategory(icon: "📔", name: "Other", tag: .base, section: .other),
+      Source.Realm.createCategory(icon: "🩹", name: "Healthcare", tag: .base, section: .other),
+    ]
+    let realm = try! Realm()
+    
+    try? realm.write({
+      realm.add(loadedCategories)
+    })
   }
 }
 

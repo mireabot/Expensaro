@@ -141,7 +141,7 @@ extension HomeView {
   @ViewBuilder
   func budgetSection() -> some View {
     if let currentBudget = budget.first {
-      VStack(alignment: .leading, spacing: 5) {
+      VStack(alignment: .leading, spacing: 3) {
         Text("Your budget")
           .font(.system(.subheadline, weight: .regular))
           .foregroundColor(.darkGrey)
@@ -234,7 +234,7 @@ extension HomeView {
     if !transactions.isEmpty {
       VStack(spacing: 15) {
         HStack {
-          VStack(alignment: .leading, spacing: 5) {
+          VStack(alignment: .leading, spacing: 3) {
             Text("Spendings for")
               .font(.system(.subheadline, weight: .regular))
               .foregroundColor(.darkGrey)

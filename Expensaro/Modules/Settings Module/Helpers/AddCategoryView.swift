@@ -8,6 +8,7 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
+import UIKit
 
 struct AddCategoryView: View {
   // MARK: Essential
@@ -19,57 +20,43 @@ struct AddCategoryView: View {
   
   // MARK: Realm
   @ObservedRealmObject var category: Category
+  
+  // MARK: Variables
+  @State private var sheetHeight: CGFloat = .zero
+  
+  // MARK: Presentation
+  @State private var showSelector = false
   var body: some View {
     NavigationView {
       ScrollView {
         VStack(spacing: 15) {
-          VStack(alignment: .center, spacing: 15) {
-            Image(category.icon)
-              .resizable()
-              .frame(width: 40, height: 40)
-              .foregroundColor(.primaryGreen)
-              .padding(8)
-              .background(Color.backgroundGrey)
-              .cornerRadius(12)
-          }
+          EXEmojiKeyboard(text: $category.icon)
+            .focused($isFocused)
+            .padding(12)
           
           EXTextField(text: $category.name, header: "Category name", placeholder: "Ex. Metrocard")
             .autocorrectionDisabled()
             .focused($isFocused)
           
-          VStack(alignment: .leading, spacing: 5) {
-            LazyHGrid(rows: Appearance.shared.items, alignment: .center, spacing: 20) {
-              ForEach(CategoryDescription.allCases, id: \.self) { item in
-                Button {
-                  withAnimation(.easeOut(duration: 0.5)) {
-                    category.icon = item.icon
-                  }
-                } label: {
-                  Image(item.icon)
-                    .foregroundColor(category.icon == item.icon ? .white : .primaryGreen)
-                    .padding(8)
-                    .background(category.icon == item.icon ? Color.primaryGreen : Color.white)
-                    .cornerRadius(12)
-                }
-                .buttonStyle(EXPlainButtonStyle())
-              }
-            }
-            .padding(16)
-            .frame(maxWidth: .infinity)
-            .background(Color.backgroundGrey)
-            .cornerRadius(12)
-          }
+          Button(action: {
+            showSelector.toggle()
+          }, label: {
+            EXLargeSelector(text: .constant(category.section.header), icon: .constant(.imageName("")), header: "Category section", rightIcon: "swipeDown")
+          })
+          .buttonStyle(EXPlainButtonStyle())
         }
         .padding(.top, 20)
         
-      }
-      .onAppear {
-        category.icon = Source.Strings.Categories.Images.other
       }
       .applyMargins()
       .onTapGesture {
         isFocused = false
       }
+      .sheet(isPresented: $showSelector, content: {
+        selectorView()
+          .modifier(GetHeightModifier(height: $sheetHeight))
+          .presentationDetents([.height(sheetHeight)])
+      })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -114,6 +101,35 @@ struct AddCategoryView: View {
       }
     }
   }
+  
+  @ViewBuilder
+  func selectorView() -> some View {
+    ViewThatFits(in: .vertical) {
+      VStack {
+        HStack {
+          Text("Select category section")
+            .font(.title3Bold)
+          Spacer()
+          Button {
+            showSelector.toggle()
+          } label: {
+            Source.Images.Navigation.close
+              .foregroundColor(.black)
+          }
+        }
+        .padding(.vertical, 20)
+        ForEach(CategoriesSection.allCases, id: \.header) { folder in
+          Button(action: {
+            category.section = folder
+            showSelector.toggle()
+          }, label: {
+            EXSelectCell(title: folder.rawValue.capitalized, selectIcon: Source.Images.Navigation.checkmark, condition: category.section == folder)
+          })
+          .buttonStyle(EXPlainButtonStyle())
+        }
+      }.applyMargins()
+    }
+  }
 }
 
 struct AddCategory_Previews: PreviewProvider {
@@ -135,9 +151,10 @@ extension AddCategoryView {
     let submitIcon = Source.Images.Navigation.checkmark
     
     var items: [GridItem] = [
-      GridItem(.flexible(), spacing: 15),
-      GridItem(.flexible(), spacing: 15),
-      GridItem(.flexible(), spacing: 15),
+      GridItem(.adaptive(minimum: 150)),
+      GridItem(.adaptive(minimum: 150)),
+      GridItem(.adaptive(minimum: 150)),
+      GridItem(.adaptive(minimum: 150)),
     ]
   }
 }
@@ -145,6 +162,7 @@ extension AddCategoryView {
 // MARK: - Realm Functions
 extension AddCategoryView {
   func saveCategory() {
+    category.tag = .custom
     try? realm.write {
       realm.add(category)
     }

@@ -32,6 +32,8 @@ struct AddRecurrentPaymentView: View {
   @State private var isLoading = false
   @State private var savedDate = Date()
   
+  @State private var sheetHeight: CGFloat = .zero
+  
   // MARK: Error
   @State private var errorType = EXToasts.none
   
@@ -58,7 +60,7 @@ struct AddRecurrentPaymentView: View {
             Button(action: {
               showCategoryelector.toggle()
             }) {
-              EXLargeSelector(text: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon, header: "Category", rightIcon: "swipeDown")
+              EXLargeSelector(text: $recurringPayment.categoryName, icon: .constant(.imageName(recurringPayment.categoryIcon)), header: "Category", rightIcon: "swipeDown")
             }
             .buttonStyle(EXPlainButtonStyle())
           }
@@ -83,7 +85,12 @@ struct AddRecurrentPaymentView: View {
             .buttonStyle(EXPlainButtonStyle())
           }
           EXNumberKeyboard(textValue: $amountValue) {
-            validateBudget()
+            if Double(amountValue) == recurringPayment.amount && isUpdating {
+              makeDismiss()
+            }
+            else {
+              validateBudget()
+            }
           }
         }
       })
@@ -110,14 +117,23 @@ struct AddRecurrentPaymentView: View {
           .position(.top)
           .autohideIn(1.5)
       })
-      .sheet(isPresented: $showSchedule, content: {
-        PeriodicitySelectorView(selectedPeriodicity: $recurringPayment.schedule)
-          .presentationDetents([.fraction(0.45)])
-      })
-      .sheet(isPresented: $showNextDate, content: {
+      .sheet(isPresented: $showSchedule) {
+        PeriodicitySelectorView(presentation: $showSchedule, selectedPeriodicity: $recurringPayment.schedule)
+          .modifier(GetHeightModifier(height: $sheetHeight))
+          .presentationDetents([.height(sheetHeight)])
+      }
+      .sheet(isPresented: $showNextDate) {
         DateSelectorView(type: .setRecurrentDate, selectedDate: $recurringPayment.dueDate)
-          .presentationDetents([.fraction(0.5)])
-      })
+          .modifier(GetHeightModifier(height: $sheetHeight))
+          .presentationDetents([.height(sheetHeight)])
+      }
+      .sheet(isPresented: $showCategoryelector) {
+        CategorySelectorView(presentation: $showCategoryelector, title: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon, section: .constant(.other))
+          .frame(height: 600)
+          .modifier(GetHeightModifier(height: $sheetHeight))
+          .presentationDetents([.height(sheetHeight)])
+          .presentationDragIndicator(.visible)
+      }
       .popup(isPresented: $showReminderAlert) {
         EXAlert(type: .createReminder) {
           recurringPayment.isReminder = true
@@ -145,10 +161,6 @@ struct AddRecurrentPaymentView: View {
           .backgroundColor(.black.opacity(0.3))
           .isOpaque(true)
       }
-      .sheet(isPresented: $showCategoryelector, content: {
-        CategorySelectorView(title: $recurringPayment.categoryName, icon: $recurringPayment.categoryIcon)
-          .presentationDetents([.fraction(0.9)])
-      })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {

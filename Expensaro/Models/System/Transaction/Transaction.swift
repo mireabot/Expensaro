@@ -16,7 +16,8 @@ final class Transaction: Object, ObjectKeyIdentifiable {
   @Persisted var type: String
   @Persisted var date: Date
   @Persisted var categoryName: String = "Other"
-  @Persisted var categoryIcon: String = Source.Strings.Categories.Images.other
+  @Persisted var categoryIcon: String = "📔"
+  @Persisted var categorySection: CategoriesSection = .other
   @Persisted var note: String
 }
 
@@ -29,7 +30,7 @@ enum DefaultTransactions {
     transaction.type = "Debit"
     transaction.date = Date()
     transaction.categoryName = "Delivery"
-    transaction.categoryIcon = Source.Strings.Categories.Images.delivery
+    transaction.categoryIcon = "📔"
     transaction.note = ""
     return transaction
   }
@@ -41,7 +42,7 @@ enum DefaultTransactions {
     transaction.type = "Credit"
     transaction.date = Calendar.current.date(byAdding: .day, value: 4, to: Date()) ?? Date()
     transaction.categoryName = "Shopping"
-    transaction.categoryIcon = Source.Strings.Categories.Images.shopping
+    transaction.categoryIcon = "📔"
     transaction.note = ""
     return transaction
   }

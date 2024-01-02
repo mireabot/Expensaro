@@ -12,6 +12,11 @@ struct OverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   
+  // MARK: Variables
+  @State private var sheetHeight: CGFloat = .zero
+  @StateObject var topCategoryService = TopCategoryManager()
+  @StateObject var monthRecapService = MonthRecapService()
+  
   // MARK: Presentation
   @State private var showSpendingsInfoSheet = false
   @State private var showTopCategoryInfoSheet = false
@@ -19,30 +24,42 @@ struct OverviewView: View {
     NavigationView {
       ScrollView(.vertical, showsIndicators: false) {
         VStack(spacing: 16) {
-          EXInfoCardWithButton(type: .topCategory, icon: Source.Images.InfoCardIcon.topCategory, buttonIcon: Source.Images.ButtonIcons.how, buttonAction: {showTopCategoryInfoSheet.toggle()})
-          EXInfoCardWithButton(type: .monthToMonth, icon: Source.Images.InfoCardIcon.month2month, buttonIcon: Source.Images.ButtonIcons.how, buttonAction: {showSpendingsInfoSheet.toggle()})
+          topCategorySection()
+          monthRecapSection()
           EXInfoCard(type: .overviewUpdates)
         }
         .padding(.top, 16)
+      }
+      .onFirstAppear {
+        topCategoryService.groupAndFindMaxAmountCategory()
       }
       .sheet(isPresented: $showTopCategoryInfoSheet, content: {
         EXBottomInfoView(type: .topCategory, action: {
           DispatchQueue.main.async {
             showTopCategoryInfoSheet.toggle()
           }
-          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView()))
+          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(isDemo: true, service: topCategoryService)))
         }, bottomView: {
-          EXTopCategoryView()
+          EXOverviewCard(header: "Top Category", title: "Electronics", icon: Source.Images.Navigation.redirect, subHeader: "You have spent $2000 on this category")
         })
         .applyMargins()
         .presentationDetents([.fraction(0.4)])
       })
       .sheet(isPresented: $showSpendingsInfoSheet, content: {
-        EXBottomInfoView(type: .spendings, action: {}, bottomView: {
-          EmptyView()
+        ViewThatFits(in: .vertical, content: {
+          EXBottomInfoView(type: .spendings, action: {
+            DispatchQueue.main.async {
+              showSpendingsInfoSheet.toggle()
+            }
+            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView(service: monthRecapService)))
+          }, bottomView: {
+            EXOverviewCard(header: "Month recap", title: formattedDate(date: getPastMonthDates().0), icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")
+          })
+          .applyMargins()
         })
-        .applyMargins()
-        .presentationDetents([.fraction(0.4)])
+        .fixedSize(horizontal: false, vertical: true)
+        .modifier(GetHeightModifier(height: $sheetHeight))
+        .presentationDetents([.height(sheetHeight)])
       })
       .applyMargins()
       .scrollDisabled(true)
@@ -68,5 +85,36 @@ extension OverviewView {
   struct Appearance {
     static let shared = Appearance()
     let title = "Overview"
+  }
+}
+
+extension OverviewView {
+  @ViewBuilder
+  func topCategorySection() -> some View {
+    if topCategoryService.transactions.count > 15 {
+      Button(action: {
+        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(isDemo: false, service: topCategoryService)))
+      }, label: {
+        EXOverviewCard(header: "Top Category", title: topCategoryService.topCategory.0, icon: Source.Images.Navigation.redirect, subHeader: "You have spent $\(topCategoryService.topCategory.1.clean) on this category")
+      })
+      .buttonStyle(EXPlainButtonStyle())
+    } else {
+      EXInfoCardWithButton(type: .topCategory, icon: Source.Images.InfoCardIcon.topCategory, buttonIcon: Source.Images.ButtonIcons.how, buttonAction: {showTopCategoryInfoSheet.toggle()})
+    }
+  }
+  
+  @ViewBuilder
+  func monthRecapSection() -> some View {
+    if monthRecapService.isLocked {
+      EXInfoCardWithButton(type: .monthToMonth, icon: Source.Images.InfoCardIcon.month2month, buttonIcon: Source.Images.ButtonIcons.how, buttonAction: {showSpendingsInfoSheet.toggle()})
+    }
+    else {
+      Button(action: {
+        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView(service: monthRecapService)))
+      }, label: {
+        EXOverviewCard(header: "Month recap", title: monthRecapService.recapMonth, icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")
+      })
+      .buttonStyle(EXPlainButtonStyle())
+    }
   }
 }

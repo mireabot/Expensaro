@@ -60,8 +60,8 @@ struct RecurrentPaymentDetailView: View {
           
           // MARK: Transaction info
           HStack(spacing: 5) {
-            EXChip(icon: transaction.categoryIcon, text: transaction.categoryName)
-            EXChip(icon: "calendarYear", text: transaction.schedule.title)
+            EXChip(icon: .imageName(transaction.categoryIcon), text: transaction.categoryName)
+            EXChip(icon: .image(Source.Images.System.calendarYear), text: transaction.schedule.title)
           }
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.top, 5)
@@ -127,7 +127,7 @@ struct RecurrentPaymentDetailView: View {
       })
       .sheet(isPresented: $showNoteView, content: {
         noteView()
-          .presentationDetents([.large])
+          .presentationDetents([.fraction(0.95)])
       })
       .applyMargins()
       .scrollDisabled(true)
@@ -172,6 +172,7 @@ extension RecurrentPaymentDetailView {
     let title = "Transactions"
     
     let closeIcon = Source.Images.Navigation.back
+    let dismissIcon = Source.Images.Navigation.close
     let deleteIcon = Source.Images.ButtonIcons.delete
   }
 }
@@ -180,40 +181,32 @@ extension RecurrentPaymentDetailView {
 extension RecurrentPaymentDetailView {
   @ViewBuilder
   func noteView() -> some View {
-    NavigationView {
-      ScrollView {
-        EXResizableTextField(message: $transaction.note, characterLimit: 300)
-          .autocorrectionDisabled()
-      }
-      .applyMargins()
-      .navigationBarTitleDisplayMode(.inline)
-      .safeAreaInset(edge: .bottom) {
-        Button {
+    ScrollView {
+      HStack {
+        Text("Create note")
+          .font(.title3Semibold)
+        Spacer()
+        Button(action: {
           showNoteView.toggle()
-        } label: {
-          Text("Add note")
-            .font(.system(.headline, weight: .semibold))
-        }
-        .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
-        .applyMargins()
-        .padding(.bottom, 20)
+        }, label: {
+          Appearance.shared.dismissIcon
+            .foregroundColor(.black)
+        })
       }
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          Text("Create note")
-            .font(.system(.headline, weight: .medium))
-        }
-        
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button {
-            showNoteView.toggle()
-          } label: {
-            Source.Images.Navigation.close
-              .foregroundColor(.black)
-          }
-        }
+      .padding(.top, 20)
+      EXResizableTextField(message: $transaction.note, characterLimit: 300)
+        .autocorrectionDisabled()
+        .multilineSubmitEnabled(for: $transaction.note)
+      Button {
+        showNoteView.toggle()
+      } label: {
+        Text("Add note")
+          .font(.system(.headline, weight: .semibold))
       }
+      .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
+      .padding(.top, 20)
     }
+    .applyMargins()
   }
   
   @ViewBuilder
@@ -222,12 +215,6 @@ extension RecurrentPaymentDetailView {
       Menu {
         Button(action: { showEditPayment.toggle() }) {
           Label("Edit payment", image: "buttonEdit")
-        }
-        
-        if transaction.note.isEmpty {
-          Button(action: { showNoteView.toggle() }) {
-            Label("Create note", image: "buttonNote")
-          }
         }
         
         Button(role: .destructive, action: { showDeleteAlert.toggle() }) {

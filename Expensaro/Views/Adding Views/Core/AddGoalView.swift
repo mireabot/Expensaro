@@ -20,6 +20,9 @@ struct AddGoalView: View {
   @Environment(\.realm) var realm
   @ObservedRealmObject var goal: Goal
   
+  // MARK: Variables
+  @State private var sheetHeight: CGFloat = .zero
+  
   // MARK: Error
   @State private var errorType = EXToasts.none
   
@@ -39,7 +42,7 @@ struct AddGoalView: View {
               .focused($isFieldFocused)
             
             Button(action: { showDateSheet.toggle() }, label: {
-              EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant("timer"), header: "Goal completion date", rightIcon: "swipeDown")
+              EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant(.image(Source.Images.System.timer)), header: "Goal completion date", rightIcon: "swipeDown")
             })
             .buttonStyle(EXPlainButtonStyle())
           }
@@ -65,10 +68,11 @@ struct AddGoalView: View {
           .position(.top)
           .autohideIn(1.5)
       })
-      .sheet(isPresented: $showDateSheet, content: {
+      .sheet(isPresented: $showDateSheet) {
         DateSelectorView(type: .setGoalDate, selectedDate: $goal.dueDate)
-          .presentationDetents([.fraction(0.5)])
-      })
+          .modifier(GetHeightModifier(height: $sheetHeight))
+          .presentationDetents([.height(sheetHeight)])
+      }
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
