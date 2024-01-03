@@ -41,9 +41,7 @@ final class MonthRecapService: ObservableObject {
   ]
   
   init() {
-    fetchTransactions()
     calculateBudget()
-    calculateGoals()
   }
   
   private func groupSections(with array: [Transaction]) {
@@ -65,18 +63,20 @@ final class MonthRecapService: ObservableObject {
     let addedFundsPredicate = NSPredicate(format: "date >= %@ AND date <= %@ AND categoryName == %@", startDate as NSDate, endDate as NSDate, "Added funds")
     let pastMonthBudget = realm.objects(Budget.self).filter(predicate)
     
-    if !pastMonthBudget.isEmpty, let budget = pastMonthBudget.first {
+    if let budget = pastMonthBudget.first, !pastMonthBudget.isEmpty {
+      isLocked = false
       budgetData.0 = budget.initialAmount
       let pastAddedFunds = realm.objects(Transaction.self).filter(addedFundsPredicate)
-      if pastAddedFunds.isEmpty {
-        budgetData.1 = 780
-      } else {
-        var addedFundsValue = pastAddedFunds.toArray().reduce(0) { $0 + $1.amount }
-        budgetData.1 = addedFundsValue
-      }
+      budgetData.1 = pastAddedFunds.toArray().reduce(0) { $0 + $1.amount }
+      fetchTransactions()
+      calculateGoals()
     } else {
+      isLocked = true
       budgetData.0 = 2000
       budgetData.1 = 780
+      budgetData.2 = 1600
+      goalsData = 2450
+      groupSections(with: sampleTransactions)
     }
   }
   
@@ -88,11 +88,7 @@ final class MonthRecapService: ObservableObject {
     
     let goalContributions = realm.objects(GoalTransaction.self).filter(predicate)
     
-    if goalContributions.isEmpty {
-      goalsData = 2450
-    } else {
-      goalsData = goalContributions.toArray().reduce(0) {$0 + $1.amount }
-    }
+    goalsData = goalContributions.toArray().reduce(0) {$0 + $1.amount }
   }
   
   // Transactions which exclude refill type
@@ -104,12 +100,9 @@ final class MonthRecapService: ObservableObject {
     let pastMonthTransactions = realm.objects(Transaction.self).filter(predicate)
     
     if pastMonthTransactions.isEmpty {
-      isLocked = true
-      budgetData.2 = 1600
-      groupSections(with: sampleTransactions)
+      print("No transactions made")
     }
     else {
-      isLocked = false
       budgetData.2 = pastMonthTransactions.toArray().reduce(0) {$0 + $1.amount }
       groupSections(with: pastMonthTransactions.toArray())
     }
