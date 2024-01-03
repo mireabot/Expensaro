@@ -8,6 +8,7 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
+import Algorithms
 
 struct TransactionsListView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
@@ -21,13 +22,13 @@ struct TransactionsListView: View {
     NavigationView {
       ScrollView(showsIndicators: false) {
         headerView().padding(.top, 20)
-        if groupedTransactions.isEmpty {
+        if chunkedTransactions.isEmpty {
           EXEmptyStateView(type: .noTransactions, isCard: false).padding(.top, 30)
         } else {
           LazyVStack(spacing: 10) {
-            ForEach(groupedTransactions.keys.sorted(by: >), id: \.self) { date in
-              Section(header: listHeader(date)) {
-                ForEach(groupedTransactions[date]!) { transaction in
+            ForEach(chunkedTransactions, id: \.self) { transactions in
+              Section {
+                ForEach(transactions) { transaction in
                   Button {
                     router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionDetailView(transaction: transaction, budget: currentBudget)))
                   } label: {
@@ -35,6 +36,8 @@ struct TransactionsListView: View {
                   }
                   .buttonStyle(EXPlainButtonStyle())
                 }
+              } header: {
+                listHeader(transactions.first!.date)
               }
             }
           }
@@ -123,11 +126,11 @@ extension TransactionsListView {
 
 // MARK: - Helper Functions
 private extension TransactionsListView {
-  var groupedTransactions: [Date: [Transaction]] {
-    Dictionary(grouping: transactions.reversed()) { transaction in
-      let calendar = Calendar.current
-      return calendar.startOfDay(for: transaction.date)
+  var chunkedTransactions: [[Transaction]] {
+    let chunked = transactions.reversed().chunked {
+      Calendar.current.isDate($0.date, equalTo: $1.date, toGranularity: .day)
     }
+    return chunked.map { Array($0) }
   }
   
   var currentBudget: Budget {
