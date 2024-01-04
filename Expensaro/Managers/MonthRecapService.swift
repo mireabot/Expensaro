@@ -71,6 +71,7 @@ final class MonthRecapService: ObservableObject {
       fetchTransactions()
       calculateGoals()
     } else {
+      print("Past budget doesn't exist -> show demo data")
       isLocked = true
       budgetData.0 = 2000
       budgetData.1 = 780

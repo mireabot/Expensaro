@@ -16,6 +16,7 @@ enum EXEmptyStates {
   case noRecurringPayments
   case noTransactionForGoal
   case noRecapGoals
+  case noRecapTransactions
   
   // With images
   case noGoals
@@ -37,6 +38,8 @@ enum EXEmptyStates {
       return Text("You have no transactions").font(.system(.title3, weight: .bold))
     case .noRecapGoals:
       return Text("No goal contributions made.").font(.system(.headline, weight: .bold)).foregroundColor(.primaryGreen)
+    case .noRecapTransactions:
+      return Text("No transactions made.").font(.system(.headline, weight: .bold)).foregroundColor(.primaryGreen)
     }
   }
   
@@ -56,6 +59,8 @@ enum EXEmptyStates {
       return "Set Goals, Achieve Dreams"
     case .noRecapGoals:
       return "Better to save next month"
+    case .noRecapTransactions:
+      return "Maybe you forgot about writing them"
     }
   }
   
@@ -75,6 +80,8 @@ enum EXEmptyStates {
       return Source.Images.EmptyStates.noTransactions
     case .noRecapGoals:
       return Source.Images.Onboarding.goals
+    case .noRecapTransactions:
+      return Image(Source.Images.Tabs.home)
     }
   }
 }

@@ -11,34 +11,46 @@ import ExpensaroUIKit
 struct OnboardingView: View {
   @State var currentPage: Int = 0
   @State private var showPermission = false
+  let appIcon = Bundle.main.icon
   init() {
     UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color.primaryGreen)
     UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color.border)
   }
   var body: some View {
-    VStack {
-      TabView {
-        firstTab()
-        secondTab()
-        thirdTab()
+    NavigationView {
+      VStack {
+        TabView {
+          firstTab()
+          secondTab()
+          thirdTab()
+        }
+        .tabViewStyle(.page)
+        
+        Button {
+          showPermission.toggle()
+        } label: {
+          Text("Get started")
+            .font(.system(.headline, weight: .semibold))
+        }
+        .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
+        .padding(.bottom, 20)
       }
-      .tabViewStyle(.page)
-      
-      Button {
-        showPermission.toggle()
-      } label: {
-        Text("Get started")
-          .font(.system(.headline, weight: .semibold))
-      }
-      .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
-      .padding(.bottom, 20)
+      .sheet(isPresented: $showPermission, content: {
+        InitialPermissionView()
+          .presentationDragIndicator(.visible)
+          .presentationDetents([.fraction(0.8)])
+      })
+      .applyMargins()
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar(content: {
+        ToolbarItem(placement: .topBarLeading) {
+          Image(uiImage: appIcon!)
+            .resizable()
+            .frame(width: 50, height: 50)
+            .aspectRatio(contentMode: .fit)
+        }
+      })
     }
-    .sheet(isPresented: $showPermission, content: {
-      InitialPermissionView()
-        .presentationDragIndicator(.visible)
-        .presentationDetents([.fraction(0.8)])
-    })
-    .applyMargins()
   }
 }
 

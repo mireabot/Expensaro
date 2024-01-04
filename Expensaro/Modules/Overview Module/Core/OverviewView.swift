@@ -15,7 +15,7 @@ struct OverviewView: View {
   // MARK: Variables
   @State private var sheetHeight: CGFloat = .zero
   @StateObject var topCategoryService = TopCategoryManager()
-  @StateObject var monthRecapService = MonthRecapService()
+  @StateObject var monthRecapService = MonthRecapService.init()
   
   // MARK: Presentation
   @State private var showSpendingsInfoSheet = false

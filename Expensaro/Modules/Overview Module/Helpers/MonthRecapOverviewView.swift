@@ -149,40 +149,46 @@ extension MonthRecapOverviewView {
             .foregroundColor(.primaryGreen)
             .font(.footnoteMedium)
         })
+        .disabled(service.groupedTransactions.isEmpty)
+        .opacity(service.groupedTransactions.isEmpty ? 0 : 1)
       }
-      EXBaseCard {
-        VStack(alignment: .leading) {
-          Chart {
-            ForEach(service.groupedTransactions, id: \.section) { data in
-              
-              BarMark(
-                x: .value("", data.totalAmount),
-                stacking: .normalized
-              )
-              .foregroundStyle(data.section.progressColor)
-            }
-          }
-          .chartLegend(.hidden)
-          .chartXAxis(.hidden)
-          .frame(height: 35)
-          .cornerRadius(5)
-          .frame(maxWidth: .infinity)
-          ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 10) {
+      if !service.groupedTransactions.isEmpty {
+        EXBaseCard {
+          VStack(alignment: .leading) {
+            Chart {
               ForEach(service.groupedTransactions, id: \.section) { data in
-                HStack(spacing: 3) {
-                  Circle()
-                    .fill(data.section.progressColor)
-                    .frame(width: 7, height: 7)
-                  Text(data.section.header)
-                    .font(.footnoteRegular)
-                    .foregroundColor(.darkGrey)
+                
+                BarMark(
+                  x: .value("", data.totalAmount),
+                  stacking: .normalized
+                )
+                .foregroundStyle(data.section.progressColor)
+              }
+            }
+            .chartLegend(.hidden)
+            .chartXAxis(.hidden)
+            .frame(height: 35)
+            .cornerRadius(5)
+            .frame(maxWidth: .infinity)
+            ScrollView(.horizontal, showsIndicators: false) {
+              HStack(spacing: 10) {
+                ForEach(service.groupedTransactions, id: \.section) { data in
+                  HStack(spacing: 3) {
+                    Circle()
+                      .fill(data.section.progressColor)
+                      .frame(width: 7, height: 7)
+                    Text(data.section.header)
+                      .font(.footnoteRegular)
+                      .foregroundColor(.darkGrey)
+                  }
+                  .frame(maxWidth: .infinity)
                 }
-                .frame(maxWidth: .infinity)
               }
             }
           }
         }
+      } else {
+        EXEmptyStateView(type: .noRecapTransactions)
       }
     }
   }

@@ -7,24 +7,39 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import RealmSwift
 
 struct EraseDataSettingsView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
+  @AppStorage("isUserLoggedIn") private var isUserLoggedIn = false
+  
+  // MARK: Variables
+  @State private var sheetHeight: CGFloat = .zero
+  @State private var showSheet = false
+  @State private var showLoader = false
   var body: some View {
     NavigationView {
       ScrollView {
         EXDialog(type: .eraseData, bottomView: {
-          Button(action: {}, label: {
+          Button(action: {
+            showSheet.toggle()
+          }, label: {
             Text("Reset account")
               .font(.system(.subheadline, weight: .semibold))
           })
           .buttonStyle(EXDestructiveButtonStyle(showLoader: .constant(false)))
         })
         .padding(.top, 20)
+        .applyMargins()
       }
-      .scrollDisabled(true)
-      .applyMargins()
+      .applyBounce()
+      .sheet(isPresented: $showSheet, content: {
+        dangerSheet()
+          .fixedSize(horizontal: false, vertical: true)
+          .modifier(GetHeightModifier(height: $sheetHeight))
+          .presentationDetents([.height(sheetHeight)])
+      })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -59,5 +74,62 @@ extension EraseDataSettingsView {
     let title = "Reset data"
     
     let backIcon = Source.Images.Navigation.back
+  }
+}
+
+extension EraseDataSettingsView {
+  @ViewBuilder
+  func dangerSheet() -> some View {
+    ViewThatFits(in: .vertical) {
+      VStack(spacing: 30) {
+        VStack(alignment: .leading, spacing: 3, content: {
+          Text("Are you sure?")
+            .font(.title2Bold)
+          Text("All data you have created will be deleted and this action cannot be undone")
+            .font(.headlineRegular)
+            .foregroundColor(.darkGrey)
+        })
+        .frame(maxWidth: .infinity, alignment: .leading)
+        HStack {
+          Button(action: {
+            showSheet.toggle()
+          }, label: {
+            Text("Leave all")
+              .font(.headlineSemibold)
+          })
+          .buttonStyle(EXSecondaryPrimaryButtonStyle(showLoader: .constant(false)))
+          Button(action: {
+            showLoader.toggle()
+            deleteAllData()
+          }, label: {
+            Text("Delete account")
+              .font(.headlineSemibold)
+          })
+          .buttonStyle(EXDestructiveButtonStyle(showLoader: $showLoader))
+        }
+      }
+      .padding(16)
+    }
+    .background(Color.white)
+  }
+}
+
+// MARK: - Realm Functions
+extension EraseDataSettingsView {
+  func deleteAllData() {
+    let realm = try! Realm()
+    try! realm.write {
+        realm.deleteAll()
+    }
+    showLoader = false
+    showSheet.toggle()
+    DispatchQueue.main.async {
+      UIApplication.shared.unregisterForRemoteNotifications()
+      UserDefaults.standard.setValue(false, forKey: "notificationsEnabled")
+      UserDefaults.standard.synchronize()
+      withAnimation {
+        isUserLoggedIn = false
+      }
+    }
   }
 }
