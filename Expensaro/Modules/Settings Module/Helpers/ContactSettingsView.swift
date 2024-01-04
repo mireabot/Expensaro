@@ -10,7 +10,6 @@ import ExpensaroUIKit
 
 struct ContactSettingsView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
-  @State private var contactType: String = ""
   @State private var message: String = ""
   @State private var email: String = ""
   @FocusState private var isFocused: Bool
@@ -18,8 +17,6 @@ struct ContactSettingsView: View {
     NavigationView {
       ScrollView {
         VStack(spacing: 40) {
-          EXSegmentControl(currentTab: $contactType, type: .contactReason)
-          
           VStack(alignment: .leading, spacing: 0) {
             Text("What's on your mind?")
               .font(.system(.headline, weight: .regular))

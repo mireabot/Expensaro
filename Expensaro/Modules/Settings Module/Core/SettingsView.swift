@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import WishKit
 
 struct SettingsView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
@@ -14,6 +15,8 @@ struct SettingsView: View {
   
   let appIcon = Bundle.main.icon
   let appVersion = Bundle.main.appVersion
+  
+  @State private var showRequestSheet = false
   var body: some View {
     NavigationView {
       ScrollView {
@@ -39,9 +42,15 @@ struct SettingsView: View {
             EXSettingsCell(category: $selectedCategory, type: .contact, icon: Source.Images.Settings.contact, action: {navigateTo()})
             EXSettingsCell(category: $selectedCategory, type: .resetAccount, icon: Source.Images.Settings.resetData, action: {navigateTo()})
           }
+          EXSettingsCell(category: $selectedCategory, type: .wishKit, icon: Source.Images.Settings.request, action: {
+            showRequestSheet.toggle()
+          })
         }
         .applyMargins()
         .padding(.top, 16)
+        .sheet(isPresented: $showRequestSheet) {
+          WishView()
+        }
       }
       .applyBounce()
       .navigationBarTitleDisplayMode(.inline)
@@ -123,5 +132,20 @@ extension Bundle {
       return version
     }
     return "Unknown"
+  }
+}
+
+struct WishView: View {
+  init() {
+    WishKit.configure(with: Source.wishKEY)
+    WishKit.config.statusBadge = .show
+    WishKit.config.commentSection = .hide
+    WishKit.config.dropShadow = .hide
+    WishKit.theme.tertiaryColor = .set(light: .white, dark: .black)
+    WishKit.theme.secondaryColor = .set(light: .backgroundGrey, dark: .red)
+    WishKit.config.buttons.saveButton.textColor = .set(light: .white, dark: .white)
+  }
+  var body: some View {
+    WishKit.view.withNavigation()
   }
 }

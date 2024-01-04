@@ -67,6 +67,7 @@ enum Source {
       static let exportData = Image("exportData")
       static let resetData = Image("resetData")
       static let contact = Image("contact")
+      static let request = Image("request")
     }
     enum ButtonIcons {
       static let add = Image("buttonAdd")
@@ -84,6 +85,7 @@ enum Source {
     enum InfoCardIcon {
       static let month2month = Image("month2month")
       static let topCategory = Image("topCategory")
+      static let missedGoal = Image("missedGoal")
     }
     enum BottomInfo {
       static let spendings = Image("spendingsInfo")
@@ -201,4 +203,5 @@ enum Source {
       return category
     }
   }
+  static let wishKEY = "1279B306-A1C9-4CB0-8D14-4A2413F72075"
 }

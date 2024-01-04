@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mireabot/ExpensaroUIKit",
       "state" : {
-        "revision" : "b48781a4328a84c5bb2a315cbda4ad744e318b51",
-        "version" : "1.2.9"
+        "revision" : "dc42259ef61a45b7276fca1d3dc42fc3d84b5d14",
+        "version" : "1.2.10"
       }
     },
     {
@@ -61,6 +61,24 @@
       "state" : {
         "revision" : "9e1cc02a65b22e09a8251261cccbccce02731fc5",
         "version" : "1.1.1"
+      }
+    },
+    {
+      "identity" : "wishkit-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/wishkit/wishkit-ios.git",
+      "state" : {
+        "revision" : "2514baa0597bf084d72af4fc4bebd2ca98bbfc18",
+        "version" : "4.0.5"
+      }
+    },
+    {
+      "identity" : "wishkit-ios-shared",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/wishkit/wishkit-ios-shared.git",
+      "state" : {
+        "revision" : "118c9c482e4ad57c65d664283516425b98616483",
+        "version" : "1.4.3"
       }
     }
   ],

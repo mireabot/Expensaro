@@ -30,9 +30,9 @@ struct InitialPermissionView: View {
           .foregroundColor(.darkGrey)
       }
       .frame(maxWidth: .infinity, alignment: .leading)
-      .padding(.top)
+      .padding(.top, 20)
       
-      VStack(spacing: 20) {
+      VStack(spacing: 16) {
         EXToggleCard(type: .notifications, isOn: $notificationsSelected)
           .onChange(of: notificationsSelected, perform: { value in
             if value {
@@ -51,11 +51,13 @@ struct InitialPermissionView: View {
           })
         EXToggleCard(type: .analytics, isOn: $analyticsSelected)
       }
+      .padding(.top, 16)
     }
     .interactiveDismissDisabled(true)
     .safeAreaInset(edge: .bottom, content: {
       Button {
         showAnimation.toggle()
+        writeCategories()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
           showAnimation.toggle()
           UserDefaults.standard.setValue(UIDevice.current.identifierForVendor?.uuidString, forKey: "DeviceID")
@@ -91,5 +93,42 @@ struct InitialPermissionView: View {
 struct InitialPermissionView_Previews: PreviewProvider {
   static var previews: some View {
     InitialPermissionView()
+      .environment(\.realmConfiguration, RealmMigrator.configuration)
+  }
+}
+
+// MARK: - Realm Functions
+extension InitialPermissionView {
+  func writeCategories() {
+    let loadedCategories: [Category] = [
+      Source.Realm.createCategory(icon: "🔄", name: "Subscription", tag: .base, section: .entertainment),
+      Source.Realm.createCategory(icon: "🎫", name: "Entertainment", tag: .base, section: .entertainment),
+      Source.Realm.createCategory(icon: "🎨", name: "Hobby", tag: .base, section: .entertainment),
+      
+      Source.Realm.createCategory(icon: "🥡", name: "Going out", tag: .base, section: .food),
+      Source.Realm.createCategory(icon: "🛒", name: "Groceries", tag: .base, section: .food),
+      
+      Source.Realm.createCategory(icon: "🧾", name: "Bills", tag: .base, section: .housing),
+      Source.Realm.createCategory(icon: "🏠", name: "Utilities", tag: .base, section: .housing),
+      
+      Source.Realm.createCategory(icon: "🚈", name: "Public transport", tag: .base, section: .transportation),
+      Source.Realm.createCategory(icon: "🚘", name: "Car", tag: .base, section: .transportation),
+      
+      Source.Realm.createCategory(icon: "📚", name: "Education", tag: .base, section: .lifestyle),
+      Source.Realm.createCategory(icon: "🛩️", name: "Travel", tag: .base, section: .lifestyle),
+      Source.Realm.createCategory(icon: "🛍️", name: "Shopping", tag: .base, section: .lifestyle),
+      Source.Realm.createCategory(icon: "📦", name: "Delivery", tag: .base, section: .lifestyle),
+      Source.Realm.createCategory(icon: "🎮", name: "Gaming", tag: .base, section: .lifestyle),
+      Source.Realm.createCategory(icon: "🐾", name: "Animals", tag: .base, section: .lifestyle),
+      
+      Source.Realm.createCategory(icon: "👕", name: "Clothes", tag: .base, section: .other),
+      Source.Realm.createCategory(icon: "📔", name: "Other", tag: .base, section: .other),
+      Source.Realm.createCategory(icon: "🩹", name: "Healthcare", tag: .base, section: .other),
+    ]
+    let realm = try! Realm()
+    
+    try? realm.write({
+      realm.add(loadedCategories)
+    })
   }
 }

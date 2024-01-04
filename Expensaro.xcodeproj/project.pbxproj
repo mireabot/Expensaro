@@ -25,6 +25,7 @@
 		353FF4892AF499AF000BF57A /* GoalAnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353FF4882AF499AF000BF57A /* GoalAnalyticsView.swift */; };
 		3540BEFA2AF586CC00F7E41F /* EXEmptyStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3540BEF92AF586CC00F7E41F /* EXEmptyStates.swift */; };
 		3540BEFC2AF58CAD00F7E41F /* EXEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3540BEFB2AF58CAD00F7E41F /* EXEmptyStateView.swift */; };
+		354716842B45C4C8009BEEC0 /* WishKit in Frameworks */ = {isa = PBXBuildFile; productRef = 354716832B45C4C8009BEEC0 /* WishKit */; };
 		354A7C0B2ABDE57900934E4E /* CategoriesSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354A7C0A2ABDE57900934E4E /* CategoriesSettingsView.swift */; };
 		354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B042AB8C860002516F1 /* AddGoalView.swift */; };
 		354F2B0B2AB8D24B002516F1 /* DateSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */; };
@@ -179,6 +180,7 @@
 				3589BC292AD899BA00BA8289 /* RealmSwift in Frameworks */,
 				351D3D612AD0D5C00022E696 /* PopupView in Frameworks */,
 				354F2B152AB9F189002516F1 /* SwiftUIIntrospect in Frameworks */,
+				354716842B45C4C8009BEEC0 /* WishKit in Frameworks */,
 				359094AB2AAE365900428B39 /* ExpensaroUIKit in Frameworks */,
 				3589BC272AD899BA00BA8289 /* Realm in Frameworks */,
 			);
@@ -637,6 +639,7 @@
 				3589BC262AD899BA00BA8289 /* Realm */,
 				3589BC282AD899BA00BA8289 /* RealmSwift */,
 				35002A202B44FC0D00DEF27B /* Algorithms */,
+				354716832B45C4C8009BEEC0 /* WishKit */,
 			);
 			productName = Expensaro;
 			productReference = 3590948B2AAD3EC300428B39 /* Expensaro.app */;
@@ -672,6 +675,7 @@
 				351D3D5F2AD0D5C00022E696 /* XCRemoteSwiftPackageReference "PopupView" */,
 				3589BC252AD899BA00BA8289 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				35002A1F2B44FC0D00DEF27B /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+				354716822B45C4C8009BEEC0 /* XCRemoteSwiftPackageReference "wishkit-ios" */,
 			);
 			productRefGroup = 3590948C2AAD3EC300428B39 /* Products */;
 			projectDirPath = "";
@@ -1002,6 +1006,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		354716822B45C4C8009BEEC0 /* XCRemoteSwiftPackageReference "wishkit-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/wishkit/wishkit-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.5;
+			};
+		};
 		354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/siteline/swiftui-introspect";
@@ -1038,6 +1050,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 351D3D5F2AD0D5C00022E696 /* XCRemoteSwiftPackageReference "PopupView" */;
 			productName = PopupView;
+		};
+		354716832B45C4C8009BEEC0 /* WishKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 354716822B45C4C8009BEEC0 /* XCRemoteSwiftPackageReference "wishkit-ios" */;
+			productName = WishKit;
 		};
 		354F2B142AB9F189002516F1 /* SwiftUIIntrospect */ = {
 			isa = XCSwiftPackageProductDependency;

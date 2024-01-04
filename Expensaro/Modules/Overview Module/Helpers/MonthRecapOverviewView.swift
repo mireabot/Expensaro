@@ -8,6 +8,7 @@
 import SwiftUI
 import ExpensaroUIKit
 import Charts
+import RealmSwift
 
 struct MonthRecapOverviewView: View {
   // MARK: Essential
@@ -29,6 +30,7 @@ struct MonthRecapOverviewView: View {
       .sheet(isPresented: $showCategoriesBreakdown, content: {
         CategoriesBreakdownOverviewView(service: service)
           .presentationDetents([.fraction(0.95)])
+          .presentationDragIndicator(.visible)
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -193,27 +195,24 @@ extension MonthRecapOverviewView {
           .font(.subheadlineSemibold)
           .foregroundColor(.black)
         Spacer()
-        Button(action: {
-          
-        }, label: {
-          Text("Learn more")
-            .foregroundColor(.primaryGreen)
-            .font(.footnoteMedium)
-        })
       }
-      EXBaseCard {
-        HStack {
-          VStack(alignment: .leading, spacing: 3, content: {
-            Text("$\(service.goalsData.clean)")
-              .font(.title3Bold)
-            Text("You contributed towards goals")
-              .font(.footnoteRegular)
-              .foregroundColor(.darkGrey)
-          })
-          Spacer()
-          Image(Source.Images.Tabs.goals)
-            .foregroundColor(.primaryGreen)
+      if service.goalsData != 0 {
+        EXBaseCard {
+          HStack {
+            VStack(alignment: .leading, spacing: 3, content: {
+              Text("$\(service.goalsData.clean)")
+                .font(.title3Bold)
+              Text("You contributed towards goals")
+                .font(.footnoteRegular)
+                .foregroundColor(.darkGrey)
+            })
+            Spacer()
+            Image(Source.Images.Tabs.goals)
+              .foregroundColor(.primaryGreen)
+          }
         }
+      } else {
+        EXEmptyStateView(type: .noRecapGoals)
       }
     }
   }
@@ -221,4 +220,5 @@ extension MonthRecapOverviewView {
 
 #Preview {
   MonthRecapOverviewView(service: .init())
+    .environment(\.realmConfiguration, RealmMigrator.configuration)
 }

@@ -51,5 +51,5 @@ struct EXEmptyStateView: View {
 }
 
 #Preview {
-  EXEmptyStateView(type: .noCustomCategories, isActive: true, isCard: true).applyMargins()
+  EXEmptyStateView(type: .noRecapGoals, isActive: false, isCard: true).applyMargins()
 }

@@ -85,11 +85,19 @@ struct GoalDetailView: View {
       ProgressView(value: goal.currentAmount, total: goal.finalAmount, label: {})
         .tint(.primaryGreen)
       HStack(spacing: 25) {
-        if !goal.isCompleted {
+        if goal.isFailed {
+          smallInfoView(title: "Money left", text: "$\(goal.amountLeft.clean)")
+          smallInfoView(title: "Goal started", text: "\(Source.Functions.showString(from: goal.dateCreated))")
+        }
+        else if goal.isCompleted {
+          smallInfoView(title: "Goal started", text: "\(Source.Functions.showString(from: goal.dateCreated))")
+        }
+        else {
           smallInfoView(title: "Money left", text: "$\(goal.amountLeft.clean)")
           smallInfoView(title: "Days left", text: "\(goal.isCompleted || goal.isFailed ? 0 : goal.daysLeft) days left")
+          smallInfoView(title: "Goal started", text: "\(Source.Functions.showString(from: goal.dateCreated))")
         }
-        smallInfoView(title: "Goal started", text: "\(Source.Functions.showString(from: goal.dateCreated))")
+        
       }
       .padding(.top, 10)
       
@@ -99,7 +107,7 @@ struct GoalDetailView: View {
       }
       
       else if goal.isFailed {
-        EXInfoCard(title: "Not this time:(", icon: Source.Images.InfoCardIcon.topCategory, text: "You couldn't finish goal before deadline, but you can still make it with other goals!")
+        EXInfoCard(title: "Not this time :(", icon: Source.Images.InfoCardIcon.missedGoal, text: "You couldn't finish goal before deadline, but you can still make it with other goals!")
           .padding(.top, 10)
       }
       else {
@@ -132,7 +140,7 @@ struct GoalDetailView: View {
 
 struct GoalDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    GoalDetailView(goal: DefaultGoals.goal1)
+    GoalDetailView(goal: DefaultGoals.goal3)
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }

@@ -53,15 +53,15 @@ enum CategoriesSection: String, CaseIterable, PersistableEnum {
   var progressColor: Color {
     switch self {
     case .food:
-      return Color(red: 0.612, green: 0.22, blue: 0.282)
+      return Color(red: 0.749, green: 0.902, blue: 0.098) // #bfe619
     case .housing:
-      return Color(red: 1, green: 0.678, blue: 0.412)
+      return Color(red: 0.902, green: 0.349, blue: 0.098) // #e65919
     case .transportation:
-      return Color(red: 0.961, green: 0.902, blue: 0.388)
+      return Color(red: 0.118, green: 0.098, blue: 0.902) // #1e19e6
     case .entertainment:
-      return Color(red: 0.278, green: 0.659, blue: 0.741)
+      return Color(red: 0.902, green: 0.098, blue: 0.549) // #e6198c
     case .lifestyle:
-      return Color(red: 0.118, green: 0.22, blue: 0.533)
+      return Color(red: 0.098, green: 0.902, blue: 0.584) // #19e695
     case .other:
       return Color(uiColor: .systemGray5)
     }
