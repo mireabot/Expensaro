@@ -19,6 +19,15 @@
       }
     },
     {
+      "identity" : "posthog-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/PostHog/posthog-ios.git",
+      "state" : {
+        "revision" : "b4ca431e8f6ad4f863acc1cd0abee0a8da45461a",
+        "version" : "2.1.0"
+      }
+    },
+    {
       "identity" : "realm-core",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core.git",
