@@ -36,7 +36,8 @@ struct ContentView: View {
 class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    let configuration = PHGPostHogConfiguration(apiKey: "phc_WtmXwcSHIS0p77Dvk2uSuwRt8Mm2VDCMJCZY0BWda0l", host: "https://us.posthog.com")
+    // TODO: Move API Key to Source
+    let configuration = PHGPostHogConfiguration(apiKey: Source.postKEY, host: "https://us.posthog.com")
 
     configuration.captureApplicationLifecycleEvents = true;
     configuration.capturePushNotifications = true

@@ -90,6 +90,7 @@
 		35E8743A2ACC7EE2002368DB /* PeriodicitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E874392ACC7EE2002368DB /* PeriodicitySelectorView.swift */; };
 		35E8743D2ACC899A002368DB /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E8743C2ACC899A002368DB /* Transaction.swift */; };
 		35F207A62ADA3EC400834C52 /* RealmMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F207A52ADA3EC400834C52 /* RealmMigrator.swift */; };
+		35FA687C2B4B04D80005A067 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FA687B2B4B04D80005A067 /* AnalyticsManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -170,6 +171,7 @@
 		35E874392ACC7EE2002368DB /* PeriodicitySelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicitySelectorView.swift; sourceTree = "<group>"; };
 		35E8743C2ACC899A002368DB /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		35F207A52ADA3EC400834C52 /* RealmMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrator.swift; sourceTree = "<group>"; };
+		35FA687B2B4B04D80005A067 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +200,7 @@
 				35B25D2C2B3DC59A001417F9 /* SelectedCategoryAnalyticsManager.swift */,
 				35B25D302B3DDD0F001417F9 /* TopCategoryManager.swift */,
 				3534A9072B409E1F0019ACEC /* MonthRecapService.swift */,
+				35FA687B2B4B04D80005A067 /* AnalyticsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -775,6 +778,7 @@
 				358B71F72B40F05300511E81 /* EXEmojiKeyboard.swift in Sources */,
 				3510F6E72AFD62F2000B5532 /* LocalNotificationsManager.swift in Sources */,
 				355BB4082ABCB1DE00A71834 /* AddCategoryView.swift in Sources */,
+				35FA687C2B4B04D80005A067 /* AnalyticsManager.swift in Sources */,
 				351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */,
 				35ACB7E82AB3EDB800F7ECE5 /* OverviewView.swift in Sources */,
 				3590948F2AAD3EC300428B39 /* ExpensaroApp.swift in Sources */,
