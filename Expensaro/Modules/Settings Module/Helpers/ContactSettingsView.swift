@@ -7,12 +7,16 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import PopupView
 
 struct ContactSettingsView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   @State private var message: String = ""
   @State private var email: String = ""
   @FocusState private var isFocused: Bool
+  
+  // MARK: Presentation
+  @State private var showToast = false
   var body: some View {
     NavigationView {
       ScrollView {
@@ -38,6 +42,19 @@ struct ContactSettingsView: View {
         }
         .padding(.top, 20)
         .applyMargins()
+        .popup(isPresented: $showToast, view: {
+          EXToast(type: .constant(.feebackSent))
+        }, customize: {
+          $0
+            .isOpaque(true)
+            .type(.floater())
+            .position(.top)
+            .autohideIn(1.5)
+            .dismissCallback {
+              AnalyticsManager.shared.log(.sendFeedback(.now, message, email))
+              router.nav?.popViewController(animated: true)
+            }
+        })
       }
       .onTapGesture {
         isFocused = false
@@ -59,7 +76,7 @@ struct ContactSettingsView: View {
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
-            
+            showToast.toggle()
           } label: {
             Appearance.shared.submitIcon
               .foregroundColor(message.isEmpty || email.isEmpty ? .darkGrey : .primaryGreen)
