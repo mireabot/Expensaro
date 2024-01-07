@@ -148,6 +148,7 @@ extension AddGoalTransactionView {
 // MARK: - Realm Functions
 extension AddGoalTransactionView {
   func createGoalTransaction() {
+    AnalyticsManager.shared.log(.addMoneyToGoal(Double(amountValue) ?? 0))
     goalTransaction.amount = Double(amountValue) ?? 0
     if let newGoal = goal.thaw(), let realm = newGoal.realm {
       try? realm.write {

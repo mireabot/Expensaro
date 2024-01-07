@@ -158,6 +158,7 @@ private extension TransactionDetailView {
         .multilineSubmitEnabled(for: $transaction.note)
       Button {
         showNoteView.toggle()
+        AnalyticsManager.shared.log(.madeNote(transaction.note))
       } label: {
         Text("Add note")
           .font(.system(.headline, weight: .semibold))
@@ -196,6 +197,7 @@ private extension TransactionDetailView {
 // MARK: - Realm Functions
 extension TransactionDetailView {
   func deleteTransaction() {
+    AnalyticsManager.shared.log(.deleteTransaction)
     showTransactionDeleteAlert.toggle()
     
     if let newBudget = budget.thaw(), let realm = newBudget.realm {

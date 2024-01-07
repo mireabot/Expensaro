@@ -117,6 +117,7 @@ extension EraseDataSettingsView {
 // MARK: - Realm Functions
 extension EraseDataSettingsView {
   func deleteAllData() {
+    AnalyticsManager.shared.log(.deleteAccount)
     let realm = try! Realm()
     try! realm.write {
         realm.deleteAll()

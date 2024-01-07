@@ -38,6 +38,7 @@ struct OverviewView: View {
           DispatchQueue.main.async {
             showTopCategoryInfoSheet.toggle()
           }
+          AnalyticsManager.shared.log(.openTopCategoryPreview)
           router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(isDemo: true, service: topCategoryService)))
         }, bottomView: {
           EXOverviewCard(header: "Top Category", title: "Electronics", icon: Source.Images.Navigation.redirect, subHeader: "You have spent $2000 on this category")
@@ -51,6 +52,7 @@ struct OverviewView: View {
             DispatchQueue.main.async {
               showSpendingsInfoSheet.toggle()
             }
+            AnalyticsManager.shared.log(.openMonthRecapPreview)
             router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView(service: monthRecapService)))
           }, bottomView: {
             EXOverviewCard(header: "Month recap", title: formattedDate(date: getPastMonthDates().0), icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")
@@ -94,6 +96,7 @@ extension OverviewView {
     if topCategoryService.transactions.count > 15 {
       Button(action: {
         router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(isDemo: false, service: topCategoryService)))
+        AnalyticsManager.shared.log(.openTopCategory)
       }, label: {
         EXOverviewCard(header: "Top Category", title: topCategoryService.topCategory.0, icon: Source.Images.Navigation.redirect, subHeader: "You have spent $\(topCategoryService.topCategory.1.clean) on this category")
       })
@@ -111,6 +114,7 @@ extension OverviewView {
     else {
       Button(action: {
         router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView(service: monthRecapService)))
+        AnalyticsManager.shared.log(.openMonthRecap)
       }, label: {
         EXOverviewCard(header: "Month recap", title: monthRecapService.recapMonth, icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")
       })

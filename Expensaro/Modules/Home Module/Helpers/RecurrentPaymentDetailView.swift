@@ -93,6 +93,7 @@ struct RecurrentPaymentDetailView: View {
           EXToggleCard(type: .paymentReminder, isOn: Binding(
             get: { transaction.isReminder },
             set: { newValue in
+              AnalyticsManager.shared.log(.modifiedReminder(transaction.name))
               updateNotification(with: newValue)
             }
           ))
@@ -236,6 +237,7 @@ extension RecurrentPaymentDetailView {
 // MARK: - Realm Functions
 extension RecurrentPaymentDetailView {
   func deletePayment() {
+    AnalyticsManager.shared.log(.deletePayment)
     showDeleteAlert.toggle()
     
     if let newTransaction = transaction.thaw(), let realm = newTransaction.realm {

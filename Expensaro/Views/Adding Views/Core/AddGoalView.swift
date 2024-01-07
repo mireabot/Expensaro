@@ -153,6 +153,7 @@ extension AddGoalView {
 // MARK: - Realm Functions
 extension AddGoalView {
   func createGoal(completion: @escaping() -> Void) {
+    AnalyticsManager.shared.log(.createGoal)
     goal.finalAmount = Double(amountValue) ?? 0
     goal.dateCreated = .now
     try? realm.write {

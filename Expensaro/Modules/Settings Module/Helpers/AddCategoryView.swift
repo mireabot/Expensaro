@@ -162,6 +162,7 @@ extension AddCategoryView {
 // MARK: - Realm Functions
 extension AddCategoryView {
   func saveCategory() {
+    AnalyticsManager.shared.log(.createCategory)
     category.tag = .custom
     try? realm.write {
       realm.add(category)

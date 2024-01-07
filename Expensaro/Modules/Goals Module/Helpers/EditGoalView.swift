@@ -140,6 +140,7 @@ extension EditGoalView {
 // MARK: - Realm Functions
 extension EditGoalView {
   func updateGoal() {
+    AnalyticsManager.shared.log(.editGoal)
     if let newGoal = goal.thaw(), let realm = newGoal.realm {
       try? realm.write {
         newGoal.finalAmount = Double(amountValue) ?? 0

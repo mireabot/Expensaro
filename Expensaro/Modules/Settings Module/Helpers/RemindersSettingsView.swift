@@ -57,6 +57,7 @@ struct RemindersSettingsView: View {
             EXDialog(type: .deleteReminders) {
               Button(action: {
                 deleteReminders()
+                AnalyticsManager.shared.log(.removeReminders)
               }, label: {
                 Text("Delete all reminders")
                   .font(.system(.subheadline, weight: .semibold))
