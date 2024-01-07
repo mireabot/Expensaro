@@ -142,6 +142,7 @@ extension AddTransactionView {
 // MARK: - Realm Functions
 extension AddTransactionView {
   func createTransaction() {
+    AnalyticsManager.shared.log(.createTransaction)
     transaction.amount = Double(amountValue) ?? 0
     try? realm.write {
       realm.add(transaction)
@@ -155,6 +156,7 @@ extension AddTransactionView {
   }
   
   func updateTransaction() {
+    AnalyticsManager.shared.log(.editTransaction)
     var difference: Double = 0
     if let newTransaction = transaction.thaw(), let realm = newTransaction.realm {
       try? realm.write {

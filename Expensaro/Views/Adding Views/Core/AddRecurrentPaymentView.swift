@@ -137,6 +137,7 @@ struct AddRecurrentPaymentView: View {
       .popup(isPresented: $showReminderAlert) {
         EXAlert(type: .createReminder) {
           recurringPayment.isReminder = true
+          AnalyticsManager.shared.log(.createdReminder(recurringPayment.name))
           notificationManager.scheduleTriggerNotification(for: recurringPayment)
           createPayment()
           DispatchQueue.main.async {
@@ -145,6 +146,7 @@ struct AddRecurrentPaymentView: View {
           }
         } secondaryAction: {
           recurringPayment.isReminder = false
+          AnalyticsManager.shared.log(.createdReminder(recurringPayment.name))
           createPayment()
           DispatchQueue.main.async {
             showReminderAlert.toggle()
@@ -257,6 +259,7 @@ extension AddRecurrentPaymentView {
 // MARK: - Realm Functions
 extension AddRecurrentPaymentView {
   func createPayment() {
+    AnalyticsManager.shared.log(.createPayment)
     recurringPayment.amount = Double(amountValue) ?? 0
     try? realm.write {
       realm.add(recurringPayment)
@@ -270,6 +273,7 @@ extension AddRecurrentPaymentView {
   }
   
   func updatePayment() {
+    AnalyticsManager.shared.log(.editPayment)
     var difference: Double = 0
     if let newTransaction = recurringPayment.thaw(), let realm = newTransaction.realm {
       try? realm.write {

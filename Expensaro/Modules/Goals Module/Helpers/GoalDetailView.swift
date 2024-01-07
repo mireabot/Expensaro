@@ -206,6 +206,7 @@ extension GoalDetailView {
 // MARK: - Realm Functions
 extension GoalDetailView {
   func deleteGoal() {
+    AnalyticsManager.shared.log(.deleteGoal)
     showDeleteAlert.toggle()
     if let newGoal = goal.thaw(), let realm = newGoal.realm {
       try? realm.write {
