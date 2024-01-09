@@ -13,6 +13,7 @@ struct GoalsListView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   @State private var showAddGoalView = false
   
+  @State private var showListAnimation = false
   @ObservedResults(Goal.self, sortDescriptor: SortDescriptor(keyPath: \Goal.dueDate, ascending: true)) var goals
   var body: some View {
     NavigationView {
@@ -22,20 +23,33 @@ struct GoalsListView: View {
             if goals.isEmpty {
               EXEmptyStateView(type: .noGoals, isCard: false).padding(.top, 30)
             } else {
-              LazyVStack(spacing: 10) {
-                ForEach(goals) { goal in
-                  Button {
-                    router.pushTo(view: EXNavigationViewBuilder.builder.makeView(GoalDetailView(goal: goal)))
-                  } label: {
-                    EXGoalCell(goal: goal)
+              ZStack {
+                if showListAnimation {
+                  VStack(spacing: 10) {
+                    ForEach(goals) { goal in
+                      Button {
+                        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(GoalDetailView(goal: goal)))
+                      } label: {
+                        EXGoalCell(goal: goal)
+                      }
+                      .buttonStyle(EXPlainButtonStyle())
+                    }
                   }
-                  .buttonStyle(EXPlainButtonStyle())
+                } else {
+                  EXGoalCellLoading()
                 }
               }
               .applyMargins()
             }
           } header: {
             goalOverviewHeader()
+          }
+        }
+        .onFirstAppear {
+          DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(900)) {
+            withAnimation(.smooth) {
+              showListAnimation.toggle()
+            }
           }
         }
       }

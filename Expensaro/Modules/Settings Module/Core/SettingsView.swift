@@ -71,15 +71,17 @@ struct SettingsView: View {
             .font(.system(.headline, weight: .medium))
         }
         
-//        ToolbarItem(placement: .topBarTrailing) {
-//          Button {
-//            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(DebugMenuView()))
-//          } label: {
-//            Appearance.shared.debugIcon
-//              .font(.callout)
-//              .foregroundColor(.black)
-//          }
-//        }
+        if Source.adminMode {
+          ToolbarItem(placement: .topBarTrailing) {
+            Button {
+              router.pushTo(view: EXNavigationViewBuilder.builder.makeView(DebugMenuView()))
+            } label: {
+              Appearance.shared.debugIcon
+                .font(.callout)
+                .foregroundColor(.black)
+            }
+          }
+        }
       }
     }
   }

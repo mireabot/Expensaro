@@ -23,6 +23,9 @@ struct HomeView: View {
   @State private var showUpdateBudget = false
   @State private var showAlert = false
   
+  @State private var showPaymentAnimation = false
+  @State private var showTransactionAnimation = false
+  
   // MARK: Realm
   @Environment(\.realm) var realm
   @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
@@ -42,6 +45,18 @@ struct HomeView: View {
         }
         bottomActionButton()
           .padding(16)
+      }
+      .onFirstAppear {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(600)) {
+          withAnimation(.smooth) {
+            showPaymentAnimation.toggle()
+          }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(900)) {
+          withAnimation(.smooth) {
+            showTransactionAnimation.toggle()
+          }
+        }
       }
       .popup(isPresented: $showAlert, view: {
         EXToast(type: .constant(.zeroBudget))
@@ -193,14 +208,21 @@ extension HomeView {
         }
         
         VStack {
-          HStack {
-            ForEach(recurringTransactions.prefix(2)) { payment in
-              Button {
-                router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(transaction: payment, budget: currentBudget)))
-              } label: {
-                EXRecurringTransactionCell(payment: payment)
+          ZStack {
+            if showPaymentAnimation {
+              HStack {
+                ForEach(recurringTransactions.prefix(2)) { payment in
+                  Button {
+                    router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(transaction: payment, budget: currentBudget)))
+                  } label: {
+                    EXRecurringTransactionCell(payment: payment)
+                  }
+                  .buttonStyle(EXPlainButtonStyle())
+                }
               }
-              .buttonStyle(EXPlainButtonStyle())
+              .transition(.move(edge: .trailing))
+            } else {
+              EXRecurringTransactionCellLoading()
             }
           }
           if recurringTransactions.count >= 3 {
@@ -215,6 +237,7 @@ extension HomeView {
             .cornerRadius(5)
           }
         }
+        .fixedSize(horizontal: false, vertical: true)
       }
       .padding(.top, 15)
     } else {
@@ -250,31 +273,39 @@ extension HomeView {
           }
           .buttonStyle(EXTextButtonStyle())
         }
-        VStack {
-          ForEach(transactions.reversed().prefix(3)) { transaction in
-            Button {
-              router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionDetailView(transaction: transaction, budget: currentBudget)))
-            } label: {
-              EXTransactionCell(transaction: transaction)
+        ZStack {
+          if showTransactionAnimation {
+            VStack {
+              ForEach(transactions.reversed().prefix(3)) { transaction in
+                Button {
+                  router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionDetailView(transaction: transaction, budget: currentBudget)))
+                } label: {
+                  EXTransactionCell(transaction: transaction)
+                }
+                .buttonStyle(EXPlainButtonStyle())
+                .padding(.bottom, 5)
+              }
+              if transactions.count >= 4 {
+                HStack {
+                  Text("+ \(checkTransactionDifference(transactions.count, comparator: 3))")
+                    .font(.system(.footnote, weight: .regular))
+                    .foregroundColor(.darkGrey)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(10)
+                }
+                .background(Color.backgroundGrey)
+                .cornerRadius(5)
+              }
             }
-            .buttonStyle(EXPlainButtonStyle())
             .padding(.bottom, 5)
-          }
-          if transactions.count >= 4 {
-            HStack {
-              Text("+ \(checkTransactionDifference(transactions.count, comparator: 3))")
-                .font(.system(.footnote, weight: .regular))
-                .foregroundColor(.darkGrey)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(10)
-            }
-            .background(Color.backgroundGrey)
-            .cornerRadius(5)
+            .transition(.move(edge: .bottom))
+          } else {
+            EXTransactionCellLoading()
           }
         }
-        .padding(.bottom, 5)
       }
       .padding(.top, 15)
+      .fixedSize(horizontal: false, vertical: true)
     } else {
       EXLargeEmptyState(type: .noExpenses, icon: Source.Images.EmptyStates.noExpenses, action: {
         if currentBudget.amount == 0 {

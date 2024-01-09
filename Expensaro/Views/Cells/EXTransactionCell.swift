@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import Shimmer
 
 struct EXTransactionCell: View {
   var transaction: Transaction
@@ -53,5 +54,15 @@ struct TransactionCell_Previews: PreviewProvider {
       EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[0])
     }
     .applyMargins()
+  }
+}
+
+struct EXTransactionCellLoading: View {
+  var body: some View {
+    VStack {
+      EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[0]).redacted(reason: .placeholder).shimmering()
+      EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[0]).redacted(reason: .placeholder).shimmering()
+      EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[0]).redacted(reason: .placeholder).shimmering()
+    }
   }
 }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import Shimmer
 
 struct EXGoalCell: View {
   let goal: Goal
@@ -69,6 +70,23 @@ struct EXGoalCell: View {
 
 struct GoalCell_Previews: PreviewProvider {
   static var previews: some View {
-    EXGoalCell(goal: DefaultGoals.goal1).applyMargins()
+    EXGoalCell(goal: DefaultGoals.goal1)
+      .applyMargins()
+  }
+}
+
+struct EXGoalCellLoading: View {
+  var body: some View {
+    VStack {
+      EXGoalCell(goal: DefaultGoals.goal1)
+        .redacted(reason: .placeholder)
+        .shimmering()
+      EXGoalCell(goal: DefaultGoals.goal1)
+        .redacted(reason: .placeholder)
+        .shimmering()
+      EXGoalCell(goal: DefaultGoals.goal1)
+        .redacted(reason: .placeholder)
+        .shimmering()
+    }
   }
 }

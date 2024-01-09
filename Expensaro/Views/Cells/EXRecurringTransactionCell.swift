@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import Shimmer
 
 struct EXRecurringTransactionCell: View {
   var payment: RecurringTransaction
@@ -68,6 +69,15 @@ extension EXRecurringTransactionCell {
       return "Overdue \(abs(negativeDays)) days"
     default:
       return "\(days) days left"
+    }
+  }
+}
+
+struct EXRecurringTransactionCellLoading: View {
+  var body: some View {
+    HStack {
+      EXRecurringTransactionCell(payment: DefaultRecurringTransactions.sampleRecurringTransactions[0]).redacted(reason: .placeholder).shimmering()
+      EXRecurringTransactionCell(payment: DefaultRecurringTransactions.sampleRecurringTransactions[1]).redacted(reason: .placeholder).shimmering()
     }
   }
 }
