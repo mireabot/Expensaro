@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		35002A212B44FC0D00DEF27B /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 35002A202B44FC0D00DEF27B /* Algorithms */; };
+		3501CFB92B4EF3F600D13736 /* CurrencySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3501CFB82B4EF3F600D13736 /* CurrencySelectorView.swift */; };
 		350D45822B22A03400E13008 /* TopCategoryOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350D45812B22A03400E13008 /* TopCategoryOverviewView.swift */; };
 		351061282AD74AEB006E6DF4 /* Budget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351061272AD74AEB006E6DF4 /* Budget.swift */; };
 		3510F6E22AFD542D000B5532 /* ScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */; };
@@ -19,6 +20,8 @@
 		35239D5D2B2BE81800EE66FF /* EXChartBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35239D5C2B2BE81800EE66FF /* EXChartBar.swift */; };
 		353311072ACD064100EEB64B /* TransactionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353311062ACD064100EEB64B /* TransactionsListView.swift */; };
 		3534A9082B409E1F0019ACEC /* MonthRecapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3534A9072B409E1F0019ACEC /* MonthRecapService.swift */; };
+		3538822C2B4E4B7500EB57D1 /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3538822B2B4E4B7400EB57D1 /* AppSettingsView.swift */; };
+		3538822E2B4E4C5E00EB57D1 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3538822D2B4E4C5E00EB57D1 /* Currency.swift */; };
 		353E5C2F2ACA01D400430978 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353E5C2E2ACA01D400430978 /* Date+Extension.swift */; };
 		353E5C322ACA1F6600430978 /* RecurrentPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353E5C312ACA1F6600430978 /* RecurrentPayment.swift */; };
 		353F1FDD2AF432FB001BE114 /* CategoryDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353F1FDC2AF432FB001BE114 /* CategoryDescription.swift */; };
@@ -95,6 +98,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3501CFB82B4EF3F600D13736 /* CurrencySelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySelectorView.swift; sourceTree = "<group>"; };
 		350D45812B22A03400E13008 /* TopCategoryOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCategoryOverviewView.swift; sourceTree = "<group>"; };
 		351061272AD74AEB006E6DF4 /* Budget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Budget.swift; sourceTree = "<group>"; };
 		3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollView+Extensions.swift"; sourceTree = "<group>"; };
@@ -105,6 +109,8 @@
 		35239D5C2B2BE81800EE66FF /* EXChartBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXChartBar.swift; sourceTree = "<group>"; };
 		353311062ACD064100EEB64B /* TransactionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsListView.swift; sourceTree = "<group>"; };
 		3534A9072B409E1F0019ACEC /* MonthRecapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthRecapService.swift; sourceTree = "<group>"; };
+		3538822B2B4E4B7400EB57D1 /* AppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
+		3538822D2B4E4C5E00EB57D1 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		353E5C2E2ACA01D400430978 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		353E5C312ACA1F6600430978 /* RecurrentPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPayment.swift; sourceTree = "<group>"; };
 		353F1FDC2AF432FB001BE114 /* CategoryDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDescription.swift; sourceTree = "<group>"; };
@@ -337,6 +343,8 @@
 				35C80C6C2ABF59DE0063553E /* RemindersSettingsView.swift */,
 				35C80C6E2ABF84880063553E /* ContactSettingsView.swift */,
 				35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */,
+				3538822B2B4E4B7400EB57D1 /* AppSettingsView.swift */,
+				3501CFB82B4EF3F600D13736 /* CurrencySelectorView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -539,6 +547,7 @@
 			children = (
 				353F1FDC2AF432FB001BE114 /* CategoryDescription.swift */,
 				3540BEF92AF586CC00F7E41F /* EXEmptyStates.swift */,
+				3538822D2B4E4C5E00EB57D1 /* Currency.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -727,6 +736,7 @@
 				35BEF3652AB38814005D1138 /* AddRecurrentPaymentView.swift in Sources */,
 				3564D81F2ACB71EB00553ECB /* EditGoalView.swift in Sources */,
 				354F2B0B2AB8D24B002516F1 /* DateSelectorView.swift in Sources */,
+				3538822C2B4E4B7500EB57D1 /* AppSettingsView.swift in Sources */,
 				359094A42AAE342F00428B39 /* NavigationControllers.swift in Sources */,
 				351061282AD74AEB006E6DF4 /* Budget.swift in Sources */,
 				35825BFD2AC9E71700713AD8 /* RecurrentPaymentsListView.swift in Sources */,
@@ -744,6 +754,7 @@
 				35CE33E62AE18CEB00BC93C2 /* EXGoalTransactionCell.swift in Sources */,
 				35BEF3602AB37AA6005D1138 /* AddBudgetView.swift in Sources */,
 				359094A02AAE340D00428B39 /* RootNavigationController.swift in Sources */,
+				3501CFB92B4EF3F600D13736 /* CurrencySelectorView.swift in Sources */,
 				350D45822B22A03400E13008 /* TopCategoryOverviewView.swift in Sources */,
 				3558FBC12ACA415500624EBD /* Goal.swift in Sources */,
 				359CDC602AB4DF4400DFFDC7 /* InitialPermissionView.swift in Sources */,
@@ -761,6 +772,7 @@
 				359094A62AAE344000428B39 /* HostingController.swift in Sources */,
 				359094AD2AAE390500428B39 /* HomeView.swift in Sources */,
 				354A7C0B2ABDE57900934E4E /* CategoriesSettingsView.swift in Sources */,
+				3538822E2B4E4C5E00EB57D1 /* Currency.swift in Sources */,
 				358978D62AFEBF6400E8C378 /* Double+Extension.swift in Sources */,
 				3590949E2AAE33FD00428B39 /* Router.swift in Sources */,
 				3558FBBE2ACA3F8E00624EBD /* EXGoalCell.swift in Sources */,
