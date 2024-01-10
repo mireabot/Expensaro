@@ -143,7 +143,7 @@ extension AddTransactionView {
 // MARK: - Realm Functions
 extension AddTransactionView {
   func createTransaction() {
-    AnalyticsManager.shared.log(.createTransaction)
+    AnalyticsManager.shared.log(.createTransaction(transaction.name, Double(amountValue) ?? 0, transaction.categoryName))
     transaction.amount = Double(amountValue) ?? 0
     try? realm.write {
       realm.add(transaction)

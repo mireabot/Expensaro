@@ -260,7 +260,7 @@ extension AddRecurrentPaymentView {
 // MARK: - Realm Functions
 extension AddRecurrentPaymentView {
   func createPayment() {
-    AnalyticsManager.shared.log(.createPayment)
+    AnalyticsManager.shared.log(.createPayment(recurringPayment.name, Double(amountValue) ?? 0))
     recurringPayment.amount = Double(amountValue) ?? 0
     try? realm.write {
       realm.add(recurringPayment)

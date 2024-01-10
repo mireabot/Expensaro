@@ -32,10 +32,10 @@ final class AnalyticsManager {
         PHGPostHog.shared()?.capture(event.name)
       case .deletePayment:
         PHGPostHog.shared()?.capture(event.name)
-      case .createPayment:
-        PHGPostHog.shared()?.capture(event.name)
-      case .createTransaction:
-        PHGPostHog.shared()?.capture(event.name)
+      case .createPayment(let name, let amount):
+        PHGPostHog.shared()?.capture(event.name, properties: ["name" : name, "amount" : amount])
+      case .createTransaction(let name, let amount, let category):
+        PHGPostHog.shared()?.capture(event.name, properties: ["name" : name, "amount" : amount, "category" : category])
       case .madeNote(let text):
         PHGPostHog.shared()?.capture(event.name, properties: ["text" : text])
       case .openedSelectedAnalyticsPreview:
@@ -44,8 +44,8 @@ final class AnalyticsManager {
         PHGPostHog.shared()?.capture(event.name)
       case .deleteTransaction:
         PHGPostHog.shared()?.capture(event.name)
-      case .createGoal:
-        PHGPostHog.shared()?.capture(event.name)
+      case .createGoal(let name, let amount):
+        PHGPostHog.shared()?.capture(event.name, properties: ["name" : name, "amount" : amount])
       case .deleteGoal:
         PHGPostHog.shared()?.capture(event.name)
       case .editGoal:
@@ -62,8 +62,8 @@ final class AnalyticsManager {
         PHGPostHog.shared()?.capture(event.name)
       case .openCategoryBreakdown:
         PHGPostHog.shared()?.capture(event.name)
-      case .createCategory:
-        PHGPostHog.shared()?.capture(event.name)
+      case .createCategory(let name, let folder):
+        PHGPostHog.shared()?.capture(event.name, properties: ["name" : name, "section" : folder])
       case .removeReminders:
         PHGPostHog.shared()?.capture(event.name)
       case .deleteAccount:
@@ -84,13 +84,13 @@ enum AnalyticsEvents {
   case modifiedReminder(String)
   case editPayment
   case deletePayment
-  case createPayment
-  case createTransaction
+  case createPayment(String, Double)
+  case createTransaction(String, Double, String)
   case madeNote(String)
   case openedSelectedAnalyticsPreview
   case editTransaction
   case deleteTransaction
-  case createGoal
+  case createGoal(String, Double)
   case deleteGoal
   case editGoal
   case addMoneyToGoal(Double)
@@ -99,7 +99,7 @@ enum AnalyticsEvents {
   case openTopCategory
   case openMonthRecap
   case openCategoryBreakdown
-  case createCategory
+  case createCategory(String, String)
   case removeReminders
   case deleteAccount
   case sendFeedback(Date, String, String)
