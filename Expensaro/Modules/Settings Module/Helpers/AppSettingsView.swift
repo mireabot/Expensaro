@@ -11,32 +11,21 @@ import ExpensaroUIKit
 struct AppSettingsView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
-  @AppStorage("currencySign") private var currencySign = "$"
   var body: some View {
     NavigationView {
-      List(Currency.allCurrencies, id: \.symbol) { currency in
-        Button {
-          currencySign = currency.symbol
-        } label: {
-          HStack {
-            VStack(alignment: .leading, spacing: 3) {
-              Text(currency.symbol)
-                .font(.headlineBold)
-              Text(currency.name)
-                .font(.footnoteRegular)
-                .foregroundColor(.darkGrey)
-            }
-            Spacer()
-            Source.Images.Navigation.checkmark
-              .foregroundColor(.primaryGreen)
-              .opacity(currencySign == currency.symbol ? 1 : 0)
+      ScrollView(content: {
+        VStack(spacing: 15) {
+          Button {
+            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(CurrencySelectorView()))
+          } label: {
+            settingsRow(icon: Source.Images.EmptyStates.noBudget, title: "Currency")
           }
-          .background(.white)
+          .buttonStyle(EXPlainButtonStyle())
         }
-        .listRowSeparator(.hidden)
-        .buttonStyle(EXPlainButtonStyle())
-      }
-      .listStyle(.plain)
+        .padding(.top, 16)
+        .applyMargins()
+      })
+      .applyBounce()
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -69,5 +58,23 @@ extension AppSettingsView {
     let title = "App Settings"
     
     let backIcon = Source.Images.Navigation.back
+  }
+}
+
+extension AppSettingsView {
+  @ViewBuilder
+  func settingsRow(icon: Image, title: String) -> some View {
+    EXBaseCard {
+      HStack(alignment: .center) {
+        icon
+          .foregroundColor(.primaryGreen)
+        Text(title)
+          .font(.headlineMedium)
+        Spacer()
+        Image(systemName: "chevron.right")
+          .foregroundColor(.black)
+      }
+      .padding(4)
+    }
   }
 }

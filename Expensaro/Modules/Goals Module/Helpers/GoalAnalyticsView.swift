@@ -10,6 +10,7 @@ import ExpensaroUIKit
 
 struct GoalAnalyticsView: View {
   @ObservedObject var goalVM: GoalAnalyticsViewModel
+  @AppStorage("currencySign") private var currencySign = "$"
   var body: some View {
     EXBaseCard {
       VStack(alignment: .leading, spacing: 5, content: {
@@ -25,7 +26,7 @@ struct GoalAnalyticsView: View {
         HStack {
           smallInfoView(title: "Weeks in your plan", text: "\(goalVM.weeks)")
           Spacer()
-          Text("$\(goalVM.amount.clean) / week")
+          Text("\(currencySign)\(goalVM.amount.clean) / week")
             .font(.system(.headline, weight: .semibold))
             .foregroundColor(.primaryGreen)
         }

@@ -11,7 +11,7 @@ import ExpensaroUIKit
 struct CurrencySelectorView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
-  @AppStorage("currencySign") private var currencySign = ""
+  @AppStorage("currencySign") private var currencySign = "$"
   var body: some View {
     NavigationView {
       List(Currency.allCurrencies, id: \.symbol) { currency in

@@ -21,7 +21,7 @@ struct AddBudgetView: View {
   
   // MARK: Variables
   @State private var amountValue: String = "0.0"
-  @AppStorage("currencySign") private var currencySign = ""
+  @AppStorage("currencySign") private var currencySign = "$"
   
   // MARK: Presentation
   @State private var showError = false

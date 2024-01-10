@@ -13,6 +13,7 @@ import RealmSwift
 struct MonthRecapOverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
+  @AppStorage("currencySign") private var currencySign = "$"
   
   @ObservedObject var service: MonthRecapService
   // MARK: Presentation
@@ -91,7 +92,7 @@ extension MonthRecapOverviewView {
                 Text("Initial budget")
                   .font(.footnoteMedium)
                   .foregroundColor(.darkGrey)
-                Text("$\(service.budgetData.0.clean)")
+                Text("\(currencySign)\(service.budgetData.0.clean)")
                   .font(.calloutBold)
                   .foregroundColor(.black)
               }
@@ -105,7 +106,7 @@ extension MonthRecapOverviewView {
                 Text("Added funds")
                   .font(.footnoteMedium)
                   .foregroundColor(.darkGrey)
-                Text("$\(service.budgetData.1.clean)")
+                Text("\(currencySign)\(service.budgetData.1.clean)")
                   .font(.calloutBold)
                   .foregroundColor(.black)
               }
@@ -119,7 +120,7 @@ extension MonthRecapOverviewView {
                 Text("Total spent")
                   .font(.footnoteMedium)
                   .foregroundColor(.darkGrey)
-                Text("$\(service.budgetData.2.clean)")
+                Text("\(currencySign)\(service.budgetData.2.clean)")
                   .font(.calloutBold)
                   .foregroundColor(.black)
               }
@@ -206,7 +207,7 @@ extension MonthRecapOverviewView {
         EXBaseCard {
           HStack {
             VStack(alignment: .leading, spacing: 3, content: {
-              Text("$\(service.goalsData.clean)")
+              Text("\(currencySign)\(service.goalsData.clean)")
                 .font(.title3Bold)
               Text("You contributed towards goals")
                 .font(.footnoteRegular)

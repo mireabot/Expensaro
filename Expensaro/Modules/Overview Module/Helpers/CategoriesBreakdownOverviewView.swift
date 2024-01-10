@@ -11,6 +11,7 @@ import ExpensaroUIKit
 
 struct CategoriesBreakdownOverviewView: View {
   @ObservedObject var service: MonthRecapService
+  @AppStorage("currencySign") private var currencySign = "$"
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: 0) {
@@ -53,7 +54,7 @@ struct CategoriesBreakdownOverviewView: View {
           }
           LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
             ForEach(data.totalAmountByCategory, id: \.0) { categoryName, totalAmount, categoryIcon in
-              EXSmallCard(title: "$\(totalAmount.clean)", header: categoryName, image: .imageName(categoryIcon))
+              EXSmallCard(title: "\(currencySign)\(totalAmount.clean)", header: categoryName, image: .imageName(categoryIcon))
             }
           }
         }

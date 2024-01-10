@@ -18,6 +18,7 @@ struct HomeView: View {
   @State private var showAddBudget = false
   @State private var showAddRecurrentPayment = false
   @State private var showAddTransaction = false
+  @AppStorage("currencySign") private var currencySign = "$"
   
   // MARK: Presentation
   @State private var showUpdateBudget = false
@@ -160,7 +161,7 @@ extension HomeView {
         Text("Your budget")
           .font(.system(.subheadline, weight: .regular))
           .foregroundColor(.darkGrey)
-        Text("$\(currentBudget.amount.withDecimals)")
+        Text("\(currencySign)\(currentBudget.amount.withDecimals)")
           .font(.system(.largeTitle, weight: .bold))
           .foregroundColor(.black)
         
