@@ -12,7 +12,9 @@ import RealmSwift
 struct GoalsListView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   @State private var showAddGoalView = false
+  @AppStorage("currencySign") private var currencySign = "$"
   
+  @State private var showListAnimation = false
   @ObservedResults(Goal.self, sortDescriptor: SortDescriptor(keyPath: \Goal.dueDate, ascending: true)) var goals
   var body: some View {
     NavigationView {
@@ -22,20 +24,33 @@ struct GoalsListView: View {
             if goals.isEmpty {
               EXEmptyStateView(type: .noGoals, isCard: false).padding(.top, 30)
             } else {
-              LazyVStack(spacing: 10) {
-                ForEach(goals) { goal in
-                  Button {
-                    router.pushTo(view: EXNavigationViewBuilder.builder.makeView(GoalDetailView(goal: goal)))
-                  } label: {
-                    EXGoalCell(goal: goal)
+              ZStack {
+                if showListAnimation {
+                  VStack(spacing: 10) {
+                    ForEach(goals) { goal in
+                      Button {
+                        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(GoalDetailView(goal: goal)))
+                      } label: {
+                        EXGoalCell(goal: goal)
+                      }
+                      .buttonStyle(EXPlainButtonStyle())
+                    }
                   }
-                  .buttonStyle(EXPlainButtonStyle())
+                } else {
+                  EXGoalCellLoading()
                 }
               }
               .applyMargins()
             }
           } header: {
             goalOverviewHeader()
+          }
+        }
+        .onFirstAppear {
+          DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(900)) {
+            withAnimation(.smooth) {
+              showListAnimation.toggle()
+            }
           }
         }
       }
@@ -79,7 +94,7 @@ extension GoalsListView {
           Text("You saved in total")
             .font(.system(.subheadline, weight: .regular))
             .foregroundColor(.darkGrey)
-          Text("$\(totalSavings, specifier: "%.0f")")
+          Text("\(currencySign)\(totalSavings, specifier: "%.0f")")
             .font(.system(.title3, weight: .medium))
         }
         Spacer()

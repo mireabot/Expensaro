@@ -12,6 +12,7 @@ import Charts
 struct TopCategoryOverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
+  @AppStorage("currencySign") private var currencySign = "$"
   var isDemo: Bool
   @ObservedObject var service : TopCategoryManager
   var body: some View {
@@ -35,7 +36,7 @@ struct TopCategoryOverviewView: View {
         HStack {
           EXBaseCard {
             VStack(alignment: .leading, spacing: 3) {
-              Text("$\(service.topCategory.1.clean)")
+              Text("\(currencySign)\(service.topCategory.1.clean)")
                 .font(.title3Bold)
                 .foregroundColor(.black)
               Text("Total amount spent")
@@ -142,6 +143,7 @@ extension TopCategoryOverviewView {
 
 
 struct TopCategoryBar: View {
+  @AppStorage("currencySign") private var currencySign = "$"
   var total: Int
   var category: (String, Double)
   private var screenWidth: CGFloat {UIScreen.main.bounds.size.width }
@@ -174,7 +176,7 @@ struct TopCategoryBar: View {
       VStack(alignment: .leading, spacing: 3) {
         Text("\(category.0)")
           .font(.calloutBold)
-        Text("$\(category.1.clean)")
+        Text("\(currencySign)\(category.1.clean)")
           .font(.footnoteSemibold)
           .foregroundColor(.primaryGreen)
       }

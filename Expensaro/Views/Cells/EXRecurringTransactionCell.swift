@@ -7,9 +7,11 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import Shimmer
 
 struct EXRecurringTransactionCell: View {
   var payment: RecurringTransaction
+  @AppStorage("currencySign") private var currencySign = "$"
   var body: some View {
     VStack(alignment: .leading, spacing: 5, content: {
       Text(payment.categoryIcon)
@@ -18,7 +20,7 @@ struct EXRecurringTransactionCell: View {
         .font(.system(.headline, weight: .semibold))
         .multilineTextAlignment(.leading)
         .lineLimit(1)
-      Text("$\(payment.amount.withDecimals)")
+      Text("\(currencySign)\(payment.amount.withDecimals)")
         .font(.system(.headline, weight: .semibold))
       
       smallInfoView(title: "Due \(Source.Functions.showString(from: payment.dueDate))", text: daysLeftString(for: payment.daysLeftUntilDueDate))
@@ -68,6 +70,15 @@ extension EXRecurringTransactionCell {
       return "Overdue \(abs(negativeDays)) days"
     default:
       return "\(days) days left"
+    }
+  }
+}
+
+struct EXRecurringTransactionCellLoading: View {
+  var body: some View {
+    HStack {
+      EXRecurringTransactionCell(payment: DefaultRecurringTransactions.sampleRecurringTransactions[0]).redacted(reason: .placeholder).shimmering()
+      EXRecurringTransactionCell(payment: DefaultRecurringTransactions.sampleRecurringTransactions[1]).redacted(reason: .placeholder).shimmering()
     }
   }
 }

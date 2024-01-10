@@ -7,9 +7,11 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import Shimmer
 
 struct EXGoalCell: View {
   let goal: Goal
+  @AppStorage("currencySign") private var currencySign = "$"
   var body: some View {
     VStack(alignment: .leading, spacing: 7) {
       HStack {
@@ -23,7 +25,7 @@ struct EXGoalCell: View {
         Text("\(goal.currentAmount.clean)")
           .font(.system(.subheadline, weight: .medium))
           .lineLimit(3)
-        Text(" / $\(goal.finalAmount.clean)")
+        Text(" / \(currencySign)\(goal.finalAmount.clean)")
           .foregroundColor(.darkGrey)
           .font(.system(.footnote, weight: .regular))
           .lineLimit(3)
@@ -69,6 +71,23 @@ struct EXGoalCell: View {
 
 struct GoalCell_Previews: PreviewProvider {
   static var previews: some View {
-    EXGoalCell(goal: DefaultGoals.goal1).applyMargins()
+    EXGoalCell(goal: DefaultGoals.goal1)
+      .applyMargins()
+  }
+}
+
+struct EXGoalCellLoading: View {
+  var body: some View {
+    VStack {
+      EXGoalCell(goal: DefaultGoals.goal1)
+        .redacted(reason: .placeholder)
+        .shimmering()
+      EXGoalCell(goal: DefaultGoals.goal1)
+        .redacted(reason: .placeholder)
+        .shimmering()
+      EXGoalCell(goal: DefaultGoals.goal1)
+        .redacted(reason: .placeholder)
+        .shimmering()
+    }
   }
 }

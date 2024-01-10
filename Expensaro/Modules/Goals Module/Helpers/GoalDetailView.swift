@@ -13,6 +13,7 @@ import PopupView
 struct GoalDetailView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
+  @AppStorage("currencySign") private var currencySign = "$"
   
   // MARK: Realm
   @ObservedRealmObject var goal: Goal
@@ -75,7 +76,7 @@ struct GoalDetailView: View {
   func goalInfo() -> some View {
     VStack(alignment: .leading, spacing: 5) {
       HStack(alignment: .center, spacing: 3) {
-        Text("$\(goal.currentAmount.clean)")
+        Text("\(currencySign)\(goal.currentAmount.clean)")
           .font(.system(.largeTitle, weight: .bold))
           .foregroundColor(.black)
         Text(" / \(goal.finalAmount.clean)")
@@ -86,14 +87,14 @@ struct GoalDetailView: View {
         .tint(.primaryGreen)
       HStack(spacing: 25) {
         if goal.isFailed {
-          smallInfoView(title: "Money left", text: "$\(goal.amountLeft.clean)")
+          smallInfoView(title: "Money left", text: "\(currencySign)\(goal.amountLeft.clean)")
           smallInfoView(title: "Goal started", text: "\(Source.Functions.showString(from: goal.dateCreated))")
         }
         else if goal.isCompleted {
           smallInfoView(title: "Goal started", text: "\(Source.Functions.showString(from: goal.dateCreated))")
         }
         else {
-          smallInfoView(title: "Money left", text: "$\(goal.amountLeft.clean)")
+          smallInfoView(title: "Money left", text: "\(currencySign)\(goal.amountLeft.clean)")
           smallInfoView(title: "Days left", text: "\(goal.isCompleted || goal.isFailed ? 0 : goal.daysLeft) days left")
           smallInfoView(title: "Goal started", text: "\(Source.Functions.showString(from: goal.dateCreated))")
         }

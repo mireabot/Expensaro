@@ -11,6 +11,7 @@ import ExpensaroUIKit
 struct OverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
+  @AppStorage("currencySign") private var currencySign = "$"
   
   // MARK: Variables
   @State private var sheetHeight: CGFloat = .zero
@@ -41,7 +42,7 @@ struct OverviewView: View {
           AnalyticsManager.shared.log(.openTopCategoryPreview)
           router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(isDemo: true, service: topCategoryService)))
         }, bottomView: {
-          EXOverviewCard(header: "Top Category", title: "Electronics", icon: Source.Images.Navigation.redirect, subHeader: "You have spent $2000 on this category")
+          EXOverviewCard(header: "Top Category", title: "Electronics", icon: Source.Images.Navigation.redirect, subHeader: "You have spent \(currencySign)2000 on this category")
         })
         .applyMargins()
         .presentationDetents([.fraction(0.4)])

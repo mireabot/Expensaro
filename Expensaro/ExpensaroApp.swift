@@ -37,12 +37,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // TODO: Move API Key to Source
-    let configuration = PHGPostHogConfiguration(apiKey: Source.postKEY, host: "https://us.posthog.com")
+    if !Source.adminMode {
+      let configuration = PHGPostHogConfiguration(apiKey: Source.postKEY, host: "https://us.posthog.com")
 
-    configuration.captureApplicationLifecycleEvents = true;
-    configuration.capturePushNotifications = true
+      configuration.captureApplicationLifecycleEvents = true;
+      configuration.capturePushNotifications = true
 
-    PHGPostHog.setup(with: configuration)
+      PHGPostHog.setup(with: configuration)
+    }
     
     return true
   }

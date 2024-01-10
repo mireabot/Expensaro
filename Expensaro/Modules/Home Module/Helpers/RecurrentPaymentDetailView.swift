@@ -14,6 +14,7 @@ struct RecurrentPaymentDetailView: View {
   // MARK: - Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   let notificationManager: NotificationManager = NotificationManager.shared
+  @AppStorage("currencySign") private var currencySign = "$"
   
   // MARK: - Realm
   @ObservedRealmObject var transaction: RecurringTransaction
@@ -36,7 +37,7 @@ struct RecurrentPaymentDetailView: View {
             Text(transaction.name)
               .font(.title3Medium)
             
-            Text("$\(transaction.amount.withDecimals)")
+            Text("\(currencySign)\(transaction.amount.withDecimals)")
               .font(.largeTitleBold)
             
             Text("Next payment date: \(transaction.isDue ? daysLeftString(for: transaction.daysLeftUntilDueDate) : Source.Functions.showString(from: transaction.dueDate))")
@@ -61,7 +62,7 @@ struct RecurrentPaymentDetailView: View {
           // MARK: Transaction info
           HStack(spacing: 5) {
             EXChip(icon: .imageName(transaction.categoryIcon), text: transaction.categoryName)
-            EXChip(icon: .image(Source.Images.System.calendarYear), text: transaction.schedule.title)
+            EXChip(icon: .imageName(""), text: transaction.schedule.title)
           }
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.top, 5)

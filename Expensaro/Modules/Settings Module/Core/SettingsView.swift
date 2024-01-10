@@ -42,9 +42,12 @@ struct SettingsView: View {
             EXSettingsCell(category: $selectedCategory, type: .contact, icon: Source.Images.Settings.contact, action: {navigateTo()})
             EXSettingsCell(category: $selectedCategory, type: .resetAccount, icon: Source.Images.Settings.resetData, action: {navigateTo()})
           }
-          EXSettingsCell(category: $selectedCategory, type: .wishKit, icon: Source.Images.Settings.request, action: {
-            showRequestSheet.toggle()
-          })
+          HStack {
+            EXSettingsCell(category: $selectedCategory, type: .appSettings, icon: Source.Images.System.appTools, action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory, type: .wishKit, icon: Source.Images.Settings.request, action: {
+              showRequestSheet.toggle()
+            })
+          }
         }
         .applyMargins()
         .padding(.top, 16)
@@ -71,15 +74,17 @@ struct SettingsView: View {
             .font(.system(.headline, weight: .medium))
         }
         
-//        ToolbarItem(placement: .topBarTrailing) {
-//          Button {
-//            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(DebugMenuView()))
-//          } label: {
-//            Appearance.shared.debugIcon
-//              .font(.callout)
-//              .foregroundColor(.black)
-//          }
-//        }
+        if Source.adminMode {
+          ToolbarItem(placement: .topBarTrailing) {
+            Button {
+              router.pushTo(view: EXNavigationViewBuilder.builder.makeView(DebugMenuView()))
+            } label: {
+              Appearance.shared.debugIcon
+                .font(.callout)
+                .foregroundColor(.black)
+            }
+          }
+        }
       }
     }
   }
@@ -109,6 +114,7 @@ extension SettingsView {
     case "Categories": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(CategoriesSettingsView()))
     case "Reminders": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RemindersSettingsView()))
     case "Export Data": print("Navigation error")
+    case "General Settings": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(AppSettingsView()))
     case "Reset Data": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(EraseDataSettingsView()))
     case "Contact": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(ContactSettingsView()))
     default: print("Navigation error")

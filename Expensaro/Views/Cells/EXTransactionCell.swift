@@ -7,9 +7,11 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import Shimmer
 
 struct EXTransactionCell: View {
   var transaction: Transaction
+  @AppStorage("currencySign") private var currencySign = "$"
   var body: some View {
     HStack(alignment: .center) {
       Text(transaction.categoryIcon)
@@ -29,11 +31,11 @@ struct EXTransactionCell: View {
       
       VStack(alignment: .trailing, spacing: 3) {
         if transaction.type == "Refill" {
-          Text("+$\(transaction.amount.withDecimals)")
+          Text("+\(currencySign)\(transaction.amount.withDecimals)")
             .font(.system(.subheadline, weight: .semibold))
             .foregroundStyle(Color.green)
         } else {
-          Text("$\(transaction.amount.withDecimals)")
+          Text("\(currencySign)\(transaction.amount.withDecimals)")
             .font(.system(.subheadline, weight: .medium))
         }
         if !transaction.type.isEmpty {
@@ -53,5 +55,15 @@ struct TransactionCell_Previews: PreviewProvider {
       EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[0])
     }
     .applyMargins()
+  }
+}
+
+struct EXTransactionCellLoading: View {
+  var body: some View {
+    VStack {
+      EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[0]).redacted(reason: .placeholder).shimmering()
+      EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[0]).redacted(reason: .placeholder).shimmering()
+      EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[0]).redacted(reason: .placeholder).shimmering()
+    }
   }
 }

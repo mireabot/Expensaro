@@ -12,6 +12,7 @@ import Algorithms
 
 struct TransactionsListView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
+  @AppStorage("currencySign") private var currencySign = "$"
   
   @ObservedResults(Transaction.self, filter: NSPredicate(format: "date >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var transactions
   @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
@@ -82,7 +83,7 @@ struct TransactionsListView: View {
     EXBaseCard {
       HStack(alignment: .center, spacing: 30) {
         VStack(alignment: .center, spacing: 0) {
-          Text("$\(currentBudget.amount.withDecimals)")
+          Text("\(currencySign)\(currentBudget.amount.withDecimals)")
             .font(.headlineSemibold)
           Text("Budget left")
             .font(.footnoteRegular)
@@ -91,7 +92,7 @@ struct TransactionsListView: View {
         Text("\(Source.Functions.currentMonth())")
           .font(.title3Semibold)
         VStack(alignment: .center, spacing: 0) {
-          Text("$\(totalSpent.withDecimals)")
+          Text("\(currencySign)\(totalSpent.withDecimals)")
             .font(.headlineSemibold)
           Text("Total spent")
             .font(.footnoteRegular)

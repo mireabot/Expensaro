@@ -11,15 +11,22 @@ import RealmSwift
 import UserNotifications
 
 struct InitialPermissionView: View {
+  // MARK: Essential
   @Environment(\.realm) var realm
-  
-  @State private var notificationsSelected = false
-  @State private var analyticsSelected = false
-  @AppStorage("isUserLoggedIn") private var isUserLoggedIn = false
-  
-  @State private var showAnimation = false
-  
   let notificationManager: NotificationManager = NotificationManager.shared
+  
+  // MARK: Storage
+  @AppStorage("isUserLoggedIn") private var isUserLoggedIn = false
+  @AppStorage("currencySign") private var currencyStorage = ""
+  
+  // MARK: Presentation
+  @State private var showAnimation = false
+  @State private var showSelector = false
+  @State private var notificationsSelected = false
+  
+  // MARK: Variables
+  @State private var currencyText = "US Dollar ($)"
+  @State private var currencySymbol = "$"
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: 0) {
@@ -49,20 +56,30 @@ struct InitialPermissionView: View {
               }
             }
           })
-        EXToggleCard(type: .analytics, isOn: $analyticsSelected)
+        EXLargeSelector(text: .constant(currencyText), icon: .constant(.imageName("")), header: "Select currency", rightIcon: "swipeDown")
+          .onTapGesture {
+            showSelector = true
+          }
       }
       .padding(.top, 16)
+      .sheet(isPresented: $showSelector, content: {
+        currencySelector()
+          .presentationDetents([.fraction(0.6)])
+          .presentationDragIndicator(.visible)
+      })
     }
     .interactiveDismissDisabled(true)
     .safeAreaInset(edge: .bottom, content: {
       Button {
         showAnimation.toggle()
         writeCategories()
+        currencyStorage = currencySymbol
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
           showAnimation.toggle()
           UserDefaults.standard.setValue(UIDevice.current.identifierForVendor?.uuidString, forKey: "DeviceID")
           UserDefaults.standard.synchronize()
           isUserLoggedIn = true
+          
         }
       } label: {
         Text("Finish")
@@ -130,5 +147,66 @@ extension InitialPermissionView {
     try? realm.write({
       realm.add(loadedCategories)
     })
+  }
+}
+
+// MARK: - Helper Views
+extension InitialPermissionView {
+  @ViewBuilder
+  func currencySelector() -> some View {
+    NavigationView {
+      List(Currency.allCurrencies, id: \.symbol) { currency in
+        Button {
+          currencySymbol = currency.symbol
+          currencyText = "\(currency.name) (\(currency.symbol))"
+          showSelector = false
+        } label: {
+          HStack {
+            VStack(alignment: .leading, spacing: 3) {
+              Text(currency.symbol)
+                .font(.headlineBold)
+              Text(currency.name)
+                .font(.footnoteRegular)
+                .foregroundColor(.darkGrey)
+            }
+            Spacer()
+            Source.Images.Navigation.checkmark
+              .foregroundColor(.primaryGreen)
+              .opacity(currencySymbol == currency.symbol ? 1 : 0)
+          }
+          .background(.white)
+        }
+        .listRowSeparator(.hidden)
+        .buttonStyle(EXPlainButtonStyle())
+      }
+      .listStyle(.plain)
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+          Text(Appearance.shared.title)
+            .font(.title3Semibold)
+        }
+        ToolbarItem(placement: .topBarTrailing) {
+          Button {
+            showSelector = false
+          } label: {
+            Appearance.shared.backIcon
+              .font(.callout)
+              .foregroundColor(.black)
+          }
+        }
+      }
+    }
+  }
+}
+
+// MARK: - Appearance
+extension InitialPermissionView {
+  struct Appearance {
+    static let shared = Appearance()
+    
+    let title = "Select currency"
+    
+    let backIcon = Source.Images.Navigation.close
   }
 }
