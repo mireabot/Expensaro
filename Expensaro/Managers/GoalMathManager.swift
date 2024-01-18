@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 final class GoalMathManager: ObservableObject {
-  let shared = GoalMathManager()
+  static let shared = GoalMathManager()
   private init() {}
   
   @Published var isLoading: Bool = false

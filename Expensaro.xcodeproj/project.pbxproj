@@ -11,6 +11,7 @@
 		3501CFB92B4EF3F600D13736 /* CurrencySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3501CFB82B4EF3F600D13736 /* CurrencySelectorView.swift */; };
 		350D45822B22A03400E13008 /* TopCategoryOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350D45812B22A03400E13008 /* TopCategoryOverviewView.swift */; };
 		350DF5802B5972A600AFAAFD /* GoalMathManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DF57F2B5972A600AFAAFD /* GoalMathManager.swift */; };
+		350DF5822B59756800AFAAFD /* GoalEstimatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DF5812B59756800AFAAFD /* GoalEstimatorView.swift */; };
 		351061282AD74AEB006E6DF4 /* Budget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351061272AD74AEB006E6DF4 /* Budget.swift */; };
 		3510F6E22AFD542D000B5532 /* ScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */; };
 		3510F6E42AFD58C7000B5532 /* CreateReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3510F6E32AFD58C7000B5532 /* CreateReminderView.swift */; };
@@ -102,6 +103,7 @@
 		3501CFB82B4EF3F600D13736 /* CurrencySelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySelectorView.swift; sourceTree = "<group>"; };
 		350D45812B22A03400E13008 /* TopCategoryOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCategoryOverviewView.swift; sourceTree = "<group>"; };
 		350DF57F2B5972A600AFAAFD /* GoalMathManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalMathManager.swift; sourceTree = "<group>"; };
+		350DF5812B59756800AFAAFD /* GoalEstimatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalEstimatorView.swift; sourceTree = "<group>"; };
 		351061272AD74AEB006E6DF4 /* Budget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Budget.swift; sourceTree = "<group>"; };
 		3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollView+Extensions.swift"; sourceTree = "<group>"; };
 		3510F6E32AFD58C7000B5532 /* CreateReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateReminderView.swift; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 				3564D81E2ACB71EB00553ECB /* EditGoalView.swift */,
 				356847732ACB2D4E00FFC864 /* GoalDetailView.swift */,
 				353FF4882AF499AF000BF57A /* GoalAnalyticsView.swift */,
+				350DF5812B59756800AFAAFD /* GoalEstimatorView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -770,6 +773,7 @@
 				354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */,
 				3540BEFA2AF586CC00F7E41F /* EXEmptyStates.swift in Sources */,
 				359CDC622AB50C0000DFFDC7 /* AddTransactionView.swift in Sources */,
+				350DF5822B59756800AFAAFD /* GoalEstimatorView.swift in Sources */,
 				359CDC5C2AB4DE3300DFFDC7 /* TabBarView.swift in Sources */,
 				358E6B7F2AC0840900ABA818 /* CategorySelectorView.swift in Sources */,
 				350DF5802B5972A600AFAAFD /* GoalMathManager.swift in Sources */,

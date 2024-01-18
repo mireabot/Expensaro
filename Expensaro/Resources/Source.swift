@@ -60,6 +60,7 @@ enum Source {
       static let reminder = Image("reminder")
       static let arrowUp = Image("arrowUp")
       static let arrowDown = Image("arrowDown")
+      static let smartWidget = Image("smartWidget")
     }
     enum Settings {
       static let categories = Image("categories")
