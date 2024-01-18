@@ -20,6 +20,11 @@ struct AddGoalView: View {
   //MARK: Realm
   @Environment(\.realm) var realm
   @ObservedRealmObject var goal: Goal
+  @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
+  
+  var currentBudget: Budget {
+    budget.first ?? Budget()
+  }
   
   // MARK: Variables
   @State private var sheetHeight: CGFloat = .zero
