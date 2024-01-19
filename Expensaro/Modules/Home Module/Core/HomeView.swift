@@ -184,7 +184,7 @@ extension HomeView {
           .presentationDetents([.large])
       }
     } else {
-      EXLargeEmptyState(type: .noBudget, icon: Source.Images.EmptyStates.noBudget, action: {
+      EXLargeEmptyState(type: .noBudget, icon: Source.Images.EmptyStates.noBudget, isActive: false, action: {
         showAddBudget.toggle()
       })
     }
@@ -242,12 +242,8 @@ extension HomeView {
       }
       .padding(.top, 15)
     } else {
-      EXSmallEmptyState(type: .noRecurrentPayments, action: {
-        if currentBudget.amount == 0 {
-          showAlert.toggle()
-        } else {
-          showAddRecurrentPayment.toggle()
-        }
+      EXSmallEmptyState(type: .noRecurrentPayments, isActive: currentBudget.amount == 0, action: {
+        showAddRecurrentPayment.toggle()
       })
       .padding(.top, 15)
     }
@@ -308,12 +304,8 @@ extension HomeView {
       .padding(.top, 15)
       .fixedSize(horizontal: false, vertical: true)
     } else {
-      EXLargeEmptyState(type: .noExpenses, icon: Source.Images.EmptyStates.noExpenses, action: {
-        if currentBudget.amount == 0 {
-          showAlert.toggle()
-        } else {
-          showAddTransaction.toggle()
-        }
+      EXLargeEmptyState(type: .noExpenses, icon: Source.Images.EmptyStates.noExpenses, isActive: currentBudget.amount == 0, action: {
+        showAddTransaction.toggle()
       })
       .padding(.top, 15)
     }

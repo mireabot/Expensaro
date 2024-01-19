@@ -20,6 +20,11 @@ struct AddGoalView: View {
   //MARK: Realm
   @Environment(\.realm) var realm
   @ObservedRealmObject var goal: Goal
+  @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
+  
+  var currentBudget: Budget {
+    budget.first ?? Budget()
+  }
   
   // MARK: Variables
   @State private var sheetHeight: CGFloat = .zero
@@ -46,6 +51,10 @@ struct AddGoalView: View {
               EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant(.image(Source.Images.System.timer)), header: "Goal completion date", rightIcon: "swipeDown")
             })
             .buttonStyle(EXPlainButtonStyle())
+            
+            if currentBudget.initialAmount != 0 {
+              GoalEstimatorView(goalManager: .init(), goalInfo: (currentBudget.initialAmount, Double(amountValue) ?? 0, goal.daysLeft))
+            }
           }
           .padding(.top, 25)
         }
