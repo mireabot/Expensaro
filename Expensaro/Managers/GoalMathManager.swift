@@ -10,28 +10,51 @@ import Combine
 import SwiftUI
 
 final class GoalMathManager: ObservableObject {
-  static let shared = GoalMathManager()
-  private init() {}
+  init() {
+    
+  }
   
   @Published var isLoading: Bool = false
   @Published var successRate: Double = 0
+  @Published var rateInformation: GoalSuccessRate = .noData
   
   func calculateSuccessRate(monthlyExpensesBudget: Double, goalAmount: Double, daysToGoal: Int, daysInMonth: Int = 30) {
-    isLoading = true
+    withAnimation(.interactiveSpring) {
+      isLoading = true
+    }
     
     let totalBudgetForExpenses = monthlyExpensesBudget * (Double(daysToGoal) / Double(daysInMonth))
     successRate = (totalBudgetForExpenses / goalAmount) * 100
+    infoForSuccessRate(successRate)
     
     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
       self.isLoading = false
     }
   }
+  
+  func infoForSuccessRate(_ successRate: Double) {
+    switch successRate {
+    case 0..<35:
+      rateInformation = .highRisk
+    case 35..<60:
+      rateInformation = .moderateRisk
+    case 60...100:
+      rateInformation = .noRisk
+    case let x where x > 100:
+      rateInformation = .noRisk
+    case let x where x < 0:
+      rateInformation = .noData
+    default:
+      rateInformation = .noData
+    }
+  }
 }
 
-private enum GoalSuccessRate {
+enum GoalSuccessRate {
   case noRisk
   case moderateRisk
   case highRisk
+  case noData
   
   var title: String {
     switch self {
@@ -41,6 +64,8 @@ private enum GoalSuccessRate {
       return "Moderate risk"
     case .highRisk:
       return "High risk"
+    case .noData:
+      return "N/A"
     }
   }
   
@@ -52,6 +77,8 @@ private enum GoalSuccessRate {
       return "With careful budgeting and planning, initiating this goal could be feasible"
     case .highRisk:
       return "Starting this goal now will be challenging. It may be wise to wait until your situation improves"
+    case .noData:
+      return "N/A"
     }
   }
   
@@ -63,6 +90,8 @@ private enum GoalSuccessRate {
       return .yellow
     case .highRisk:
       return .red
+    case .noData:
+      return .black
     }
   }
 }

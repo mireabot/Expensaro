@@ -51,6 +51,10 @@ struct AddGoalView: View {
               EXLargeSelector(text: .constant(Source.Functions.showString(from: goal.dueDate)), icon: .constant(.image(Source.Images.System.timer)), header: "Goal completion date", rightIcon: "swipeDown")
             })
             .buttonStyle(EXPlainButtonStyle())
+            
+            if currentBudget.initialAmount != 0 {
+              GoalEstimatorView(goalManager: .init(), goalInfo: (currentBudget.initialAmount, Double(amountValue) ?? 0, goal.daysLeft))
+            }
           }
           .padding(.top, 25)
         }

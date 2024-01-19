@@ -7,105 +7,79 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import Shimmer
 
 struct GoalEstimatorView: View {
-  @StateObject var goalManager = GoalMathManager.shared
+  @ObservedObject var goalManager : GoalMathManager
+  var goalInfo: (Double, Double, Int)
   var body: some View {
     VStack {
-      EXBaseCard {
-        VStack(alignment: .leading, spacing: 10) {
-          HStack(alignment: .top, spacing: 0, content: {
-            VStack(alignment: .leading, spacing: 3) {
-              Text("Goal success rate")
+      if goalManager.successRate == 0 {
+        emptyState()
+      } else if goalManager.isLoading {
+        EXBaseCard {
+          VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .top, spacing: 0, content: {
+              VStack(alignment: .leading, spacing: 3) {
+                Text("Goal success rate")
+                  .font(.footnoteRegular)
+                  .foregroundColor(.darkGrey)
+                Text("\(goalManager.successRate.clean)%")
+                  .font(.title2Bold)
+                  .redacted(reason: .placeholder)
+                  .shimmering(active: goalManager.isLoading)
+              }
+              Spacer()
+            })
+            Divider()
+            VStack(alignment: .leading, spacing: 3, content: {
+              Text(goalManager.rateInformation.title)
+                .font(.headlineBold)
+                .foregroundColor(goalManager.rateInformation.color)
+                .redacted(reason: .placeholder)
+                .shimmering(active: goalManager.isLoading)
+              Text(goalManager.rateInformation.text)
                 .font(.footnoteRegular)
                 .foregroundColor(.darkGrey)
-              Text("24%")
-                .font(.title2Bold)
-            }
-            Spacer()
-            Button(action: {}, label: {
-              Image(systemName: "arrow.clockwise")
-                .foregroundColor(.primaryGreen)
+                .redacted(reason: .placeholder)
+                .shimmering(active: goalManager.isLoading)
             })
-          })
-          Divider()
-          VStack(alignment: .leading, spacing: 3, content: {
-            Text("High risk")
-              .font(.headlineBold)
-              .foregroundColor(.red)
-            Text("Starting this goal now will be challenging. It may be wise to wait until your situation improves")
-              .font(.footnoteRegular)
-              .foregroundColor(.darkGrey)
-          })
+          }
+          .frame(maxWidth: .infinity)
         }
-      }
-      
-      EXBaseCard {
-        VStack(alignment: .leading, spacing: 10) {
-          HStack(alignment: .top, spacing: 0, content: {
-            VStack(alignment: .leading, spacing: 3) {
-              Text("Goal success rate")
+      } else {
+        EXBaseCard {
+          VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .top, spacing: 0, content: {
+              VStack(alignment: .leading, spacing: 3) {
+                Text("Goal success rate")
+                  .font(.footnoteRegular)
+                  .foregroundColor(.darkGrey)
+                Text("\(goalManager.successRate.clean)%")
+                  .font(.title2Bold)
+              }
+              Spacer()
+            })
+            Divider()
+            VStack(alignment: .leading, spacing: 3, content: {
+              Text(goalManager.rateInformation.title)
+                .font(.headlineBold)
+                .foregroundColor(goalManager.rateInformation.color)
+              Text(goalManager.rateInformation.text)
                 .font(.footnoteRegular)
                 .foregroundColor(.darkGrey)
-              Text("57%")
-                .font(.title2Bold)
-            }
-            Spacer()
-            Button(action: {}, label: {
-              Image(systemName: "arrow.clockwise")
-                .foregroundColor(.primaryGreen)
             })
-          })
-          Divider()
-          VStack(alignment: .leading, spacing: 3, content: {
-            Text("Moderate risk")
-              .font(.headlineBold)
-              .foregroundColor(.yellow)
-            Text("With careful budgeting and planning, initiating this goal could be feasible")
-              .font(.footnoteRegular)
-              .foregroundColor(.darkGrey)
-          })
-        }
-      }
-      
-      EXBaseCard {
-        VStack(alignment: .leading, spacing: 10) {
-          HStack(alignment: .top, spacing: 0, content: {
-            VStack(alignment: .leading, spacing: 3) {
-              Text("Goal success rate")
-                .font(.footnoteRegular)
-                .foregroundColor(.darkGrey)
-              Text("78%")
-                .font(.title2Bold)
-            }
-            Spacer()
-            Button(action: {}, label: {
-              Image(systemName: "arrow.clockwise")
-                .foregroundColor(.primaryGreen)
-            })
-          })
-          Divider()
-          VStack(alignment: .leading, spacing: 3, content: {
-            Text("No risk")
-              .font(.headlineBold)
-              .foregroundColor(.green)
-            Text("Your financials are looking healthy for this goal. It's a favorable time to get started!")
-              .font(.footnoteRegular)
-              .foregroundColor(.darkGrey)
-          })
+          }
+          .frame(maxWidth: .infinity)
         }
       }
     }
-    .applyMargins()
   }
 }
 
 #Preview {
-  GoalEstimatorView().emptyState()
-}
-
-#Preview {
-  GoalEstimatorView()
+  GoalEstimatorView(goalManager: .init(), goalInfo: (1500, 780, 34))
+    .applyMargins()
 }
 
 extension GoalEstimatorView {
@@ -121,8 +95,9 @@ extension GoalEstimatorView {
             .font(.footnoteRegular)
             .foregroundColor(.darkGrey)
         })
-        
-        Button(action: {}, label: {
+        Button(action: {
+          goalManager.calculateSuccessRate(monthlyExpensesBudget: goalInfo.0, goalAmount: goalInfo.1, daysToGoal: goalInfo.2)
+        }, label: {
           Text("Calculate")
             .font(.subheadlineSemibold)
             .frame(maxWidth: .infinity, alignment: .center)
@@ -131,6 +106,5 @@ extension GoalEstimatorView {
         .buttonStyle(.borderedProminent)
       }
     }
-    .applyMargins()
   }
 }
