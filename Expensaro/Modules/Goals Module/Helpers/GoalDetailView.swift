@@ -112,7 +112,7 @@ struct GoalDetailView: View {
           .padding(.top, 10)
       }
       else {
-        GoalAnalyticsView(goalVM: GoalAnalyticsViewModel(goal: goal))
+        GoalAnalyticsView(goalService: GoalAnalyticsService(goal: goal))
           .padding(.top, 10)
       }
     }

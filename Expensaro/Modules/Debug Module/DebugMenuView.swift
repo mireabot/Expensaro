@@ -46,6 +46,22 @@ struct DebugMenuView: View {
               Text("Total for \(month): \(transactions.reduce(0) { $0 + $1.amount })")
             }
           }
+          
+          Section {
+            Button {
+              writeCategories()
+            } label: {
+              Text("Update categories")
+            }
+            Button {
+              createTransactions()
+            } label: {
+              Text("Add transactions")
+            }
+          } header: {
+            Text("Actions")
+          }
+
         }
       }
       .onFirstAppear {
@@ -65,15 +81,6 @@ struct DebugMenuView: View {
               .foregroundColor(.black)
           }
         }
-        
-        ToolbarItem(placement: .topBarTrailing) {
-          Button {
-            writeCategories()
-          } label: {
-            Text("Update categories")
-          }
-        }
-        
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
             .font(.system(.headline, weight: .medium))
@@ -81,7 +88,7 @@ struct DebugMenuView: View {
       }
     }
   }
-  func groupTransactionsByMonth(transactions: [Transaction]) -> [(String, [Transaction])] {
+  private func groupTransactionsByMonth(transactions: [Transaction]) -> [(String, [Transaction])] {
     let groupedByMonth = Dictionary(grouping: transactions) { transaction in
       let dateFormatter = DateFormatter()
       dateFormatter.dateFormat = "MMMM yyyy"
@@ -90,7 +97,7 @@ struct DebugMenuView: View {
     return groupedByMonth.sorted { $0.0 < $1.0 }
   }
   
-  func writeCategories() {
+  private func writeCategories() {
     let loadedCategories: [Category] = [
       Source.Realm.createCategory(icon: "🔄", name: "Subscription", tag: .base, section: .entertainment),
       Source.Realm.createCategory(icon: "🎫", name: "Entertainment", tag: .base, section: .entertainment),
@@ -120,6 +127,26 @@ struct DebugMenuView: View {
     
     try? realm.write({
       realm.add(loadedCategories)
+    })
+  }
+  
+  private func createTransactions() {
+    let sampleTransactions: [Transaction] = [
+      Source.Realm.createTransaction(name: "Snack Vending", date: .now, category: ("Food", "🥡", .food), amount: 10, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Bookstore Buy", date: .now, category: ("Books", "📕", .lifestyle), amount: 78.66, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Gas Station", date: .now, category: ("Car", "🚗", .transportation), amount: 56, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Coffee", date: .now, category: ("Take out", "☕️", .food), amount: 7.88, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Movie Ticket", date: .now, category: ("Tickets", "🎫", .entertainment), amount: 18, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Lunch Order", date: .now, category: ("Food", "🥡", .food), amount: 17, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Parking Fee", date: .now, category: ("Car", "🚗", .transportation), amount: 99, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Pharmacy", date: .now, category: ("Medicine", "🩹", .other), amount: 9.99, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Taxi Ride", date: .now, category: ("Taxi", "🚕", .lifestyle), amount: 55, type: "Credit", note: "")
+    ]
+    
+    let realm = try! Realm()
+    
+    try? realm.write({
+      realm.add(sampleTransactions)
     })
   }
 }

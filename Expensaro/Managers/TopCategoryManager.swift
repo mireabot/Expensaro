@@ -37,11 +37,13 @@ final class TopCategoryManager: ObservableObject {
   @Published var otherCategories: [(String, Double)] = []
   
   @Published var combinedBudget: Double = 0.0
+  
   var topCategoryCut: Double {
     return (topCategory.1 / combinedBudget) * 100
   }
   
   init() {
+    groupAndFindMaxAmountCategory()
     calculateBudget()
   }
   
@@ -53,11 +55,16 @@ final class TopCategoryManager: ObservableObject {
     for refillData in refills {
       total += refillData.amount
     }
-    combinedBudget = (budget.first?.amount ?? 0.0) + total
+    combinedBudget = (budget.first?.initialAmount ?? 0.0) + total
   }
   
   func groupAndFindMaxAmountCategory() {
     var categoryTotals: [String: (Double, Int)] = [:]
+    
+    if transactions.count < 15 {
+      groupAndFindMaxAmountCategoryDemo()
+      return
+    }
     
     // Group transactions by category and calculate total amount and count for each category
     for transaction in transactions {
@@ -72,7 +79,6 @@ final class TopCategoryManager: ObservableObject {
       topCategory.1 = maxCategory.value.0
       topCategory.2 = maxCategory.value.1
     }
-    
     updateOtherCategories()
   }
   
@@ -99,7 +105,7 @@ final class TopCategoryManager: ObservableObject {
     otherCategories = otherCategoriesTotals
   }
   
-  func groupAndFindMaxAmountCategoryDemo() {
+  private func groupAndFindMaxAmountCategoryDemo() {
     var categoryTotals: [String: (Double, Int)] = [:]
     
     // Group transactions by category and calculate total amount and count for each category

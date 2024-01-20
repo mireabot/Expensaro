@@ -15,7 +15,7 @@ struct OverviewView: View {
   
   // MARK: Variables
   @State private var sheetHeight: CGFloat = .zero
-  @StateObject var topCategoryService = TopCategoryManager()
+  @StateObject var topCategoryService = TopCategoryManager.init()
   @StateObject var monthRecapService = MonthRecapService.init()
   
   // MARK: Presentation
@@ -40,7 +40,7 @@ struct OverviewView: View {
             showTopCategoryInfoSheet.toggle()
           }
           AnalyticsManager.shared.log(.openTopCategoryPreview)
-          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(isDemo: true, service: topCategoryService)))
+          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(service: topCategoryService)))
         }, bottomView: {
           EXOverviewCard(header: "Top Category", title: "Electronics", icon: Source.Images.Navigation.redirect, subHeader: "You have spent \(currencySign)2000 on this category")
         })
@@ -94,9 +94,9 @@ extension OverviewView {
 extension OverviewView {
   @ViewBuilder
   func topCategorySection() -> some View {
-    if topCategoryService.transactions.count > 15 {
+    if topCategoryService.transactions.count >= 15 {
       Button(action: {
-        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(isDemo: false, service: topCategoryService)))
+        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(service: topCategoryService)))
         AnalyticsManager.shared.log(.openTopCategory)
       }, label: {
         EXOverviewCard(header: "Top Category", title: topCategoryService.topCategory.0, icon: Source.Images.Navigation.redirect, subHeader: "You have spent $\(topCategoryService.topCategory.1.clean) on this category")

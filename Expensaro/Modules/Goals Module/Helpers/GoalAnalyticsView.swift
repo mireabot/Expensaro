@@ -9,7 +9,7 @@ import SwiftUI
 import ExpensaroUIKit
 
 struct GoalAnalyticsView: View {
-  @ObservedObject var goalVM: GoalAnalyticsViewModel
+  @ObservedObject var goalService: GoalAnalyticsService
   @AppStorage("currencySign") private var currencySign = "$"
   var body: some View {
     EXBaseCard {
@@ -17,16 +17,16 @@ struct GoalAnalyticsView: View {
         Appearance.shared.icon
           .foregroundColor(.primaryGreen)
           .padding(.bottom, 5)
-        Text("\(Appearance.shared.text) We estimated your weekly payments to make things faster")
+        Text("\(Appearance.shared.text) We estimated your payments to make things faster")
           .font(.system(.headline, weight: .medium))
           .foregroundColor(.black)
         Divider()
           .foregroundColor(.border)
           .padding(.vertical, 5)
         HStack {
-          smallInfoView(title: "Weeks in your plan", text: "\(goalVM.weeks)")
+          smallInfoView(title: goalService.timeUnitTitle, text: "\(goalService.timeUnits)")
           Spacer()
-          Text("\(currencySign)\(goalVM.amount.clean) / week")
+          Text("\(currencySign)\(goalService.amountPerTimeUnit.clean) / \(goalService.timeUnitName)")
             .font(.system(.headline, weight: .semibold))
             .foregroundColor(.primaryGreen)
         }
@@ -37,7 +37,7 @@ struct GoalAnalyticsView: View {
 }
 
 #Preview {
-  GoalAnalyticsView(goalVM: GoalAnalyticsViewModel(goal: DefaultGoals.goal1)).applyMargins()
+  GoalAnalyticsView(goalService: GoalAnalyticsService(goal: DefaultGoals.goal1)).applyMargins()
 }
 
 // MARK: - Appearance
@@ -67,29 +67,61 @@ extension GoalAnalyticsView {
 }
 
 
-class GoalAnalyticsViewModel : ObservableObject {
-  var goal: Goal
-  @Published var weeks = 0
-  @Published var amount: Double = 0
-  
-  init(goal: Goal) {
-    self.goal = goal
-    optimalAmountPerWeek()
-    numberOfWeeks()
-  }
-  
-  func optimalAmountPerWeek() {
-    let calendar = Calendar.current
-    let weeksUntilDueDate = calendar.dateComponents([.weekOfYear], from: goal.dateCreated, to: goal.dueDate).weekOfYear ?? 0
+final class GoalAnalyticsService : ObservableObject {
+  private enum TimeUnit {
+    case week
+    case month
     
-    if weeksUntilDueDate > 0 {
-      amount = goal.finalAmount / Double(weeksUntilDueDate)
+    var title: String {
+      switch self {
+      case .week:
+        return "Weeks in your plan"
+      case .month:
+        return "Months in your plan"
+      }
+    }
+    
+    var name: String {
+      switch self {
+      case .week:
+        return "week"
+      case .month:
+        return "month"
+      }
     }
   }
   
-  func numberOfWeeks() {
+  var goal: Goal
+  @Published var timeUnits = 0
+  @Published var amountPerTimeUnit: Double = 0
+  @Published var timeUnitTitle: String = ""
+  @Published var timeUnitName: String = ""
+  
+  private var timeUnitType: TimeUnit {
+    didSet {
+      timeUnitTitle = timeUnitType.title
+      timeUnitName = timeUnitType.name
+    }
+  }
+  
+  init(goal: Goal) {
+    self.goal = goal
+    self.timeUnitType = .month
+    calculateTimeUnitsAndAmount()
+  }
+  
+  func calculateTimeUnitsAndAmount() {
     let calendar = Calendar.current
+    let monthsUntilDueDate = calendar.dateComponents([.month], from: goal.dateCreated, to: goal.dueDate).month ?? 0
     let weeksUntilDueDate = calendar.dateComponents([.weekOfYear], from: goal.dateCreated, to: goal.dueDate).weekOfYear ?? 0
-    weeks = max(0, weeksUntilDueDate)
+    
+    if monthsUntilDueDate < 2 {
+      timeUnitType = .week
+      timeUnits = max(0, weeksUntilDueDate)
+    } else {
+      timeUnitType = .month
+      timeUnits = max(0, monthsUntilDueDate)
+    }
+    amountPerTimeUnit = goal.finalAmount / Double(timeUnits)
   }
 }

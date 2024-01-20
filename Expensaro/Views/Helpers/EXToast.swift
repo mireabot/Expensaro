@@ -24,7 +24,7 @@ struct EXToast: View {
           .foregroundColor(.alertDarkRed)
       }
       VStack(alignment: .leading, spacing: 3, content: {
-        Text(type.isSuccess ? "All great!" : "Watch out!")
+        Text(type.isSuccess ? "All good!" : "Watch out!")
           .font(.system(.title3, weight: .semibold))
           .foregroundColor(type.isSuccess ? .alertDarkGreen : .alertDarkRed)
         

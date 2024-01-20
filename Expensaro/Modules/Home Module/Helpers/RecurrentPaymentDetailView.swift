@@ -105,7 +105,7 @@ struct RecurrentPaymentDetailView: View {
         
       })
       .popup(isPresented: $showDeleteAlert) {
-        EXAlert(type: .deleteTransaction, primaryAction: { deletePayment() }, secondaryAction: {showDeleteAlert.toggle()}).applyMargins()
+        EXAlert(type: .deletePayment, primaryAction: { deletePayment() }, secondaryAction: {showDeleteAlert.toggle()}).applyMargins()
       } customize: {
         $0
           .animation(.spring())

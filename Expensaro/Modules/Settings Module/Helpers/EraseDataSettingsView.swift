@@ -85,7 +85,7 @@ extension EraseDataSettingsView {
         VStack(alignment: .leading, spacing: 3, content: {
           Text("Are you sure?")
             .font(.title2Bold)
-          Text("All data you have created will be deleted and this action cannot be undone")
+          Text("Proceeding with this action will permanently erase all the data you have created. This action is irreversible.")
             .font(.headlineRegular)
             .foregroundColor(.darkGrey)
         })

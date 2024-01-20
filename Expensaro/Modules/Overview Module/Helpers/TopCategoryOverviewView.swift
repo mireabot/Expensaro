@@ -13,7 +13,6 @@ struct TopCategoryOverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   @AppStorage("currencySign") private var currencySign = "$"
-  var isDemo: Bool
   @ObservedObject var service : TopCategoryManager
   var body: some View {
     NavigationView {
@@ -98,11 +97,6 @@ struct TopCategoryOverviewView: View {
         .padding(.bottom, 10)
       }
       .applyBounce()
-      .onFirstAppear {
-        if isDemo {
-          service.groupAndFindMaxAmountCategoryDemo()
-        }
-      }
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -124,7 +118,7 @@ struct TopCategoryOverviewView: View {
 }
 
 #Preview {
-  TopCategoryOverviewView(isDemo: true, service: .init())
+  TopCategoryOverviewView(service: .init())
 }
 
 // MARK: - Apperance
