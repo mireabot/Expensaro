@@ -164,7 +164,7 @@ struct TopCategoryBar: View {
       }
       Rectangle()
         .fill(Color(uiColor: .quaternarySystemFill))
-        .frame(width: self.insetWidth, height: 50)
+        .frame(width: self.insetWidth >= self.maxWidth ? self.maxWidth : self.insetWidth, height: 50)
         .cornerRadius(12)
       
       VStack(alignment: .leading, spacing: 3) {

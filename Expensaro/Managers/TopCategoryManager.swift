@@ -50,7 +50,7 @@ final class TopCategoryManager: ObservableObject {
   private func calculateBudget() {
     var total = 0.0
     if refills.isEmpty {
-      return
+      total = 0.0
     }
     for refillData in refills {
       total += refillData.amount
