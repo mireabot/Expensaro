@@ -85,49 +85,36 @@ extension MonthRecapOverviewView {
         Spacer()
       }
       EXBaseCard {
-        VStack(alignment: .leading, spacing: 20) {
-          HStack(alignment: .bottom) {
-            VStack {
-              VStack(spacing: 0) {
-                Text("Initial budget")
-                  .font(.footnoteMedium)
-                  .foregroundColor(.darkGrey)
-                Text("\(currencySign)\(service.budgetData.0.clean)")
-                  .font(.calloutBold)
-                  .foregroundColor(.black)
+        VStack(alignment: .leading) {
+          Chart(service.budgetSet) {
+            BarMark(x: .value("", $0.amount),
+                    y: .value("", $0.tag),
+                    
+                    stacking: .standard
+            )
+            .foregroundStyle($0.color)
+            .cornerRadius(5)
+          }
+          .frame(height: 100)
+          .chartXAxis(.hidden)
+          .chartYAxis(.hidden)
+          .chartLegend(.hidden)
+          
+          VStack(alignment: .leading) {
+            ForEach(service.budgetSet) { data in
+              HStack {
+                HStack(spacing: 5) {
+                  RoundedRectangle(cornerRadius: 2)
+                    .fill(data.color)
+                    .frame(width: 10, height: 10)
+                  Text(data.name)
+                    .font(.footnote)
+                    .foregroundColor(.darkGrey)
+                }
+                Spacer()
+                Text("\(data.amount, format: .currency(code: "USD"))")
+                  .font(.system(.footnote, weight: .semibold))
               }
-              Rectangle()
-                .fill(Color.primaryGreen)
-                .frame(height: (service.budgetData.0 * 0.08))
-                .cornerRadius(5, corners: [.topLeft,.topRight])
-            }
-            VStack {
-              VStack(spacing: 0) {
-                Text("Added funds")
-                  .font(.footnoteMedium)
-                  .foregroundColor(.darkGrey)
-                Text("\(currencySign)\(service.budgetData.1.clean)")
-                  .font(.calloutBold)
-                  .foregroundColor(.black)
-              }
-              Rectangle()
-                .fill(Color(red: 0.384, green: 0.78, blue: 0.549))
-                .frame(height: (service.budgetData.1 * 0.08))
-                .cornerRadius(5, corners: [.topLeft,.topRight])
-            }
-            VStack {
-              VStack(spacing: 0) {
-                Text("Total spent")
-                  .font(.footnoteMedium)
-                  .foregroundColor(.darkGrey)
-                Text("\(currencySign)\(service.budgetData.2.clean)")
-                  .font(.calloutBold)
-                  .foregroundColor(.black)
-              }
-              Rectangle()
-                .fill(Color(uiColor: .systemGray5))
-                .frame(height: (service.budgetData.2 * 0.08))
-                .cornerRadius(5, corners: [.topLeft,.topRight])
             }
           }
         }

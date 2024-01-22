@@ -206,5 +206,5 @@ enum Source {
   }
   static let wishKEY = "1279B306-A1C9-4CB0-8D14-4A2413F72075"
   static let postKEY = "phc_WtmXwcSHIS0p77Dvk2uSuwRt8Mm2VDCMJCZY0BWda0l"
-  static let adminMode = false
+  static let adminMode = true
 }

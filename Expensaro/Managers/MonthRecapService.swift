@@ -14,6 +14,7 @@ final class MonthRecapService: ObservableObject {
   @Published var budgetData: (Double, Double, Double) = (0.0, 0.0, 0.0)
   @Published var goalsData: Double = 0.0
   @Published var groupedTransactions: [GroupedTransactionsBySection] = []
+  @Published var budgetSet: [BudgetsDataSet] = []
   @Published var isLocked: Bool = true
   
   var recapMonth: String {
@@ -42,6 +43,7 @@ final class MonthRecapService: ObservableObject {
   
   init() {
     calculateBudget()
+    convertBudgetDatatoSet()
   }
   
   private func groupSections(with array: [Transaction]) {
@@ -79,6 +81,14 @@ final class MonthRecapService: ObservableObject {
       goalsData = 2450
       groupSections(with: sampleTransactions)
     }
+  }
+  
+  private func convertBudgetDatatoSet() {
+    budgetSet = [
+      BudgetsDataSet(amount: budgetData.0, name: "Initial budget", tag: "Budget", color: Color(red: 0.471, green: 0.718, blue: 0.518)),
+      BudgetsDataSet(amount: budgetData.1, name: "Added funds", tag: "Budget", color: Color(red: 0.447, green: 0.773, blue: 0.808)),
+      BudgetsDataSet(amount: budgetData.2, name: "Total spent", tag: "Expenses", color: Color(red: 0.851, green: 0.408, blue: 0.396))
+    ]
   }
   
   func calculateGoals() {
@@ -133,6 +143,14 @@ struct GroupedTransactionsBySection: Identifiable {
   }
 }
 
+// MARK: Struct which combines data about budget into plotable set
+struct BudgetsDataSet: Identifiable {
+  var id = UUID()
+  var amount: Double
+  var name: String
+  var tag: String
+  var color: Color
+}
 
 struct MonthRecapServiceView: View {
   @StateObject var service = MonthRecapService()
