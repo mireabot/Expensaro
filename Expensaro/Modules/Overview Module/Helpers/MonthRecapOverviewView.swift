@@ -13,7 +13,7 @@ import RealmSwift
 struct MonthRecapOverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   
   @ObservedObject var service: MonthRecapService
   // MARK: Presentation
@@ -56,7 +56,7 @@ extension MonthRecapOverviewView {
     let backIcon = Source.Images.Navigation.back
     
     var currentMonth: Text {
-      return Text("\(Source.Functions.currentMonth())") .font(.largeTitleBold)
+      return Text("\(Source.Functions.currentMonth(date: .now))") .font(.largeTitleBold)
     }
   }
 }
@@ -85,49 +85,36 @@ extension MonthRecapOverviewView {
         Spacer()
       }
       EXBaseCard {
-        VStack(alignment: .leading, spacing: 20) {
-          HStack(alignment: .bottom) {
-            VStack {
-              VStack(spacing: 0) {
-                Text("Initial budget")
-                  .font(.footnoteMedium)
-                  .foregroundColor(.darkGrey)
-                Text("\(currencySign)\(service.budgetData.0.clean)")
-                  .font(.calloutBold)
-                  .foregroundColor(.black)
+        VStack(alignment: .leading) {
+          Chart(service.budgetSet) {
+            BarMark(x: .value("", $0.amount),
+                    y: .value("", $0.tag),
+                    
+                    stacking: .standard
+            )
+            .foregroundStyle($0.color)
+            .cornerRadius(5)
+          }
+          .frame(height: 100)
+          .chartXAxis(.hidden)
+          .chartYAxis(.hidden)
+          .chartLegend(.hidden)
+          
+          VStack(alignment: .leading) {
+            ForEach(service.budgetSet) { data in
+              HStack {
+                HStack(spacing: 5) {
+                  RoundedRectangle(cornerRadius: 2)
+                    .fill(data.color)
+                    .frame(width: 10, height: 10)
+                  Text(data.name)
+                    .font(.footnote)
+                    .foregroundColor(.darkGrey)
+                }
+                Spacer()
+                Text("\(data.amount.formattedAsCurrencySolid(with: currencySign))")
+                  .font(.system(.footnote, weight: .semibold))
               }
-              Rectangle()
-                .fill(Color.primaryGreen)
-                .frame(height: (service.budgetData.0 * 0.08))
-                .cornerRadius(5, corners: [.topLeft,.topRight])
-            }
-            VStack {
-              VStack(spacing: 0) {
-                Text("Added funds")
-                  .font(.footnoteMedium)
-                  .foregroundColor(.darkGrey)
-                Text("\(currencySign)\(service.budgetData.1.clean)")
-                  .font(.calloutBold)
-                  .foregroundColor(.black)
-              }
-              Rectangle()
-                .fill(Color(red: 0.384, green: 0.78, blue: 0.549))
-                .frame(height: (service.budgetData.1 * 0.08))
-                .cornerRadius(5, corners: [.topLeft,.topRight])
-            }
-            VStack {
-              VStack(spacing: 0) {
-                Text("Total spent")
-                  .font(.footnoteMedium)
-                  .foregroundColor(.darkGrey)
-                Text("\(currencySign)\(service.budgetData.2.clean)")
-                  .font(.calloutBold)
-                  .foregroundColor(.black)
-              }
-              Rectangle()
-                .fill(Color(uiColor: .systemGray5))
-                .frame(height: (service.budgetData.2 * 0.08))
-                .cornerRadius(5, corners: [.topLeft,.topRight])
             }
           }
         }
@@ -175,7 +162,7 @@ extension MonthRecapOverviewView {
               HStack(spacing: 10) {
                 ForEach(service.groupedTransactions, id: \.section) { data in
                   HStack(spacing: 3) {
-                    Circle()
+                    RoundedRectangle(cornerRadius: 2)
                       .fill(data.section.progressColor)
                       .frame(width: 7, height: 7)
                     Text(data.section.header)
@@ -203,19 +190,33 @@ extension MonthRecapOverviewView {
           .foregroundColor(.black)
         Spacer()
       }
-      if service.goalsData != 0 {
+      if service.goalTotalContribution != 0 {
         EXBaseCard {
-          HStack {
-            VStack(alignment: .leading, spacing: 3, content: {
-              Text("\(currencySign)\(service.goalsData.clean)")
-                .font(.title3Bold)
-              Text("You contributed towards goals")
-                .font(.footnoteRegular)
-                .foregroundColor(.darkGrey)
-            })
-            Spacer()
-            Image(Source.Images.Tabs.goals)
-              .foregroundColor(.primaryGreen)
+          VStack {
+            HStack {
+              VStack(alignment: .leading, spacing: 3, content: {
+                Text("\(service.goalTotalContribution.formattedAsCurrencySolid(with: currencySign))")
+                  .font(.title3Bold)
+                Text("You contributed towards goals")
+                  .font(.footnoteRegular)
+                  .foregroundColor(.darkGrey)
+              })
+              Spacer()
+              Image(Source.Images.Tabs.goals)
+                .foregroundColor(.primaryGreen)
+            }
+            Divider().padding(.vertical, 5)
+            VStack(spacing: 5) {
+              ForEach(service.goalContributionBreakdown) { goalData in
+                HStack {
+                  Text(goalData.name)
+                    .font(.footnote)
+                  Spacer()
+                  Text("\(goalData.totalAmount.formattedAsCurrencySolid(with: currencySign))")
+                    .font(.footnoteBold)
+                }
+              }
+            }
           }
         }
       } else {

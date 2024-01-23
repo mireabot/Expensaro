@@ -13,7 +13,7 @@ import RealmSwift
 struct TransactionDetailView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   
   // MARK: Realm
   @ObservedRealmObject var transaction: Transaction
@@ -33,11 +33,11 @@ struct TransactionDetailView: View {
             Text(transaction.name)
               .font(.title3Medium)
             if transaction.type == "Refill" {
-              Text("+ \(currencySign)\(transaction.amount.withDecimals)")
+              Text("+ \(transaction.amount.formattedAsCurrency(with: currencySign))")
                 .font(.largeTitleBold)
                 .foregroundStyle(Color.green)
             } else {
-              Text("\(currencySign)\(transaction.amount.withDecimals)")
+              Text("\(transaction.amount.formattedAsCurrency(with: currencySign))")
                 .font(.largeTitleBold)
             }
             Text(Source.Functions.showString(from: transaction.date))

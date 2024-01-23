@@ -12,7 +12,7 @@ import RealmSwift
 struct TransactionInsightsView: View {
   @State private var showAnalyticsDemo = false
   @ObservedObject var service : SelectedCategoryAnalyticsManager
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   var body: some View {
     Group {
       if service.isLocked {
@@ -28,7 +28,7 @@ struct TransactionInsightsView: View {
           VStack(alignment: .leading) {
             HStack {
               VStack(alignment: .leading, spacing: 0) {
-                Text("\(currencySign)\(service.averageSpent.clean)")
+                Text("\(service.averageSpent.formattedAsCurrency(with: currencySign))")
                   .font(.title3Bold)
                   .foregroundColor(.black)
                 Text("Avg. transaction amount")
@@ -54,7 +54,7 @@ struct TransactionInsightsView: View {
                       
                     Spacer()
                     
-                    Text("\(currencySign)\(transaction.amount.clean)")
+                    Text("\(transaction.amount.formattedAsCurrencySolid(with: currencySign))")
                       .font(.footnoteMedium)
                       .foregroundColor(.primaryGreen)
                   }
@@ -98,7 +98,7 @@ extension TransactionInsightsView {
       VStack(alignment: .leading) {
         HStack {
           VStack(alignment: .leading, spacing: 0) {
-            Text("\(currencySign)\(service.averageSpent.clean)")
+            Text("\(service.averageSpent.formattedAsCurrency(with: currencySign))")
               .font(.title3Bold)
               .foregroundColor(.black)
             Text("Avg. transaction amount")
@@ -116,7 +116,7 @@ extension TransactionInsightsView {
             .font(.footnoteMedium)
             .foregroundColor(.black)
           VStack(spacing: 10) {
-            ForEach(service.demoTransactions.prefix(3), id: \.amount) { transaction in
+            ForEach(Source.DefaultData.selectedTransactions.prefix(3), id: \.amount) { transaction in
               HStack(alignment: .center) {
                 Text(transaction.name)
                   .font(.footnoteRegular)
@@ -124,7 +124,7 @@ extension TransactionInsightsView {
                   
                 Spacer()
                 
-                Text("\(currencySign)\(transaction.amount.clean)")
+                Text("\(transaction.amount.formattedAsCurrencySolid(with: currencySign))")
                   .font(.footnoteMedium)
                   .foregroundColor(.primaryGreen)
               }

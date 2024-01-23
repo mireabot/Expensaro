@@ -15,7 +15,7 @@ struct AddRecurrentPaymentView: View {
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
   let notificationManager: NotificationManager = NotificationManager.shared
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   
   // MARK: Realm
   @Environment(\.realm) var realm
@@ -215,7 +215,7 @@ extension AddRecurrentPaymentView {
   @ViewBuilder
   func recurringTextField() -> some View {
     HStack {
-      Text(currencySign)
+      Text(Locale.current.localizedCurrencySymbol(forCurrencyCode: currencySign) ?? "$")
         .font(.system(.title2, weight: .medium))
       TextField("", text: $amountValue)
         .font(.system(.largeTitle, weight: .medium))
@@ -245,7 +245,7 @@ extension AddRecurrentPaymentView {
   func budgetSection() -> some View {
     EXBaseCard {
       VStack(alignment: .leading) {
-        Text("\(currencySign)\(budgetValue.clean)")
+        Text("\(budgetValue.formattedAsCurrency(with: currencySign))")
           .font(.title3Semibold)
           .foregroundColor(.primaryGreen)
         Text("Budget remaining")

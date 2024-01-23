@@ -10,7 +10,7 @@ import ExpensaroUIKit
 
 struct EXGoalTransactionCell: View {
   let goalTransaction: GoalTransaction
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   var body: some View {
     HStack(alignment: .center) {
       Text("💵")
@@ -29,7 +29,7 @@ struct EXGoalTransactionCell: View {
       
       Spacer()
       
-      Text("\(currencySign)\(goalTransaction.amount.withDecimals)")
+      Text("\(goalTransaction.amount.formattedAsCurrency(with: currencySign))")
         .font(.system(.subheadline, weight: .medium))
         .foregroundColor(.black)
     }

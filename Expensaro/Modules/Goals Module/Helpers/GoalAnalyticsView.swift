@@ -10,7 +10,7 @@ import ExpensaroUIKit
 
 struct GoalAnalyticsView: View {
   @ObservedObject var goalService: GoalAnalyticsService
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   var body: some View {
     EXBaseCard {
       VStack(alignment: .leading, spacing: 5, content: {
@@ -26,7 +26,7 @@ struct GoalAnalyticsView: View {
         HStack {
           smallInfoView(title: goalService.timeUnitTitle, text: "\(goalService.timeUnits)")
           Spacer()
-          Text("\(currencySign)\(goalService.amountPerTimeUnit.clean) / \(goalService.timeUnitName)")
+          Text("\(goalService.amountPerTimeUnit.formattedAsCurrencySolid(with: currencySign)) / \(goalService.timeUnitName)")
             .font(.system(.headline, weight: .semibold))
             .foregroundColor(.primaryGreen)
         }

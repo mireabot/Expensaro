@@ -11,12 +11,12 @@ import ExpensaroUIKit
 struct CurrencySelectorView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   var body: some View {
     NavigationView {
       List(Currency.allCurrencies, id: \.symbol) { currency in
         Button {
-          currencySign = currency.symbol
+          currencySign = currency.code
         } label: {
           HStack {
             VStack(alignment: .leading, spacing: 3) {
@@ -29,7 +29,7 @@ struct CurrencySelectorView: View {
             Spacer()
             Source.Images.Navigation.checkmark
               .foregroundColor(.primaryGreen)
-              .opacity(currencySign == currency.symbol ? 1 : 0)
+              .opacity(currencySign == currency.code ? 1 : 0)
           }
           .background(.white)
         }

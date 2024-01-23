@@ -13,7 +13,7 @@ import PopupView
 struct AddGoalTransactionView: View {
   // MARK: Essential
   @Environment(\.dismiss) var makeDismiss
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   
   // MARK: Realm
   @Environment(\.realm) var realm
@@ -94,7 +94,7 @@ extension AddGoalTransactionView {
   @ViewBuilder
   func goalTransactionTextField() -> some View {
     HStack {
-      Text(currencySign)
+      Text(Locale.current.localizedCurrencySymbol(forCurrencyCode: currencySign) ?? "$")
         .font(.system(.title2, weight: .medium))
       TextField("", text: $amountValue)
         .font(.system(.largeTitle, weight: .medium))
@@ -122,7 +122,7 @@ extension AddGoalTransactionView {
   func moneyLeft() -> some View {
     EXBaseCard {
       VStack(alignment: .leading) {
-        Text("\(currencySign)\(budgetValue.clean)")
+        Text(budgetValue.formattedAsCurrencySolid(with: currencySign))
           .font(.title3Semibold)
           .foregroundColor(.primaryGreen)
         Text("Funds needed for goal")

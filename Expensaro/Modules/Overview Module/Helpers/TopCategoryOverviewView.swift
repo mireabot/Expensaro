@@ -12,7 +12,7 @@ import Charts
 struct TopCategoryOverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   @ObservedObject var service : TopCategoryManager
   var body: some View {
     NavigationView {
@@ -22,7 +22,7 @@ struct TopCategoryOverviewView: View {
             Text(service.topCategory.0)
               .font(.title2Bold)
               .foregroundColor(.black)
-            Text("You top category for \(Appearance.shared.currentMonth)")
+            Text("Your top category for \(Appearance.shared.currentMonth)")
               .font(.footnoteRegular)
               .foregroundColor(.darkGrey)
           }
@@ -35,7 +35,7 @@ struct TopCategoryOverviewView: View {
         HStack {
           EXBaseCard {
             VStack(alignment: .leading, spacing: 3) {
-              Text("\(currencySign)\(service.topCategory.1.clean)")
+              Text("\(service.topCategory.1.formattedAsCurrencySolid(with: currencySign))")
                 .font(.title3Bold)
                 .foregroundColor(.black)
               Text("Total amount spent")
@@ -130,14 +130,14 @@ extension TopCategoryOverviewView {
     let backIcon = Source.Images.Navigation.back
     
     var currentMonth: Text {
-      return Text("\(Source.Functions.currentMonth())").foregroundColor(.primaryGreen).font(.footnoteSemibold)
+      return Text("\(Source.Functions.currentMonth(date: .now))").foregroundColor(.primaryGreen).font(.footnoteSemibold)
     }
   }
 }
 
 
 struct TopCategoryBar: View {
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   var total: Int
   var category: (String, Double)
   private var screenWidth: CGFloat {UIScreen.main.bounds.size.width }
@@ -170,7 +170,7 @@ struct TopCategoryBar: View {
       VStack(alignment: .leading, spacing: 3) {
         Text("\(category.0)")
           .font(.calloutBold)
-        Text("\(currencySign)\(category.1.clean)")
+        Text("\(category.1.formattedAsCurrencySolid(with: currencySign))")
           .font(.footnoteSemibold)
           .foregroundColor(.primaryGreen)
       }

@@ -11,7 +11,7 @@ import Shimmer
 
 struct EXTransactionCell: View {
   var transaction: Transaction
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   var body: some View {
     HStack(alignment: .center) {
       Text(transaction.categoryIcon)
@@ -31,11 +31,11 @@ struct EXTransactionCell: View {
       
       VStack(alignment: .trailing, spacing: 3) {
         if transaction.type == "Refill" {
-          Text("+\(currencySign)\(transaction.amount.withDecimals)")
+          Text("+\(transaction.amount.formattedAsCurrency(with: currencySign))")
             .font(.system(.subheadline, weight: .semibold))
             .foregroundStyle(Color.green)
         } else {
-          Text("\(currencySign)\(transaction.amount.withDecimals)")
+          Text(transaction.amount.formattedAsCurrency(with: currencySign))
             .font(.system(.subheadline, weight: .medium))
         }
         if !transaction.type.isEmpty {
@@ -53,6 +53,7 @@ struct TransactionCell_Previews: PreviewProvider {
   static var previews: some View {
     VStack {
       EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[0])
+      EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[1])
     }
     .applyMargins()
   }

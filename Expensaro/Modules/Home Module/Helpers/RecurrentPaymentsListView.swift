@@ -13,7 +13,7 @@ struct RecurrentPaymentsListView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   @State var currentDate: Date = Date()
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   
   // MARK: Presentation
   @State private var showAddPayment = false
@@ -157,7 +157,7 @@ extension RecurrentPaymentsListView {
   func headerView() -> some View {
     EXBaseCard {
       VStack(alignment: .center, spacing: 3) {
-        Text("\(currencySign)\(totalRecurringPayments.clean)")
+        Text("\(totalRecurringPayments.formattedAsCurrency(with: currencySign))")
           .font(.title3Semibold)
         Text("Total spent on recurring payments")
           .font(.footnoteRegular)

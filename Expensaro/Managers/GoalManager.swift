@@ -9,15 +9,19 @@ import Foundation
 import Combine
 import SwiftUI
 
-final class GoalMathManager: ObservableObject {
-  init() {
-    
-  }
+final class GoalManager: ObservableObject {
+  init() {}
   
   @Published var isLoading: Bool = false
   @Published var successRate: Double = 0
   @Published var rateInformation: GoalSuccessRate = .noData
   
+  /// Function calculates goal success rate by selected parameters
+  /// - Parameters:
+  ///   - monthlyExpensesBudget: Initial budget for current month
+  ///   - goalAmount: Amount to save with goal
+  ///   - daysToGoal: Days left until goal
+  ///   - daysInMonth: Constant Int(30)
   func calculateSuccessRate(monthlyExpensesBudget: Double, goalAmount: Double, daysToGoal: Int, daysInMonth: Int = 30) {
     withAnimation(.interactiveSpring) {
       isLoading = true
@@ -32,7 +36,9 @@ final class GoalMathManager: ObservableObject {
     }
   }
   
-  func infoForSuccessRate(_ successRate: Double) {
+  /// Function changes description values depend on rate value
+  /// - Parameter successRate: Input parameter of goal success rate
+  private func infoForSuccessRate(_ successRate: Double) {
     switch successRate {
     case 0..<35:
       rateInformation = .highRisk
