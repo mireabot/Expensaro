@@ -78,38 +78,6 @@ extension RecurringTransaction {
   }
 }
 
-// MARK: Default recurring transactions for previews
-enum DefaultRecurringTransactions {
-  static var transaction1: RecurringTransaction {
-    let transaction = RecurringTransaction()
-    transaction.name = "Netflix"
-    transaction.amount = 12.99
-    transaction.dueDate = Calendar.current.date(byAdding: .day, value: 7, to: Date()) ?? Date()
-    transaction.type = "Debit"
-    transaction.categoryName = "Subscription"
-    transaction.categoryIcon = Source.Strings.Categories.Images.subscriptions
-    transaction.isReminder = false
-    return transaction
-  }
-  
-  static var transaction2: RecurringTransaction {
-    let transaction = RecurringTransaction()
-    transaction.name = "Gym Membership long name"
-    transaction.amount = 29.99
-    transaction.dueDate = Date()
-    transaction.type = "Credit"
-    transaction.categoryName = "Subscription"
-    transaction.categoryIcon = Source.Strings.Categories.Images.subscriptions
-    transaction.isReminder = true
-    return transaction
-  }
-  
-  static let sampleRecurringTransactions = [
-    transaction1,
-    transaction2
-  ]
-}
-
 // MARK: Struct to combine recurring payments by due date
 struct RecurrentPaymentData: Identifiable{
   var id = UUID().uuidString

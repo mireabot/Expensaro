@@ -71,7 +71,7 @@ struct EXGoalCell: View {
 
 struct GoalCell_Previews: PreviewProvider {
   static var previews: some View {
-    EXGoalCell(goal: DefaultGoals.goal1)
+    EXGoalCell(goal: Source.DefaultData.sampleGoals[0])
       .applyMargins()
   }
 }
@@ -79,13 +79,13 @@ struct GoalCell_Previews: PreviewProvider {
 struct EXGoalCellLoading: View {
   var body: some View {
     VStack {
-      EXGoalCell(goal: DefaultGoals.goal1)
+      EXGoalCell(goal: Source.DefaultData.sampleGoals[0])
         .redacted(reason: .placeholder)
         .shimmering()
-      EXGoalCell(goal: DefaultGoals.goal1)
+      EXGoalCell(goal: Source.DefaultData.sampleGoals[0])
         .redacted(reason: .placeholder)
         .shimmering()
-      EXGoalCell(goal: DefaultGoals.goal1)
+      EXGoalCell(goal: Source.DefaultData.sampleGoals[0])
         .redacted(reason: .placeholder)
         .shimmering()
     }

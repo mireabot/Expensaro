@@ -161,7 +161,7 @@ struct RecurrentPaymentDetailView: View {
 
 struct RecurrentPaymentDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    RecurrentPaymentDetailView(transaction: DefaultRecurringTransactions.transaction2, budget: Budget())
+    RecurrentPaymentDetailView(transaction: Source.DefaultData.sampleRecurringPayments[0], budget: Budget())
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }

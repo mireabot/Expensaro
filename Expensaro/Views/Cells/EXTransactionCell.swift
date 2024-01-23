@@ -52,8 +52,8 @@ struct EXTransactionCell: View {
 struct TransactionCell_Previews: PreviewProvider {
   static var previews: some View {
     VStack {
-      EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[0])
-      EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[1])
+      EXTransactionCell(transaction: Source.DefaultData.sampleTransactions[0])
+      EXTransactionCell(transaction: Source.DefaultData.sampleTransactions[1])
     }
     .applyMargins()
   }
@@ -62,9 +62,9 @@ struct TransactionCell_Previews: PreviewProvider {
 struct EXTransactionCellLoading: View {
   var body: some View {
     VStack {
-      EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[0]).redacted(reason: .placeholder).shimmering()
-      EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[0]).redacted(reason: .placeholder).shimmering()
-      EXTransactionCell(transaction: DefaultTransactions.defaultTransactions[0]).redacted(reason: .placeholder).shimmering()
+      EXTransactionCell(transaction: Source.DefaultData.sampleTransactions[0]).redacted(reason: .placeholder).shimmering()
+      EXTransactionCell(transaction: Source.DefaultData.sampleTransactions[0]).redacted(reason: .placeholder).shimmering()
+      EXTransactionCell(transaction: Source.DefaultData.sampleTransactions[0]).redacted(reason: .placeholder).shimmering()
     }
   }
 }

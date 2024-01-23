@@ -37,8 +37,8 @@ struct EXRecurringTransactionCell: View {
 struct RecurrentPaymentCell_Previews: PreviewProvider {
   static var previews: some View {
     HStack {
-      EXRecurringTransactionCell(payment: DefaultRecurringTransactions.sampleRecurringTransactions[0])
-      EXRecurringTransactionCell(payment: DefaultRecurringTransactions.sampleRecurringTransactions[1])
+      EXRecurringTransactionCell(payment: Source.DefaultData.sampleRecurringPayments[0])
+      EXRecurringTransactionCell(payment: Source.DefaultData.sampleRecurringPayments[1])
     }
     .padding([.leading,.trailing], 16)
   }
@@ -77,8 +77,8 @@ extension EXRecurringTransactionCell {
 struct EXRecurringTransactionCellLoading: View {
   var body: some View {
     HStack {
-      EXRecurringTransactionCell(payment: DefaultRecurringTransactions.sampleRecurringTransactions[0]).redacted(reason: .placeholder).shimmering()
-      EXRecurringTransactionCell(payment: DefaultRecurringTransactions.sampleRecurringTransactions[1]).redacted(reason: .placeholder).shimmering()
+      EXRecurringTransactionCell(payment: Source.DefaultData.sampleRecurringPayments[0]).redacted(reason: .placeholder).shimmering()
+      EXRecurringTransactionCell(payment: Source.DefaultData.sampleRecurringPayments[0]).redacted(reason: .placeholder).shimmering()
     }
   }
 }

@@ -37,7 +37,7 @@ struct GoalAnalyticsView: View {
 }
 
 #Preview {
-  GoalAnalyticsView(goalService: GoalAnalyticsService(goal: DefaultGoals.goal1)).applyMargins()
+  GoalAnalyticsView(goalService: GoalAnalyticsService(goal: Source.DefaultData.sampleGoals[0])).applyMargins()
 }
 
 // MARK: - Appearance

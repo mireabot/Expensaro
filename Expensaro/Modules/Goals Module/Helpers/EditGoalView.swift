@@ -92,7 +92,7 @@ struct EditGoalView: View {
 
 struct EditGoalView_Previews: PreviewProvider {
   static var previews: some View {
-    EditGoalView(goal: DefaultGoals.goal1)
+    EditGoalView(goal: Source.DefaultData.sampleGoals[0])
   }
 }
 

@@ -141,7 +141,7 @@ struct GoalDetailView: View {
 
 struct GoalDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    GoalDetailView(goal: DefaultGoals.goal3)
+    GoalDetailView(goal: Source.DefaultData.sampleGoals[2])
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }

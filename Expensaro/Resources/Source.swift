@@ -218,11 +218,48 @@ enum Source {
       
       return category
     }
+    
+    /// Fuction creates RecurringTransaction realm object
+    /// - Parameters:
+    ///   - name: payment name
+    ///   - amount: payment amount
+    ///   - dueDate: payment due date
+    ///   - type: payment type
+    ///   - category: payment category (Name, Icon)
+    ///   - isReminder: payment reminder condition
+    /// - Returns: Filled object of RecurringTransaction
+    static func createRecurringPayment(name: String, amount: Double, dueDate: Date, type: String, category: (String, String), isReminder: Bool) -> RecurringTransaction {
+      let transaction = RecurringTransaction()
+      transaction.name = name
+      transaction.amount = amount
+      transaction.dueDate = dueDate
+      transaction.type = type
+      transaction.categoryName = category.0
+      transaction.categoryIcon = category.1
+      transaction.isReminder = isReminder
+      return transaction
+    }
+    
+    /// Function creates Goal realm object
+    /// - Parameters:
+    ///   - name: goal name
+    ///   - amount: goal amount to save
+    ///   - currentAmount: goal current saved amount
+    ///   - dueDate: goal due date
+    /// - Returns: Filled object of Goal
+    static func createGoal(name: String, amount: Double, currentAmount: Double, dueDate: Date) -> Goal {
+      let goal = Goal()
+      goal.name = name
+      goal.finalAmount = amount
+      goal.currentAmount = currentAmount
+      goal.dueDate = dueDate
+      return goal
+    }
   }
   
   static let wishKEY = "1279B306-A1C9-4CB0-8D14-4A2413F72075"
   static let postKEY = "phc_WtmXwcSHIS0p77Dvk2uSuwRt8Mm2VDCMJCZY0BWda0l"
-  static let adminMode = true
+  static let adminMode = false
   
   enum DefaultData {
     // Sample transactions for analytics
@@ -291,6 +328,17 @@ enum Source {
       Source.Realm.createCategory(icon: "👕", name: "Clothes", tag: .base, section: .other),
       Source.Realm.createCategory(icon: "📔", name: "Other", tag: .base, section: .other),
       Source.Realm.createCategory(icon: "🩹", name: "Healthcare", tag: .base, section: .other),
+    ]
+    // Sample recurring payments
+    static let sampleRecurringPayments: [RecurringTransaction] = [
+      Source.Realm.createRecurringPayment(name: "Netflix", amount: 12.99, dueDate: Calendar.current.date(byAdding: .day, value: 7, to: Date()) ?? Date(), type: "Debit", category: ("Subscription", "🔄"), isReminder: false),
+      Source.Realm.createRecurringPayment(name: "Gym Membership", amount: 130, dueDate: Date(), type: "Credit", category: ("Subscription", "🔄"), isReminder: true)
+    ]
+    // Sample goals
+    static let sampleGoals: [Goal] = [
+      Source.Realm.createGoal(name: "Vacation Fund", amount: 1000, currentAmount: 500, dueDate: Date().addingTimeInterval(60 * 60 * 24 * 90)),
+      Source.Realm.createGoal(name: "New Laptop", amount: 1500, currentAmount: 1500, dueDate: Date().addingTimeInterval(60 * 60 * 24 * 90)),
+      Source.Realm.createGoal(name: "Failed Goal", amount: 1000, currentAmount: 100, dueDate: Date().addingTimeInterval(-60 * 60 * 24 * 30)),
     ]
   }
 }
