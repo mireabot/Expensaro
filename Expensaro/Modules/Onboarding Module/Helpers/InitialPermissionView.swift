@@ -26,7 +26,7 @@ struct InitialPermissionView: View {
   
   // MARK: Variables
   @State private var currencyText = "US Dollar ($)"
-  @State private var currencySymbol = "$"
+  @State private var currencySymbol = "USD"
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: 0) {
@@ -117,35 +117,10 @@ struct InitialPermissionView_Previews: PreviewProvider {
 // MARK: - Realm Functions
 extension InitialPermissionView {
   func writeCategories() {
-    let loadedCategories: [Category] = [
-      Source.Realm.createCategory(icon: "🔄", name: "Subscription", tag: .base, section: .entertainment),
-      Source.Realm.createCategory(icon: "🎫", name: "Entertainment", tag: .base, section: .entertainment),
-      Source.Realm.createCategory(icon: "🎨", name: "Hobby", tag: .base, section: .entertainment),
-      
-      Source.Realm.createCategory(icon: "🥡", name: "Going out", tag: .base, section: .food),
-      Source.Realm.createCategory(icon: "🛒", name: "Groceries", tag: .base, section: .food),
-      
-      Source.Realm.createCategory(icon: "🧾", name: "Bills", tag: .base, section: .housing),
-      Source.Realm.createCategory(icon: "🏠", name: "Utilities", tag: .base, section: .housing),
-      
-      Source.Realm.createCategory(icon: "🚈", name: "Public transport", tag: .base, section: .transportation),
-      Source.Realm.createCategory(icon: "🚘", name: "Car", tag: .base, section: .transportation),
-      
-      Source.Realm.createCategory(icon: "📚", name: "Education", tag: .base, section: .lifestyle),
-      Source.Realm.createCategory(icon: "🛩️", name: "Travel", tag: .base, section: .lifestyle),
-      Source.Realm.createCategory(icon: "🛍️", name: "Shopping", tag: .base, section: .lifestyle),
-      Source.Realm.createCategory(icon: "📦", name: "Delivery", tag: .base, section: .lifestyle),
-      Source.Realm.createCategory(icon: "🎮", name: "Gaming", tag: .base, section: .lifestyle),
-      Source.Realm.createCategory(icon: "🐾", name: "Animals", tag: .base, section: .lifestyle),
-      
-      Source.Realm.createCategory(icon: "👕", name: "Clothes", tag: .base, section: .other),
-      Source.Realm.createCategory(icon: "📔", name: "Other", tag: .base, section: .other),
-      Source.Realm.createCategory(icon: "🩹", name: "Healthcare", tag: .base, section: .other),
-    ]
     let realm = try! Realm()
     
     try? realm.write({
-      realm.add(loadedCategories)
+      realm.add(Source.DefaultData.loadedCategories)
     })
   }
 }
@@ -157,7 +132,7 @@ extension InitialPermissionView {
     NavigationView {
       List(Currency.allCurrencies, id: \.symbol) { currency in
         Button {
-          currencySymbol = currency.symbol
+          currencySymbol = currency.code
           currencyText = "\(currency.name) (\(currency.symbol))"
           showSelector = false
         } label: {
@@ -172,7 +147,7 @@ extension InitialPermissionView {
             Spacer()
             Source.Images.Navigation.checkmark
               .foregroundColor(.primaryGreen)
-              .opacity(currencySymbol == currency.symbol ? 1 : 0)
+              .opacity(currencySymbol == currency.code ? 1 : 0)
           }
           .background(.white)
         }

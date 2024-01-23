@@ -12,7 +12,7 @@ import RealmSwift
 struct GoalsListView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   @State private var showAddGoalView = false
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   
   @State private var showListAnimation = false
   @ObservedResults(Goal.self, sortDescriptor: SortDescriptor(keyPath: \Goal.dueDate, ascending: true)) var goals
@@ -94,7 +94,7 @@ extension GoalsListView {
           Text("You saved in total")
             .font(.system(.subheadline, weight: .regular))
             .foregroundColor(.darkGrey)
-          Text("\(currencySign)\(totalSavings, specifier: "%.0f")")
+          Text("\(totalSavings.formattedAsCurrencySolid(with: currencySign))")
             .font(.system(.title3, weight: .medium))
         }
         Spacer()

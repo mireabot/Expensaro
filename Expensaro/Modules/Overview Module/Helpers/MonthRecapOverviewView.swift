@@ -13,7 +13,7 @@ import RealmSwift
 struct MonthRecapOverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   
   @ObservedObject var service: MonthRecapService
   // MARK: Presentation
@@ -112,7 +112,7 @@ extension MonthRecapOverviewView {
                     .foregroundColor(.darkGrey)
                 }
                 Spacer()
-                Text("\(data.amount, format: .currency(code: "USD"))")
+                Text("\(data.amount.formattedAsCurrencySolid(with: currencySign))")
                   .font(.system(.footnote, weight: .semibold))
               }
             }
@@ -195,7 +195,7 @@ extension MonthRecapOverviewView {
           VStack {
             HStack {
               VStack(alignment: .leading, spacing: 3, content: {
-                Text("\(currencySign)\(service.goalTotalContribution.clean)")
+                Text("\(service.goalTotalContribution.formattedAsCurrencySolid(with: currencySign))")
                   .font(.title3Bold)
                 Text("You contributed towards goals")
                   .font(.footnoteRegular)
@@ -212,7 +212,7 @@ extension MonthRecapOverviewView {
                   Text(goalData.name)
                     .font(.footnote)
                   Spacer()
-                  Text("\(currencySign)\(goalData.totalAmount.clean)")
+                  Text("\(goalData.totalAmount.formattedAsCurrencySolid(with: currencySign))")
                     .font(.footnoteBold)
                 }
               }

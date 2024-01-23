@@ -14,7 +14,7 @@ struct EditGoalView: View {
   // MARK: Essential
   @Environment(\.dismiss) var makeDismiss
   @State private var amountValue: String = "0.0"
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   
   // MARK: Realm
   @ObservedRealmObject var goal: Goal
@@ -114,7 +114,7 @@ extension EditGoalView {
   @ViewBuilder
   func goalTextField() -> some View {
     HStack {
-      Text(currencySign)
+      Text(Locale.current.localizedCurrencySymbol(forCurrencyCode: currencySign) ?? "$")
         .font(.system(.title2, weight: .medium))
       TextField("", text: $amountValue)
         .font(.system(.largeTitle, weight: .medium))

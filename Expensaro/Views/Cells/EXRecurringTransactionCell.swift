@@ -11,7 +11,7 @@ import Shimmer
 
 struct EXRecurringTransactionCell: View {
   var payment: RecurringTransaction
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   var body: some View {
     VStack(alignment: .leading, spacing: 5, content: {
       Text(payment.categoryIcon)
@@ -20,7 +20,7 @@ struct EXRecurringTransactionCell: View {
         .font(.system(.headline, weight: .semibold))
         .multilineTextAlignment(.leading)
         .lineLimit(1)
-      Text("\(currencySign)\(payment.amount.withDecimals)")
+      Text(payment.amount.formattedAsCurrency(with: currencySign))
         .font(.system(.headline, weight: .semibold))
       
       smallInfoView(title: "Due \(Source.Functions.showString(from: payment.dueDate))", text: daysLeftString(for: payment.daysLeftUntilDueDate))

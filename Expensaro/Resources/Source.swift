@@ -266,5 +266,31 @@ enum Source {
       Source.Realm.createTransaction(name: "Pharmacy", date: .now, category: ("Medicine", "🩹", .other), amount: 9.99, type: "Debit", note: ""),
       Source.Realm.createTransaction(name: "Taxi Ride", date: .now, category: ("Taxi", "🚕", .lifestyle), amount: 55, type: "Credit", note: "")
     ]
+    // Default categories which loading when setup
+    static let loadedCategories: [Category] = [
+      Source.Realm.createCategory(icon: "🔄", name: "Subscription", tag: .base, section: .entertainment),
+      Source.Realm.createCategory(icon: "🎫", name: "Entertainment", tag: .base, section: .entertainment),
+      Source.Realm.createCategory(icon: "🎨", name: "Hobby", tag: .base, section: .entertainment),
+      
+      Source.Realm.createCategory(icon: "🥡", name: "Going out", tag: .base, section: .food),
+      Source.Realm.createCategory(icon: "🛒", name: "Groceries", tag: .base, section: .food),
+      
+      Source.Realm.createCategory(icon: "🧾", name: "Bills", tag: .base, section: .housing),
+      Source.Realm.createCategory(icon: "🏠", name: "Utilities", tag: .base, section: .housing),
+      
+      Source.Realm.createCategory(icon: "🚈", name: "Public transport", tag: .base, section: .transportation),
+      Source.Realm.createCategory(icon: "🚘", name: "Car", tag: .base, section: .transportation),
+      
+      Source.Realm.createCategory(icon: "📚", name: "Education", tag: .base, section: .lifestyle),
+      Source.Realm.createCategory(icon: "🛩️", name: "Travel", tag: .base, section: .lifestyle),
+      Source.Realm.createCategory(icon: "🛍️", name: "Shopping", tag: .base, section: .lifestyle),
+      Source.Realm.createCategory(icon: "📦", name: "Delivery", tag: .base, section: .lifestyle),
+      Source.Realm.createCategory(icon: "🎮", name: "Gaming", tag: .base, section: .lifestyle),
+      Source.Realm.createCategory(icon: "🐾", name: "Animals", tag: .base, section: .lifestyle),
+      
+      Source.Realm.createCategory(icon: "👕", name: "Clothes", tag: .base, section: .other),
+      Source.Realm.createCategory(icon: "📔", name: "Other", tag: .base, section: .other),
+      Source.Realm.createCategory(icon: "🩹", name: "Healthcare", tag: .base, section: .other),
+    ]
   }
 }

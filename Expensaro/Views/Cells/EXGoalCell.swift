@@ -11,7 +11,7 @@ import Shimmer
 
 struct EXGoalCell: View {
   let goal: Goal
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   var body: some View {
     VStack(alignment: .leading, spacing: 7) {
       HStack {
@@ -25,7 +25,7 @@ struct EXGoalCell: View {
         Text("\(goal.currentAmount.clean)")
           .font(.system(.subheadline, weight: .medium))
           .lineLimit(3)
-        Text(" / \(currencySign)\(goal.finalAmount.clean)")
+        Text(" / \(goal.finalAmount.formattedAsCurrencySolid(with: currencySign))")
           .foregroundColor(.darkGrey)
           .font(.system(.footnote, weight: .regular))
           .lineLimit(3)

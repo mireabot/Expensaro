@@ -14,7 +14,7 @@ struct RecurrentPaymentDetailView: View {
   // MARK: - Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   let notificationManager: NotificationManager = NotificationManager.shared
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   
   // MARK: - Realm
   @ObservedRealmObject var transaction: RecurringTransaction
@@ -37,7 +37,7 @@ struct RecurrentPaymentDetailView: View {
             Text(transaction.name)
               .font(.title3Medium)
             
-            Text("\(currencySign)\(transaction.amount.withDecimals)")
+            Text("\(transaction.amount.formattedAsCurrency(with: currencySign))")
               .font(.largeTitleBold)
             
             Text("Next payment date: \(transaction.isDue ? daysLeftString(for: transaction.daysLeftUntilDueDate) : Source.Functions.showString(from: transaction.dueDate))")

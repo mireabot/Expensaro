@@ -11,7 +11,7 @@ import ExpensaroUIKit
 struct OverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
-  @AppStorage("currencySign") private var currencySign = "$"
+  @AppStorage("currencySign") private var currencySign = "USD"
   
   // MARK: Variables
   @State private var sheetHeight: CGFloat = .zero
@@ -42,7 +42,7 @@ struct OverviewView: View {
           AnalyticsManager.shared.log(.openTopCategoryPreview)
           router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(service: topCategoryService)))
         }, bottomView: {
-          EXOverviewCard(header: "Top Category", title: "Electronics", icon: Source.Images.Navigation.redirect, subHeader: "You have spent \(currencySign)2000 on this category")
+          EXOverviewCard(header: "Top Category", title: "Electronics", icon: Source.Images.Navigation.redirect, subHeader: "You have spent \(Double(2000).formattedAsCurrencySolid(with: currencySign)) on this category")
         })
         .applyMargins()
         .presentationDetents([.fraction(0.4)])
@@ -99,7 +99,7 @@ extension OverviewView {
         router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(service: topCategoryService)))
         AnalyticsManager.shared.log(.openTopCategory)
       }, label: {
-        EXOverviewCard(header: "Top Category", title: topCategoryService.topCategory.0, icon: Source.Images.Navigation.redirect, subHeader: "You have spent $\(topCategoryService.topCategory.1.clean) on this category")
+        EXOverviewCard(header: "Top Category", title: topCategoryService.topCategory.0, icon: Source.Images.Navigation.redirect, subHeader: "You have spent \(topCategoryService.topCategory.1.formattedAsCurrencySolid(with: currencySign)) on this category")
       })
       .buttonStyle(EXPlainButtonStyle())
     } else {

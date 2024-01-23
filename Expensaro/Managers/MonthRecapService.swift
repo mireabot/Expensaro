@@ -63,8 +63,11 @@ final class MonthRecapService: ObservableObject {
       budgetData.0 = 2000
       budgetData.1 = 780
       budgetData.2 = 1600
-      goalTotalContribution = 2450
+      goalTotalContribution = 1600
       groupSections(with: Source.DefaultData.sampleTransactions)
+      goalContributionBreakdown = [
+        GoalSummary(name: "MacBook Pro", totalAmount: 1600)
+      ]
     }
   }
   
