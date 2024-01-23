@@ -56,7 +56,7 @@ extension MonthRecapOverviewView {
     let backIcon = Source.Images.Navigation.back
     
     var currentMonth: Text {
-      return Text("\(Source.Functions.currentMonth())") .font(.largeTitleBold)
+      return Text("\(Source.Functions.currentMonth(date: .now))") .font(.largeTitleBold)
     }
   }
 }
@@ -162,7 +162,7 @@ extension MonthRecapOverviewView {
               HStack(spacing: 10) {
                 ForEach(service.groupedTransactions, id: \.section) { data in
                   HStack(spacing: 3) {
-                    Circle()
+                    RoundedRectangle(cornerRadius: 2)
                       .fill(data.section.progressColor)
                       .frame(width: 7, height: 7)
                     Text(data.section.header)
@@ -190,19 +190,33 @@ extension MonthRecapOverviewView {
           .foregroundColor(.black)
         Spacer()
       }
-      if service.goalsData != 0 {
+      if service.goalTotalContribution != 0 {
         EXBaseCard {
-          HStack {
-            VStack(alignment: .leading, spacing: 3, content: {
-              Text("\(currencySign)\(service.goalsData.clean)")
-                .font(.title3Bold)
-              Text("You contributed towards goals")
-                .font(.footnoteRegular)
-                .foregroundColor(.darkGrey)
-            })
-            Spacer()
-            Image(Source.Images.Tabs.goals)
-              .foregroundColor(.primaryGreen)
+          VStack {
+            HStack {
+              VStack(alignment: .leading, spacing: 3, content: {
+                Text("\(currencySign)\(service.goalTotalContribution.clean)")
+                  .font(.title3Bold)
+                Text("You contributed towards goals")
+                  .font(.footnoteRegular)
+                  .foregroundColor(.darkGrey)
+              })
+              Spacer()
+              Image(Source.Images.Tabs.goals)
+                .foregroundColor(.primaryGreen)
+            }
+            Divider().padding(.vertical, 5)
+            VStack(spacing: 5) {
+              ForEach(service.goalContributionBreakdown) { goalData in
+                HStack {
+                  Text(goalData.name)
+                    .font(.footnote)
+                  Spacer()
+                  Text("\(currencySign)\(goalData.totalAmount.clean)")
+                    .font(.footnoteBold)
+                }
+              }
+            }
           }
         }
       } else {

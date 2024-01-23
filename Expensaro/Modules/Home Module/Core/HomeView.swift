@@ -258,7 +258,7 @@ extension HomeView {
             Text("Spendings for")
               .font(.system(.subheadline, weight: .regular))
               .foregroundColor(.darkGrey)
-            Text("\(Source.Functions.currentMonth())")
+            Text("\(Source.Functions.currentMonth(date: .now))")
               .font(.system(.title3, weight: .semibold))
           }
           Spacer()

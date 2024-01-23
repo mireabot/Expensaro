@@ -116,7 +116,7 @@ extension TransactionInsightsView {
             .font(.footnoteMedium)
             .foregroundColor(.black)
           VStack(spacing: 10) {
-            ForEach(service.demoTransactions.prefix(3), id: \.amount) { transaction in
+            ForEach(Source.DefaultData.selectedTransactions.prefix(3), id: \.amount) { transaction in
               HStack(alignment: .center) {
                 Text(transaction.name)
                   .font(.footnoteRegular)

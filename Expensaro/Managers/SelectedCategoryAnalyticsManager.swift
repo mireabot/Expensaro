@@ -10,14 +10,6 @@ import RealmSwift
 
 final class SelectedCategoryAnalyticsManager: ObservableObject {
   @ObservedResults(Transaction.self, filter: NSPredicate(format: "date >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg), sortDescriptor: SortDescriptor(keyPath: \Transaction.amount, ascending: false)) var transactions
-  let demoTransactions: [Transaction] = [
-    Source.Realm.createTransaction(name: "Dinner and Show", date: .now, category: ("","",.other), amount: 120, type: "", note: ""),
-    Source.Realm.createTransaction(name: "Concert Extravaganza", date: .now, category: ("","",.other), amount: 80, type: "", note: ""),
-    Source.Realm.createTransaction(name: "Amusement Park", date: .now, category: ("","",.other), amount: 75, type: "", note: ""),
-    Source.Realm.createTransaction(name: "Movie Night", date: .now, category: ("","",.other), amount: 45, type: "", note: ""),
-    Source.Realm.createTransaction(name: "Gaming Galore", date: .now, category: ("","",.other), amount: 60, type: "", note: ""),
-    Source.Realm.createTransaction(name: "Escape Room", date: .now, category: ("","",.other), amount: 30, type: "", note: ""),
-  ]
   var selectedCategory: String = ""
   
   @Published var isLocked: Bool = true
@@ -28,6 +20,7 @@ final class SelectedCategoryAnalyticsManager: ObservableObject {
     self.selectedCategory = selectedCategory
   }
   
+  /// Function calculates average amount for array of fetched transactions
   func calculateAverage() {
     let convertedArray = transactions.toArray()
     transactionsList = convertedArray.filter({$0.categoryName == self.selectedCategory })
@@ -40,8 +33,9 @@ final class SelectedCategoryAnalyticsManager: ObservableObject {
     self.isLocked = false
   }
   
+  /// Function calculates average amount spent for demo set of transactions
   func calculateAverageDemo() {
-    let totalAmount = demoTransactions.reduce(0.0) {$0 + $1.amount}
-    averageSpent = totalAmount / Double(demoTransactions.count)
+    let totalAmount = Source.DefaultData.selectedTransactions.reduce(0.0) {$0 + $1.amount}
+    averageSpent = totalAmount / Double(Source.DefaultData.selectedTransactions.count)
   }
 }

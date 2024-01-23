@@ -130,7 +130,7 @@ extension TopCategoryOverviewView {
     let backIcon = Source.Images.Navigation.back
     
     var currentMonth: Text {
-      return Text("\(Source.Functions.currentMonth())").foregroundColor(.primaryGreen).font(.footnoteSemibold)
+      return Text("\(Source.Functions.currentMonth(date: .now))").foregroundColor(.primaryGreen).font(.footnoteSemibold)
     }
   }
 }

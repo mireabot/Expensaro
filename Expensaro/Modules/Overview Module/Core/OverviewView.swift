@@ -56,7 +56,7 @@ struct OverviewView: View {
             AnalyticsManager.shared.log(.openMonthRecapPreview)
             router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView(service: monthRecapService)))
           }, bottomView: {
-            EXOverviewCard(header: "Month recap", title: formattedDate(date: getPastMonthDates().0), icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")
+            EXOverviewCard(header: "Month recap", title: Source.Functions.currentMonth(date: Source.Functions.getPastMonthDates().0), icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")
           })
           .applyMargins()
         })

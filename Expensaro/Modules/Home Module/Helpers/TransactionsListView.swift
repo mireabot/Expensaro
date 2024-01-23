@@ -89,7 +89,7 @@ struct TransactionsListView: View {
             .font(.footnoteRegular)
             .foregroundColor(.darkGrey)
         }
-        Text("\(Source.Functions.currentMonth())")
+        Text("\(Source.Functions.currentMonth(date: .now))")
           .font(.title3Semibold)
         VStack(alignment: .center, spacing: 0) {
           Text("\(currencySign)\(totalSpent.withDecimals)")

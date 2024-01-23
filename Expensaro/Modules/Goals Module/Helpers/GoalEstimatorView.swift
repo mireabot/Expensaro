@@ -10,7 +10,7 @@ import ExpensaroUIKit
 import Shimmer
 
 struct GoalEstimatorView: View {
-  @ObservedObject var goalManager : GoalMathManager
+  @ObservedObject var goalManager : GoalManager
   var goalInfo: (Double, Double, Int)
   var body: some View {
     VStack {
