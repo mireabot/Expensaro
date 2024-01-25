@@ -8,7 +8,7 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
-import PostHog
+import Aptabase
 
 @main
 struct ExpensaroApp: SwiftUI.App {
@@ -36,14 +36,7 @@ struct ContentView: View {
 class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    // TODO: Move API Key to Source
-    let configuration = PHGPostHogConfiguration(apiKey: Source.postKEY, host: "https://us.posthog.com")
-
-    configuration.captureApplicationLifecycleEvents = true;
-    configuration.capturePushNotifications = true
-
-    PHGPostHog.setup(with: configuration)
-    
+    Aptabase.shared.initialize(appKey: Source.aptaBaseKEY)
     return true
   }
   

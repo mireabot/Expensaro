@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import PostHog
+import Aptabase
 
 final class AnalyticsManager {
   private init() {}
@@ -19,57 +19,57 @@ final class AnalyticsManager {
     } else {
       switch event {
       case .createdBudget(let amount, let date):
-        PHGPostHog.shared()?.capture(event.name, properties: ["amount" : amount, "date" : date])
+        Aptabase.shared.trackEvent(event.name, with: ["amount" : amount, "date" : date])
       case .updatedBudget(let amount):
-        PHGPostHog.shared()?.capture(event.name, properties: ["amount" : amount])
+        Aptabase.shared.trackEvent(event.name, with: ["amount" : amount])
       case .createdReminder(let paymentName):
-        PHGPostHog.shared()?.capture(event.name, properties: ["paymentName" : paymentName])
+        Aptabase.shared.trackEvent(event.name, with: ["paymentName" : paymentName])
       case .deniedReminder(let paymentName):
-        PHGPostHog.shared()?.capture(event.name, properties: ["paymentName" : paymentName])
+        Aptabase.shared.trackEvent(event.name, with: ["paymentName" : paymentName])
       case .modifiedReminder(let paymentName):
-        PHGPostHog.shared()?.capture(event.name, properties: ["paymentName" : paymentName])
+        Aptabase.shared.trackEvent(event.name, with: ["paymentName" : paymentName])
       case .editPayment:
-        PHGPostHog.shared()?.capture(event.name)
+        Aptabase.shared.trackEvent(event.name)
       case .deletePayment:
-        PHGPostHog.shared()?.capture(event.name)
+        Aptabase.shared.trackEvent(event.name)
       case .createPayment(let name, let amount):
-        PHGPostHog.shared()?.capture(event.name, properties: ["name" : name, "amount" : amount])
+        Aptabase.shared.trackEvent(event.name, with: ["name" : name, "amount" : amount])
       case .createTransaction(let name, let amount, let category):
-        PHGPostHog.shared()?.capture(event.name, properties: ["name" : name, "amount" : amount, "category" : category])
+        Aptabase.shared.trackEvent(event.name, with: ["name" : name, "amount" : amount, "category" : category])
       case .madeNote(let text):
-        PHGPostHog.shared()?.capture(event.name, properties: ["text" : text])
+        Aptabase.shared.trackEvent(event.name, with: ["text" : text])
       case .openedSelectedAnalyticsPreview:
-        PHGPostHog.shared()?.capture(event.name)
+        Aptabase.shared.trackEvent(event.name)
       case .editTransaction:
-        PHGPostHog.shared()?.capture(event.name)
+        Aptabase.shared.trackEvent(event.name)
       case .deleteTransaction:
-        PHGPostHog.shared()?.capture(event.name)
+        Aptabase.shared.trackEvent(event.name)
       case .createGoal(let name, let amount):
-        PHGPostHog.shared()?.capture(event.name, properties: ["name" : name, "amount" : amount])
+        Aptabase.shared.trackEvent(event.name, with: ["name" : name, "amount" : amount])
       case .deleteGoal:
-        PHGPostHog.shared()?.capture(event.name)
+        Aptabase.shared.trackEvent(event.name)
       case .editGoal:
-        PHGPostHog.shared()?.capture(event.name)
+        Aptabase.shared.trackEvent(event.name)
       case .addMoneyToGoal(let amount):
-        PHGPostHog.shared()?.capture(event.name, properties: ["amount" : amount])
+        Aptabase.shared.trackEvent(event.name, with: ["amount" : amount])
       case .openTopCategoryPreview:
-        PHGPostHog.shared()?.capture(event.name)
+        Aptabase.shared.trackEvent(event.name)
       case .openMonthRecapPreview:
-        PHGPostHog.shared()?.capture(event.name)
+        Aptabase.shared.trackEvent(event.name)
       case .openTopCategory:
-        PHGPostHog.shared()?.capture(event.name)
+        Aptabase.shared.trackEvent(event.name)
       case .openMonthRecap:
-        PHGPostHog.shared()?.capture(event.name)
+        Aptabase.shared.trackEvent(event.name)
       case .openCategoryBreakdown:
-        PHGPostHog.shared()?.capture(event.name)
+        Aptabase.shared.trackEvent(event.name)
       case .createCategory(let name, let folder):
-        PHGPostHog.shared()?.capture(event.name, properties: ["name" : name, "section" : folder])
+        Aptabase.shared.trackEvent(event.name, with: ["name" : name, "section" : folder])
       case .removeReminders:
-        PHGPostHog.shared()?.capture(event.name)
+        Aptabase.shared.trackEvent(event.name)
       case .deleteAccount:
-        PHGPostHog.shared()?.capture(event.name)
+        Aptabase.shared.trackEvent(event.name)
       case .sendFeedback(let date, let message, let email):
-        PHGPostHog.shared()?.capture(event.name, properties: ["message" : message, "date" : date, "email" : email])
+        Aptabase.shared.trackEvent(event.name, with: ["message" : message, "date" : date, "email" : email])
       }
     }
   }
