@@ -104,6 +104,9 @@ struct RecurrentPaymentDetailView: View {
         bottomActionButton().padding(.bottom, 16)
         
       })
+      .onFirstAppear {
+        print(transaction.contributions)
+      }
       .popup(isPresented: $showDeleteAlert) {
         EXAlert(type: .deletePayment, primaryAction: { deletePayment() }, secondaryAction: {showDeleteAlert.toggle()}).applyMargins()
       } customize: {
@@ -251,10 +254,21 @@ extension RecurrentPaymentDetailView {
       }
       notificationManager.deleteNotification(for: newTransaction)
       try? realm.write {
+        realm.delete(newTransaction.contributions)
         realm.delete(newTransaction)
       }
     }
     router.nav?.popViewController(animated: true)
+  }
+  
+  func addContribution() {
+    if let payment = transaction.thaw(), let realm = payment.realm {
+      AnalyticsManager.shared.log(.paymentRenewed(payment.name, payment.amount))
+      let contribution = Source.Realm.createPaymentContribution(amount: payment.amount, date: Date())
+      try? realm.write {
+        payment.contributions.append(contribution)
+      }
+    }
   }
   
   func updateNotification(with value: Bool) {
@@ -310,6 +324,7 @@ extension RecurrentPaymentDetailView {
       showError.toggle()
     } else {
       renewPayment()
+      addContribution()
     }
   }
 }

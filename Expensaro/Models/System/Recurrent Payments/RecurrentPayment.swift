@@ -19,6 +19,16 @@ final class RecurringTransaction: Object, ObjectKeyIdentifiable {
   @Persisted var schedule: RecurringSchedule = RecurringSchedule.everyWeek
   @Persisted var note: String = ""
   @Persisted var isReminder: Bool = false
+  
+  @Persisted var contributions: RealmSwift.List<PaymentContributions> = RealmSwift.List<PaymentContributions>()
+}
+
+class PaymentContributions: Object, ObjectKeyIdentifiable {
+  @Persisted(primaryKey: true) var id: ObjectId
+  @Persisted var amount: Double
+  @Persisted var date: Date = Date()
+  
+  @Persisted(originProperty: "contributions") var payment: LinkingObjects<RecurringTransaction>
 }
 
 enum RecurringSchedule: String, CaseIterable, PersistableEnum {

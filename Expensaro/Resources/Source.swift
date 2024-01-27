@@ -255,6 +255,17 @@ enum Source {
       goal.dueDate = dueDate
       return goal
     }
+    
+    /// Function creates object of Payment Contribution
+    /// - Parameters:
+    ///   - amount: Payment to renew amount
+    ///   - date: Date when payment was renewed
+    static func createPaymentContribution(amount: Double, date: Date) -> PaymentContributions {
+      let contribution = PaymentContributions()
+      contribution.amount = amount
+      contribution.date = date
+      return contribution
+    }
   }
   
   static let wishKEY = "1279B306-A1C9-4CB0-8D14-4A2413F72075"
