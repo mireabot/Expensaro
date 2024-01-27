@@ -139,8 +139,8 @@ struct AddRecurrentPaymentView: View {
         EXAlert(type: .createReminder) {
           recurringPayment.isReminder = true
           AnalyticsManager.shared.log(.createdReminder(recurringPayment.name))
-          notificationManager.scheduleTriggerNotification(for: recurringPayment)
           createPayment()
+          notificationManager.scheduleTriggerNotification(for: recurringPayment)
           DispatchQueue.main.async {
             showReminderAlert.toggle()
             makeDismiss()

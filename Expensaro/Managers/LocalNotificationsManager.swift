@@ -12,6 +12,7 @@ final class NotificationManager: NSObject, UNUserNotificationCenterDelegate{
   //Singleton is requierd because of delegate
   static let shared: NotificationManager = NotificationManager()
   let notificationCenter = UNUserNotificationCenter.current()
+  @AppStorage("currencySign") private var currencySign = "USD"
   
   private override init(){
     super.init()
@@ -40,16 +41,21 @@ final class NotificationManager: NSObject, UNUserNotificationCenterDelegate{
   func scheduleTriggerNotification(for payment: RecurringTransaction) {
     print(#function)
     let content = UNMutableNotificationContent()
-    content.title = "\(payment.name) payment is due today"
-    content.body = "Update Your Payment! Renew or cancel your upcoming payment."
+    content.title = "\(payment.name) is due tomorrow"
+    content.body = "Your \(payment.amount.formattedAsCurrencySolid(with: currencySign)) \(payment.name) payment is due tomorrow. Don't forget to renew or cancel as needed!"
     content.sound = UNNotificationSound.default
     
-    let comps = Calendar.current.dateComponents([.year,.month,.day], from: Source.Functions.localDate(with: payment.dueDate))
+    let dueDate = Source.Functions.localDate(with: payment.dueDate)
+    let calendar = Calendar.current
     
-    let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
-    
-    let request = UNNotificationRequest(identifier: "Payment\(payment.id)", content: content, trigger: trigger)
-    notificationCenter.add(request)
+    if let dayBeforeDueDate = calendar.date(byAdding: .day, value: -1, to: dueDate) {
+      let components = calendar.dateComponents([.year, .month, .day], from: dayBeforeDueDate)
+      let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+      let request = UNNotificationRequest(identifier: "Payment\(payment.id)", content: content, trigger: trigger)
+      notificationCenter.add(request)
+    } else {
+      print("Cannot perform scheduling")
+    }
   }
   
   func deleteNotification(for payment: RecurringTransaction) {

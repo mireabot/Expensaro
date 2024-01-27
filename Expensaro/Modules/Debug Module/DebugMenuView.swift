@@ -8,10 +8,12 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
+import UserNotifications
 
 struct DebugMenuView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   let notificationManager: NotificationManager = NotificationManager.shared
+  @AppStorage("currencySign") private var currencySign = "USD"
   
   // MARK: - Realm
   @ObservedResults(Budget.self) var budgets
@@ -58,10 +60,14 @@ struct DebugMenuView: View {
             } label: {
               Text("Add transactions")
             }
+            Button {
+              testNotification()
+            } label: {
+              Text("Test Notification")
+            }
           } header: {
             Text("Actions")
           }
-
         }
       }
       .onFirstAppear {
@@ -148,6 +154,22 @@ struct DebugMenuView: View {
     try? realm.write({
       realm.add(sampleTransactions)
     })
+  }
+  
+  private func testNotification() {
+    let content = UNMutableNotificationContent()
+    content.title = "Netflix is due tomorrow"
+    content.body = "Your \(Double(6.99).formattedAsCurrencySolid(with: currencySign)) Netflix payment is due tomorrow. Don't forget to renew or cancel as needed!"
+    content.sound = UNNotificationSound.default
+    
+    // show this notification five seconds from now
+    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+    
+    // choose a random identifier
+    let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+    
+    // add our notification request
+    UNUserNotificationCenter.current().add(request)
   }
 }
 

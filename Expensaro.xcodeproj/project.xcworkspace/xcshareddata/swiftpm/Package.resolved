@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/exyte/PopupView",
       "state" : {
-        "revision" : "4e64eb67d4510c96f82efd9e34b8fa5b9b397791",
-        "version" : "2.8.3"
+        "revision" : "d34361fa70d57af2fffde2f1e8863de1f25bd0a3",
+        "version" : "2.8.4"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core.git",
       "state" : {
-        "revision" : "7227d6a447821c28895daa099b6c7cd4c99d461b",
-        "version" : "13.25.1"
+        "revision" : "a5e87a39cffdcc591f3203c11cfca68100d0b9a6",
+        "version" : "13.26.0"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-swift.git",
       "state" : {
-        "revision" : "836cc4b8619886f979f8961c3f592a82b0741591",
-        "version" : "10.45.3"
+        "revision" : "eafdd3720a8cc750bdd38bf776082d2c8cf743fc",
+        "version" : "10.46.0"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/markiv/SwiftUI-Shimmer",
       "state" : {
-        "revision" : "1f3a620e4abe890d00008cb2af7023d810b433a7",
-        "version" : "1.4.0"
+        "revision" : "2c632edd0832213aec63910bdd6903ef84389a2f",
+        "version" : "1.4.1"
       }
     },
     {
