@@ -104,9 +104,6 @@ struct RecurrentPaymentDetailView: View {
         bottomActionButton().padding(.bottom, 16)
         
       })
-      .onFirstAppear {
-        print(transaction.contributions)
-      }
       .popup(isPresented: $showDeleteAlert) {
         EXAlert(type: .deletePayment, primaryAction: { deletePayment() }, secondaryAction: {showDeleteAlert.toggle()}).applyMargins()
       } customize: {

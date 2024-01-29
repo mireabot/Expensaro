@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSUserNotificationsUsageDescription</key>
-	<string>FOR REMINDERS</string>
+	<string>Enable notifications to receive timely reminders about your upcoming recurring payments.</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 </dict>
