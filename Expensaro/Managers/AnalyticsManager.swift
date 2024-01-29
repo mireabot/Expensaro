@@ -70,6 +70,8 @@ final class AnalyticsManager {
         Aptabase.shared.trackEvent(event.name)
       case .sendFeedback(let date, let message, let email):
         Aptabase.shared.trackEvent(event.name, with: ["message" : message, "date" : date, "email" : email])
+      case .paymentRenewed(let name, let amount):
+        Aptabase.shared.trackEvent(event.name, with: ["name" : name, "amount" : amount])
       }
     }
   }
@@ -86,6 +88,7 @@ enum AnalyticsEvents {
   case deletePayment
   case createPayment(String, Double)
   case createTransaction(String, Double, String)
+  case paymentRenewed(String, Double)
   case madeNote(String)
   case openedSelectedAnalyticsPreview
   case editTransaction
@@ -158,6 +161,8 @@ enum AnalyticsEvents {
       return "Account deleted"
     case .sendFeedback:
       return "Feedback sent"
+    case .paymentRenewed:
+      return "Payment renewed"
     }
   }
 }

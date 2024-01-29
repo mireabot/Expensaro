@@ -22,30 +22,35 @@ struct TransactionsListView: View {
   var body: some View {
     NavigationView {
       ScrollView(showsIndicators: false) {
-        headerView().padding(.top, 20)
         if chunkedTransactions.isEmpty {
           EXEmptyStateView(type: .noTransactions, isCard: false).padding(.top, 30)
         } else {
-          LazyVStack(spacing: 10) {
-            ForEach(chunkedTransactions, id: \.self) { transactions in
-              Section {
-                ForEach(transactions) { transaction in
-                  Button {
-                    router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionDetailView(transaction: transaction, budget: currentBudget)))
-                  } label: {
-                    EXTransactionCell(transaction: transaction)
+          LazyVStack(alignment: .center, spacing: 0, pinnedViews: [.sectionHeaders]) {
+            Section {
+              LazyVStack(spacing: 10) {
+                ForEach(chunkedTransactions, id: \.self) { transactions in
+                  Section {
+                    ForEach(transactions) { transaction in
+                      Button {
+                        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionDetailView(transaction: transaction, budget: currentBudget)))
+                      } label: {
+                        EXTransactionCell(transaction: transaction)
+                      }
+                      .buttonStyle(EXPlainButtonStyle())
+                    }
+                  } header: {
+                    listHeader(transactions.first!.date)
                   }
-                  .buttonStyle(EXPlainButtonStyle())
                 }
-              } header: {
-                listHeader(transactions.first!.date)
               }
+              .padding(.bottom, 10)
+              .applyMargins()
+            } header: {
+              headerView()
             }
           }
-          .padding(.bottom, 10)
         }
       }
-      .applyMargins()
       .fullScreenCover(isPresented: $showAddTransaction, content: {
         AddTransactionView(transaction: Transaction(), budget: currentBudget)
           .presentationDetents([.large])
@@ -102,6 +107,9 @@ struct TransactionsListView: View {
       .padding(4)
       .frame(maxWidth: .infinity, alignment: .center)
     }
+    .padding(.vertical, 10)
+    .padding(.horizontal, 16)
+    .background(Color.white)
   }
 }
 

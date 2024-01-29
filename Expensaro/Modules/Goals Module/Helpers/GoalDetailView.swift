@@ -211,6 +211,7 @@ extension GoalDetailView {
     showDeleteAlert.toggle()
     if let newGoal = goal.thaw(), let realm = newGoal.realm {
       try? realm.write {
+        realm.delete(newGoal.transactions)
         realm.delete(newGoal)
       }
       router.nav?.popViewController(animated: true)

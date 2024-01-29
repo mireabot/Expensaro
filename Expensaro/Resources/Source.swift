@@ -17,6 +17,9 @@ enum Source {
       static let menu = Image("menu")
       static let swipeDown = Image("swipeDown")
       static let redirect = Image("redirect")
+      static let down = Image("down")
+      static let up = Image("up")
+      static let swipeDirections = Image("swipeDirections")
     }
     enum Tabs {
       static let home = "home"
@@ -91,6 +94,16 @@ enum Source {
     enum BottomInfo {
       static let spendings = Image("spendingsInfo")
       static let topCategory = Image("topCategoryInfo")
+    }
+    enum AppFeatures {
+      static let customCategories = Image("customCategories")
+      static let goalSuccessRate = Image("goalSuccessRate")
+      static let paymentAlerts = Image("paymentAlerts")
+      static let previousMonthRecap = Image("previousMonthRecap")
+      static let recapCategoriesBreakdown = Image("recapCategoriesBreakdown")
+      static let selectedCategoryBreakdown = Image("selectedCategoryBreakdown")
+      static let smartGoalsPaymentSuggestions = Image("smartGoalsPaymentSuggestions")
+      static let topCategoryAnalytics = Image("topCategoryAnalytics")
     }
   }
   
@@ -254,6 +267,17 @@ enum Source {
       goal.currentAmount = currentAmount
       goal.dueDate = dueDate
       return goal
+    }
+    
+    /// Function creates object of Payment Contribution
+    /// - Parameters:
+    ///   - amount: Payment to renew amount
+    ///   - date: Date when payment was renewed
+    static func createPaymentContribution(amount: Double, date: Date) -> PaymentContributions {
+      let contribution = PaymentContributions()
+      contribution.amount = amount
+      contribution.date = date
+      return contribution
     }
   }
   
