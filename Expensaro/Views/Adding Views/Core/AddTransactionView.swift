@@ -50,7 +50,6 @@ struct AddTransactionView: View {
               budgetSection()
             }
             EXTextField(text: $transaction.name, header: "Transaction name", placeholder: Appearance.shared.textFieldPlaceholder)
-              .autocorrectionDisabled()
               .focused($isFieldFocused)
             Button(action: {
               showCategoriesSelector.toggle()

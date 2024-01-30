@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mireabot/ExpensaroUIKit",
       "state" : {
-        "revision" : "5c782714cb1b2aebb895a1f5456fa43f88ff873e",
-        "version" : "1.2.16"
+        "revision" : "7baaa931011cd569db979d92570bfe73767aa09c",
+        "version" : "1.2.18"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/markiv/SwiftUI-Shimmer",
       "state" : {
-        "revision" : "2c632edd0832213aec63910bdd6903ef84389a2f",
-        "version" : "1.4.1"
+        "revision" : "5659a623567cefe258d1e3e67cb65585fbb6ecb6",
+        "version" : "1.4.2"
       }
     },
     {

@@ -13,19 +13,8 @@ struct DateSelectorView: View {
   let type: SelectorType
   @Binding var selectedDate: Date
   var body: some View {
-    ViewThatFits(in: .vertical) {
+    NavigationView(content: {
       VStack {
-        HStack {
-          Text(type.title)
-            .font(.title3Semibold)
-          Spacer()
-          Button(action: {
-            makeDismiss()
-          }, label: {
-            Source.Images.Navigation.close
-              .foregroundColor(.black)
-          })
-        }.padding(.bottom, 20)
         DatePicker(
           "Start Date",
           selection: $selectedDate,
@@ -33,11 +22,26 @@ struct DateSelectorView: View {
         )
         .tint(.primaryGreen)
         .datePickerStyle(.graphical)
+        .frame(height: 320)
       }
       .applyMargins()
-    }
-    .padding(.top, 20)
-    .background(.white)
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbarBackground(.white, for: .navigationBar)
+      .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+          Text(type.title)
+            .font(.title3Semibold)
+        }
+        ToolbarItem(placement: .topBarTrailing) {
+          Button(action: {
+            makeDismiss()
+          }, label: {
+            Source.Images.Navigation.close
+              .foregroundColor(.black)
+          })
+        }
+      }
+    })
   }
 }
 
@@ -69,7 +73,7 @@ extension DateSelectorView {
       case .setGoalDate:
         return "Set goal completion date"
       case .setRecurrentDate:
-        return "Set pay date"
+        return "Set payment due date"
       case .updateGoalDate:
         return "Set new completion date"
       case .updateTransaction:

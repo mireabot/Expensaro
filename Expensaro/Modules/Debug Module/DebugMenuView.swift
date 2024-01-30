@@ -56,9 +56,9 @@ struct DebugMenuView: View {
               Text("Update categories")
             }
             Button {
-              createTransactions()
+              createDemoProfile()
             } label: {
-              Text("Add transactions")
+              Text("Create Demo Profile")
             }
             Button {
               testNotification()
@@ -136,23 +136,15 @@ struct DebugMenuView: View {
     })
   }
   
-  private func createTransactions() {
-    let sampleTransactions: [Transaction] = [
-      Source.Realm.createTransaction(name: "Snack Vending", date: .now, category: ("Food", "🥡", .food), amount: 10, type: "Debit", note: ""),
-      Source.Realm.createTransaction(name: "Bookstore Buy", date: .now, category: ("Books", "📕", .lifestyle), amount: 78.66, type: "Credit", note: ""),
-      Source.Realm.createTransaction(name: "Gas Station", date: .now, category: ("Car", "🚗", .transportation), amount: 56, type: "Debit", note: ""),
-      Source.Realm.createTransaction(name: "Coffee", date: .now, category: ("Take out", "☕️", .food), amount: 7.88, type: "Credit", note: ""),
-      Source.Realm.createTransaction(name: "Movie Ticket", date: .now, category: ("Tickets", "🎫", .entertainment), amount: 18, type: "Debit", note: ""),
-      Source.Realm.createTransaction(name: "Lunch Order", date: .now, category: ("Food", "🥡", .food), amount: 17, type: "Credit", note: ""),
-      Source.Realm.createTransaction(name: "Parking Fee", date: .now, category: ("Car", "🚗", .transportation), amount: 99, type: "Credit", note: ""),
-      Source.Realm.createTransaction(name: "Pharmacy", date: .now, category: ("Medicine", "🩹", .other), amount: 9.99, type: "Debit", note: ""),
-      Source.Realm.createTransaction(name: "Taxi Ride", date: .now, category: ("Taxi", "🚕", .lifestyle), amount: 55, type: "Credit", note: "")
-    ]
-    
+  private func createDemoProfile() {
     let realm = try! Realm()
     
     try? realm.write({
-      realm.add(sampleTransactions)
+      realm.add(Source.DefaultData.sampleBudget)
+      realm.add(Source.DefaultData.samplePreviousBudget)
+      realm.add(Source.DefaultData.sampleTransactions)
+      realm.add(Source.DefaultData.sampleRecurringPayments)
+      realm.add(Source.DefaultData.sampleGoals)
     })
   }
   

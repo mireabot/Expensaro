@@ -44,7 +44,6 @@ struct AddGoalView: View {
             goalTextField()
             
             EXTextField(text: $goal.name, header: "Goal name", placeholder: Appearance.shared.placeholder)
-              .autocorrectionDisabled()
               .focused($isFieldFocused)
             
             Button(action: { showDateSheet.toggle() }, label: {
@@ -80,6 +79,7 @@ struct AddGoalView: View {
       })
       .sheet(isPresented: $showDateSheet) {
         DateSelectorView(type: .setGoalDate, selectedDate: $goal.dueDate)
+          .frame(height: 400)
           .modifier(GetHeightModifier(height: $sheetHeight))
           .presentationDetents([.height(sheetHeight)])
       }

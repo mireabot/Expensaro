@@ -35,7 +35,6 @@ struct AddCategoryView: View {
             .padding(12)
           
           EXTextField(text: $category.name, header: "Category name", placeholder: "Ex. Metrocard")
-            .autocorrectionDisabled()
             .focused($isFocused)
           
           Button(action: {

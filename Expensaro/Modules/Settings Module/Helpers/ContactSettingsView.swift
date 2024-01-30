@@ -26,7 +26,6 @@ struct ContactSettingsView: View {
               .font(.system(.headline, weight: .regular))
               .foregroundColor(.black)
             EXResizableTextField(message: $message, characterLimit: 1500)
-              .autocorrectionDisabled()
               .focused($isFocused)
               .multilineSubmitEnabled(for: $message)
           }

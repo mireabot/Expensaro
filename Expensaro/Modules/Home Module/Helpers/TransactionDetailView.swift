@@ -155,7 +155,6 @@ private extension TransactionDetailView {
       }
       .padding(.top, 20)
       EXResizableTextField(message: $transaction.note, characterLimit: 300)
-        .autocorrectionDisabled()
         .multilineSubmitEnabled(for: $transaction.note)
       Button {
         showNoteView.toggle()

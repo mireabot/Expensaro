@@ -279,6 +279,14 @@ enum Source {
       contribution.date = date
       return contribution
     }
+    
+    static func createBudget(amount: Double, date: Date, initialAmount: Double) -> Budget {
+      let budget = Budget()
+      budget.initialAmount = initialAmount
+      budget.amount = amount
+      budget.dateCreated = date
+      return budget
+    }
   }
   
   static let wishKEY = "1279B306-A1C9-4CB0-8D14-4A2413F72075"
@@ -288,23 +296,66 @@ enum Source {
   enum DefaultData {
     // Sample transactions for analytics
     static let sampleTransactions: [Transaction] = [
-      Source.Realm.createTransaction(name: "Gaming Laptop Purchase", date: Date(), category: ("Electronics", "💻", .lifestyle), amount: 1200.00, type: "Credit Card", note: "Ordered the latest gaming laptop."),
-      Source.Realm.createTransaction(name: "Organic Grocery Haul", date: Date(), category: ("Groceries", "🛒", .lifestyle), amount: 150.75, type: "Debit Card", note: "Purchased organic groceries for the week."),
-      Source.Realm.createTransaction(name: "Smart Home Energy Bill", date: Date(), category: ("Utilities", "⚡", .housing), amount: 80.50, type: "Online Banking", note: "Paid monthly bill for smart home energy management."),
-      Source.Realm.createTransaction(name: "Michelin Star Dining", date: Date(), category: ("Dining", "🍽️", .food), amount: 75.30, type: "Cash", note: "Enjoyed a gourmet dinner at a Michelin-starred restaurant."),
-      Source.Realm.createTransaction(name: "Streaming Service Renewal", date: Date(), category: ("Subscription", "🎬", .entertainment), amount: 99.99, type: "PayPal", note: "Renewed annual subscription for deluxe 4K streaming."),
-      Source.Realm.createTransaction(name: "Fitness Equipment Purchase", date: Date(), category: ("Sports", "🏋️", .lifestyle), amount: 300.00, type: "Credit Card", note: "Bought new fitness equipment for home workouts."),
-      Source.Realm.createTransaction(name: "Bookstore Splurge", date: Date(), category: ("Books", "📚", .lifestyle), amount: 45.50, type: "Debit Card", note: "Treated myself to a selection of new books."),
-      Source.Realm.createTransaction(name: "Home Decor Shopping", date: Date(), category: ("Home", "🛋️", .housing), amount: 200.00, type: "Credit Card", note: "Purchased new decor items for the living room."),
-      Source.Realm.createTransaction(name: "Weekend Getaway Expenses", date: Date(), category: ("Travel", "✈️", .lifestyle), amount: 500.00, type: "Credit Card", note: "Spent on accommodation and dining during the weekend trip."),
-      Source.Realm.createTransaction(name: "Car Maintenance", date: Date(), category: ("Automotive", "🚗", .other), amount: 120.00, type: "Debit Card", note: "Routine maintenance for the car."),
-      Source.Realm.createTransaction(name: "Tech Gadget Pre-order", date: Date(), category: ("Electronics", "🔧", .lifestyle), amount: 800.00, type: "Credit Card", note: "Pre-ordered the latest tech gadget."),
-      Source.Realm.createTransaction(name: "Health Insurance Premium", date: Date(), category: ("Insurance", "🏥", .other), amount: 150.00, type: "Online Banking", note: "Paid monthly health insurance premium."),
-      Source.Realm.createTransaction(name: "Concert Tickets", date: Date(), category: ("Entertainment", "🎤", .entertainment), amount: 120.00, type: "Credit Card", note: "Bought tickets for upcoming concert."),
-      Source.Realm.createTransaction(name: "Home Office Upgrade", date: Date(), category: ("Office", "🖥️", .other), amount: 250.00, type: "Debit Card", note: "Upgraded home office setup with new equipment."),
-      Source.Realm.createTransaction(name: "Coffee Shop Treat", date: Date(), category: ("Dining", "☕", .food), amount: 10.50, type: "Cash", note: "Indulged in a special coffee treat."),
-      Source.Realm.createTransaction(name: "Renovation Supplies", date: Date(), category: ("Home", "🔨", .housing), amount: 350.00, type: "Credit Card", note: "Purchased supplies for home renovation."),
-      Source.Realm.createTransaction(name: "Charitable Donation", date: Date(), category: ("Charity", "🤝", .lifestyle), amount: 50.00, type: "Online Banking", note: "Contributed to a local charity.")
+      Source.Realm.createTransaction(name: "Snack Vending", date: randomDateInCurrentMonth(), category: ("Food", "🥡", .food), amount: 10, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Grocery Shopping", date: randomDateInCurrentMonth(), category: ("Food", "🛒", .food), amount: 45.30, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Bookstore Purchase", date: randomDateInCurrentMonth(), category: ("Books", "📕", .lifestyle), amount: 25, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Gas Refill", date: randomDateInCurrentMonth(), category: ("Car", "🚗", .transportation), amount: 60, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Coffee Break", date: randomDateInCurrentMonth(), category: ("Take out", "☕️", .food), amount: 5.75, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Cinema Night", date: randomDateInCurrentMonth(), category: ("Tickets", "🎫", .entertainment), amount: 20, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Fast Food Lunch", date: randomDateInCurrentMonth(), category: ("Food", "🍔", .food), amount: 12.50, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Parking Charge", date: randomDateInCurrentMonth(), category: ("Car", "🅿️", .transportation), amount: 8, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Pharmacy Visit", date: randomDateInCurrentMonth(), category: ("Medicine", "💊", .other), amount: 30, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Taxi to Downtown", date: randomDateInCurrentMonth(), category: ("Taxi", "🚕", .lifestyle), amount: 22, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Online Subscription", date: randomDateInCurrentMonth(), category: ("Entertainment", "🎵", .entertainment), amount: 9.99, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Utility Bill", date: randomDateInCurrentMonth(), category: ("Utilities", "💡", .other), amount: 75, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Gym Membership", date: randomDateInCurrentMonth(), category: ("Fitness", "🏋️", .lifestyle), amount: 50, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Hardware Store", date: randomDateInCurrentMonth(), category: ("Home Improvement", "🛠️", .lifestyle), amount: 35.20, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Pet Food", date: randomDateInCurrentMonth(), category: ("Pets", "🐾", .other), amount: 18.45, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Train Ticket", date: randomDateInCurrentMonth(), category: ("Transport", "🚆", .transportation), amount: 15, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Haircut", date: randomDateInCurrentMonth(), category: ("Personal Care", "💇", .lifestyle), amount: 25, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Garden Supplies", date: randomDateInCurrentMonth(), category: ("Gardening", "🌷", .lifestyle), amount: 40.60, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Restaurant Dinner", date: randomDateInCurrentMonth(), category: ("Food", "🍽️", .food), amount: 55, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Electronics Store", date: randomDateInCurrentMonth(), category: ("Electronics", "🔌", .lifestyle), amount: 120, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Bakery Visit", date: randomDateInCurrentMonth(), category: ("Food", "🍞", .food), amount: 8.40, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Online Gaming", date: randomDateInCurrentMonth(), category: ("Games", "🎮", .entertainment), amount: 30, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Art Supplies", date: randomDateInCurrentMonth(), category: ("Art", "🖌️", .lifestyle), amount: 45, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Flower Shop", date: randomDateInCurrentMonth(), category: ("Gifts", "🌹", .other), amount: 35, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Bicycle Repair", date: randomDateInCurrentMonth(), category: ("Bike", "🚲", .transportation), amount: 20, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Book Club Subscription", date: randomDateInCurrentMonth(), category: ("Books", "📚", .lifestyle), amount: 12, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Dry Cleaning", date: randomDateInCurrentMonth(), category: ("Laundry", "🧺", .other), amount: 15, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Mobile Recharge", date: randomDateInCurrentMonth(), category: ("Telecom", "📱", .lifestyle), amount: 30, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Yoga Class", date: randomDateInCurrentMonth(), category: ("Wellness", "🧘", .lifestyle), amount: 20, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Veterinary Visit", date: randomDateInCurrentMonth(), category: ("Pets", "🐕", .other), amount: 60, type: "Credit", note: ""), // End of current month transactions
+      Source.Realm.createTransaction(name: "Evening Snack", date: randomDateInPreviousMonth(), category: ("Food", "🥨", .food), amount: 8, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Book Club", date: randomDateInPreviousMonth(), category: ("Books", "📚", .lifestyle), amount: 15, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Fuel Top-Up", date: randomDateInPreviousMonth(), category: ("Car", "⛽️", .transportation), amount: 45, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Tea Time", date: randomDateInPreviousMonth(), category: ("Take out", "🍵", .food), amount: 3.50, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Concert Tickets", date: randomDateInPreviousMonth(), category: ("Tickets", "🎟️", .entertainment), amount: 60, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Deli Lunch", date: randomDateInPreviousMonth(), category: ("Food", "🥪", .food), amount: 12.75, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Toll Fees", date: randomDateInPreviousMonth(), category: ("Car", "🚦", .transportation), amount: 5, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Health Store", date: randomDateInPreviousMonth(), category: ("Medicine", "🌿", .other), amount: 26.40, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Uber Ride", date: randomDateInPreviousMonth(), category: ("Taxi", "🚖", .lifestyle), amount: 18, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Streaming Service", date: randomDateInPreviousMonth(), category: ("Entertainment", "📺", .entertainment), amount: 12.99, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Electricity Bill", date: randomDateInPreviousMonth(), category: ("Utilities", "⚡️", .other), amount: 70, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Fitness Class", date: randomDateInPreviousMonth(), category: ("Fitness", "🤸‍♀️", .lifestyle), amount: 30, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "DIY Project", date: randomDateInPreviousMonth(), category: ("Home Improvement", "🔨", .lifestyle), amount: 50, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Pet Supplies", date: randomDateInPreviousMonth(), category: ("Pets", "🐱", .other), amount: 22.30, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Bus Fare", date: randomDateInPreviousMonth(), category: ("Transport", "🚌", .transportation), amount: 2.50, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Barber Shop", date: randomDateInPreviousMonth(), category: ("Personal Care", "✂️", .lifestyle), amount: 18, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Nursery Purchase", date: randomDateInPreviousMonth(), category: ("Gardening", "🌻", .lifestyle), amount: 35, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Dine Out", date: randomDateInPreviousMonth(), category: ("Food", "🍖", .food), amount: 65, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Tech Gadgets", date: randomDateInPreviousMonth(), category: ("Electronics", "💻", .lifestyle), amount: 150, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Pastry Shop", date: randomDateInPreviousMonth(), category: ("Food", "🥐", .food), amount: 9.20, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Video Game Purchase", date: randomDateInPreviousMonth(), category: ("Games", "🕹️", .entertainment), amount: 50, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Art Gallery", date: randomDateInPreviousMonth(), category: ("Art", "🎨", .lifestyle), amount: 40, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Gift Shop", date: randomDateInPreviousMonth(), category: ("Gifts", "🎁", .other), amount: 30, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Bike Service", date: randomDateInPreviousMonth(), category: ("Bike", "🔧", .transportation), amount: 25, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Reading Subscription", date: randomDateInPreviousMonth(), category: ("Books", "🔖", .lifestyle), amount: 10, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Laundry Service", date: randomDateInPreviousMonth(), category: ("Laundry", "🧼", .other), amount: 20, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Cellular Plan", date: randomDateInPreviousMonth(), category: ("Telecom", "📞", .lifestyle), amount: 35, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Meditation Class", date: randomDateInPreviousMonth(), category: ("Wellness", "🕉️", .lifestyle), amount: 15, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Vet Appointment", date: randomDateInPreviousMonth(), category: ("Pets", "🐢", .other), amount: 55, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Café Visit", date: randomDateInPreviousMonth(), category: ("Food", "🍰", .food), amount: 12, type: "Debit", note: "")
     ]
     // Sample transactions for selected analytics
     static let selectedTransactions: [Transaction] = [
@@ -358,6 +409,10 @@ enum Source {
       Source.Realm.createRecurringPayment(name: "Netflix", amount: 12.99, dueDate: Calendar.current.date(byAdding: .day, value: 7, to: Date()) ?? Date(), type: "Debit", category: ("Subscription", "🔄"), isReminder: false),
       Source.Realm.createRecurringPayment(name: "Gym Membership", amount: 130, dueDate: Date(), type: "Credit", category: ("Subscription", "🔄"), isReminder: true)
     ]
+    // Sample budget
+    static let sampleBudget: Budget = Source.Realm.createBudget(amount: 1200, date: Date(), initialAmount: 3000)
+    // Sample past budget
+    static let samplePreviousBudget: Budget = Source.Realm.createBudget(amount: 3200, date: randomDateInPreviousMonth(), initialAmount: 5300)
     // Sample goals
     static let sampleGoals: [Goal] = [
       Source.Realm.createGoal(name: "Vacation Fund", amount: 1000, currentAmount: 500, dueDate: Date().addingTimeInterval(60 * 60 * 24 * 90)),
@@ -365,4 +420,44 @@ enum Source {
       Source.Realm.createGoal(name: "Failed Goal", amount: 1000, currentAmount: 100, dueDate: Date().addingTimeInterval(-60 * 60 * 24 * 30)),
     ]
   }
+}
+
+func randomDateInCurrentMonth() -> Date {
+  let calendar = Calendar.current
+  let today = Date()
+  
+  // Get the first day of the current month
+  let currentMonthStart = calendar.date(from: calendar.dateComponents([.year, .month], from: today))!
+  
+  // Get the first day of the previous month
+  let previousMonthStart = calendar.date(byAdding: .month, value: 0, to: currentMonthStart)!
+  
+  // Get the range of days in the previous month
+  let range = calendar.range(of: .day, in: .month, for: previousMonthStart)!
+  
+  // Generate a random day in the previous month
+  let randomDay = Int.random(in: range.lowerBound..<range.upperBound)
+  
+  // Return the random date in the previous month
+  return calendar.date(bySetting: .day, value: randomDay, of: previousMonthStart)!
+}
+
+func randomDateInPreviousMonth() -> Date {
+  let calendar = Calendar.current
+  let today = Date()
+  
+  // Get the first day of the current month
+  let currentMonthStart = calendar.date(from: calendar.dateComponents([.year, .month], from: today))!
+  
+  // Get the first day of the previous month
+  let previousMonthStart = calendar.date(byAdding: .month, value: -1, to: currentMonthStart)!
+  
+  // Get the range of days in the previous month
+  let range = calendar.range(of: .day, in: .month, for: previousMonthStart)!
+  
+  // Generate a random day in the previous month
+  let randomDay = Int.random(in: range.lowerBound..<range.upperBound)
+  
+  // Return the random date in the previous month
+  return calendar.date(bySetting: .day, value: randomDay, of: previousMonthStart)!
 }

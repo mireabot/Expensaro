@@ -136,7 +136,7 @@ extension TransactionsListView {
 // MARK: - Helper Functions
 private extension TransactionsListView {
   var chunkedTransactions: [[Transaction]] {
-    let chunked = transactions.reversed().chunked {
+    let chunked = transactions.sorted(by: { $0.date > $1.date }).chunked {
       Calendar.current.isDate($0.date, equalTo: $1.date, toGranularity: .day)
     }
     return chunked.map { Array($0) }

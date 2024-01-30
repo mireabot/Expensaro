@@ -56,7 +56,6 @@ struct AddRecurrentPaymentView: View {
               budgetSection()
             }
             EXTextField(text: $recurringPayment.name, header: "Payment name", placeholder: Appearance.shared.textFieldPlaceholder)
-              .autocorrectionDisabled()
               .focused($isFieldFocused)
             Button(action: {
               showCategoryelector.toggle()
@@ -125,6 +124,7 @@ struct AddRecurrentPaymentView: View {
       }
       .sheet(isPresented: $showNextDate) {
         DateSelectorView(type: .setRecurrentDate, selectedDate: $recurringPayment.dueDate)
+          .frame(height: 400)
           .modifier(GetHeightModifier(height: $sheetHeight))
           .presentationDetents([.height(sheetHeight)])
       }

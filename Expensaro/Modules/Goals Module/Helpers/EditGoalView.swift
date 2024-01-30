@@ -21,6 +21,7 @@ struct EditGoalView: View {
   
   // MARK: Variables
   @State private var savedDate = Date()
+  @State private var sheetHeight: CGFloat = .zero
   
   // MARK: Error
   @State private var errorType = EXToasts.none
@@ -57,7 +58,9 @@ struct EditGoalView: View {
       }
       .sheet(isPresented: $showDateSelector, content: {
         DateSelectorView(type: .updateGoalDate, selectedDate: $goal.dueDate)
-          .presentationDetents([.fraction(0.5)])
+          .frame(height: 400)
+          .modifier(GetHeightModifier(height: $sheetHeight))
+          .presentationDetents([.height(sheetHeight)])
       })
       .popup(isPresented: $showError, view: {
         EXToast(type: $errorType)
