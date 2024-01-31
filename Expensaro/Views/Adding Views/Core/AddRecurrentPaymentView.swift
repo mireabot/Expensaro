@@ -299,18 +299,22 @@ extension AddRecurrentPaymentView {
     if Double(amountValue) ?? 0 > budgetValue {
       errorType = .budgetExceed
       showError.toggle()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       return
     } else if Double(amountValue) ?? 0 == 0 {
       errorType = .zeroAmount
       showError.toggle()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       return
     } else if recurringPayment.name.isEmpty {
       errorType = .emptyName
       showError.toggle()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       return
     } else if recurringPayment.dueDate < Date() {
       errorType = .pastDate
       showError.toggle()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       if isUpdating {
         if let newPayment = recurringPayment.thaw(), let realm = newPayment.realm {
           try? realm.write {

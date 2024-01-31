@@ -76,6 +76,7 @@ struct ContactSettingsView: View {
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
             showToast.toggle()
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
           } label: {
             Appearance.shared.submitIcon
               .foregroundColor(message.isEmpty || email.isEmpty ? .darkGrey : .primaryGreen)

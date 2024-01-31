@@ -180,12 +180,17 @@ extension AddGoalView {
     if goal.name.isEmpty {
       errorType = .emptyName
       showError.toggle()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+      return
     } else if Double(amountValue) ?? 0 == 0 {
       errorType = .zeroAmount
       showError.toggle()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+      return
     } else if goal.dueDate < Date() {
       errorType = .pastDate
       showError.toggle()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       return
     } else {
       createGoal {

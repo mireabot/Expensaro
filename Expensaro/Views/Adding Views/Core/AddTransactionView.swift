@@ -228,14 +228,17 @@ extension AddTransactionView {
     if Double(amountValue) ?? 0 > budgetValue {
       errorType = .budgetExceed
       showError.toggle()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       return
     } else if Double(amountValue) ?? 0 == 0 {
       errorType = .zeroAmount
       showError.toggle()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       return
     } else if transaction.name.isEmpty {
       errorType = .emptyName
       showError.toggle()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       return
     } else {
       if isUpdating {

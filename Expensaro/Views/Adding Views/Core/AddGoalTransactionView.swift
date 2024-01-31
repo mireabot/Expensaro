@@ -142,6 +142,7 @@ extension AddGoalTransactionView {
       completion()
     } else {
       showError.toggle()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     }
   }
 }

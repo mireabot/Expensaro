@@ -198,6 +198,7 @@ extension AddBudgetView {
       completion()
     } else {
       showError.toggle()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     }
   }
 }

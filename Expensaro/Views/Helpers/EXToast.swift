@@ -14,29 +14,25 @@ struct EXToast: View {
     HStack(alignment: .center, spacing: 10) {
       if type.isSuccess {
         Source.Images.System.alertSuccess
-          .resizable()
-          .frame(width: 30, height: 30)
           .foregroundColor(.alertDarkGreen)
       } else {
         Source.Images.System.alertError
-          .resizable()
-          .frame(width: 30, height: 30)
           .foregroundColor(.alertDarkRed)
       }
       VStack(alignment: .leading, spacing: 3, content: {
         Text(type.isSuccess ? "All good!" : "Watch out!")
-          .font(.system(.title3, weight: .semibold))
+          .font(.headlineBold)
           .foregroundColor(type.isSuccess ? .alertDarkGreen : .alertDarkRed)
         
         Text("\(type.text)")
-          .font(.system(.headline, weight: .medium))
+          .font(.subheadlineMedium)
           .foregroundColor(type.isSuccess ? .alertGreen : .alertRed)
       })
     }
     .padding(12)
     .frame(maxWidth: .infinity, alignment: .leading)
     .background(type.isSuccess ? Color.alertGreenOpacity : Color.alertRedOpacity)
-    .cornerRadius(16)
+    .cornerRadius(12)
     .applyMargins()
   }
 }

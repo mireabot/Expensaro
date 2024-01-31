@@ -159,6 +159,7 @@ extension EditGoalView {
     if goal.dueDate < Date() {
       errorType = .pastDate
       showError.toggle()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       if let newGoal = goal.thaw(), let goalRealm = newGoal.realm {
         try? goalRealm.write {
           newGoal.dueDate = savedDate
@@ -168,6 +169,7 @@ extension EditGoalView {
     } else if Double(amountValue) == 0 {
       errorType = .zeroAmount
       showError.toggle()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       return
     }
     updateGoal()

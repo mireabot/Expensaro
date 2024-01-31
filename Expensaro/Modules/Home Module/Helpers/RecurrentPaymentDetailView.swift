@@ -318,9 +318,11 @@ extension RecurrentPaymentDetailView {
     if transaction.amount > budget.amount {
       errorType = .budgetExceed
       showError.toggle()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     } else {
       renewPayment()
       addContribution()
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     }
   }
 }
