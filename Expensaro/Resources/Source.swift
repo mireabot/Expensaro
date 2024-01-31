@@ -291,7 +291,7 @@ enum Source {
   
   static let wishKEY = "1279B306-A1C9-4CB0-8D14-4A2413F72075"
   static let aptaBaseKEY = "A-US-4693844111"
-  static let adminMode = true
+  static let adminMode = false
   
   enum DefaultData {
     // Sample transactions for analytics

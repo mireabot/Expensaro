@@ -59,7 +59,6 @@ struct OnboardingView: View {
       }
       .sheet(isPresented: $showPermission, content: {
         InitialPermissionView()
-          .presentationDragIndicator(.visible)
           .presentationDetents([.fraction(0.8)])
       })
       .navigationBarTitleDisplayMode(.inline)

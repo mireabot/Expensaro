@@ -28,10 +28,12 @@ struct CurrencySelectorView: View {
             }
             Spacer()
             Source.Images.Navigation.checkmark
-              .foregroundColor(.primaryGreen)
-              .opacity(currencySign == currency.code ? 1 : 0)
+              .foregroundColor(currencySign == currency.code ? .black : .clear)
           }
-          .background(.white)
+          .padding(.vertical, 20)
+          .padding(.horizontal, 16)
+          .background(currencySign == currency.code ? Color.backgroundGrey : .white)
+          .cornerRadius(12)
         }
         .listRowSeparator(.hidden)
         .buttonStyle(EXPlainButtonStyle())

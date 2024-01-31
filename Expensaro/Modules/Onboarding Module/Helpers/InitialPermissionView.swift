@@ -79,7 +79,7 @@ struct InitialPermissionView: View {
           UserDefaults.standard.setValue(UIDevice.current.identifierForVendor?.uuidString, forKey: "DeviceID")
           UserDefaults.standard.synchronize()
           isUserLoggedIn = true
-          
+          AnalyticsManager.shared.log(.profileCreated)
         }
       } label: {
         Text("Finish")
@@ -146,10 +146,12 @@ extension InitialPermissionView {
             }
             Spacer()
             Source.Images.Navigation.checkmark
-              .foregroundColor(.primaryGreen)
-              .opacity(currencySymbol == currency.code ? 1 : 0)
+              .foregroundColor(currencySymbol == currency.code ? .black : .clear)
           }
-          .background(.white)
+          .padding(.vertical, 20)
+          .padding(.horizontal, 16)
+          .background(currencySymbol == currency.code ? Color.backgroundGrey : .white)
+          .cornerRadius(12)
         }
         .listRowSeparator(.hidden)
         .buttonStyle(EXPlainButtonStyle())

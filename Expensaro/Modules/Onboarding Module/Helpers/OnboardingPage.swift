@@ -29,24 +29,26 @@ struct OnboardingPage: View {
             .foregroundColor(.darkGrey)
             .multilineTextAlignment(.center)
           
-          VStack(spacing: 0) {
-            Text("Swipe for more")
-              .font(.footnoteMedium)
-              .offset(y: animateHint ? 0 : 3)
-            Source.Images.Navigation.swipeDirections
-              .resizable()
-              .frame(width: 20, height: 20)
-              .offset(y: animateHint ? 0 : 6)
-          }
-          .foregroundColor(.primaryGreen)
-          .frame(maxWidth: .infinity, alignment: .center)
-          .padding(.top, 10)
-          .animation(Animation.easeInOut(duration: 0.8).repeatForever(autoreverses: true), value: animateHint)
-          .onAppear {
-            animateHint = true
+          if feature == .customCategories {
+            VStack(spacing: 0) {
+              Text("Swipe for more")
+                .font(.footnoteMedium)
+                .offset(y: animateHint ? 0 : 3)
+              Source.Images.Navigation.swipeDirections
+                .resizable()
+                .frame(width: 20, height: 20)
+                .offset(y: animateHint ? 0 : 6)
+            }
+            .foregroundColor(.primaryGreen)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.top, 10)
+            .animation(Animation.easeInOut(duration: 0.8).repeatForever(autoreverses: true), value: animateHint)
+            .onAppear {
+              animateHint = true
+            }
           }
         })
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: .center)
         .applyMargins()
       })
     }
