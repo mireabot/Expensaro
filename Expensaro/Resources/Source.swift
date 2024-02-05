@@ -72,6 +72,7 @@ enum Source {
       static let resetData = Image("resetData")
       static let contact = Image("contact")
       static let request = Image("request")
+      static let rateApp = Image("rateApp")
     }
     enum ButtonIcons {
       static let add = Image("buttonAdd")
@@ -184,30 +185,7 @@ enum Source {
   }
   
   enum Strings {
-    enum Categories {
-      enum Images {
-        static let animals = "animals"
-        static let bills = "bills"
-        static let car = "car"
-        static let clothes = "clothes"
-        static let delivery = "delivery"
-        static let education = "education"
-        static let entertainment = "entertainment"
-        static let gaming = "gaming"
-        static let goingOut = "goingOut"
-        static let groceries = "groceries"
-        static let hobby = "hobby"
-        static let medicine = "medicine"
-        static let other = "other"
-        static let publicTransport = "publicTransport"
-        static let restaraunt = "restaraunt"
-        static let shopping = "shopping"
-        static let subscriptions = "recurrentPayments"
-        static let travel = "travel"
-        static let utilities = "utilities"
-        static let income = "income"
-      }
-    }
+    
   }
   
   enum Realm {

@@ -25,6 +25,7 @@ struct AddBudgetView: View {
   
   // MARK: Presentation
   @State private var showError = false
+  @State private var confirmBudget = false
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
@@ -43,9 +44,11 @@ struct AddBudgetView: View {
         .applyBounce()
         
         EXNumberKeyboard(textValue: $amountValue, submitAction: {
-          validate {
-            makeDismiss()
-          }
+          validate(onCreationSuccess: {
+            confirmBudget.toggle()
+          }, onUpdateSuccess: {
+            updateBudget()
+          })
         })
       })
       .popup(isPresented: $showError, view: {
@@ -57,6 +60,26 @@ struct AddBudgetView: View {
           .type(.floater())
           .autohideIn(1.5)
       })
+      .popup(isPresented: $confirmBudget) {
+        EXAlert(type: .createBudget) {
+          addBudget()
+          DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+            confirmBudget.toggle()
+            makeDismiss()
+          })
+        } secondaryAction: {
+          confirmBudget.toggle()
+        }
+        .applyMargins()
+      } customize: {
+        $0
+          .animation(.spring())
+          .position(.bottom)
+          .type(.floater(useSafeAreaInset: true))
+          .closeOnTapOutside(false)
+          .backgroundColor(.black.opacity(0.3))
+          .isOpaque(true)
+      }
       .applyMargins()
       .scrollDisabled(true)
       .navigationBarTitleDisplayMode(.inline)
@@ -130,8 +153,8 @@ extension AddBudgetView {
 extension AddBudgetView {
   /// Creates new copy of budget objects and saves in memory
   func addBudget() {
-    budget.amount = Double(amountValue) ?? 0
-    budget.initialAmount = Double(amountValue) ?? 0
+    budget.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
+    budget.initialAmount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
     AnalyticsManager.shared.log(.createdBudget(Double(amountValue) ?? 0, .now))
     try? realm.write {
       realm.add(budget)
@@ -140,11 +163,11 @@ extension AddBudgetView {
   
   /// Gets freezed copy of budget object and updates amount field
   func updateBudget() {
-    let incomeTransaction = Source.Realm.createTransaction(name: "Budget deposit", date: Date(), category: ("Added funds", "💵", .other), amount: Double(amountValue) ?? 0, type: "Refill", note: "")
+    let incomeTransaction = Source.Realm.createTransaction(name: "Budget deposit", date: Date(), category: ("Added funds", "💵", .other), amount: Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, type: "Refill", note: "")
     AnalyticsManager.shared.log(.updatedBudget(Double(amountValue) ?? 0))
     if let newBudget = budget.thaw(), let realm = newBudget.realm {
       try? realm.write {
-        newBudget.amount += Double(amountValue) ?? 0
+        newBudget.amount += Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
         realm.add(incomeTransaction)
       }
     }
@@ -188,15 +211,14 @@ extension AddBudgetView {
 
 // MARK: - Validation
 extension AddBudgetView {
-  func validate(completion: @escaping() -> Void) {
-    if Double(amountValue) != 0 {
+  func validate(onCreationSuccess: @escaping () -> Void, onUpdateSuccess: @escaping () -> Void) {
+    if Double(amountValue.replacingOccurrences(of: ",", with: "")) != 0 {
       switch type {
       case .addBudget:
-        addBudget()
+        onCreationSuccess()
       case .updateBudget:
-        updateBudget()
+        onUpdateSuccess()
       }
-      completion()
     } else {
       showError.toggle()
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()

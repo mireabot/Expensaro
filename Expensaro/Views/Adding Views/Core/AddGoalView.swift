@@ -164,8 +164,8 @@ extension AddGoalView {
 // MARK: - Realm Functions
 extension AddGoalView {
   func createGoal(completion: @escaping() -> Void) {
-    AnalyticsManager.shared.log(.createGoal(goal.name, Double(amountValue) ?? 0))
-    goal.finalAmount = Double(amountValue) ?? 0
+    AnalyticsManager.shared.log(.createGoal(goal.name, Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0))
+    goal.finalAmount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
     goal.dateCreated = .now
     try? realm.write {
       realm.add(goal)
@@ -183,7 +183,7 @@ extension AddGoalView {
       showError.toggle()
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       return
-    } else if Double(amountValue) ?? 0 == 0 {
+    } else if Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0 == 0 {
       errorType = .zeroAmount
       showError.toggle()
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()

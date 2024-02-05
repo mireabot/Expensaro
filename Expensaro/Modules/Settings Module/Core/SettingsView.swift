@@ -8,9 +8,11 @@
 import SwiftUI
 import ExpensaroUIKit
 import WishKit
+import StoreKit
 
 struct SettingsView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
+  @Environment(\.requestReview) var requestReview
   @State private var selectedCategory = ""
   
   let appIcon = Bundle.main.icon
@@ -25,7 +27,6 @@ struct SettingsView: View {
             .resizable()
             .frame(width: 70, height: 70)
             .aspectRatio(contentMode: .fit)
-            .cornerRadius(12)
           
           Text("Version \(appVersion)")
             .font(.system(.subheadline, weight: .regular))
@@ -39,18 +40,19 @@ struct SettingsView: View {
             EXSettingsCell(category: $selectedCategory, type: .reminders, icon: Source.Images.Settings.reminders, action: {navigateTo()})
           }
           HStack {
-            EXSettingsCell(category: $selectedCategory, type: .contact, icon: Source.Images.Settings.contact, action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory, type: .appSettings, icon: Source.Images.System.appTools, action: {navigateTo()})
             EXSettingsCell(category: $selectedCategory, type: .resetAccount, icon: Source.Images.Settings.resetData, action: {navigateTo()})
           }
           HStack {
-            EXSettingsCell(category: $selectedCategory, type: .appSettings, icon: Source.Images.System.appTools, action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory, type: .contact, icon: Source.Images.Settings.contact, action: {navigateTo()})
             EXSettingsCell(category: $selectedCategory, type: .wishKit, icon: Source.Images.Settings.request, action: {
               showRequestSheet.toggle()
             })
           }
+          EXSettingsCell(category: $selectedCategory, type: .rateApp, icon: Source.Images.Settings.rateApp, action: {navigateTo()})
         }
         .applyMargins()
-        .padding(.top, 16)
+        .padding(.vertical, 16)
         .sheet(isPresented: $showRequestSheet) {
           WishView()
         }
@@ -117,6 +119,7 @@ extension SettingsView {
     case "General Settings": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(AppSettingsView()))
     case "Reset Data": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(EraseDataSettingsView()))
     case "Contact": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(ContactSettingsView()))
+    case "Rate App": requestReview()
     default: print("Navigation error")
     }
   }

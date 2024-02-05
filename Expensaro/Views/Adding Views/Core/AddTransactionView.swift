@@ -142,8 +142,8 @@ extension AddTransactionView {
 // MARK: - Realm Functions
 extension AddTransactionView {
   func createTransaction() {
-    AnalyticsManager.shared.log(.createTransaction(transaction.name, Double(amountValue) ?? 0, transaction.categoryName))
-    transaction.amount = Double(amountValue) ?? 0
+    AnalyticsManager.shared.log(.createTransaction(transaction.name, Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, transaction.categoryName))
+    transaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
     try? realm.write {
       realm.add(transaction)
     }
@@ -226,12 +226,12 @@ extension AddTransactionView {
 // MARK: - Helper Functions
 extension AddTransactionView {
   func validateBudget() {
-    if Double(amountValue) ?? 0 > budgetValue {
+    if Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0 > budgetValue {
       errorType = .budgetExceed
       showError.toggle()
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       return
-    } else if Double(amountValue) ?? 0 == 0 {
+    } else if Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0 == 0 {
       errorType = .zeroAmount
       showError.toggle()
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()

@@ -15,7 +15,7 @@ final class RecurringTransaction: Object, ObjectKeyIdentifiable {
   @Persisted var dueDate: Date
   @Persisted var type: String
   @Persisted var categoryName: String = "Other"
-  @Persisted var categoryIcon: String = "💵"
+  @Persisted var categoryIcon: String = "📔"
   @Persisted var schedule: RecurringSchedule = RecurringSchedule.everyWeek
   @Persisted var note: String = ""
   @Persisted var isReminder: Bool = false

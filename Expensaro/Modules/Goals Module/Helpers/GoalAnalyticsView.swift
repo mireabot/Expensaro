@@ -44,8 +44,7 @@ struct GoalAnalyticsView: View {
 extension GoalAnalyticsView {
   struct Appearance {
     static let shared = Appearance()
-    
-    let icon = Image(Source.Strings.Categories.Images.hobby)
+    var icon = Image("hobby")
     var text: Text {
       return Text("Close goal faster!").foregroundColor(.primaryGreen).font(.system(.headline, weight: .semibold))
     }

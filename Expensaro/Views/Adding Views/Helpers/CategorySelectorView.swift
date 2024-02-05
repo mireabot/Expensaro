@@ -20,31 +20,6 @@ struct CategorySelectorView: View {
   
   @State private var showCategory = false
   
-  let loadedCategories: [Category] = [
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.subscriptions, name: "Subscription", tag: .base, section: .entertainment),
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.entertainment, name: "Entertainment", tag: .base, section: .entertainment),
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.hobby, name: "Hobby", tag: .base, section: .entertainment),
-    
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.goingOut, name: "Going out", tag: .base, section: .food),
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.groceries, name: "Groceries", tag: .base, section: .food),
-    
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.bills, name: "Bills", tag: .base, section: .housing),
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.utilities, name: "Utilities", tag: .base, section: .housing),
-    
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.publicTransport, name: "Public transport", tag: .base, section: .transportation),
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.car, name: "Car", tag: .base, section: .transportation),
-    
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.education, name: "Education", tag: .base, section: .lifestyle),
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.travel, name: "Travel", tag: .base, section: .lifestyle),
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.shopping, name: "Shopping", tag: .base, section: .lifestyle),
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.delivery, name: "Delivery", tag: .base, section: .lifestyle),
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.gaming, name: "Gaming", tag: .base, section: .lifestyle),
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.animals, name: "Animals", tag: .base, section: .lifestyle),
-    
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.clothes, name: "Clothes", tag: .base, section: .other),
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.other, name: "Other", tag: .base, section: .other),
-    Source.Realm.createCategory(icon: Source.Strings.Categories.Images.medicine, name: "Healthcare", tag: .base, section: .other),
-  ]
   var body: some View {
     NavigationView {
       ScrollView(showsIndicators: false) {

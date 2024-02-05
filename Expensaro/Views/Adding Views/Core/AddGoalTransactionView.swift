@@ -138,7 +138,7 @@ extension AddGoalTransactionView {
 // MARK: - Validation
 extension AddGoalTransactionView {
   func validate(completion: @escaping() -> Void) {
-    if Double(amountValue) != 0 {
+    if Double(amountValue.replacingOccurrences(of: ",", with: "")) != 0 {
       createGoalTransaction()
       completion()
     } else {
@@ -151,11 +151,11 @@ extension AddGoalTransactionView {
 // MARK: - Realm Functions
 extension AddGoalTransactionView {
   func createGoalTransaction() {
-    AnalyticsManager.shared.log(.addMoneyToGoal(Double(amountValue) ?? 0))
-    goalTransaction.amount = Double(amountValue) ?? 0
+    AnalyticsManager.shared.log(.addMoneyToGoal(Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0))
+    goalTransaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
     if let newGoal = goal.thaw(), let realm = newGoal.realm {
       try? realm.write {
-        newGoal.currentAmount += Double(amountValue) ?? 0
+        newGoal.currentAmount += Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
         newGoal.transactions.append(goalTransaction)
       }
     }

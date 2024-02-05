@@ -261,8 +261,8 @@ extension AddRecurrentPaymentView {
 // MARK: - Realm Functions
 extension AddRecurrentPaymentView {
   func createPayment() {
-    AnalyticsManager.shared.log(.createPayment(recurringPayment.name, Double(amountValue) ?? 0))
-    recurringPayment.amount = Double(amountValue) ?? 0
+    AnalyticsManager.shared.log(.createPayment(recurringPayment.name, Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0))
+    recurringPayment.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
     try? realm.write {
       realm.add(recurringPayment)
     }
@@ -279,8 +279,8 @@ extension AddRecurrentPaymentView {
     var difference: Double = 0
     if let newTransaction = recurringPayment.thaw(), let realm = newTransaction.realm {
       try? realm.write {
-        difference = newTransaction.amount - (Double(amountValue) ?? 0)
-        newTransaction.amount = Double(amountValue) ?? 0
+        difference = newTransaction.amount - (Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0)
+        newTransaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
       }
     }
     print(difference)
@@ -297,12 +297,12 @@ extension AddRecurrentPaymentView {
 // MARK: - Helper Functions
 extension AddRecurrentPaymentView {
   func validateBudget() {
-    if Double(amountValue) ?? 0 > budgetValue {
+    if Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0 > budgetValue {
       errorType = .budgetExceed
       showError.toggle()
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       return
-    } else if Double(amountValue) ?? 0 == 0 {
+    } else if Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0 == 0 {
       errorType = .zeroAmount
       showError.toggle()
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()

@@ -65,6 +65,11 @@ struct DebugMenuView: View {
             } label: {
               Text("Test Notification")
             }
+            Button {
+              loadTransactions()
+            } label: {
+              Text("Load Transactions")
+            }
           } header: {
             Text("Actions")
           }
@@ -145,6 +150,14 @@ struct DebugMenuView: View {
       realm.add(Source.DefaultData.sampleTransactions)
       realm.add(Source.DefaultData.sampleRecurringPayments)
       realm.add(Source.DefaultData.sampleGoals)
+    })
+  }
+  
+  private func loadTransactions() {
+    let realm = try! Realm()
+    
+    try? realm.write({
+      realm.add(Source.DefaultData.loadedTransactions)
     })
   }
   
