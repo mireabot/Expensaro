@@ -65,7 +65,6 @@ struct InitialPermissionView: View {
       .sheet(isPresented: $showSelector, content: {
         currencySelector()
           .presentationDetents([.fraction(0.6)])
-          .presentationDragIndicator(.visible)
       })
     }
     .interactiveDismissDisabled(true)
@@ -130,33 +129,22 @@ extension InitialPermissionView {
   @ViewBuilder
   func currencySelector() -> some View {
     NavigationView {
-      List(Currency.allCurrencies, id: \.symbol) { currency in
-        Button {
-          currencySymbol = currency.code
-          currencyText = "\(currency.name) (\(currency.symbol))"
-          showSelector = false
-        } label: {
-          HStack {
-            VStack(alignment: .leading, spacing: 3) {
-              Text(currency.symbol)
-                .font(.headlineBold)
-              Text(currency.name)
-                .font(.footnoteRegular)
-                .foregroundColor(.darkGrey)
+      ScrollView {
+        LazyVGrid(columns: Array(repeating: .init(.flexible()), count: 2)) {
+          ForEach(Currency.allCurrencies, id: \.symbol) { currency in
+            Button {
+              currencySymbol = currency.code
+              currencyText = "\(currency.name) (\(currency.symbol))"
+              showSelector = false
+            } label: {
+              EXSelectCell(title: currency.symbol, text: currency.name, condition: currencySymbol == currency.code)
             }
-            Spacer()
-            Source.Images.Navigation.checkmark
-              .foregroundColor(currencySymbol == currency.code ? .black : .clear)
           }
-          .padding(.vertical, 20)
-          .padding(.horizontal, 16)
-          .background(currencySymbol == currency.code ? Color.backgroundGrey : .white)
-          .cornerRadius(12)
         }
-        .listRowSeparator(.hidden)
-        .buttonStyle(EXPlainButtonStyle())
+        .padding(.top, 16)
+        .applyMargins()
       }
-      .listStyle(.plain)
+      .applyBounce()
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {

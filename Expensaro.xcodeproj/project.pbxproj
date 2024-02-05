@@ -14,7 +14,6 @@
 		350DF5822B59756800AFAAFD /* GoalEstimatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DF5812B59756800AFAAFD /* GoalEstimatorView.swift */; };
 		351061282AD74AEB006E6DF4 /* Budget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351061272AD74AEB006E6DF4 /* Budget.swift */; };
 		3510F6E22AFD542D000B5532 /* ScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */; };
-		3510F6E42AFD58C7000B5532 /* CreateReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3510F6E32AFD58C7000B5532 /* CreateReminderView.swift */; };
 		3510F6E72AFD62F2000B5532 /* LocalNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3510F6E62AFD62F2000B5532 /* LocalNotificationsManager.swift */; };
 		351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351839AE2AAF94C3008216F3 /* GoalsListView.swift */; };
 		351A02F52AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */; };
@@ -108,7 +107,6 @@
 		350DF5812B59756800AFAAFD /* GoalEstimatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalEstimatorView.swift; sourceTree = "<group>"; };
 		351061272AD74AEB006E6DF4 /* Budget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Budget.swift; sourceTree = "<group>"; };
 		3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollView+Extensions.swift"; sourceTree = "<group>"; };
-		3510F6E32AFD58C7000B5532 /* CreateReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateReminderView.swift; sourceTree = "<group>"; };
 		3510F6E62AFD62F2000B5532 /* LocalNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsManager.swift; sourceTree = "<group>"; };
 		351839AE2AAF94C3008216F3 /* GoalsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsListView.swift; sourceTree = "<group>"; };
 		351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPaymentDetailView.swift; sourceTree = "<group>"; };
@@ -302,7 +300,6 @@
 				354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */,
 				358E6B7E2AC0840900ABA818 /* CategorySelectorView.swift */,
 				35E874392ACC7EE2002368DB /* PeriodicitySelectorView.swift */,
-				3510F6E32AFD58C7000B5532 /* CreateReminderView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -799,7 +796,6 @@
 				358731002B656B840046164E /* AppFeatures.swift in Sources */,
 				35C80C6D2ABF59DE0063553E /* RemindersSettingsView.swift in Sources */,
 				359CDC542AB4C69600DFFDC7 /* OnboardingView.swift in Sources */,
-				3510F6E42AFD58C7000B5532 /* CreateReminderView.swift in Sources */,
 				3592EFFB2AF32D10008138EE /* FirstAppear.swift in Sources */,
 				35BB8A3B2AD89C1C0099E71F /* Category.swift in Sources */,
 				35B25D2D2B3DC59A001417F9 /* SelectedCategoryAnalyticsManager.swift in Sources */,
@@ -942,7 +938,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 108;
+				CURRENT_PROJECT_VERSION = 110;
 				DEVELOPMENT_ASSET_PATHS = "\"Expensaro/Preview Content\"";
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;
@@ -959,7 +955,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MKM.Expensaro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -978,7 +974,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 108;
+				CURRENT_PROJECT_VERSION = 110;
 				DEVELOPMENT_ASSET_PATHS = "\"Expensaro/Preview Content\"";
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;
@@ -995,7 +991,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MKM.Expensaro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

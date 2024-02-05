@@ -117,6 +117,24 @@ enum Source {
       return formatter.string(from: date)
     }
     
+    /// Function formates currency input field with comma
+    /// - Parameters:
+    ///   - value: currency string
+    ///   - addingCharacter: adding comma or not
+    /// - Returns: formatter string
+    static func reformatTextValue(_ value: String, addingCharacter: Bool) -> String {
+      let components = value.components(separatedBy: ".")
+      let numberFormatter = NumberFormatter()
+      numberFormatter.numberStyle = .decimal
+      numberFormatter.maximumFractionDigits = components.count > 1 ? components.last!.count : 0
+      
+      if let integerPart = Int(components.first?.replacingOccurrences(of: ",", with: "") ?? "0"),
+         let formattedIntegerPart = numberFormatter.string(from: NSNumber(value: integerPart)) {
+        return formattedIntegerPart + (components.count > 1 ? ".\(components.last ?? "")" : "")
+      }
+      return value
+    }
+    
     /// Function which gets current month
     /// - Returns: String with current month
     static func currentMonth(date: Date) -> String {
@@ -291,7 +309,7 @@ enum Source {
   
   static let wishKEY = "1279B306-A1C9-4CB0-8D14-4A2413F72075"
   static let aptaBaseKEY = "A-US-4693844111"
-  static let adminMode = false
+  static let adminMode = true
   
   enum DefaultData {
     // Sample transactions for analytics

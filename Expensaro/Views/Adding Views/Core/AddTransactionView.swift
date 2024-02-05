@@ -191,6 +191,7 @@ extension AddTransactionView {
       
       Button {
         amountValue.removeLast()
+        amountValue = Source.Functions.reformatTextValue(amountValue, addingCharacter: false)
         if amountValue.isEmpty {
           amountValue = "0.0"
           isBudgetAvailable = true

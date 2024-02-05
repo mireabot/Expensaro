@@ -151,11 +151,34 @@ struct EXNumberKeyboard: View {
   
   private func keyWasPressed(_ key: String) {
     switch key {
-    case "." where textValue.contains("."): break
-    case "." where textValue == "0": textValue += key
-    case "Done": submitAction()
+    case "." where !textValue.contains("."):
+      // Only add a dot if it doesn't already contain one
+      textValue += key
+    case "Done":
+      submitAction()
     case _ where textValue == "0.0": textValue = key
-    default: textValue += key
+    default:
+      // Append the key and reformat
+      if key != "." { // Prevent formatting when dot is pressed
+        textValue += key
+        textValue = reformatTextValue(textValue)
+      }
     }
+  }
+  
+  private func reformatTextValue(_ value: String) -> String {
+    // Separate the string into integer and fractional parts
+    let components = value.components(separatedBy: ".")
+    let numberFormatter = NumberFormatter()
+    numberFormatter.numberStyle = .decimal
+    numberFormatter.maximumFractionDigits = components.count > 1 ? 2 : 0 // Adjust based on your needs
+    
+    // Format the integer part
+    if let integerPart = Int(components.first?.replacingOccurrences(of: ",", with: "") ?? "0"),
+       let formattedIntegerPart = numberFormatter.string(from: NSNumber(value: integerPart)) {
+      // Reassemble the number with formatted integer part and existing fractional part
+      return formattedIntegerPart + (components.count > 1 ? ".\(components.last ?? "")" : "")
+    }
+    return value
   }
 }

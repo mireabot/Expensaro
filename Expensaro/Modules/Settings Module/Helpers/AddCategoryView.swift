@@ -107,7 +107,7 @@ struct AddCategoryView: View {
       VStack {
         HStack {
           Text("Select category section")
-            .font(.title3Bold)
+            .font(.title3Semibold)
           Spacer()
           Button {
             showSelector.toggle()
@@ -116,15 +116,16 @@ struct AddCategoryView: View {
               .foregroundColor(.black)
           }
         }
-        .padding(.vertical, 20)
-        ForEach(CategoriesSection.allCases, id: \.header) { folder in
-          Button(action: {
-            category.section = folder
-            showSelector.toggle()
-          }, label: {
-            EXSelectCell(title: folder.rawValue.capitalized, selectIcon: Source.Images.Navigation.checkmark, condition: category.section == folder)
-          })
-          .buttonStyle(EXPlainButtonStyle())
+        .padding(.vertical, 16)
+        LazyVGrid(columns: Array(repeating: .init(.flexible()), count: 2)) {
+          ForEach(CategoriesSection.allCases, id: \.header) { folder in
+            Button {
+              category.section = folder
+              showSelector.toggle()
+            } label: {
+              EXSelectCell(title: folder.rawValue.capitalized, condition: category.section == folder)
+            }
+          }
         }
       }.applyMargins()
     }

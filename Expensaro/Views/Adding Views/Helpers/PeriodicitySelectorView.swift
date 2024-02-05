@@ -25,20 +25,24 @@ struct PeriodicitySelectorView: View {
             Source.Images.Navigation.close
               .foregroundColor(.black)
           })
-        }.padding(.bottom, 20)
-        ForEach(schedule, id: \.self) { data in
-          Button {
-            presentation = false
-            selectedPeriodicity = data
-          } label: {
-            EXSelectCell(title: data.title, selectIcon: Source.Images.Navigation.checkmark, condition: selectedPeriodicity.title == data.title)
-          }
-          .buttonStyle(EXPlainButtonStyle())
         }
+        .applyMargins()
+        .padding(.top, 16)
+        
+        LazyVGrid(columns: Array(repeating: .init(.flexible()), count: 2)) {
+          ForEach(schedule, id: \.self) { data in
+            Button {
+              presentation = false
+              selectedPeriodicity = data
+            } label: {
+              EXSelectCell(title: data.title, condition: selectedPeriodicity.title == data.title)
+            }
+            .buttonStyle(EXPlainButtonStyle())
+          }
+        }
+        .applyMargins()
       }
-      .applyMargins()
     }
-    .padding(.top, 20)
     .background(.white)
   }
 }
@@ -57,11 +61,5 @@ extension PeriodicitySelectorView {
     let title = "Select payment periodicity"
     
     let closeIcon = Source.Images.Navigation.close
-    let periodicitySet : [(Image, String)] = [
-      (Source.Images.System.calendarYear, "Every week"),
-      (Source.Images.System.calendarYear, "Every month"),
-      (Source.Images.System.calendarYear, "Every 3 months"),
-      (Source.Images.System.calendarYear, "Every year"),
-    ]
   }
 }

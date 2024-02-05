@@ -11,34 +11,31 @@ import ExpensaroUIKit
 struct CurrencySelectorView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
+  @State private var searchQuery = ""
   @AppStorage("currencySign") private var currencySign = "USD"
+  var filteredCurrencies: [Currency] {
+    if searchQuery.isEmpty {
+      return Currency.allCurrencies
+    } else {
+      return Currency.allCurrencies.filter { $0.code.contains(searchQuery.uppercased()) }
+    }
+  }
   var body: some View {
     NavigationView {
-      List(Currency.allCurrencies, id: \.symbol) { currency in
-        Button {
-          currencySign = currency.code
-        } label: {
-          HStack {
-            VStack(alignment: .leading, spacing: 3) {
-              Text(currency.symbol)
-                .font(.headlineBold)
-              Text(currency.name)
-                .font(.footnoteRegular)
-                .foregroundColor(.darkGrey)
+      ScrollView {
+        LazyVGrid(columns: Array(repeating: .init(.flexible()), count: 2)) {
+          ForEach(Currency.allCurrencies, id: \.symbol) { currency in
+            Button {
+              currencySign = currency.code
+            } label: {
+              EXSelectCell(title: currency.symbol, text: currency.name, condition: currencySign == currency.code)
             }
-            Spacer()
-            Source.Images.Navigation.checkmark
-              .foregroundColor(currencySign == currency.code ? .black : .clear)
           }
-          .padding(.vertical, 20)
-          .padding(.horizontal, 16)
-          .background(currencySign == currency.code ? Color.backgroundGrey : .white)
-          .cornerRadius(12)
         }
-        .listRowSeparator(.hidden)
-        .buttonStyle(EXPlainButtonStyle())
+        .padding(.vertical, 16)
+        .applyMargins()
       }
-      .listStyle(.plain)
+      .applyBounce()
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -71,5 +68,31 @@ extension CurrencySelectorView {
     let title = "Select currency"
     
     let backIcon = Source.Images.Navigation.back
+  }
+}
+
+extension CurrencySelectorView {
+  @ViewBuilder
+  func currencyCell() -> some View {
+    ZStack(alignment: .topTrailing) {
+      VStack(alignment: .leading, spacing: 0) {
+        Spacer()
+        Text("$")
+          .font(.headlineBold)
+          .foregroundColor(.black)
+        Text("US Dollar")
+          .font(.footnoteRegular)
+          .foregroundColor(.darkGrey)
+          .lineLimit(2)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      
+      Image(systemName: "circle")
+        .foregroundColor(Color(uiColor: .systemGray5))
+    }
+    .padding(10)
+    .background(Color.backgroundGrey)
+    .cornerRadius(12)
+    .frame(height: 80)
   }
 }
