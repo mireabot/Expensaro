@@ -287,6 +287,7 @@ enum Source {
   
   static let wishKEY = "1279B306-A1C9-4CB0-8D14-4A2413F72075"
   static let aptaBaseKEY = "A-US-4693844111"
+  static let supabaseKEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4dmtidmRha3h4c2pma21wdWtsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY5MTEzMzgsImV4cCI6MjAyMjQ4NzMzOH0.WxPCvHdbbSQOo1cRHNneyTgb_S4w8d3Z8izNjcDnvqQ"
   static let adminMode = true
   
   enum DefaultData {

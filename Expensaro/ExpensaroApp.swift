@@ -9,6 +9,7 @@ import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
 import Aptabase
+import Supabase
 
 @main
 struct ExpensaroApp: SwiftUI.App {
