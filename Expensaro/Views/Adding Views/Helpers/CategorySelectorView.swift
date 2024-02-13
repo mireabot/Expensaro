@@ -23,6 +23,13 @@ struct CategorySelectorView: View {
   var body: some View {
     NavigationView {
       ScrollView(showsIndicators: false) {
+        Button {
+          showAddCategory.toggle()
+        } label: {
+          Text("Create new category")
+            .font(.calloutRegular)
+        }
+        .buttonStyle(EXStretchButtonStyle(icon: Appearance.shared.addIcon))
         ForEach(Dictionary(grouping: categories, by: { $0.section.header }).keys.sorted(), id: \.self) { sectionHeader in
           Section {
             ForEach(Dictionary(grouping: categories, by: { $0.section.header })[sectionHeader]!) { category in
@@ -62,14 +69,6 @@ struct CategorySelectorView: View {
         ToolbarItem(placement: .topBarLeading) {
           Text(Appearance.shared.title)
             .font(.title3Semibold)
-        }
-        ToolbarItem(placement: .topBarTrailing) {
-          Button {
-            showAddCategory.toggle()
-          } label: {
-            Appearance.shared.addIcon
-              .foregroundColor(.black)
-          }
         }
         ToolbarItem(placement: .topBarTrailing) {
           Button {
