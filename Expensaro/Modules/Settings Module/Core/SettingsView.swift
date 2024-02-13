@@ -21,7 +21,7 @@ struct SettingsView: View {
   @State private var showRequestSheet = false
   var body: some View {
     NavigationView {
-      ScrollView {
+      ScrollView(showsIndicators: false) {
         VStack(spacing: 5) {
           Image(uiImage: appIcon!)
             .resizable()
@@ -45,11 +45,9 @@ struct SettingsView: View {
           }
           HStack {
             EXSettingsCell(category: $selectedCategory, type: .contact, icon: Source.Images.Settings.contact, action: {navigateTo()})
-            EXSettingsCell(category: $selectedCategory, type: .wishKit, icon: Source.Images.Settings.request, action: {
-              showRequestSheet.toggle()
-            })
+            EXSettingsCell(category: $selectedCategory, type: .rateApp, icon: Source.Images.Settings.rateApp, action: {navigateTo()})
           }
-          EXSettingsCell(category: $selectedCategory, type: .rateApp, icon: Source.Images.Settings.rateApp, action: {navigateTo()})
+          EXSettingsCell(category: $selectedCategory, type: .wishKit, icon: Source.Images.Settings.request, action: {navigateTo()})
         }
         .applyMargins()
         .padding(.vertical, 16)
@@ -120,6 +118,7 @@ extension SettingsView {
     case "Reset Data": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(EraseDataSettingsView()))
     case "Contact": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(ContactSettingsView()))
     case "Rate App": requestReview()
+    case "Features Hub": showRequestSheet.toggle()
     default: print("Navigation error")
     }
   }
