@@ -18,7 +18,7 @@ struct CategorySelectorView: View {
   @Binding var icon: String
   @Binding var section: CategoriesSection
   
-  @State private var showCategory = false
+  @State private var showAddCategory = false
   
   var body: some View {
     NavigationView {
@@ -53,12 +53,23 @@ struct CategorySelectorView: View {
         }
       }
       .applyMargins()
+      .sheet(isPresented: $showAddCategory, content: {
+        AddCategoryView(isSheet: true, category: Category())
+      })
       .navigationBarTitleDisplayMode(.inline)
       .toolbarBackground(.white, for: .navigationBar)
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
           Text(Appearance.shared.title)
             .font(.title3Semibold)
+        }
+        ToolbarItem(placement: .topBarTrailing) {
+          Button {
+            showAddCategory.toggle()
+          } label: {
+            Appearance.shared.addIcon
+              .foregroundColor(.black)
+          }
         }
         ToolbarItem(placement: .topBarTrailing) {
           Button {
