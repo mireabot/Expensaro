@@ -91,13 +91,15 @@ struct RecurrentPaymentDetailView: View {
           .padding(.top, 5)
           
           // MARK: Transaction reminders
-          EXToggleCard(type: .paymentReminder, isOn: Binding(
-            get: { transaction.isReminder },
-            set: { newValue in
-              AnalyticsManager.shared.log(.modifiedReminder(transaction.name))
-              updateNotification(with: newValue)
-            }
-          ))
+          EXToggleCard(config: (Source.Strings.ToggleType.paymentReminder.title,
+                                Source.Strings.ToggleType.paymentReminder.text),
+                       isOn: Binding(
+                        get: { transaction.isReminder },
+                        set: { newValue in
+                          AnalyticsManager.shared.log(.modifiedReminder(transaction.name))
+                          updateNotification(with: newValue)
+                        }
+                       ))
           .padding(.top, 5)
         }
         .applyBounce()
@@ -105,7 +107,13 @@ struct RecurrentPaymentDetailView: View {
         
       })
       .popup(isPresented: $showDeleteAlert) {
-        EXAlert(type: .deletePayment, primaryAction: { deletePayment() }, secondaryAction: {showDeleteAlert.toggle()}).applyMargins()
+        EXAlert(config: (Source.Strings.AlertType.deletePayment.title,
+                         Source.Strings.AlertType.deletePayment.subTitle,
+                         Source.Strings.AlertType.deletePayment.secondaryButtonText,
+                         Source.Strings.AlertType.deletePayment.primaryButtonText),
+                primaryAction: { deletePayment() },
+                secondaryAction: {showDeleteAlert.toggle()})
+        .applyMargins()
       } customize: {
         $0
           .animation(.spring())

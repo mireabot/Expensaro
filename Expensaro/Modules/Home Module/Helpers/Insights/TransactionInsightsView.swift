@@ -51,7 +51,7 @@ struct TransactionInsightsView: View {
                     Text(transaction.name)
                       .font(.footnoteRegular)
                       .foregroundColor(.darkGrey)
-                      
+                    
                     Spacer()
                     
                     Text("\(transaction.amount.formattedAsCurrencySolid(with: currencySign))")
@@ -75,7 +75,11 @@ struct TransactionInsightsView: View {
       service.calculateAverage()
     }
     .sheet(isPresented: $showAnalyticsDemo, content: {
-      EXBottomInfoView(type: .transactions, action: {}, bottomView: {
+      EXBottomInfoView(config: (Source.Strings.BottomPreviewType.transactions.title,
+                                Source.Strings.BottomPreviewType.transactions.text,
+                                Source.Strings.BottomPreviewType.transactions.isButton),
+                       action: {},
+                       bottomView: {
         demoView()
       })
       .onFirstAppear {
@@ -121,7 +125,7 @@ extension TransactionInsightsView {
                 Text(transaction.name)
                   .font(.footnoteRegular)
                   .foregroundColor(.darkGrey)
-                  
+                
                 Spacer()
                 
                 Text("\(transaction.amount.formattedAsCurrencySolid(with: currencySign))")

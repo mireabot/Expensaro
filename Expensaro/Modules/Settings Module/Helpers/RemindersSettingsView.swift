@@ -30,7 +30,9 @@ struct RemindersSettingsView: View {
             Text("General")
               .foregroundColor(.darkGrey)
               .font(.system(.footnote, weight: .regular))
-            EXToggleCard(type: .notifications, isOn: $reminderOn)
+            EXToggleCard(config: (Source.Strings.ToggleType.notifications.title, 
+                                  Source.Strings.ToggleType.notifications.text),
+                         isOn: $reminderOn)
               .onChange(of: reminderOn, perform: { value in
                 if value {
                   print("Notifications granted!")
@@ -54,7 +56,8 @@ struct RemindersSettingsView: View {
             Text("In-app notifications")
               .foregroundColor(.darkGrey)
               .font(.system(.footnote, weight: .regular))
-            EXDialog(type: .deleteReminders) {
+            EXDialog(config: (Source.Strings.DialogType.deleteReminders.title, 
+                              Source.Strings.DialogType.deleteReminders.text)) {
               Button(action: {
                 deleteReminders()
                 AnalyticsManager.shared.log(.removeReminders)

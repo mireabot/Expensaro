@@ -36,18 +36,39 @@ struct SettingsView: View {
         
         VStack {
           HStack {
-            EXSettingsCell(category: $selectedCategory, type: .categories, icon: Source.Images.Settings.categories, action: {navigateTo()})
-            EXSettingsCell(category: $selectedCategory, type: .reminders, icon: Source.Images.Settings.reminders, action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory,
+                           config: (Source.Strings.SettingsType.categories.title, Source.Strings.SettingsType.categories.text),
+                           icon: Source.Images.Settings.categories,
+                           action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory,
+                           config: (Source.Strings.SettingsType.reminders.title, Source.Strings.SettingsType.reminders.text),
+                           icon: Source.Images.Settings.reminders,
+                           action: {navigateTo()})
           }
           HStack {
-            EXSettingsCell(category: $selectedCategory, type: .appSettings, icon: Source.Images.System.appTools, action: {navigateTo()})
-            EXSettingsCell(category: $selectedCategory, type: .resetAccount, icon: Source.Images.Settings.resetData, action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory,
+                           config: (Source.Strings.SettingsType.appSettings.title, Source.Strings.SettingsType.appSettings.text),
+                           icon: Source.Images.System.appTools,
+                           action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory,
+                           config: (Source.Strings.SettingsType.resetAccount.title, Source.Strings.SettingsType.resetAccount.text),
+                           icon: Source.Images.Settings.resetData,
+                           action: {navigateTo()})
           }
           HStack {
-            EXSettingsCell(category: $selectedCategory, type: .contact, icon: Source.Images.Settings.contact, action: {navigateTo()})
-            EXSettingsCell(category: $selectedCategory, type: .rateApp, icon: Source.Images.Settings.rateApp, action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory,
+                           config: (Source.Strings.SettingsType.contact.title, Source.Strings.SettingsType.contact.text),
+                           icon: Source.Images.Settings.contact,
+                           action: {navigateTo()})
+            EXSettingsCell(category: $selectedCategory,
+                           config: (Source.Strings.SettingsType.rateApp.title, Source.Strings.SettingsType.rateApp.text),
+                           icon: Source.Images.Settings.rateApp,
+                           action: {navigateTo()})
           }
-          EXSettingsCell(category: $selectedCategory, type: .wishKit, icon: Source.Images.Settings.request, action: {navigateTo()})
+          EXSettingsCell(category: $selectedCategory,
+                         config: (Source.Strings.SettingsType.wishKit.title, Source.Strings.SettingsType.wishKit.text),
+                         icon: Source.Images.Settings.request,
+                         action: {navigateTo()})
         }
         .applyMargins()
         .padding(.vertical, 16)

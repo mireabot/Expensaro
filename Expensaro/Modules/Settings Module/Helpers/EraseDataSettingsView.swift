@@ -21,7 +21,9 @@ struct EraseDataSettingsView: View {
   var body: some View {
     NavigationView {
       ScrollView {
-        EXDialog(type: .eraseData, bottomView: {
+        EXDialog(config: (Source.Strings.DialogType.eraseData.title,
+                          Source.Strings.DialogType.eraseData.text),
+                 bottomView: {
           Button(action: {
             showSheet.toggle()
           }, label: {
@@ -120,7 +122,7 @@ extension EraseDataSettingsView {
     AnalyticsManager.shared.log(.deleteAccount)
     let realm = try! Realm()
     try! realm.write {
-        realm.deleteAll()
+      realm.deleteAll()
     }
     showLoader = false
     showSheet.toggle()

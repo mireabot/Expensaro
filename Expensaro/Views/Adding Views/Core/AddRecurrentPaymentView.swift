@@ -49,7 +49,10 @@ struct AddRecurrentPaymentView: View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
         ScrollView {
-          EXSegmentControl(currentTab: $recurringPayment.type, type: .transactionType).padding(.top, 20)
+          EXSegmentControl(currentTab: $recurringPayment.type,
+                           config: (Source.Strings.SegmentPickerType.transactionType.firstTab,
+                                    Source.Strings.SegmentPickerType.transactionType.secondTab))
+          .padding(.top, 20)
           VStack(spacing: 20) {
             VStack(spacing: 10) {
               recurringTextField()
@@ -136,7 +139,10 @@ struct AddRecurrentPaymentView: View {
           .presentationDragIndicator(.visible)
       }
       .popup(isPresented: $showReminderAlert) {
-        EXAlert(type: .createReminder) {
+        EXAlert(config: (Source.Strings.AlertType.createReminder.title,
+                         Source.Strings.AlertType.createReminder.subTitle,
+                         Source.Strings.AlertType.createReminder.secondaryButtonText,
+                         Source.Strings.AlertType.createReminder.primaryButtonText)) {
           recurringPayment.isReminder = true
           AnalyticsManager.shared.log(.createdReminder(recurringPayment.name))
           createPayment()

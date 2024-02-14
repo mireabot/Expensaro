@@ -184,7 +184,12 @@ extension HomeView {
           .presentationDetents([.large])
       }
     } else {
-      EXLargeEmptyState(type: .noBudget, icon: Source.Images.EmptyStates.noBudget, isActive: false, action: {
+      EXLargeEmptyState(config: (Source.Strings.EmptyStateType.noBudget.title,
+                                 Source.Strings.EmptyStateType.noBudget.text,
+                                 Source.Strings.EmptyStateType.noBudget.buttonText),
+                        icon: Source.Images.EmptyStates.noBudget,
+                        isActive: false,
+                        action: {
         showAddBudget.toggle()
       })
     }
@@ -242,7 +247,11 @@ extension HomeView {
       }
       .padding(.top, 15)
     } else {
-      EXSmallEmptyState(type: .noRecurrentPayments, isActive: currentBudget.amount == 0, action: {
+      EXSmallEmptyState(config: (Source.Strings.EmptyStateType.noRecurrentPayments.title,
+                                 Source.Strings.EmptyStateType.noRecurrentPayments.text,
+                                 Source.Strings.EmptyStateType.noRecurrentPayments.buttonText),
+                        isActive: currentBudget.amount == 0,
+                        action: {
         showAddRecurrentPayment.toggle()
       })
       .padding(.top, 15)
@@ -304,7 +313,12 @@ extension HomeView {
       .padding(.top, 15)
       .fixedSize(horizontal: false, vertical: true)
     } else {
-      EXLargeEmptyState(type: .noExpenses, icon: Source.Images.EmptyStates.noExpenses, isActive: currentBudget.amount == 0, action: {
+      EXLargeEmptyState(config: (Source.Strings.EmptyStateType.noExpenses.title,
+                                 Source.Strings.EmptyStateType.noExpenses.text,
+                                 Source.Strings.EmptyStateType.noExpenses.buttonText),
+                        icon: Source.Images.EmptyStates.noExpenses,
+                        isActive: currentBudget.amount == 0,
+                        action: {
         showAddTransaction.toggle()
       })
       .padding(.top, 15)

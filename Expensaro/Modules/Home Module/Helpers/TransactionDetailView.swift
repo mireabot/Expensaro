@@ -91,7 +91,13 @@ struct TransactionDetailView: View {
       })
       .applyMargins()
       .popup(isPresented: $showTransactionDeleteAlert) {
-        EXAlert(type: .deleteTransaction, primaryAction: { deleteTransaction() }, secondaryAction: {showTransactionDeleteAlert.toggle()}).applyMargins()
+        EXAlert(config: (Source.Strings.AlertType.deleteTransaction.title,
+                         Source.Strings.AlertType.deleteTransaction.subTitle,
+                         Source.Strings.AlertType.deleteTransaction.secondaryButtonText,
+                         Source.Strings.AlertType.deleteTransaction.primaryButtonText),
+                primaryAction: { deleteTransaction() },
+                secondaryAction: {showTransactionDeleteAlert.toggle()})
+        .applyMargins()
       } customize: {
         $0
           .animation(.spring())

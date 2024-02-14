@@ -37,7 +37,14 @@ struct GoalDetailView: View {
         bottomActionButton().padding(16)
       })
       .popup(isPresented: $showDeleteAlert) {
-        EXAlert(type: .deleteGoal, primaryAction: { deleteGoal() }, secondaryAction: { showDeleteAlert.toggle() }).applyMargins()
+        EXAlert(config: (Source.Strings.AlertType.deleteGoal.title,
+                         Source.Strings.AlertType.deleteGoal.subTitle,
+                         Source.Strings.AlertType.deleteGoal.secondaryButtonText,
+                         Source.Strings.AlertType.deleteGoal.primaryButtonText
+                        ),
+                primaryAction: { deleteGoal() },
+                secondaryAction: { showDeleteAlert.toggle() })
+        .applyMargins()
       } customize: {
         $0
           .animation(.spring())
@@ -103,12 +110,16 @@ struct GoalDetailView: View {
       .padding(.top, 10)
       
       if goal.isCompleted {
-        EXInfoCard(title: "Champ Champ!", icon: Source.Images.InfoCardIcon.topCategory, text: "You have completed this goal ahead of time. Do your best to close others same way!")
+        EXInfoCard(config: ("Champ Champ!",
+                            "You have completed this goal ahead of time. Do your best to close others same way!"),
+                   icon: .image(Source.Images.InfoCardIcon.topCategory))
           .padding(.top, 10)
       }
       
       else if goal.isFailed {
-        EXInfoCard(title: "Not this time :(", icon: Source.Images.InfoCardIcon.missedGoal, text: "You couldn't finish goal before deadline, but you can still make it with other goals!")
+        EXInfoCard(config: ("Not this time :(",
+                            "You couldn't finish goal before deadline, but you can still make it with other goals!"),
+                   icon: .image(Source.Images.InfoCardIcon.missedGoal))
           .padding(.top, 10)
       }
       else {

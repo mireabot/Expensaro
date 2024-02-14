@@ -40,7 +40,9 @@ struct InitialPermissionView: View {
       .padding(.top, 20)
       
       VStack(spacing: 16) {
-        EXToggleCard(type: .notifications, isOn: $notificationsSelected)
+        EXToggleCard(config: (Source.Strings.ToggleType.notifications.title, 
+                              Source.Strings.ToggleType.notifications.text),
+                     isOn: $notificationsSelected)
           .onChange(of: notificationsSelected, perform: { value in
             if value {
               DispatchQueue.main.async {

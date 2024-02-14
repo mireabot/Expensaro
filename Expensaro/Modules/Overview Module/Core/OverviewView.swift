@@ -27,7 +27,8 @@ struct OverviewView: View {
         VStack(spacing: 16) {
           topCategorySection()
           monthRecapSection()
-          EXInfoCard(type: .overviewUpdates)
+          EXInfoCard(config: (Source.Strings.InfoCardType.overviewUpdates.title,
+                              Source.Strings.InfoCardType.overviewUpdates.text))
         }
         .padding(.top, 16)
       }
@@ -35,7 +36,10 @@ struct OverviewView: View {
         topCategoryService.groupAndFindMaxAmountCategory()
       }
       .sheet(isPresented: $showTopCategoryInfoSheet, content: {
-        EXBottomInfoView(type: .topCategory, action: {
+        EXBottomInfoView(config: (Source.Strings.BottomPreviewType.topCategory.title,
+                                  Source.Strings.BottomPreviewType.topCategory.text,
+                                  Source.Strings.BottomPreviewType.topCategory.isButton),
+                         action: {
           DispatchQueue.main.async {
             showTopCategoryInfoSheet.toggle()
           }
@@ -49,7 +53,10 @@ struct OverviewView: View {
       })
       .sheet(isPresented: $showSpendingsInfoSheet, content: {
         ViewThatFits(in: .vertical, content: {
-          EXBottomInfoView(type: .spendings, action: {
+          EXBottomInfoView(config: (Source.Strings.BottomPreviewType.spendings.title,
+                                    Source.Strings.BottomPreviewType.spendings.text,
+                                    Source.Strings.BottomPreviewType.spendings.isButton),
+                           action: {
             DispatchQueue.main.async {
               showSpendingsInfoSheet.toggle()
             }
@@ -103,14 +110,14 @@ extension OverviewView {
       })
       .buttonStyle(EXPlainButtonStyle())
     } else {
-      EXInfoCardWithButton(type: .topCategory, icon: Source.Images.InfoCardIcon.topCategory, buttonIcon: Source.Images.ButtonIcons.how, buttonAction: {showTopCategoryInfoSheet.toggle()})
+      EXInfoCardWithButton(config: (Source.Strings.InfoCardType.topCategory.title, Source.Strings.InfoCardType.topCategory.text), icon: .image(Source.Images.InfoCardIcon.topCategory), buttonIcon: Source.Images.ButtonIcons.how, buttonAction: {showTopCategoryInfoSheet.toggle()})
     }
   }
   
   @ViewBuilder
   func monthRecapSection() -> some View {
     if monthRecapService.isLocked {
-      EXInfoCardWithButton(type: .monthToMonth, icon: Source.Images.InfoCardIcon.month2month, buttonIcon: Source.Images.ButtonIcons.how, buttonAction: {showSpendingsInfoSheet.toggle()})
+      EXInfoCardWithButton(config: (Source.Strings.InfoCardType.monthToMonth.title, Source.Strings.InfoCardType.monthToMonth.text), icon: .image(Source.Images.InfoCardIcon.month2month), buttonIcon: Source.Images.ButtonIcons.how, buttonAction: {showSpendingsInfoSheet.toggle()})
     }
     else {
       Button(action: {

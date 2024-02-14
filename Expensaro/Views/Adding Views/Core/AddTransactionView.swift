@@ -43,7 +43,11 @@ struct AddTransactionView: View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
         ScrollView {
-          EXSegmentControl(currentTab: $transaction.type, type: .transactionType).padding(.top, 20)
+          EXSegmentControl(currentTab: $transaction.type, 
+                           config: (Source.Strings.SegmentPickerType.transactionType.firstTab,
+                                    Source.Strings.SegmentPickerType.transactionType.secondTab))
+          .padding(.top, 20)
+          
           VStack(spacing: 15) {
             VStack(spacing: 10) {
               transactionTextField()
