@@ -15,6 +15,7 @@ struct RemindersSettingsView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   @State private var reminderOn = UserDefaults.standard.bool(forKey: "notificationsEnabled")
   let notificationManager: NotificationManager = NotificationManager.shared
+  @State private var sheetHeight: CGFloat = .zero
   
   // MARK: Realm
   @Environment(\.realm) var realm
@@ -22,6 +23,7 @@ struct RemindersSettingsView: View {
   // MARK: Presentation
   @State private var showToast = false
   @State private var showLoader = false
+  @State private var showDangerSheet = false
   var body: some View {
     NavigationView {
       ScrollView {
@@ -59,8 +61,7 @@ struct RemindersSettingsView: View {
             EXDialog(config: (Source.Strings.DialogType.deleteReminders.title, 
                               Source.Strings.DialogType.deleteReminders.text)) {
               Button(action: {
-                deleteReminders()
-                AnalyticsManager.shared.log(.removeReminders)
+                showDangerSheet.toggle()
               }, label: {
                 Text("Delete all reminders")
                   .font(.system(.subheadline, weight: .semibold))
@@ -71,8 +72,14 @@ struct RemindersSettingsView: View {
         }
         .padding(.top, 20)
       }
-      .scrollDisabled(true)
+      .applyBounce()
       .applyMargins()
+      .sheet(isPresented: $showDangerSheet, content: {
+        dangerSheet()
+          .fixedSize(horizontal: false, vertical: true)
+          .modifier(GetHeightModifier(height: $sheetHeight))
+          .presentationDetents([.height(sheetHeight)])
+      })
       .popup(isPresented: $showToast, view: {
         EXToast(type: .constant(.remindersDeleted))
       }, customize: {
@@ -120,6 +127,43 @@ extension RemindersSettingsView {
   }
 }
 
+extension RemindersSettingsView {
+  @ViewBuilder
+  func dangerSheet() -> some View {
+    ViewThatFits(in: .vertical) {
+      VStack(spacing: 30) {
+        VStack(alignment: .leading, spacing: 3, content: {
+          Text("Are you sure?")
+            .font(.title2Bold)
+          Text("Proceeding with this action will delete all pending notifications about upcoming payments. This action is irreversible.")
+            .font(.headlineRegular)
+            .foregroundColor(.darkGrey)
+        })
+        .frame(maxWidth: .infinity, alignment: .leading)
+        HStack {
+          Button(action: {
+            showDangerSheet.toggle()
+          }, label: {
+            Text("Leave all")
+              .font(.headlineSemibold)
+          })
+          .buttonStyle(EXSecondaryPrimaryButtonStyle(showLoader: .constant(false)))
+          Button(action: {
+            showDangerSheet.toggle()
+            deleteReminders()
+          }, label: {
+            Text("Delete reminders")
+              .font(.headlineSemibold)
+          })
+          .buttonStyle(EXDestructiveButtonStyle(showLoader: $showLoader))
+        }
+      }
+      .padding(16)
+    }
+    .background(Color.white)
+  }
+}
+
 // MARK: - Realm Functions
 extension RemindersSettingsView {
   func deleteReminders() {
@@ -130,6 +174,7 @@ extension RemindersSettingsView {
       payments.setValue(false, forKey: "isReminder")
     }
     notificationManager.deleteNotifications()
+    AnalyticsManager.shared.log(.removeReminders)
     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
       showLoader.toggle()
       showToast.toggle()

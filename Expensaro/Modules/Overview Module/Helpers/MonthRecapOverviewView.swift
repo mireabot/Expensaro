@@ -21,13 +21,21 @@ struct MonthRecapOverviewView: View {
   var body: some View {
     NavigationView {
       ScrollView {
-        header().padding(.top, 16)
-        budgetSection().padding(.top, 5)
-        categoriesSection().padding(.top, 10)
-        goalsSection().padding(.top, 10)
+        header()
+          .applyMargins()
+          .padding(.top, 16)
+        budgetSection()
+          .applyMargins()
+          .padding(.top, 5)
+        categoriesSection()
+          .applyMargins()
+          .padding(.top, 10)
+        goalsSection()
+          .applyMargins()
+          .padding(.vertical, 10)
       }
       .applyBounce()
-      .applyMargins()
+      .scrollIndicators(.hidden)
       .sheet(isPresented: $showCategoriesBreakdown, content: {
         CategoriesBreakdownOverviewView(service: service)
           .presentationDetents([.fraction(0.95)])
@@ -113,11 +121,21 @@ extension MonthRecapOverviewView {
                 }
                 Spacer()
                 Text("\(data.amount.formattedAsCurrencySolid(with: currencySign))")
-                  .font(.system(.footnote, weight: .semibold))
+                  .font(.footnoteSemibold)
               }
             }
           }
         }
+      }
+      EXBaseCard {
+        VStack(alignment: .leading, spacing: 3) {
+          Text("\(service.budgetData.3.formattedAsCurrency(with: currencySign))")
+            .font(.headlineBold)
+          Text("Unused Budget")
+            .font(.footnoteRegular)
+            .foregroundStyle(Color.darkGrey)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
       }
     }
   }

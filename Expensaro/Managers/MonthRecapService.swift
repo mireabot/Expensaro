@@ -11,7 +11,7 @@ import ExpensaroUIKit
 import RealmSwift
 
 final class MonthRecapService: ObservableObject {
-  @Published var budgetData: (Double, Double, Double) = (0.0, 0.0, 0.0)
+  @Published var budgetData: (Double, Double, Double, Double) = (0.0, 0.0, 0.0, 0.0)
   @Published var goalTotalContribution: Double = 0.0
   @Published var goalContributionBreakdown: [GoalSummary] = []
   @Published var groupedTransactions: [GroupedTransactionsBySection] = []
@@ -53,6 +53,7 @@ final class MonthRecapService: ObservableObject {
     if let budget = pastMonthBudget.first, !pastMonthBudget.isEmpty {
       isLocked = false
       budgetData.0 = budget.initialAmount
+      budgetData.3 = budget.amount
       let pastAddedFunds = realm.objects(Transaction.self).filter(addedFundsPredicate)
       budgetData.1 = pastAddedFunds.toArray().reduce(0) { $0 + $1.amount }
       fetchTransactions()
@@ -63,6 +64,7 @@ final class MonthRecapService: ObservableObject {
       budgetData.0 = 2000
       budgetData.1 = 780
       budgetData.2 = 1600
+      budgetData.3 = 450
       goalTotalContribution = 1600
       groupSections(with: Source.DefaultData.sampleTransactions)
       goalContributionBreakdown = [

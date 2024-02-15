@@ -52,7 +52,7 @@ struct AddGoalView: View {
             .buttonStyle(EXPlainButtonStyle())
             
             if currentBudget.initialAmount != 0 {
-              GoalEstimatorView(goalManager: .init(), goalInfo: (currentBudget.initialAmount, Double(amountValue) ?? 0, goal.daysLeft))
+              GoalEstimatorView(goalManager: .init(), goalInfo: (currentBudget.initialAmount, Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, goal.daysLeft))
             }
           }
           .padding(.top, 25)
