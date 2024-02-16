@@ -133,7 +133,7 @@ struct GoalDetailView: View {
   @ViewBuilder
   func transactionList() -> some View {
     VStack(spacing: 10) {
-      Text("Transactions")
+      Text("Contributions")
         .font(.system(.headline, weight: .semibold))
         .frame(maxWidth: .infinity, alignment: .leading)
       if goal.transactions.isEmpty {
@@ -152,7 +152,7 @@ struct GoalDetailView: View {
 
 struct GoalDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    GoalDetailView(goal: Source.DefaultData.sampleGoals[2])
+    GoalDetailView(goal: Source.DefaultData.sampleGoals[0])
       .environment(\.realmConfiguration, RealmMigrator.configuration)
   }
 }

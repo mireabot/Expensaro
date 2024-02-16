@@ -15,8 +15,7 @@ struct GoalAnalyticsView: View {
     EXBaseCard {
       VStack(alignment: .leading, spacing: 5, content: {
         Appearance.shared.icon
-          .foregroundColor(.primaryGreen)
-          .padding(.bottom, 5)
+          .foregroundColor(.black)
         Text("\(Appearance.shared.text) We estimated your payments to make things faster")
           .font(.system(.headline, weight: .medium))
           .foregroundColor(.black)

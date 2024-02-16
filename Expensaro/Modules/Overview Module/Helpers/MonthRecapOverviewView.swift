@@ -104,7 +104,7 @@ extension MonthRecapOverviewView {
             .cornerRadius(5)
           }
           .frame(height: 100)
-          .chartXAxis(.hidden)
+          //.chartXAxis(.hidden)
           .chartYAxis(.hidden)
           .chartLegend(.hidden)
           
@@ -173,7 +173,7 @@ extension MonthRecapOverviewView {
             }
             .chartLegend(.hidden)
             .chartXAxis(.hidden)
-            .frame(height: 35)
+            .frame(height: 30)
             .cornerRadius(5)
             .frame(maxWidth: .infinity)
             ScrollView(.horizontal, showsIndicators: false) {

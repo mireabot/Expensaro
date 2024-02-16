@@ -46,7 +46,7 @@ struct OverviewView: View {
           AnalyticsManager.shared.log(.openTopCategoryPreview)
           router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(service: topCategoryService)))
         }, bottomView: {
-          EXOverviewCard(header: "Top Category", title: "Electronics", icon: Source.Images.Navigation.redirect, subHeader: "You have spent \(Double(270).formattedAsCurrencySolid(with: currencySign)) on this category")
+          EXOverviewCard(header: "Top Category", title: "Housing", icon: Source.Images.Navigation.redirect, subHeader: "You have spent \(Double(800).formattedAsCurrencySolid(with: currencySign)) on this category")
         })
         .applyMargins()
         .presentationDetents([.fraction(0.4)])
