@@ -21,7 +21,7 @@ struct CategoriesSettingsView: View {
           router.pushTo(view: EXNavigationViewBuilder.builder.makeView(AddCategoryView(isSheet: false, category: Category())))
         } label: {
           Text("Create new category")
-            .font(.system(.subheadline, weight: .medium))
+            .font(.subheadlineMedium)
         }
         .buttonStyle(EXStretchButtonStyle(icon: Appearance.shared.addIcon))
         .padding(.top, 20)

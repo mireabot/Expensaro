@@ -1,8 +1,8 @@
 //
-//  AddTransactionView.swift
+//  AddDailyTransactionView.swift
 //  Expensaro
 //
-//  Created by Mikhail Kolkov on 9/15/23.
+//  Created by Mikhail Kolkov on 2/16/24.
 //
 
 import SwiftUI
@@ -10,7 +10,7 @@ import ExpensaroUIKit
 import RealmSwift
 import PopupView
 
-struct AddTransactionView: View {
+struct AddDailyTransactionView: View {
   // MARK: Essential
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
@@ -18,19 +18,13 @@ struct AddTransactionView: View {
   
   // MARK: Realm
   @Environment(\.realm) var realm
-  @ObservedRealmObject var transaction: Transaction
-  @ObservedRealmObject var budget: Budget
+  @ObservedRealmObject var dailyTransaction: DailyTransaction
   var isUpdating: Bool {
-    transaction.realm != nil
+    dailyTransaction.realm != nil
   }
   
   // MARK: Variables
   @State var amountValue: String = "0.0"
-  @State private var budgetValue: Double = 0
-  @State private var budgetExceed: Double = 0
-  @State private var isBudgetAvailable = true
-  @State private var isLoading = false
-  
   @State private var sheetHeight: CGFloat = .zero
   
   // MARK: Errors
@@ -43,22 +37,16 @@ struct AddTransactionView: View {
     NavigationView {
       ZStack(alignment: .bottom, content: {
         ScrollView {
-          EXSegmentControl(currentTab: $transaction.type, 
-                           config: (Source.Strings.SegmentPickerType.transactionType.firstTab,
-                                    Source.Strings.SegmentPickerType.transactionType.secondTab))
-          .padding(.top, 20)
-          
           VStack(spacing: 15) {
             VStack(spacing: 10) {
               transactionTextField()
-              budgetSection()
             }
-            EXTextField(text: $transaction.name, header: "Transaction name", placeholder: Appearance.shared.textFieldPlaceholder)
+            EXTextField(text: $dailyTransaction.name, header: "Daily transaction name", placeholder: Appearance.shared.textFieldDailyTransactionPlaceholder)
               .focused($isFieldFocused)
             Button(action: {
               showCategoriesSelector.toggle()
             }, label: {
-              EXLargeSelector(text: $transaction.categoryName, icon: .constant(.imageName(transaction.categoryIcon)), header: "Category", rightIcon: "swipeDown")
+              EXLargeSelector(text: $dailyTransaction.categoryName, icon: .constant(.imageName(dailyTransaction.categoryIcon)), header: "Category", rightIcon: "swipeDown")
             })
             .buttonStyle(EXPlainButtonStyle())
           }
@@ -66,7 +54,7 @@ struct AddTransactionView: View {
         }
         .applyBounce()
         EXNumberKeyboard(textValue: $amountValue) {
-          if Double(amountValue) == transaction.amount && isUpdating {
+          if Double(amountValue) == dailyTransaction.amount && isUpdating {
             makeDismiss()
           }
           else {
@@ -80,10 +68,7 @@ struct AddTransactionView: View {
       }
       .onAppear {
         if isUpdating {
-          amountValue = String(transaction.amount)
-          budgetValue = budget.amount
-        } else {
-          budgetValue = budget.amount
+          amountValue = String(dailyTransaction.amount)
         }
       }
       .applyMargins()
@@ -97,7 +82,7 @@ struct AddTransactionView: View {
           .autohideIn(1.5)
       })
       .sheet(isPresented: $showCategoriesSelector) {
-        CategorySelectorView(presentation: $showCategoriesSelector, title: $transaction.categoryName, icon: $transaction.categoryIcon, section: $transaction.categorySection)
+        CategorySelectorView(presentation: $showCategoriesSelector, title: $dailyTransaction.categoryName, icon: $dailyTransaction.categoryIcon, section: $dailyTransaction.categorySection)
           .frame(height: 600)
           .modifier(GetHeightModifier(height: $sheetHeight))
           .presentationDetents([.height(sheetHeight)])
@@ -106,7 +91,7 @@ struct AddTransactionView: View {
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
-          Text(isUpdating ? Appearance.shared.updateTitle : Appearance.shared.title)
+          Text(Appearance.shared.dailyTitle)
             .font(.system(.headline, weight: .medium))
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -124,62 +109,43 @@ struct AddTransactionView: View {
 }
 
 #Preview(body: {
-  AddTransactionView(transaction: Transaction(), budget: Budget())
+  AddDailyTransactionView(dailyTransaction: DailyTransaction())
     .environment(\.realmConfiguration, RealmMigrator.configuration)
 })
 
 // MARK: - Apperance
-extension AddTransactionView {
+extension AddDailyTransactionView {
   struct Appearance {
     static let shared = Appearance()
-    let title = "Add transaction"
-    let updateTitle = "Edit transaction"
     let dailyTitle = "Add daily transaction"
-    let textFieldPlaceholder = "What did you spend money on?"
     let textFieldDailyTransactionPlaceholder = "What did you spend money on?"
     
     let closeIcon = Source.Images.Navigation.close
-    let cameraIcon = Source.Images.System.scan
   }
 }
 
 // MARK: - Realm Functions
-extension AddTransactionView {
+extension AddDailyTransactionView {
   func createTransaction() {
-    AnalyticsManager.shared.log(.createTransaction(transaction.name, Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, transaction.categoryName))
-    transaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
+    AnalyticsManager.shared.log(.createTransaction(dailyTransaction.name, Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, dailyTransaction.categoryName))
+    dailyTransaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
     try? realm.write {
-      realm.add(transaction)
-    }
-    
-    if let newBudget = budget.thaw(), let realm = newBudget.realm {
-      try? realm.write {
-        newBudget.amount -= transaction.amount
-      }
+      realm.add(dailyTransaction)
     }
   }
   
   func updateTransaction() {
     AnalyticsManager.shared.log(.editTransaction)
-    var difference: Double = 0
-    if let newTransaction = transaction.thaw(), let realm = newTransaction.realm {
+    if let newTransaction = dailyTransaction.thaw(), let realm = newTransaction.realm {
       try? realm.write {
-        difference = newTransaction.amount - (Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0)
         newTransaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
-      }
-    }
-    print(difference)
-    
-    if let newBudget = budget.thaw(), let realm = newBudget.realm {
-      try? realm.write {
-        newBudget.amount += difference
       }
     }
   }
 }
 
 // MARK: - Helper Views
-extension AddTransactionView {
+extension AddDailyTransactionView {
   @ViewBuilder
   func transactionTextField() -> some View {
     HStack {
@@ -198,7 +164,6 @@ extension AddTransactionView {
         amountValue = Source.Functions.reformatTextValue(amountValue, addingCharacter: false)
         if amountValue.isEmpty {
           amountValue = "0.0"
-          isBudgetAvailable = true
         }
       } label: {
         Source.Images.System.remove
@@ -210,37 +175,17 @@ extension AddTransactionView {
       .disabled(amountValue == "0.0")
     }
   }
-  
-  @ViewBuilder
-  func budgetSection() -> some View {
-    EXBaseCard {
-      VStack(alignment: .leading) {
-        Text("\(budgetValue.formattedAsCurrency(with: currencySign))")
-          .font(.title3Semibold)
-          .foregroundColor(.primaryGreen)
-        Text("Budget remaining")
-          .font(.footnoteRegular)
-          .foregroundColor(.darkGrey)
-      }
-      .frame(maxWidth: .infinity, alignment: .leading)
-    }
-  }
 }
 
 // MARK: - Helper Functions
-extension AddTransactionView {
+extension AddDailyTransactionView {
   func validateBudget() {
-    if Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0 > budgetValue {
-      errorType = .budgetExceed
-      showError.toggle()
-      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-      return
-    } else if Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0 == 0 {
+    if Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0 == 0 {
       errorType = .zeroAmount
       showError.toggle()
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       return
-    } else if transaction.name.isEmpty {
+    } else if dailyTransaction.name.isEmpty {
       errorType = .emptyName
       showError.toggle()
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -253,5 +198,10 @@ extension AddTransactionView {
       }
       makeDismiss()
     }
+  }
+  
+  enum ScreenType {
+    case regularTransaction
+    case dailyTransaction
   }
 }

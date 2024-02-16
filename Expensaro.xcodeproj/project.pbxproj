@@ -90,12 +90,15 @@
 		35C883F32ACE186600F6E1FB /* TransactionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C883F22ACE186500F6E1FB /* TransactionDetailView.swift */; };
 		35CE33E42AE1891A00BC93C2 /* AddGoalTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CE33E32AE1891A00BC93C2 /* AddGoalTransactionView.swift */; };
 		35CE33E62AE18CEB00BC93C2 /* EXGoalTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CE33E52AE18CEB00BC93C2 /* EXGoalTransactionCell.swift */; };
+		35DA3A332B7FE45A0042A470 /* DailyTransactionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DA3A322B7FE45A0042A470 /* DailyTransactionsListView.swift */; };
 		35DE97DE2AE747F900CEF68D /* EXToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DE97DD2AE747F900CEF68D /* EXToast.swift */; };
 		35DFA06A2AC385F10008246A /* EraseDataSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */; };
 		35E80A782B3B3184006231F8 /* CategoriesBreakdownOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E80A772B3B3184006231F8 /* CategoriesBreakdownOverviewView.swift */; };
 		35E8743A2ACC7EE2002368DB /* PeriodicitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E874392ACC7EE2002368DB /* PeriodicitySelectorView.swift */; };
 		35E8743D2ACC899A002368DB /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E8743C2ACC899A002368DB /* Transaction.swift */; };
 		35F207A62ADA3EC400834C52 /* RealmMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F207A52ADA3EC400834C52 /* RealmMigrator.swift */; };
+		35F49FC32B8003B5009F0C6E /* AddDailyTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F49FC22B8003B5009F0C6E /* AddDailyTransactionView.swift */; };
+		35F49FC62B80050F009F0C6E /* DailyTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F49FC52B80050F009F0C6E /* DailyTransaction.swift */; };
 		35FA687C2B4B04D80005A067 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FA687B2B4B04D80005A067 /* AnalyticsManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -175,6 +178,7 @@
 		35C883F22ACE186500F6E1FB /* TransactionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailView.swift; sourceTree = "<group>"; };
 		35CE33E32AE1891A00BC93C2 /* AddGoalTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalTransactionView.swift; sourceTree = "<group>"; };
 		35CE33E52AE18CEB00BC93C2 /* EXGoalTransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXGoalTransactionCell.swift; sourceTree = "<group>"; };
+		35DA3A322B7FE45A0042A470 /* DailyTransactionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTransactionsListView.swift; sourceTree = "<group>"; };
 		35DE97DD2AE747F900CEF68D /* EXToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXToast.swift; sourceTree = "<group>"; };
 		35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EraseDataSettingsView.swift; sourceTree = "<group>"; };
 		35DFA06B2AC397870008246A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -182,6 +186,8 @@
 		35E874392ACC7EE2002368DB /* PeriodicitySelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicitySelectorView.swift; sourceTree = "<group>"; };
 		35E8743C2ACC899A002368DB /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		35F207A52ADA3EC400834C52 /* RealmMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrator.swift; sourceTree = "<group>"; };
+		35F49FC22B8003B5009F0C6E /* AddDailyTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDailyTransactionView.swift; sourceTree = "<group>"; };
+		35F49FC52B80050F009F0C6E /* DailyTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTransaction.swift; sourceTree = "<group>"; };
 		35FA687B2B4B04D80005A067 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -266,6 +272,7 @@
 		352CB2762ABA4194006C1CEF /* System */ = {
 			isa = PBXGroup;
 			children = (
+				35F49FC42B8004FB009F0C6E /* Daily Transaction */,
 				3567EAD92B2B7D7B009E76D6 /* Analytics */,
 				35AAD3C32AD72B10000974A6 /* Budget */,
 				35E8743B2ACC8990002368DB /* Transaction */,
@@ -310,6 +317,7 @@
 				359CDC612AB50C0000DFFDC7 /* AddTransactionView.swift */,
 				354F2B042AB8C860002516F1 /* AddGoalView.swift */,
 				35CE33E32AE1891A00BC93C2 /* AddGoalTransactionView.swift */,
+				35F49FC22B8003B5009F0C6E /* AddDailyTransactionView.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -504,6 +512,7 @@
 		359094A72AAE353100428B39 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				35DA3A312B7FC0220042A470 /* Daily Transactions Module */,
 				358978D72AFEC08300E8C378 /* Debug Module */,
 				359CDC5A2AB4DE2100DFFDC7 /* Tab Bar Module */,
 				354F2B0F2AB9040C002516F1 /* Settings Module */,
@@ -622,6 +631,14 @@
 			path = ViewModifiers;
 			sourceTree = "<group>";
 		};
+		35DA3A312B7FC0220042A470 /* Daily Transactions Module */ = {
+			isa = PBXGroup;
+			children = (
+				35DA3A322B7FE45A0042A470 /* DailyTransactionsListView.swift */,
+			);
+			path = "Daily Transactions Module";
+			sourceTree = "<group>";
+		};
 		35E8743B2ACC8990002368DB /* Transaction */ = {
 			isa = PBXGroup;
 			children = (
@@ -636,6 +653,14 @@
 				35F207A52ADA3EC400834C52 /* RealmMigrator.swift */,
 			);
 			path = Realm;
+			sourceTree = "<group>";
+		};
+		35F49FC42B8004FB009F0C6E /* Daily Transaction */ = {
+			isa = PBXGroup;
+			children = (
+				35F49FC52B80050F009F0C6E /* DailyTransaction.swift */,
+			);
+			path = "Daily Transaction";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -742,6 +767,7 @@
 				35BEF3652AB38814005D1138 /* AddRecurrentPaymentView.swift in Sources */,
 				3564D81F2ACB71EB00553ECB /* EditGoalView.swift in Sources */,
 				354F2B0B2AB8D24B002516F1 /* DateSelectorView.swift in Sources */,
+				35DA3A332B7FE45A0042A470 /* DailyTransactionsListView.swift in Sources */,
 				3538822C2B4E4B7500EB57D1 /* AppSettingsView.swift in Sources */,
 				359094A42AAE342F00428B39 /* NavigationControllers.swift in Sources */,
 				351061282AD74AEB006E6DF4 /* Budget.swift in Sources */,
@@ -777,6 +803,7 @@
 				359CDC5C2AB4DE3300DFFDC7 /* TabBarView.swift in Sources */,
 				358E6B7F2AC0840900ABA818 /* CategorySelectorView.swift in Sources */,
 				350DF5802B5972A600AFAAFD /* GoalManager.swift in Sources */,
+				35F49FC32B8003B5009F0C6E /* AddDailyTransactionView.swift in Sources */,
 				359094A62AAE344000428B39 /* HostingController.swift in Sources */,
 				359094AD2AAE390500428B39 /* HomeView.swift in Sources */,
 				354A7C0B2ABDE57900934E4E /* CategoriesSettingsView.swift in Sources */,
@@ -791,6 +818,7 @@
 				35825BF92AC9CDB600713AD8 /* EXRecurringTransactionCell.swift in Sources */,
 				358731002B656B840046164E /* AppFeatures.swift in Sources */,
 				35C80C6D2ABF59DE0063553E /* RemindersSettingsView.swift in Sources */,
+				35F49FC62B80050F009F0C6E /* DailyTransaction.swift in Sources */,
 				359CDC542AB4C69600DFFDC7 /* OnboardingView.swift in Sources */,
 				3592EFFB2AF32D10008138EE /* FirstAppear.swift in Sources */,
 				35BB8A3B2AD89C1C0099E71F /* Category.swift in Sources */,

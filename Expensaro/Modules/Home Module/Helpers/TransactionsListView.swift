@@ -53,7 +53,6 @@ struct TransactionsListView: View {
       }
       .fullScreenCover(isPresented: $showAddTransaction, content: {
         AddTransactionView(transaction: Transaction(), budget: currentBudget)
-          .presentationDetents([.large])
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
