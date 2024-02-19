@@ -33,21 +33,7 @@ struct DailyTransactionsListView: View {
         
         List {
           ForEach(dailyTransactions) { data in
-            HStack {
-              VStack(alignment: .leading, spacing: 0) {
-                Text(data.name)
-                  .font(.calloutSemibold)
-                Text("\(data.amount.formattedAsCurrency(with: currencySign))")
-                  .font(.footnoteRegular)
-                  .foregroundColor(.darkGrey)
-              }
-              Spacer()
-              Text(data.categoryIcon)
-                .foregroundColor(.primaryGreen)
-                .padding(10)
-                .background(Color.backgroundGrey)
-                .cornerRadius(8)
-            }
+            dailyTransactionCell(withName: data.name, amount: data.amount, icon: data.categoryIcon)
               .listRowSeparator(.hidden)
           }
           .onDelete(perform: { indexSet in
@@ -110,4 +96,25 @@ extension DailyTransactionsListView {
 #Preview {
   DailyTransactionsListView()
     .environment(\.realmConfiguration, RealmMigrator.configuration)
+}
+
+extension DailyTransactionsListView {
+  @ViewBuilder
+  func dailyTransactionCell(withName name: String, amount: Double, icon: String) -> some View {
+    HStack {
+      VStack(alignment: .leading, spacing: 0) {
+        Text(name)
+          .font(.calloutSemibold)
+        Text("\(amount.formattedAsCurrency(with: currencySign))")
+          .font(.footnoteRegular)
+          .foregroundColor(.darkGrey)
+      }
+      Spacer()
+      Text(icon)
+        .foregroundColor(.primaryGreen)
+        .padding(10)
+        .background(Color.backgroundGrey)
+        .cornerRadius(8)
+    }
+  }
 }

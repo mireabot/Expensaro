@@ -128,7 +128,9 @@ extension HomeView {
         Menu {
           Menu("Daily Transactions") {
             ForEach(dailyTransactions) { dailyTransaction in
-              Button(action: { }) {
+              Button(action: {
+                addDailyTransaction(with: dailyTransaction)
+              }) {
                 Label("\(dailyTransaction.categoryIcon) \(dailyTransaction.name)", systemImage: "")
               }
             }
@@ -359,6 +361,25 @@ extension HomeView {
       return "1 recurring payment"
     } else {
       return "\(difference) recurring payments"
+    }
+  }
+}
+
+// MARK: - Realm Functions
+extension HomeView {
+  func addDailyTransaction(with dailyTransaction: DailyTransaction) {
+    if dailyTransaction.amount > currentBudget.amount {
+      return
+    }
+    let transaction = Source.Realm.createTransaction(name: dailyTransaction.name, date: Date(), category: (dailyTransaction.categoryName, dailyTransaction.categoryIcon, dailyTransaction.categorySection), amount: dailyTransaction.amount, type: "Daily transaction", note: "")
+    try? realm.write {
+      realm.add(transaction)
+    }
+    
+    if let newBudget = currentBudget.thaw(), let realm = newBudget.realm {
+      try? realm.write {
+        newBudget.amount -= transaction.amount
+      }
     }
   }
 }
