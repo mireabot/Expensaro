@@ -17,4 +17,7 @@ class NavigationControllers {
   
   // Overview module destinations
   let overviewModuleNavigationController = UINavigationController()
+  
+  // Overview module destinations
+  let dailyTransactionswModuleNavigationController = UINavigationController()
 }

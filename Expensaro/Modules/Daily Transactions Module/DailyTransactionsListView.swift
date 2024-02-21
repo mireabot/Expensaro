@@ -31,16 +31,26 @@ struct DailyTransactionsListView: View {
         .padding(.top, 16)
         .applyMargins()
         
-        List {
-          ForEach(dailyTransactions) { data in
-            dailyTransactionCell(withName: data.name, amount: data.amount, icon: data.categoryIcon)
-              .listRowSeparator(.hidden)
+        ZStack {
+          if dailyTransactions.isEmpty {
+            VStack {
+              EXEmptyStateView(type: .noDailyTransactions, isCard: false)
+              Spacer()
+            }
+            .padding(16)
+          } else {
+            List {
+              ForEach(dailyTransactions) { data in
+                dailyTransactionCell(withName: data.name, amount: data.amount, icon: data.categoryIcon)
+                  .listRowSeparator(.hidden)
+              }
+              .onDelete(perform: { indexSet in
+                $dailyTransactions.remove(atOffsets: indexSet)
+              })
+            }
+            .listStyle(.plain)
           }
-          .onDelete(perform: { indexSet in
-            $dailyTransactions.remove(atOffsets: indexSet)
-          })
         }
-        .listStyle(.plain)
       }
       .fullScreenCover(isPresented: $showAddDailyTransactionScreen, content: {
         AddDailyTransactionView(dailyTransaction: DailyTransaction())

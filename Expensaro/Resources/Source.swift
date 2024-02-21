@@ -35,6 +35,7 @@ enum Source {
       static let noInsights = Image("month2month")
       static let noRecurringPayments = Image("recurrentPayments")
       static let noGoalTransaction = Image("buttonTransaction")
+      static let noDailyTransactions = Image("noDailyTransactions")
     }
     enum Onboarding {
       static let onb1 = Image("onb1")

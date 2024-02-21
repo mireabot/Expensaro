@@ -35,14 +35,14 @@ struct EXEmptyStateView: View {
       .background(Color.backgroundGrey)
       .cornerRadius(12)
     } else {
-      VStack(alignment: .center, spacing: 5) {
+      VStack(alignment: .center, spacing: 0) {
         type.image
           .resizable()
           .frame(width: 120, height: 120)
         VStack(spacing: 5) {
           type.title
           Text(type.text)
-            .font(.system(.headline, weight: .semibold))
+            .font(.headlineRegular)
             .foregroundColor(.darkGrey)
         }
       }
@@ -51,5 +51,5 @@ struct EXEmptyStateView: View {
 }
 
 #Preview {
-  EXEmptyStateView(type: .noRecapGoals, isActive: false, isCard: true).applyMargins()
+  EXEmptyStateView(type: .noGoals, isActive: false, isCard: false).applyMargins()
 }
