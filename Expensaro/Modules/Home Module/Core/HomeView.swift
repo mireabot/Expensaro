@@ -18,12 +18,12 @@ struct HomeView: View {
   @State private var showAddBudget = false
   @State private var showAddRecurrentPayment = false
   @State private var showAddTransaction = false
+  @State private var showAddDailyTransaction = false
   @AppStorage("currencySign") private var currencySign = "USD"
   
   // MARK: Presentation
   @State private var showUpdateBudget = false
   @State private var showAlert = false
-  
   @State private var showPaymentAnimation = false
   @State private var showTransactionAnimation = false
   
@@ -32,6 +32,8 @@ struct HomeView: View {
   @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
   @ObservedResults(Transaction.self, filter: NSPredicate(format: "date >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var transactions
   @ObservedResults(RecurringTransaction.self, sortDescriptor: SortDescriptor(keyPath: \RecurringTransaction.dueDate, ascending: true)) var recurringTransactions
+  @ObservedResults(DailyTransaction.self) var dailyTransactions
+  
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing) {
@@ -70,15 +72,15 @@ struct HomeView: View {
       })
       .fullScreenCover(isPresented: $showAddBudget, content: {
         AddBudgetView(type: .addBudget, budget: Budget())
-          .presentationDetents([.large])
       })
       .fullScreenCover(isPresented: $showAddTransaction, content: {
         AddTransactionView(transaction: Transaction(), budget: currentBudget)
-          .presentationDetents([.large])
       })
       .fullScreenCover(isPresented: $showAddRecurrentPayment, content: {
         AddRecurrentPaymentView(recurringPayment: RecurringTransaction(), budget: currentBudget)
-          .presentationDetents([.large])
+      })
+      .fullScreenCover(isPresented: $showAddDailyTransaction, content: {
+        DailyTransactionsListView()
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -124,6 +126,20 @@ extension HomeView {
     if currentBudget.amount != 0, !transactions.isEmpty {
       VStack {
         Menu {
+          Menu("Daily Transactions") {
+            ForEach(dailyTransactions) { dailyTransaction in
+              Button(action: {
+                addDailyTransaction(with: dailyTransaction)
+              }) {
+                Label("\(dailyTransaction.categoryIcon) \(dailyTransaction.name)", systemImage: "")
+              }
+            }
+            // Add button for FT
+            Button(action: { showAddDailyTransaction.toggle() }) {
+              Label("Manage daily transactions", systemImage: "plus")
+            }
+          }
+          .menuOrder(.priority)
           Button(action: { showAddTransaction.toggle() }) {
             Label("Add transaction", image: "buttonTransaction")
           }
@@ -345,6 +361,25 @@ extension HomeView {
       return "1 recurring payment"
     } else {
       return "\(difference) recurring payments"
+    }
+  }
+}
+
+// MARK: - Realm Functions
+extension HomeView {
+  func addDailyTransaction(with dailyTransaction: DailyTransaction) {
+    if dailyTransaction.amount > currentBudget.amount {
+      return
+    }
+    let transaction = Source.Realm.createTransaction(name: dailyTransaction.name, date: Date(), category: (dailyTransaction.categoryName, dailyTransaction.categoryIcon, dailyTransaction.categorySection), amount: dailyTransaction.amount, type: "Daily transaction", note: "")
+    try? realm.write {
+      realm.add(transaction)
+    }
+    
+    if let newBudget = currentBudget.thaw(), let realm = newBudget.realm {
+      try? realm.write {
+        newBudget.amount -= transaction.amount
+      }
     }
   }
 }

@@ -35,6 +35,7 @@ enum Source {
       static let noInsights = Image("month2month")
       static let noRecurringPayments = Image("recurrentPayments")
       static let noGoalTransaction = Image("buttonTransaction")
+      static let noDailyTransactions = Image("noDailyTransactions")
     }
     enum Onboarding {
       static let onb1 = Image("onb1")
@@ -679,11 +680,22 @@ enum Source {
       budget.dateCreated = date
       return budget
     }
+    
+    static func createDailyTransaction(name: String, category: (String, String, CategoriesSection), amount: Double, type: String) -> DailyTransaction {
+      let dailyTransaction = DailyTransaction()
+      dailyTransaction.name = name
+      dailyTransaction.amount = amount
+      dailyTransaction.categoryName = category.0
+      dailyTransaction.categoryIcon = category.1
+      dailyTransaction.categorySection = category.2
+      dailyTransaction.type = "Daily Transaction"
+      return dailyTransaction
+    }
   }
   
   static let wishKEY = "1279B306-A1C9-4CB0-8D14-4A2413F72075"
   static let aptaBaseKEY = "A-US-4693844111"
-  static let adminMode = false
+  static let adminMode = true
   
   enum DefaultData {
     // Sample transactions for analytics

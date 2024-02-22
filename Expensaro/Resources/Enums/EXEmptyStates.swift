@@ -21,6 +21,7 @@ enum EXEmptyStates {
   // With images
   case noGoals
   case noTransactions
+  case noDailyTransactions
   
   var title: Text {
     switch self {
@@ -40,6 +41,8 @@ enum EXEmptyStates {
       return Text("No goal contributions made.").font(.system(.headline, weight: .bold)).foregroundColor(.primaryGreen)
     case .noRecapTransactions:
       return Text("No transactions made.").font(.system(.headline, weight: .bold)).foregroundColor(.primaryGreen)
+    case .noDailyTransactions:
+      return  Text("No daily transactions for now").font(.system(.title3, weight: .bold))
     }
   }
   
@@ -61,6 +64,8 @@ enum EXEmptyStates {
       return "Better to save next month"
     case .noRecapTransactions:
       return "Maybe you forgot about writing them"
+    case .noDailyTransactions:
+      return "Create a new one with button on the top"
     }
   }
   
@@ -82,6 +87,8 @@ enum EXEmptyStates {
       return Source.Images.Onboarding.goals
     case .noRecapTransactions:
       return Image(Source.Images.Tabs.home)
+    case .noDailyTransactions:
+      return Source.Images.EmptyStates.noDailyTransactions
     }
   }
 }
