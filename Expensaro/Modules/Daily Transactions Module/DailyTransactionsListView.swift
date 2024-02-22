@@ -14,9 +14,11 @@ struct DailyTransactionsListView: View {
   @Environment(\.dismiss) var makeDismiss
   @ObservedResults(DailyTransaction.self) var dailyTransactions
   @AppStorage("currencySign") private var currencySign = "USD"
+  @AppStorage("dailyTransactionsONB") private var isShownOnboarding = false
   
   // MARK: Presentation
   @State private var showAddDailyTransactionScreen = false
+  @State private var showOnboarding = false
   
   var body: some View {
     NavigationView {
@@ -55,6 +57,16 @@ struct DailyTransactionsListView: View {
       .fullScreenCover(isPresented: $showAddDailyTransactionScreen, content: {
         AddDailyTransactionView(dailyTransaction: DailyTransaction())
       })
+      .sheet(isPresented: $showOnboarding, content: {
+        DailyTransactionsOnboarding()
+          .presentationDetents([.large])
+          .presentationDragIndicator(.visible)
+      })
+      .onFirstAppear {
+        if !isShownOnboarding {
+          showOnboarding.toggle()
+        }
+      }
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {

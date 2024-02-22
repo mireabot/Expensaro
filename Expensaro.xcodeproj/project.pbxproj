@@ -43,6 +43,7 @@
 		3567EADB2B2B7D8A009E76D6 /* TopCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3567EADA2B2B7D8A009E76D6 /* TopCategories.swift */; };
 		356847742ACB2D4E00FFC864 /* GoalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356847732ACB2D4E00FFC864 /* GoalDetailView.swift */; };
 		356EB7AA2AEC119F001E6FD6 /* TransactionInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356EB7A92AEC119F001E6FD6 /* TransactionInsightsView.swift */; };
+		3570DB282B87C0C70074EE4C /* DailyTransactionsOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3570DB272B87C0C70074EE4C /* DailyTransactionsOnboarding.swift */; };
 		357562AE2B2A182A002082A0 /* EXCircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357562AD2B2A182A002082A0 /* EXCircleProgressView.swift */; };
 		35825BF92AC9CDB600713AD8 /* EXRecurringTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BF82AC9CDB600713AD8 /* EXRecurringTransactionCell.swift */; };
 		35825BFB2AC9D01C00713AD8 /* EXTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825BFA2AC9D01C00713AD8 /* EXTransactionCell.swift */; };
@@ -134,6 +135,7 @@
 		3567EADA2B2B7D8A009E76D6 /* TopCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCategories.swift; sourceTree = "<group>"; };
 		356847732ACB2D4E00FFC864 /* GoalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailView.swift; sourceTree = "<group>"; };
 		356EB7A92AEC119F001E6FD6 /* TransactionInsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionInsightsView.swift; sourceTree = "<group>"; };
+		3570DB272B87C0C70074EE4C /* DailyTransactionsOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTransactionsOnboarding.swift; sourceTree = "<group>"; };
 		357562AD2B2A182A002082A0 /* EXCircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXCircleProgressView.swift; sourceTree = "<group>"; };
 		35825BF82AC9CDB600713AD8 /* EXRecurringTransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXRecurringTransactionCell.swift; sourceTree = "<group>"; };
 		35825BFA2AC9D01C00713AD8 /* EXTransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXTransactionCell.swift; sourceTree = "<group>"; };
@@ -635,6 +637,7 @@
 			isa = PBXGroup;
 			children = (
 				35DA3A322B7FE45A0042A470 /* DailyTransactionsListView.swift */,
+				3570DB272B87C0C70074EE4C /* DailyTransactionsOnboarding.swift */,
 			);
 			path = "Daily Transactions Module";
 			sourceTree = "<group>";
@@ -826,6 +829,7 @@
 				35825C002AC9FDEB00713AD8 /* EXDatePicker.swift in Sources */,
 				35825BFB2AC9D01C00713AD8 /* EXTransactionCell.swift in Sources */,
 				358BA4B82AD5D06500229504 /* ResizableTextFieldModifier.swift in Sources */,
+				3570DB282B87C0C70074EE4C /* DailyTransactionsOnboarding.swift in Sources */,
 				35E80A782B3B3184006231F8 /* CategoriesBreakdownOverviewView.swift in Sources */,
 				358B71F72B40F05300511E81 /* EXEmojiKeyboard.swift in Sources */,
 				3510F6E72AFD62F2000B5532 /* LocalNotificationsManager.swift in Sources */,
@@ -962,7 +966,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 117;
+				CURRENT_PROJECT_VERSION = 118;
 				DEVELOPMENT_ASSET_PATHS = "\"Expensaro/Preview Content\"";
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;
@@ -998,7 +1002,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 117;
+				CURRENT_PROJECT_VERSION = 118;
 				DEVELOPMENT_ASSET_PATHS = "\"Expensaro/Preview Content\"";
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;
