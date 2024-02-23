@@ -17,6 +17,7 @@ final class RecurringTransaction: Object, ObjectKeyIdentifiable {
   @Persisted var categoryName: String = "Other"
   @Persisted var categoryIcon: String = "📔"
   @Persisted var schedule: RecurringSchedule = RecurringSchedule.everyWeek
+  @Persisted var reminderType: ReminderType = .day
   @Persisted var note: String = ""
   @Persisted var isReminder: Bool = false
   
@@ -50,6 +51,30 @@ enum RecurringSchedule: String, CaseIterable, PersistableEnum {
     }
   }
 }
+
+enum ReminderType: String, PersistableEnum {
+  case day
+  case week
+  
+  var title: String {
+    switch self {
+    case .day:
+      return "1 day prior"
+    case .week:
+      return "7 days prior"
+    }
+  }
+  
+  var delay: Int {
+    switch self {
+    case .day:
+      return -1
+    case .week:
+      return -7
+    }
+  }
+}
+
 
 // MARK: Computed variables for recurring payment
 extension RecurringTransaction {

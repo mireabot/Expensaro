@@ -38,7 +38,7 @@ final class NotificationManager: NSObject, UNUserNotificationCenterDelegate{
     notificationCenter.removeAllPendingNotificationRequests()
   }
   ///This is just a reusable form of all the copy and paste you did in your buttons. If you have to copy and paste make it reusable.
-  func scheduleTriggerNotification(for payment: RecurringTransaction) {
+  func scheduleTriggerNotification(for payment: RecurringTransaction, withDelay days: Int) {
     print(#function)
     let content = UNMutableNotificationContent()
     content.title = "\(payment.name) is due tomorrow"
@@ -48,7 +48,7 @@ final class NotificationManager: NSObject, UNUserNotificationCenterDelegate{
     let dueDate = Source.Functions.localDate(with: payment.dueDate)
     let calendar = Calendar.current
     
-    if let dayBeforeDueDate = calendar.date(byAdding: .day, value: -1, to: dueDate) {
+    if let dayBeforeDueDate = calendar.date(byAdding: .day, value: days, to: dueDate) {
       let components = calendar.dateComponents([.year, .month, .day], from: dayBeforeDueDate)
       let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
       let request = UNNotificationRequest(identifier: "Payment\(payment.id)", content: content, trigger: trigger)

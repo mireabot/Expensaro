@@ -107,7 +107,7 @@ struct RecurrentPaymentDetailView: View {
         
       })
       .popup(isPresented: $showDeleteAlert) {
-        EXAlert(config: (Source.Strings.AlertType.deletePayment.title,
+        EXAlert<EmptyView>(config: (Source.Strings.AlertType.deletePayment.title,
                          Source.Strings.AlertType.deletePayment.subTitle,
                          Source.Strings.AlertType.deletePayment.secondaryButtonText,
                          Source.Strings.AlertType.deletePayment.primaryButtonText),
@@ -278,7 +278,7 @@ extension RecurrentPaymentDetailView {
   func updateNotification(with value: Bool) {
     if let newTransaction = transaction.thaw(), let newRealm = newTransaction.realm {
       if value {
-        notificationManager.scheduleTriggerNotification(for: newTransaction)
+        notificationManager.scheduleTriggerNotification(for: newTransaction, withDelay: newTransaction.reminderType.delay)
       }
       else {
         notificationManager.deleteNotification(for: newTransaction)
@@ -311,7 +311,7 @@ extension RecurrentPaymentDetailView {
         newPayment.dueDate = newDate
       }
       if newPayment.isReminder {
-        notificationManager.scheduleTriggerNotification(for: newPayment)
+        notificationManager.scheduleTriggerNotification(for: newPayment, withDelay: newPayment.reminderType.delay)
       }
       // Update budget
       if let newBudget = budget.thaw(), let budgetRealm = newBudget.realm {

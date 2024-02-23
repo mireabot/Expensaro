@@ -139,27 +139,48 @@ struct AddRecurrentPaymentView: View {
           .presentationDragIndicator(.visible)
       }
       .popup(isPresented: $showReminderAlert) {
-        EXAlert(config: (Source.Strings.AlertType.createReminder.title,
-                         Source.Strings.AlertType.createReminder.subTitle,
-                         Source.Strings.AlertType.createReminder.secondaryButtonText,
-                         Source.Strings.AlertType.createReminder.primaryButtonText)) {
-          recurringPayment.isReminder = true
-          AnalyticsManager.shared.log(.createdReminder(recurringPayment.name))
-          createPayment()
-          notificationManager.scheduleTriggerNotification(for: recurringPayment)
-          DispatchQueue.main.async {
-            showReminderAlert.toggle()
-            makeDismiss()
+        EXAlert(
+          config: (Source.Strings.AlertType.createReminder.title,
+                   Source.Strings.AlertType.createReminder.subTitle,
+                   Source.Strings.AlertType.createReminder.secondaryButtonText,
+                   Source.Strings.AlertType.createReminder.primaryButtonText),
+          contentView: {
+            HStack {
+              Button {
+                recurringPayment.reminderType = .day
+              } label: {
+                EXSelectCell(title: ReminderType.day.title, condition: recurringPayment.reminderType == .day)
+              }
+              .buttonStyle(EXPlainButtonStyle())
+
+              Button {
+                recurringPayment.reminderType = .week
+              } label: {
+                EXSelectCell(title: ReminderType.week.title, condition: recurringPayment.reminderType == .week)
+              }
+              .buttonStyle(EXPlainButtonStyle())
+            }
+          },
+          primaryAction: {
+            recurringPayment.isReminder = true
+            AnalyticsManager.shared.log(.createdReminder(recurringPayment.name))
+            createPayment()
+            notificationManager.scheduleTriggerNotification(for: recurringPayment, withDelay: recurringPayment.reminderType.delay)
+            DispatchQueue.main.async {
+              showReminderAlert.toggle()
+              makeDismiss()
+            }
+          },
+          secondaryAction: {
+            recurringPayment.isReminder = false
+            AnalyticsManager.shared.log(.createdReminder(recurringPayment.name))
+            createPayment()
+            DispatchQueue.main.async {
+              showReminderAlert.toggle()
+              makeDismiss()
+            }
           }
-        } secondaryAction: {
-          recurringPayment.isReminder = false
-          AnalyticsManager.shared.log(.createdReminder(recurringPayment.name))
-          createPayment()
-          DispatchQueue.main.async {
-            showReminderAlert.toggle()
-            makeDismiss()
-          }
-        }
+        )
         .applyMargins()
       } customize: {
         $0
@@ -334,7 +355,7 @@ extension AddRecurrentPaymentView {
       if isUpdating {
         notificationManager.deleteNotification(for: recurringPayment)
         updatePayment()
-        notificationManager.scheduleTriggerNotification(for: recurringPayment)
+        notificationManager.scheduleTriggerNotification(for: recurringPayment, withDelay: recurringPayment.reminderType.delay)
         makeDismiss()
       } else {
         showReminderAlert.toggle()

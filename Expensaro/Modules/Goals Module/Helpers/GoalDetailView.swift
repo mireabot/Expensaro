@@ -37,7 +37,7 @@ struct GoalDetailView: View {
         bottomActionButton().padding(16)
       })
       .popup(isPresented: $showDeleteAlert) {
-        EXAlert(config: (Source.Strings.AlertType.deleteGoal.title,
+        EXAlert<EmptyView>(config: (Source.Strings.AlertType.deleteGoal.title,
                          Source.Strings.AlertType.deleteGoal.subTitle,
                          Source.Strings.AlertType.deleteGoal.secondaryButtonText,
                          Source.Strings.AlertType.deleteGoal.primaryButtonText

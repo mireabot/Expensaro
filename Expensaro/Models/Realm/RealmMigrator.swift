@@ -84,15 +84,22 @@ enum RealmMigrator {
       }
     }
     
-    // Migration version 12 - Current
+    // Migration version 12
     if oldSchemaVersion < 12 {
       migration.enumerateObjects(ofType: RecurringTransaction.className()) { _, newObject in
         newObject?["contributions"] = List<PaymentContributions>()
       }
     }
+    
+    // Migration version 13 - Current
+    if oldSchemaVersion < 13 {
+      migration.enumerateObjects(ofType: RecurringTransaction.className()) { _, newObject in
+        newObject?["reminderType"] = ReminderType.day
+      }
+    }
   }
 
   static var configuration: Realm.Configuration {
-    Realm.Configuration(schemaVersion: 12, migrationBlock: migrationBlock)
+    Realm.Configuration(schemaVersion: 13, migrationBlock: migrationBlock)
   }
 }

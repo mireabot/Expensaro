@@ -62,7 +62,7 @@ struct AddBudgetView: View {
           .autohideIn(1.5)
       })
       .popup(isPresented: $confirmBudget) {
-        EXAlert(config: (Source.Strings.AlertType.createBudget.title,
+        EXAlert<EmptyView>(config: (Source.Strings.AlertType.createBudget.title,
                          Source.Strings.AlertType.createBudget.subTitle,
                          Source.Strings.AlertType.createBudget.secondaryButtonText,
                          Source.Strings.AlertType.createBudget.primaryButtonText)) {
