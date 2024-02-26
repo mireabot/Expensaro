@@ -107,6 +107,10 @@ enum Source {
       static let smartGoalsPaymentSuggestions = Image("smartGoalsPaymentSuggestions")
       static let topCategoryAnalytics = Image("topCategoryAnalytics")
     }
+    enum Previews {
+      static let transactionInsightsPreview = Image("transactionInsightsPreview")
+      static let dailyTransactionsInsightsPreview = Image("dailyTransactionsInsightsPreview")
+    }
   }
   
   enum Strings {

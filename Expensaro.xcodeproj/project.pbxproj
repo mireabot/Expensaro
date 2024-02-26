@@ -39,6 +39,7 @@
 		3558FBC12ACA415500624EBD /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3558FBC02ACA415500624EBD /* Goal.swift */; };
 		355BB4082ABCB1DE00A71834 /* AddCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BB4072ABCB1DE00A71834 /* AddCategoryView.swift */; };
 		355FCC1E2B38D90700BA8F4F /* MonthRecapData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355FCC1D2B38D90700BA8F4F /* MonthRecapData.swift */; };
+		356498092B8D181B00AF17EB /* DailyTransactionInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356498082B8D181B00AF17EB /* DailyTransactionInsightsView.swift */; };
 		3564D81F2ACB71EB00553ECB /* EditGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3564D81E2ACB71EB00553ECB /* EditGoalView.swift */; };
 		3567EADB2B2B7D8A009E76D6 /* TopCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3567EADA2B2B7D8A009E76D6 /* TopCategories.swift */; };
 		356847742ACB2D4E00FFC864 /* GoalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356847732ACB2D4E00FFC864 /* GoalDetailView.swift */; };
@@ -131,6 +132,7 @@
 		3558FBC02ACA415500624EBD /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		355BB4072ABCB1DE00A71834 /* AddCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryView.swift; sourceTree = "<group>"; };
 		355FCC1D2B38D90700BA8F4F /* MonthRecapData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthRecapData.swift; sourceTree = "<group>"; };
+		356498082B8D181B00AF17EB /* DailyTransactionInsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTransactionInsightsView.swift; sourceTree = "<group>"; };
 		3564D81E2ACB71EB00553ECB /* EditGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGoalView.swift; sourceTree = "<group>"; };
 		3567EADA2B2B7D8A009E76D6 /* TopCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCategories.swift; sourceTree = "<group>"; };
 		356847732ACB2D4E00FFC864 /* GoalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailView.swift; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 			isa = PBXGroup;
 			children = (
 				356EB7A92AEC119F001E6FD6 /* TransactionInsightsView.swift */,
+				356498082B8D181B00AF17EB /* DailyTransactionInsightsView.swift */,
 			);
 			path = Insights;
 			sourceTree = "<group>";
@@ -831,6 +834,7 @@
 				358BA4B82AD5D06500229504 /* ResizableTextFieldModifier.swift in Sources */,
 				3570DB282B87C0C70074EE4C /* DailyTransactionsOnboarding.swift in Sources */,
 				35E80A782B3B3184006231F8 /* CategoriesBreakdownOverviewView.swift in Sources */,
+				356498092B8D181B00AF17EB /* DailyTransactionInsightsView.swift in Sources */,
 				358B71F72B40F05300511E81 /* EXEmojiKeyboard.swift in Sources */,
 				3510F6E72AFD62F2000B5532 /* LocalNotificationsManager.swift in Sources */,
 				355BB4082ABCB1DE00A71834 /* AddCategoryView.swift in Sources */,
@@ -966,7 +970,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 119;
+				CURRENT_PROJECT_VERSION = 120;
 				DEVELOPMENT_ASSET_PATHS = "\"Expensaro/Preview Content\"";
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;
@@ -1002,7 +1006,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 119;
+				CURRENT_PROJECT_VERSION = 120;
 				DEVELOPMENT_ASSET_PATHS = "\"Expensaro/Preview Content\"";
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;

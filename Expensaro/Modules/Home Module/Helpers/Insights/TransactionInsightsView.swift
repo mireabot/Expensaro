@@ -80,13 +80,13 @@ struct TransactionInsightsView: View {
                                 Source.Strings.BottomPreviewType.transactions.isButton),
                        action: {},
                        bottomView: {
-        demoView()
+        Source.Images.Previews.transactionInsightsPreview
+          .frame(maxWidth: .infinity)
+          .background(Color.backgroundGrey)
+          .cornerRadius(10)
       })
-      .onFirstAppear {
-        service.calculateAverageDemo()
-      }
       .applyMargins()
-      .presentationDetents([.fraction(0.45)])
+      .presentationDetents([.fraction(0.4)])
     })
   }
 }
@@ -95,53 +95,3 @@ struct TransactionInsightsView: View {
   TransactionInsightsView(service: .init(selectedCategory: "Shopping")).applyMargins()
 }
 
-extension TransactionInsightsView {
-  @ViewBuilder
-  func demoView() -> some View {
-    EXBaseCard {
-      VStack(alignment: .leading) {
-        HStack {
-          VStack(alignment: .leading, spacing: 0) {
-            Text("\(service.averageSpent.formattedAsCurrency(with: currencySign))")
-              .font(.title3Bold)
-              .foregroundColor(.black)
-            Text("Avg. transaction amount")
-              .font(.footnoteRegular)
-              .foregroundColor(.darkGrey)
-          }
-          
-          Spacer()
-          
-          Source.Images.InfoCardIcon.month2month
-            .foregroundColor(.primaryGreen)
-        }
-        VStack(alignment: .leading, spacing: 5) {
-          Text("Top 3 transactions in category")
-            .font(.footnoteMedium)
-            .foregroundColor(.black)
-          VStack(spacing: 10) {
-            ForEach(Source.DefaultData.selectedTransactions.prefix(3), id: \.amount) { transaction in
-              HStack(alignment: .center) {
-                Text(transaction.name)
-                  .font(.footnoteRegular)
-                  .foregroundColor(.darkGrey)
-                
-                Spacer()
-                
-                Text("\(transaction.amount.formattedAsCurrencySolid(with: currencySign))")
-                  .font(.footnoteMedium)
-                  .foregroundColor(.primaryGreen)
-              }
-            }
-          }
-          .padding(.top, 3)
-        }
-        .padding(10)
-        .background(.white)
-        .cornerRadius(8)
-        .padding(.top, 5)
-      }
-      .frame(maxWidth: .infinity, alignment: .leading)
-    }
-  }
-}

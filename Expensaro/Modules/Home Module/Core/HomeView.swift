@@ -44,7 +44,7 @@ struct HomeView: View {
             transactionsPreview()
           }
           .applyMargins()
-          .padding(.top, 20)
+          .padding(.top, 5)
         }
         bottomActionButton()
           .padding(16)

@@ -81,8 +81,11 @@ struct TransactionDetailView: View {
           .padding(.top, 5)
           
           // MARK: Analytics
-          if transaction.type != "Refill" {
+          if transaction.type == "Debit" || transaction.type == "Credit" {
             TransactionInsightsView(service: .init(selectedCategory: transaction.categoryName))
+          } 
+          else if transaction.type == "Daily transaction" {
+            DailyTransactionInsightsView()
           }
         }
         .applyBounce()
