@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
+import PopupView
 
 struct OverviewView: View {
   // MARK: Essential
@@ -35,10 +36,11 @@ struct OverviewView: View {
       .onFirstAppear {
         topCategoryService.groupAndFindMaxAmountCategory()
       }
-      .sheet(isPresented: $showTopCategoryInfoSheet, content: {
+      .popup(isPresented: $showTopCategoryInfoSheet) {
         EXBottomInfoView(config: (Source.Strings.BottomPreviewType.topCategory.title,
                                   Source.Strings.BottomPreviewType.topCategory.text,
-                                  Source.Strings.BottomPreviewType.topCategory.isButton),
+                                  Source.Strings.BottomPreviewType.topCategory.isButton,
+                                  Source.Strings.BottomPreviewType.topCategory.buttonText),
                          action: {
           DispatchQueue.main.async {
             showTopCategoryInfoSheet.toggle()
@@ -49,28 +51,45 @@ struct OverviewView: View {
           EXOverviewCard(header: "Top Category", title: "Housing", icon: Source.Images.Navigation.redirect, subHeader: "You have spent \(Double(800).formattedAsCurrencySolid(with: currencySign)) on this category")
         })
         .applyMargins()
-        .presentationDetents([.fraction(0.4)])
-      })
-      .sheet(isPresented: $showSpendingsInfoSheet, content: {
-        ViewThatFits(in: .vertical, content: {
-          EXBottomInfoView(config: (Source.Strings.BottomPreviewType.spendings.title,
-                                    Source.Strings.BottomPreviewType.spendings.text,
-                                    Source.Strings.BottomPreviewType.spendings.isButton),
-                           action: {
-            DispatchQueue.main.async {
-              showSpendingsInfoSheet.toggle()
-            }
-            AnalyticsManager.shared.log(.openMonthRecapPreview)
-            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView(service: monthRecapService)))
-          }, bottomView: {
-            EXOverviewCard(header: "Month recap", title: Source.Functions.currentMonth(date: Source.Functions.getPastMonthDates().0), icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")
-          })
-          .applyMargins()
+        .background(.white)
+        .cornerRadius(16)
+        .applyMargins()
+      } customize: {
+        $0
+          .animation(.spring())
+          .position(.bottom)
+          .type(.floater(useSafeAreaInset: true))
+          .closeOnTapOutside(false)
+          .backgroundColor(.black.opacity(0.3))
+          .isOpaque(true)
+      }
+      .popup(isPresented: $showSpendingsInfoSheet) {
+        EXBottomInfoView(config: (Source.Strings.BottomPreviewType.spendings.title,
+                                  Source.Strings.BottomPreviewType.spendings.text,
+                                  Source.Strings.BottomPreviewType.spendings.isButton,
+                                  Source.Strings.BottomPreviewType.spendings.buttonText),
+                         action: {
+          DispatchQueue.main.async {
+            showSpendingsInfoSheet.toggle()
+          }
+          AnalyticsManager.shared.log(.openMonthRecapPreview)
+          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView(service: monthRecapService)))
+        }, bottomView: {
+          EXOverviewCard(header: "Month recap", title: Source.Functions.currentMonth(date: Source.Functions.getPastMonthDates().0), icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")
         })
-        .fixedSize(horizontal: false, vertical: true)
-        .modifier(GetHeightModifier(height: $sheetHeight))
-        .presentationDetents([.height(sheetHeight)])
-      })
+        .applyMargins()
+        .background(.white)
+        .cornerRadius(16)
+        .applyMargins()
+      } customize: {
+        $0
+          .animation(.spring())
+          .position(.bottom)
+          .type(.floater(useSafeAreaInset: true))
+          .closeOnTapOutside(false)
+          .backgroundColor(.black.opacity(0.3))
+          .isOpaque(true)
+      }
       .applyMargins()
       .scrollDisabled(true)
       .navigationBarTitleDisplayMode(.inline)

@@ -343,7 +343,7 @@ enum Source {
       var text: String {
         switch self {
         case .spendings:
-          return "Unlock profound budget insights, track monthly goals, and explore detailed category breakdowns"
+          return "Unlock budget insights, track goals progress, and explore detailed category breakdowns"
         case .topCategory:
           return "Track your primary spending category and amount spent"
         case .transactions:
@@ -358,7 +358,18 @@ enum Source {
         case .topCategory:
           return true
         case .transactions:
-          return false
+          return true
+        }
+      }
+      
+      var buttonText: String {
+        switch self {
+        case .spendings:
+          return "See Demo"
+        case .topCategory:
+          return "See Demo"
+        case .transactions:
+          return "Got it"
         }
       }
     }

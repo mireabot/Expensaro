@@ -8,6 +8,7 @@
 import SwiftUI
 import ExpensaroUIKit
 import RealmSwift
+import PopupView
 
 struct TransactionInsightsView: View {
   @State private var showAnalyticsDemo = false
@@ -74,11 +75,14 @@ struct TransactionInsightsView: View {
     .onFirstAppear {
       service.calculateAverage()
     }
-    .sheet(isPresented: $showAnalyticsDemo, content: {
+    .popup(isPresented: $showAnalyticsDemo) {
       EXBottomInfoView(config: (Source.Strings.BottomPreviewType.transactions.title,
                                 Source.Strings.BottomPreviewType.transactions.text,
-                                Source.Strings.BottomPreviewType.transactions.isButton),
-                       action: {},
+                                Source.Strings.BottomPreviewType.transactions.isButton,
+                                Source.Strings.BottomPreviewType.transactions.buttonText),
+                       action: {
+        showAnalyticsDemo.toggle()
+      },
                        bottomView: {
         Source.Images.Previews.transactionInsightsPreview
           .frame(maxWidth: .infinity)
@@ -86,8 +90,18 @@ struct TransactionInsightsView: View {
           .cornerRadius(10)
       })
       .applyMargins()
-      .presentationDetents([.fraction(0.4)])
-    })
+      .background(.white)
+      .cornerRadius(16)
+      .applyMargins()
+    } customize: {
+      $0
+        .animation(.spring())
+        .position(.bottom)
+        .type(.floater(useSafeAreaInset: true))
+        .closeOnTapOutside(false)
+        .backgroundColor(.black.opacity(0.3))
+        .isOpaque(true)
+    }
   }
 }
 
