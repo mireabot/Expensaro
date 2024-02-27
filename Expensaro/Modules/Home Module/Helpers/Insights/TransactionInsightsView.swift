@@ -14,6 +14,8 @@ struct TransactionInsightsView: View {
   @State private var showAnalyticsDemo = false
   @ObservedObject var service : SelectedCategoryAnalyticsManager
   @AppStorage("currencySign") private var currencySign = "USD"
+  
+  @State private var showFeedback = false
   var body: some View {
     Group {
       if service.isLocked {
@@ -27,7 +29,7 @@ struct TransactionInsightsView: View {
       } else {
         EXBaseCard {
           VStack(alignment: .leading) {
-            HStack {
+            HStack(alignment: .firstTextBaseline) {
               VStack(alignment: .leading, spacing: 0) {
                 Text("\(service.averageSpent.formattedAsCurrency(with: currencySign))")
                   .font(.title3Bold)
@@ -39,8 +41,14 @@ struct TransactionInsightsView: View {
               
               Spacer()
               
-              Source.Images.InfoCardIcon.month2month
-                .foregroundColor(.primaryGreen)
+              Menu {
+                Button("Provide feedback") {
+                  showFeedback.toggle()
+                }
+              } label: {
+                Image(systemName: "ellipsis")
+                  .foregroundStyle(.black)
+              }
             }
             VStack(alignment: .leading, spacing: 5) {
               Text("Top 3 transactions in category")
@@ -75,6 +83,9 @@ struct TransactionInsightsView: View {
     .onFirstAppear {
       service.calculateAverage()
     }
+    .fullScreenCover(isPresented: $showFeedback, content: {
+      ContactSettingsView(topic: "Transaction Insights", isCalled: true)
+    })
     .popup(isPresented: $showAnalyticsDemo) {
       EXBottomInfoView(config: (Source.Strings.BottomPreviewType.transactions.title,
                                 Source.Strings.BottomPreviewType.transactions.text,

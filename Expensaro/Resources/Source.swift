@@ -752,6 +752,14 @@ enum Source {
       Source.Realm.createTransaction(name: "Pharmacy", date: .now, category: ("Medicine", "🩹", .other), amount: 9.99, type: "Debit", note: ""),
       Source.Realm.createTransaction(name: "Taxi Ride", date: .now, category: ("Taxi", "🚕", .lifestyle), amount: 55, type: "Credit", note: "")
     ]
+    // Sample transactions to add in account
+    static let sampleTransactionsWithCategory: [Transaction] = [
+      Source.Realm.createTransaction(name: "Uber to Max", date: .now, category: ("Taxi", "🚕", .transportation), amount: 10, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Lyft to work", date: .now, category: ("Taxi", "🚕", .transportation), amount: 78.66, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Taxi after bar", date: .now, category: ("Taxi", "🚕", .transportation), amount: 56, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Alex ride cut", date: .now, category: ("Taxi", "🚕", .transportation), amount: 7.88, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Airport trip", date: .now, category: ("Taxi", "🚕", .transportation), amount: 18, type: "Debit", note: ""),
+    ]
     // Default categories which loading when setup
     static let loadedCategories: [Category] = [
       Source.Realm.createCategory(icon: "🔄", name: "Subscription", tag: .base, section: .entertainment),
