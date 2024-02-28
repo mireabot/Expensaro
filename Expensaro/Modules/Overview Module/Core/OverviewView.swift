@@ -48,7 +48,10 @@ struct OverviewView: View {
           AnalyticsManager.shared.log(.openTopCategoryPreview)
           router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(service: topCategoryService)))
         }, bottomView: {
-          EXOverviewCard(header: "Top Category", title: "Housing", icon: Source.Images.Navigation.redirect, subHeader: "You have spent \(Double(800).formattedAsCurrencySolid(with: currencySign)) on this category")
+          Source.Images.Previews.topCategoryPreview
+            .frame(maxWidth: .infinity)
+            .background(Color.white)
+            .cornerRadius(10)
         })
         .applyMargins()
         .background(.white)
@@ -75,7 +78,10 @@ struct OverviewView: View {
           AnalyticsManager.shared.log(.openMonthRecapPreview)
           router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView(service: monthRecapService)))
         }, bottomView: {
-          EXOverviewCard(header: "Month recap", title: Source.Functions.currentMonth(date: Source.Functions.getPastMonthDates().0), icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")
+          Source.Images.Previews.monthRecapPreview
+            .frame(maxWidth: .infinity)
+            .background(Color.white)
+            .cornerRadius(10)
         })
         .applyMargins()
         .background(.white)

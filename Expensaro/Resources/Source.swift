@@ -110,6 +110,8 @@ enum Source {
     enum Previews {
       static let transactionInsightsPreview = Image("transactionInsightsPreview")
       static let dailyTransactionsInsightsPreview = Image("dailyTransactionsInsightsPreview")
+      static let topCategoryPreview = Image("topCategoryPreview")
+      static let monthRecapPreview = Image("monthRecapPreview")
     }
   }
   

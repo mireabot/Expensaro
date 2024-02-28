@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "monthRecapPreview.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

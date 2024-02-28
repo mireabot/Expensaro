@@ -70,7 +70,7 @@ enum EXEmptyStates {
     case .noDailyTransactions:
       return "Create a new one with button on the top"
     case .noDailyTransactionsInsights:
-      return "Elevate your understanding of where your money goes each day"
+      return "Understand where your money goes each day"
     }
   }
   

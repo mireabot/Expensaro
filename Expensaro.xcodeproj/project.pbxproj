@@ -29,6 +29,7 @@
 		353FF4892AF499AF000BF57A /* GoalAnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353FF4882AF499AF000BF57A /* GoalAnalyticsView.swift */; };
 		3540BEFA2AF586CC00F7E41F /* EXEmptyStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3540BEF92AF586CC00F7E41F /* EXEmptyStates.swift */; };
 		3540BEFC2AF58CAD00F7E41F /* EXEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3540BEFB2AF58CAD00F7E41F /* EXEmptyStateView.swift */; };
+		354577872B8FCCA50090262E /* DailyTransactionsAnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354577862B8FCCA50090262E /* DailyTransactionsAnalyticsManager.swift */; };
 		354716842B45C4C8009BEEC0 /* WishKit in Frameworks */ = {isa = PBXBuildFile; productRef = 354716832B45C4C8009BEEC0 /* WishKit */; };
 		354A7C0B2ABDE57900934E4E /* CategoriesSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354A7C0A2ABDE57900934E4E /* CategoriesSettingsView.swift */; };
 		354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B042AB8C860002516F1 /* AddGoalView.swift */; };
@@ -124,6 +125,7 @@
 		353FF4882AF499AF000BF57A /* GoalAnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalAnalyticsView.swift; sourceTree = "<group>"; };
 		3540BEF92AF586CC00F7E41F /* EXEmptyStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXEmptyStates.swift; sourceTree = "<group>"; };
 		3540BEFB2AF58CAD00F7E41F /* EXEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXEmptyStateView.swift; sourceTree = "<group>"; };
+		354577862B8FCCA50090262E /* DailyTransactionsAnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTransactionsAnalyticsManager.swift; sourceTree = "<group>"; };
 		354A7C0A2ABDE57900934E4E /* CategoriesSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesSettingsView.swift; sourceTree = "<group>"; };
 		354F2B042AB8C860002516F1 /* AddGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalView.swift; sourceTree = "<group>"; };
 		354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectorView.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				3534A9072B409E1F0019ACEC /* MonthRecapService.swift */,
 				35FA687B2B4B04D80005A067 /* AnalyticsManager.swift */,
 				350DF57F2B5972A600AFAAFD /* GoalManager.swift */,
+				354577862B8FCCA50090262E /* DailyTransactionsAnalyticsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -815,6 +818,7 @@
 				354A7C0B2ABDE57900934E4E /* CategoriesSettingsView.swift in Sources */,
 				3538822E2B4E4C5E00EB57D1 /* Currency.swift in Sources */,
 				358978D62AFEBF6400E8C378 /* Double+Extension.swift in Sources */,
+				354577872B8FCCA50090262E /* DailyTransactionsAnalyticsManager.swift in Sources */,
 				3590949E2AAE33FD00428B39 /* Router.swift in Sources */,
 				3558FBBE2ACA3F8E00624EBD /* EXGoalCell.swift in Sources */,
 				358978D92AFEC0FF00E8C378 /* DebugMenuView.swift in Sources */,
@@ -970,7 +974,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 121;
+				CURRENT_PROJECT_VERSION = 122;
 				DEVELOPMENT_ASSET_PATHS = "\"Expensaro/Preview Content\"";
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;
@@ -1006,7 +1010,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 121;
+				CURRENT_PROJECT_VERSION = 122;
 				DEVELOPMENT_ASSET_PATHS = "\"Expensaro/Preview Content\"";
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;
