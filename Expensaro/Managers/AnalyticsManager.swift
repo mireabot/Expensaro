@@ -68,8 +68,8 @@ final class AnalyticsManager {
         Aptabase.shared.trackEvent(event.name)
       case .deleteAccount:
         Aptabase.shared.trackEvent(event.name)
-      case .sendFeedback(let date, let message, let email, let topic):
-        Aptabase.shared.trackEvent(event.name, with: ["message" : message, "date" : date, "email" : email, "topic" : topic])
+      case .sendFeedback(let message, let email, let topic):
+        Aptabase.shared.trackEvent(event.name, with: ["message" : message, "email" : email, "topic" : topic])
       case .paymentRenewed(let name, let amount):
         Aptabase.shared.trackEvent(event.name, with: ["name" : name, "amount" : amount])
       case .profileCreated:
@@ -113,7 +113,7 @@ enum AnalyticsEvents {
   case createCategory(String, String)
   case removeReminders
   case deleteAccount
-  case sendFeedback(Date, String, String, String)
+  case sendFeedback(String, String, String)
   case profileCreated
   case dailyTransactionCreated(String)
   case dailyTransactionUsed
