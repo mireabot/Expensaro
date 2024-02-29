@@ -330,6 +330,7 @@ enum Source {
       case spendings
       case topCategory
       case transactions
+      case dailyTransactions
       
       var title: String {
         switch self {
@@ -339,6 +340,8 @@ enum Source {
           return "Top Category Trends"
         case .transactions:
           return "Selected category breakdown"
+        case .dailyTransactions:
+          return "Daily Transactions Insights"
         }
       }
       
@@ -350,6 +353,8 @@ enum Source {
           return "Track your primary spending category and amount spent"
         case .transactions:
           return "Explore averages, top purchases, and more in any category"
+        case .dailyTransactions:
+          return "Unlock personalized insights into your daily transactions to optimize your financial habits"
         }
       }
       
@@ -361,6 +366,8 @@ enum Source {
           return true
         case .transactions:
           return true
+        case .dailyTransactions:
+          return true
         }
       }
       
@@ -371,6 +378,8 @@ enum Source {
         case .topCategory:
           return "See Demo"
         case .transactions:
+          return "Got it"
+        case .dailyTransactions:
           return "Got it"
         }
       }
@@ -712,7 +721,7 @@ enum Source {
   
   static let wishKEY = "1279B306-A1C9-4CB0-8D14-4A2413F72075"
   static let aptaBaseKEY = "A-US-4693844111"
-  static let adminMode = true
+  static let adminMode = false
   
   enum DefaultData {
     // Sample transactions for analytics

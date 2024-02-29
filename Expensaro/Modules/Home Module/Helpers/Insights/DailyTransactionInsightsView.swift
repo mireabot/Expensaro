@@ -72,10 +72,10 @@ struct DailyTransactionInsightsView: View {
       ContactSettingsView(topic: "Daily Transactions Insights", isCalled: true)
     })
     .popup(isPresented: $showAnalyticsDemo) {
-      EXBottomInfoView(config: (Source.Strings.BottomPreviewType.transactions.title,
-                                Source.Strings.BottomPreviewType.transactions.text,
-                                Source.Strings.BottomPreviewType.transactions.isButton,
-                                Source.Strings.BottomPreviewType.transactions.buttonText),
+      EXBottomInfoView(config: (Source.Strings.BottomPreviewType.dailyTransactions.title,
+                                Source.Strings.BottomPreviewType.dailyTransactions.text,
+                                Source.Strings.BottomPreviewType.dailyTransactions.isButton,
+                                Source.Strings.BottomPreviewType.dailyTransactions.buttonText),
                        action: {
         showAnalyticsDemo.toggle()
       },

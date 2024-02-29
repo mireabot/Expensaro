@@ -35,8 +35,6 @@ final class DailyTransactionsAnalyticsManager: ObservableObject {
     
     self.groupedTransactions = groupFetchedTransactions(transactions: dailyTransactions.toArray())
     isLocked = false
-    
-    print(groupedTransactions)
   }
   
   private func groupFetchedTransactions(transactions: [Transaction]) -> [CombinedDailyTransactions] {
