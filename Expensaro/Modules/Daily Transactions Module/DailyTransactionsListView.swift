@@ -48,6 +48,7 @@ struct DailyTransactionsListView: View {
               }
               .onDelete(perform: { indexSet in
                 $dailyTransactions.remove(atOffsets: indexSet)
+                AnalyticsManager.shared.log(.dailyTransactionDeleted)
               })
             }
             .listStyle(.plain)
@@ -60,7 +61,6 @@ struct DailyTransactionsListView: View {
       .sheet(isPresented: $showOnboarding, content: {
         DailyTransactionsOnboarding()
           .presentationDetents([.large])
-          .presentationDragIndicator(.visible)
       })
       .onFirstAppear {
         if !isShownOnboarding {
@@ -72,6 +72,15 @@ struct DailyTransactionsListView: View {
         ToolbarItem(placement: .principal) {
           Text(Appearance.shared.title)
             .font(.headlineMedium)
+        }
+        ToolbarItem(placement: .topBarTrailing) {
+          Button {
+            showOnboarding.toggle()
+          } label: {
+            Image(systemName: "questionmark.circle")
+              .font(.footnoteRegular)
+              .foregroundStyle(.black)
+          }
         }
         ToolbarItem(placement: .topBarTrailing) {
           Button {
@@ -93,25 +102,6 @@ extension DailyTransactionsListView {
     let closeIcon = Source.Images.Navigation.close
     let addIcon = Source.Images.ButtonIcons.add
     let title = "Daily Transactions"
-  }
-  
-  @ViewBuilder
-  func cell() -> some View {
-    HStack {
-      VStack(alignment: .leading, spacing: 0) {
-        Text("Subway ride")
-          .font(.calloutSemibold)
-        Text("$2.90")
-          .font(.footnoteRegular)
-          .foregroundColor(.darkGrey)
-      }
-      Spacer()
-      Text("🏠")
-        .foregroundColor(.primaryGreen)
-        .padding(10)
-        .background(Color.backgroundGrey)
-        .cornerRadius(8)
-    }
   }
 }
 

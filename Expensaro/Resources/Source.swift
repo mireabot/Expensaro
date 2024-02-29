@@ -107,6 +107,12 @@ enum Source {
       static let smartGoalsPaymentSuggestions = Image("smartGoalsPaymentSuggestions")
       static let topCategoryAnalytics = Image("topCategoryAnalytics")
     }
+    enum Previews {
+      static let transactionInsightsPreview = Image("transactionInsightsPreview")
+      static let dailyTransactionsInsightsPreview = Image("dailyTransactionsInsightsPreview")
+      static let topCategoryPreview = Image("topCategoryPreview")
+      static let monthRecapPreview = Image("monthRecapPreview")
+    }
   }
   
   enum Strings {
@@ -324,6 +330,7 @@ enum Source {
       case spendings
       case topCategory
       case transactions
+      case dailyTransactions
       
       var title: String {
         switch self {
@@ -333,17 +340,21 @@ enum Source {
           return "Top Category Trends"
         case .transactions:
           return "Selected category breakdown"
+        case .dailyTransactions:
+          return "Daily Transactions Insights"
         }
       }
       
       var text: String {
         switch self {
         case .spendings:
-          return "Unlock profound budget insights, track monthly goals, and explore detailed category breakdowns"
+          return "Unlock budget insights, track goals progress, and explore detailed category breakdowns"
         case .topCategory:
           return "Track your primary spending category and amount spent"
         case .transactions:
           return "Explore averages, top purchases, and more in any category"
+        case .dailyTransactions:
+          return "Unlock personalized insights into your daily transactions to optimize your financial habits"
         }
       }
       
@@ -354,7 +365,22 @@ enum Source {
         case .topCategory:
           return true
         case .transactions:
-          return false
+          return true
+        case .dailyTransactions:
+          return true
+        }
+      }
+      
+      var buttonText: String {
+        switch self {
+        case .spendings:
+          return "See Demo"
+        case .topCategory:
+          return "See Demo"
+        case .transactions:
+          return "Got it"
+        case .dailyTransactions:
+          return "Got it"
         }
       }
     }
@@ -695,7 +721,7 @@ enum Source {
   
   static let wishKEY = "1279B306-A1C9-4CB0-8D14-4A2413F72075"
   static let aptaBaseKEY = "A-US-4693844111"
-  static let adminMode = true
+  static let adminMode = false
   
   enum DefaultData {
     // Sample transactions for analytics
@@ -736,6 +762,14 @@ enum Source {
       Source.Realm.createTransaction(name: "Parking Fee", date: .now, category: ("Car", "🚗", .transportation), amount: 99, type: "Credit", note: ""),
       Source.Realm.createTransaction(name: "Pharmacy", date: .now, category: ("Medicine", "🩹", .other), amount: 9.99, type: "Debit", note: ""),
       Source.Realm.createTransaction(name: "Taxi Ride", date: .now, category: ("Taxi", "🚕", .lifestyle), amount: 55, type: "Credit", note: "")
+    ]
+    // Sample transactions to add in account
+    static let sampleTransactionsWithCategory: [Transaction] = [
+      Source.Realm.createTransaction(name: "Uber to Max", date: .now, category: ("Taxi", "🚕", .transportation), amount: 10, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Lyft to work", date: .now, category: ("Taxi", "🚕", .transportation), amount: 78.66, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Taxi after bar", date: .now, category: ("Taxi", "🚕", .transportation), amount: 56, type: "Debit", note: ""),
+      Source.Realm.createTransaction(name: "Alex ride cut", date: .now, category: ("Taxi", "🚕", .transportation), amount: 7.88, type: "Credit", note: ""),
+      Source.Realm.createTransaction(name: "Airport trip", date: .now, category: ("Taxi", "🚕", .transportation), amount: 18, type: "Debit", note: ""),
     ]
     // Default categories which loading when setup
     static let loadedCategories: [Category] = [

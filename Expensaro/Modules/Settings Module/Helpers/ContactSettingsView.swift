@@ -10,6 +10,9 @@ import ExpensaroUIKit
 import PopupView
 
 struct ContactSettingsView: View {
+  var topic: String
+  var isCalled: Bool
+  @Environment(\.dismiss) var makeDismiss
   @EnvironmentObject var router: EXNavigationViewsRouter
   @State private var message: String = ""
   @State private var email: String = ""
@@ -50,8 +53,12 @@ struct ContactSettingsView: View {
             .position(.top)
             .autohideIn(1.5)
             .dismissCallback {
-              AnalyticsManager.shared.log(.sendFeedback(.now, message, email))
-              router.nav?.popViewController(animated: true)
+              AnalyticsManager.shared.log(.sendFeedback(.now, message, email, topic))
+              if isCalled {
+                makeDismiss()
+              } else {
+                router.nav?.popViewController(animated: true)
+              }
             }
         })
       }
@@ -65,12 +72,22 @@ struct ContactSettingsView: View {
             .font(.system(.headline, weight: .medium))
         }
         ToolbarItem(placement: .navigationBarLeading) {
-          Button {
-            router.nav?.popViewController(animated: true)
-          } label: {
-            Appearance.shared.backIcon
-              .font(.callout)
-              .foregroundColor(.black)
+          if isCalled {
+            Button {
+              makeDismiss()
+            } label: {
+              Appearance.shared.closeIcon
+                .font(.callout)
+                .foregroundColor(.black)
+            }
+          } else {
+            Button {
+              router.nav?.popViewController(animated: true)
+            } label: {
+              Appearance.shared.backIcon
+                .font(.callout)
+                .foregroundColor(.black)
+            }
           }
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -90,7 +107,7 @@ struct ContactSettingsView: View {
 
 struct ContactSettingsView_Previews: PreviewProvider {
   static var previews: some View {
-    ContactSettingsView()
+    ContactSettingsView(topic: "", isCalled: true)
   }
 }
 
@@ -103,5 +120,6 @@ extension ContactSettingsView {
     
     let backIcon = Source.Images.Navigation.back
     let submitIcon = Source.Images.ButtonIcons.send
+    let closeIcon = Source.Images.Navigation.close
   }
 }

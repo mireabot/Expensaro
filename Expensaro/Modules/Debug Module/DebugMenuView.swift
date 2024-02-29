@@ -70,6 +70,11 @@ struct DebugMenuView: View {
             } label: {
               Text("Load Transactions")
             }
+            Button {
+              addSameCategoryTransactions()
+            } label: {
+              Text("Add same category transactions")
+            }
           } header: {
             Text("Actions")
           }
@@ -150,6 +155,14 @@ struct DebugMenuView: View {
       realm.add(Source.DefaultData.sampleTransactions)
       realm.add(Source.DefaultData.sampleRecurringPayments)
       realm.add(Source.DefaultData.sampleGoals)
+    })
+  }
+  
+  private func addSameCategoryTransactions() {
+    let realm = try! Realm()
+    
+    try? realm.write({
+      realm.add(Source.DefaultData.sampleTransactionsWithCategory)
     })
   }
   

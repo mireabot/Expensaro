@@ -14,6 +14,8 @@ struct TopCategoryOverviewView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   @AppStorage("currencySign") private var currencySign = "USD"
   @ObservedObject var service : TopCategoryManager
+  
+  @State private var showFeedback = false
   var body: some View {
     NavigationView {
       ScrollView {
@@ -97,6 +99,9 @@ struct TopCategoryOverviewView: View {
         .padding(.bottom, 10)
       }
       .applyBounce()
+      .fullScreenCover(isPresented: $showFeedback, content: {
+        ContactSettingsView(topic: "Top Category Overview", isCalled: true)
+      })
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -110,6 +115,17 @@ struct TopCategoryOverviewView: View {
           } label: {
             Appearance.shared.backIcon
               .foregroundColor(.black)
+          }
+        }
+        
+        ToolbarItem(placement: .topBarTrailing) {
+          Menu {
+            Button("Provide feedback") {
+              showFeedback.toggle()
+            }
+          } label: {
+            Image(systemName: "ellipsis")
+              .foregroundStyle(.black)
           }
         }
       }

@@ -131,6 +131,7 @@ extension AddDailyTransactionView {
     dailyTransaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
     try? realm.write {
       realm.add(dailyTransaction)
+      AnalyticsManager.shared.log(.dailyTransactionCreated(dailyTransaction.name))
     }
   }
   

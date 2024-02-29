@@ -44,7 +44,7 @@ struct HomeView: View {
             transactionsPreview()
           }
           .applyMargins()
-          .padding(.top, 20)
+          .padding(.top, 5)
         }
         bottomActionButton()
           .padding(16)
@@ -374,6 +374,7 @@ extension HomeView {
     let transaction = Source.Realm.createTransaction(name: dailyTransaction.name, date: Date(), category: (dailyTransaction.categoryName, dailyTransaction.categoryIcon, dailyTransaction.categorySection), amount: dailyTransaction.amount, type: "Daily transaction", note: "")
     try? realm.write {
       realm.add(transaction)
+      AnalyticsManager.shared.log(.dailyTransactionUsed)
     }
     
     if let newBudget = currentBudget.thaw(), let realm = newBudget.realm {

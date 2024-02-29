@@ -68,11 +68,17 @@ final class AnalyticsManager {
         Aptabase.shared.trackEvent(event.name)
       case .deleteAccount:
         Aptabase.shared.trackEvent(event.name)
-      case .sendFeedback(let date, let message, let email):
-        Aptabase.shared.trackEvent(event.name, with: ["message" : message, "date" : date, "email" : email])
+      case .sendFeedback(let date, let message, let email, let topic):
+        Aptabase.shared.trackEvent(event.name, with: ["message" : message, "date" : date, "email" : email, "topic" : topic])
       case .paymentRenewed(let name, let amount):
         Aptabase.shared.trackEvent(event.name, with: ["name" : name, "amount" : amount])
       case .profileCreated:
+        Aptabase.shared.trackEvent(event.name)
+      case .dailyTransactionCreated(let name):
+        Aptabase.shared.trackEvent(event.name, with: ["name" : name])
+      case .dailyTransactionUsed:
+        Aptabase.shared.trackEvent(event.name)
+      case .dailyTransactionDeleted:
         Aptabase.shared.trackEvent(event.name)
       }
     }
@@ -107,8 +113,11 @@ enum AnalyticsEvents {
   case createCategory(String, String)
   case removeReminders
   case deleteAccount
-  case sendFeedback(Date, String, String)
+  case sendFeedback(Date, String, String, String)
   case profileCreated
+  case dailyTransactionCreated(String)
+  case dailyTransactionUsed
+  case dailyTransactionDeleted
   
   var name: String {
     switch self {
@@ -168,6 +177,12 @@ enum AnalyticsEvents {
       return "Payment renewed"
     case .profileCreated:
       return "Profile created"
+    case .dailyTransactionCreated:
+      return "Daily transaction created"
+    case .dailyTransactionUsed:
+      return "Daily transaction is used"
+    case .dailyTransactionDeleted:
+      return "Daily transaction deleted"
     }
   }
 }

@@ -18,6 +18,7 @@ struct MonthRecapOverviewView: View {
   @ObservedObject var service: MonthRecapService
   // MARK: Presentation
   @State private var showCategoriesBreakdown = false
+  @State private var showFeedback = false
   var body: some View {
     NavigationView {
       ScrollView {
@@ -36,6 +37,9 @@ struct MonthRecapOverviewView: View {
       }
       .applyBounce()
       .scrollIndicators(.hidden)
+      .fullScreenCover(isPresented: $showFeedback, content: {
+        ContactSettingsView(topic: "Month Recap", isCalled: true)
+      })
       .sheet(isPresented: $showCategoriesBreakdown, content: {
         CategoriesBreakdownOverviewView(service: service)
           .presentationDetents([.fraction(0.95)])
@@ -49,6 +53,17 @@ struct MonthRecapOverviewView: View {
           } label: {
             Appearance.shared.backIcon
               .foregroundColor(.black)
+          }
+        }
+        
+        ToolbarItem(placement: .topBarTrailing) {
+          Menu {
+            Button("Provide feedback") {
+              showFeedback.toggle()
+            }
+          } label: {
+            Image(systemName: "ellipsis")
+              .foregroundStyle(.black)
           }
         }
       }

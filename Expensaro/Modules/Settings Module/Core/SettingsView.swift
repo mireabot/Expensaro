@@ -137,7 +137,7 @@ extension SettingsView {
     case "Export Data": print("Navigation error")
     case "General Settings": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(AppSettingsView()))
     case "Reset Data": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(EraseDataSettingsView()))
-    case "Contact": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(ContactSettingsView()))
+    case "Contact": router.pushTo(view: EXNavigationViewBuilder.builder.makeView(ContactSettingsView(topic: "General", isCalled: false)))
     case "Rate App": requestReview()
     case "Features Hub": showRequestSheet.toggle()
     default: print("Navigation error")

@@ -29,6 +29,7 @@
 		353FF4892AF499AF000BF57A /* GoalAnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353FF4882AF499AF000BF57A /* GoalAnalyticsView.swift */; };
 		3540BEFA2AF586CC00F7E41F /* EXEmptyStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3540BEF92AF586CC00F7E41F /* EXEmptyStates.swift */; };
 		3540BEFC2AF58CAD00F7E41F /* EXEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3540BEFB2AF58CAD00F7E41F /* EXEmptyStateView.swift */; };
+		354577872B8FCCA50090262E /* DailyTransactionsAnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354577862B8FCCA50090262E /* DailyTransactionsAnalyticsManager.swift */; };
 		354716842B45C4C8009BEEC0 /* WishKit in Frameworks */ = {isa = PBXBuildFile; productRef = 354716832B45C4C8009BEEC0 /* WishKit */; };
 		354A7C0B2ABDE57900934E4E /* CategoriesSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354A7C0A2ABDE57900934E4E /* CategoriesSettingsView.swift */; };
 		354F2B052AB8C861002516F1 /* AddGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F2B042AB8C860002516F1 /* AddGoalView.swift */; };
@@ -39,6 +40,7 @@
 		3558FBC12ACA415500624EBD /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3558FBC02ACA415500624EBD /* Goal.swift */; };
 		355BB4082ABCB1DE00A71834 /* AddCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BB4072ABCB1DE00A71834 /* AddCategoryView.swift */; };
 		355FCC1E2B38D90700BA8F4F /* MonthRecapData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355FCC1D2B38D90700BA8F4F /* MonthRecapData.swift */; };
+		356498092B8D181B00AF17EB /* DailyTransactionInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356498082B8D181B00AF17EB /* DailyTransactionInsightsView.swift */; };
 		3564D81F2ACB71EB00553ECB /* EditGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3564D81E2ACB71EB00553ECB /* EditGoalView.swift */; };
 		3567EADB2B2B7D8A009E76D6 /* TopCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3567EADA2B2B7D8A009E76D6 /* TopCategories.swift */; };
 		356847742ACB2D4E00FFC864 /* GoalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356847732ACB2D4E00FFC864 /* GoalDetailView.swift */; };
@@ -123,6 +125,7 @@
 		353FF4882AF499AF000BF57A /* GoalAnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalAnalyticsView.swift; sourceTree = "<group>"; };
 		3540BEF92AF586CC00F7E41F /* EXEmptyStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXEmptyStates.swift; sourceTree = "<group>"; };
 		3540BEFB2AF58CAD00F7E41F /* EXEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXEmptyStateView.swift; sourceTree = "<group>"; };
+		354577862B8FCCA50090262E /* DailyTransactionsAnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTransactionsAnalyticsManager.swift; sourceTree = "<group>"; };
 		354A7C0A2ABDE57900934E4E /* CategoriesSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesSettingsView.swift; sourceTree = "<group>"; };
 		354F2B042AB8C860002516F1 /* AddGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalView.swift; sourceTree = "<group>"; };
 		354F2B0A2AB8D24B002516F1 /* DateSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectorView.swift; sourceTree = "<group>"; };
@@ -131,6 +134,7 @@
 		3558FBC02ACA415500624EBD /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		355BB4072ABCB1DE00A71834 /* AddCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryView.swift; sourceTree = "<group>"; };
 		355FCC1D2B38D90700BA8F4F /* MonthRecapData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthRecapData.swift; sourceTree = "<group>"; };
+		356498082B8D181B00AF17EB /* DailyTransactionInsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTransactionInsightsView.swift; sourceTree = "<group>"; };
 		3564D81E2ACB71EB00553ECB /* EditGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGoalView.swift; sourceTree = "<group>"; };
 		3567EADA2B2B7D8A009E76D6 /* TopCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCategories.swift; sourceTree = "<group>"; };
 		356847732ACB2D4E00FFC864 /* GoalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailView.swift; sourceTree = "<group>"; };
@@ -222,6 +226,7 @@
 				3534A9072B409E1F0019ACEC /* MonthRecapService.swift */,
 				35FA687B2B4B04D80005A067 /* AnalyticsManager.swift */,
 				350DF57F2B5972A600AFAAFD /* GoalManager.swift */,
+				354577862B8FCCA50090262E /* DailyTransactionsAnalyticsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -387,6 +392,7 @@
 			isa = PBXGroup;
 			children = (
 				356EB7A92AEC119F001E6FD6 /* TransactionInsightsView.swift */,
+				356498082B8D181B00AF17EB /* DailyTransactionInsightsView.swift */,
 			);
 			path = Insights;
 			sourceTree = "<group>";
@@ -812,6 +818,7 @@
 				354A7C0B2ABDE57900934E4E /* CategoriesSettingsView.swift in Sources */,
 				3538822E2B4E4C5E00EB57D1 /* Currency.swift in Sources */,
 				358978D62AFEBF6400E8C378 /* Double+Extension.swift in Sources */,
+				354577872B8FCCA50090262E /* DailyTransactionsAnalyticsManager.swift in Sources */,
 				3590949E2AAE33FD00428B39 /* Router.swift in Sources */,
 				3558FBBE2ACA3F8E00624EBD /* EXGoalCell.swift in Sources */,
 				358978D92AFEC0FF00E8C378 /* DebugMenuView.swift in Sources */,
@@ -831,6 +838,7 @@
 				358BA4B82AD5D06500229504 /* ResizableTextFieldModifier.swift in Sources */,
 				3570DB282B87C0C70074EE4C /* DailyTransactionsOnboarding.swift in Sources */,
 				35E80A782B3B3184006231F8 /* CategoriesBreakdownOverviewView.swift in Sources */,
+				356498092B8D181B00AF17EB /* DailyTransactionInsightsView.swift in Sources */,
 				358B71F72B40F05300511E81 /* EXEmojiKeyboard.swift in Sources */,
 				3510F6E72AFD62F2000B5532 /* LocalNotificationsManager.swift in Sources */,
 				355BB4082ABCB1DE00A71834 /* AddCategoryView.swift in Sources */,
@@ -966,7 +974,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 119;
+				CURRENT_PROJECT_VERSION = 123;
 				DEVELOPMENT_ASSET_PATHS = "\"Expensaro/Preview Content\"";
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;
@@ -1002,7 +1010,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 119;
+				CURRENT_PROJECT_VERSION = 123;
 				DEVELOPMENT_ASSET_PATHS = "\"Expensaro/Preview Content\"";
 				DEVELOPMENT_TEAM = 9S2MZXD36G;
 				ENABLE_PREVIEWS = YES;

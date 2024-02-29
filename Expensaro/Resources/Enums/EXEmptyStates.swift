@@ -17,6 +17,7 @@ enum EXEmptyStates {
   case noTransactionForGoal
   case noRecapGoals
   case noRecapTransactions
+  case noDailyTransactionsInsights
   
   // With images
   case noGoals
@@ -43,6 +44,8 @@ enum EXEmptyStates {
       return Text("No transactions made.").font(.system(.headline, weight: .bold)).foregroundColor(.primaryGreen)
     case .noDailyTransactions:
       return  Text("No daily transactions for now").font(.system(.title3, weight: .bold))
+    case .noDailyTransactionsInsights:
+      return Text("Get Daily Transaction Insights.").font(.system(.headline, weight: .bold)).foregroundColor(.primaryGreen)
     }
   }
   
@@ -66,6 +69,8 @@ enum EXEmptyStates {
       return "Maybe you forgot about writing them"
     case .noDailyTransactions:
       return "Create a new one with button on the top"
+    case .noDailyTransactionsInsights:
+      return "Understand where your money goes each day"
     }
   }
   
@@ -89,6 +94,8 @@ enum EXEmptyStates {
       return Image(Source.Images.Tabs.home)
     case .noDailyTransactions:
       return Source.Images.EmptyStates.noDailyTransactions
+    case .noDailyTransactionsInsights:
+      return Source.Images.EmptyStates.noInsights
     }
   }
 }

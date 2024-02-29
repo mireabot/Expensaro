@@ -27,14 +27,14 @@ struct DailyTransactionsOnboarding: View {
       .padding(.top, 16)
       
       VStack(spacing: 0) {
-        EXBottomInfoView(config: ("Tailor Your Expense Templates","Begin with crafting your daily transaction templates to reflect your routine expenses. From a $2.90 subway ride to your morning coffee", false), action: {}, bottomView: {
+        EXBottomInfoView(config: ("Tailor Your Expense Templates","Begin with crafting your daily transaction templates to reflect your routine expenses. From a $2.90 subway ride to your morning coffee", false, ""), action: {}, bottomView: {
           Image("dailyONB1")
             .frame(maxWidth: .infinity)
             .background(Color.backgroundGrey)
             .cornerRadius(10)
         })
         
-        EXBottomInfoView(config: ("Your Daily Expenses, Simplified","Once your templates are set, adding them as expenses is just a tap away. Select any template, like your subway ride, and add it to your expenses instantly", false), action: {}, bottomView: {
+        EXBottomInfoView(config: ("Your Daily Expenses, Simplified","Once your templates are set, adding them as expenses is just a tap away. Select any template, like your subway ride, and add it to your expenses instantly", false, ""), action: {}, bottomView: {
           Image("dailyONB2")
             .frame(maxWidth: .infinity)
             .background(Color.backgroundGrey)
