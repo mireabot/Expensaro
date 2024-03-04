@@ -19,9 +19,6 @@ struct AddDailyTransactionView: View {
   // MARK: Realm
   @Environment(\.realm) var realm
   @ObservedRealmObject var dailyTransaction: DailyTransaction
-  var isUpdating: Bool {
-    dailyTransaction.realm != nil
-  }
   
   // MARK: Variables
   @State var amountValue: String = "0.0"
@@ -54,22 +51,12 @@ struct AddDailyTransactionView: View {
         }
         .applyBounce()
         EXNumberKeyboard(textValue: $amountValue) {
-          if Double(amountValue) == dailyTransaction.amount && isUpdating {
-            makeDismiss()
-          }
-          else {
-            validateBudget()
-          }
+          validateBudget()
         }
       })
       .ignoresSafeArea(.keyboard, edges: .all)
       .onTapGesture {
         isFieldFocused = false
-      }
-      .onAppear {
-        if isUpdating {
-          amountValue = String(dailyTransaction.amount)
-        }
       }
       .applyMargins()
       .popup(isPresented: $showError, view: {
@@ -127,20 +114,10 @@ extension AddDailyTransactionView {
 // MARK: - Realm Functions
 extension AddDailyTransactionView {
   func createTransaction() {
-    AnalyticsManager.shared.log(.createTransaction(dailyTransaction.name, Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, dailyTransaction.categoryName))
+    AnalyticsManager.shared.log(.dailyTransactionCreated(dailyTransaction.name))
     dailyTransaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
     try? realm.write {
       realm.add(dailyTransaction)
-      AnalyticsManager.shared.log(.dailyTransactionCreated(dailyTransaction.name))
-    }
-  }
-  
-  func updateTransaction() {
-    AnalyticsManager.shared.log(.editTransaction)
-    if let newTransaction = dailyTransaction.thaw(), let realm = newTransaction.realm {
-      try? realm.write {
-        newTransaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
-      }
     }
   }
 }
@@ -192,11 +169,7 @@ extension AddDailyTransactionView {
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       return
     } else {
-      if isUpdating {
-        updateTransaction()
-      } else {
-        createTransaction()
-      }
+      createTransaction()
       makeDismiss()
     }
   }
