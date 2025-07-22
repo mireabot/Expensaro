@@ -3,7 +3,7 @@
 A personal finance iOS application built with Swift 5, SwiftUI, and Realm.  
 Expensaro helps users track day-to-day transactions, set budgets & goals, and analyse their spending habits through beautiful charts.
 
----
+![Preview](https://github.com/mireabot/Expensaro/blob/master/ExpensaroPreview.png)
 
 ## Core Ideas
 * **SwiftUI-first**: All new UI is implemented in SwiftUI for clarity, live previews and a declarative style.
