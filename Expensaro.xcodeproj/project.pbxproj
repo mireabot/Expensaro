@@ -13,7 +13,6 @@
 		350DF5802B5972A600AFAAFD /* GoalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DF57F2B5972A600AFAAFD /* GoalManager.swift */; };
 		350DF5822B59756800AFAAFD /* GoalEstimatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DF5812B59756800AFAAFD /* GoalEstimatorView.swift */; };
 		351061282AD74AEB006E6DF4 /* Budget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351061272AD74AEB006E6DF4 /* Budget.swift */; };
-		3510F6E22AFD542D000B5532 /* ScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */; };
 		3510F6E72AFD62F2000B5532 /* LocalNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3510F6E62AFD62F2000B5532 /* LocalNotificationsManager.swift */; };
 		351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351839AE2AAF94C3008216F3 /* GoalsListView.swift */; };
 		351A02F52AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */; };
@@ -55,8 +54,6 @@
 		358900E12B375E78009509FC /* MonthRecapOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358900E02B375E78009509FC /* MonthRecapOverviewView.swift */; };
 		358978D62AFEBF6400E8C378 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358978D52AFEBF6400E8C378 /* Double+Extension.swift */; };
 		358978D92AFEC0FF00E8C378 /* DebugMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358978D82AFEC0FF00E8C378 /* DebugMenuView.swift */; };
-		3589BC272AD899BA00BA8289 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 3589BC262AD899BA00BA8289 /* Realm */; };
-		3589BC292AD899BA00BA8289 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3589BC282AD899BA00BA8289 /* RealmSwift */; };
 		358B71F72B40F05300511E81 /* EXEmojiKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358B71F62B40F05300511E81 /* EXEmojiKeyboard.swift */; };
 		358BA4B82AD5D06500229504 /* ResizableTextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358BA4B72AD5D06500229504 /* ResizableTextFieldModifier.swift */; };
 		358E6B7F2AC0840900ABA818 /* CategorySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E6B7E2AC0840900ABA818 /* CategorySelectorView.swift */; };
@@ -68,7 +65,6 @@
 		359094A22AAE341E00428B39 /* NavigationViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094A12AAE341E00428B39 /* NavigationViewBuilder.swift */; };
 		359094A42AAE342F00428B39 /* NavigationControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094A32AAE342F00428B39 /* NavigationControllers.swift */; };
 		359094A62AAE344000428B39 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094A52AAE344000428B39 /* HostingController.swift */; };
-		359094AB2AAE365900428B39 /* ExpensaroUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 359094AA2AAE365900428B39 /* ExpensaroUIKit */; };
 		359094AD2AAE390500428B39 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094AC2AAE390500428B39 /* HomeView.swift */; };
 		359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094B62AAE575D00428B39 /* View+Extensions.swift */; };
 		3592EFFB2AF32D10008138EE /* FirstAppear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3592EFFA2AF32D10008138EE /* FirstAppear.swift */; };
@@ -96,6 +92,8 @@
 		35DA3A332B7FE45A0042A470 /* DailyTransactionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DA3A322B7FE45A0042A470 /* DailyTransactionsListView.swift */; };
 		35DE97DE2AE747F900CEF68D /* EXToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DE97DD2AE747F900CEF68D /* EXToast.swift */; };
 		35DFA06A2AC385F10008246A /* EraseDataSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DFA0692AC385F10008246A /* EraseDataSettingsView.swift */; };
+		35E5089B2E300FD8006E159D /* ExpensaroUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 35E5089A2E300FD8006E159D /* ExpensaroUIKit */; };
+		35E5089E2E30102D006E159D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 35E5089D2E30102D006E159D /* RealmSwift */; };
 		35E80A782B3B3184006231F8 /* CategoriesBreakdownOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E80A772B3B3184006231F8 /* CategoriesBreakdownOverviewView.swift */; };
 		35E8743A2ACC7EE2002368DB /* PeriodicitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E874392ACC7EE2002368DB /* PeriodicitySelectorView.swift */; };
 		35E8743D2ACC899A002368DB /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E8743C2ACC899A002368DB /* Transaction.swift */; };
@@ -111,7 +109,6 @@
 		350DF57F2B5972A600AFAAFD /* GoalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalManager.swift; sourceTree = "<group>"; };
 		350DF5812B59756800AFAAFD /* GoalEstimatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalEstimatorView.swift; sourceTree = "<group>"; };
 		351061272AD74AEB006E6DF4 /* Budget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Budget.swift; sourceTree = "<group>"; };
-		3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollView+Extensions.swift"; sourceTree = "<group>"; };
 		3510F6E62AFD62F2000B5532 /* LocalNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsManager.swift; sourceTree = "<group>"; };
 		351839AE2AAF94C3008216F3 /* GoalsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsListView.swift; sourceTree = "<group>"; };
 		351A02F42AD1AD8B0051A683 /* RecurrentPaymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentPaymentDetailView.swift; sourceTree = "<group>"; };
@@ -202,15 +199,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35E5089E2E30102D006E159D /* RealmSwift in Frameworks */,
 				35002A212B44FC0D00DEF27B /* Algorithms in Frameworks */,
-				3589BC292AD899BA00BA8289 /* RealmSwift in Frameworks */,
 				351D3D612AD0D5C00022E696 /* PopupView in Frameworks */,
+				35E5089B2E300FD8006E159D /* ExpensaroUIKit in Frameworks */,
 				35BD86242B4DBC8A009BC2D7 /* Shimmer in Frameworks */,
 				353B833E2B62136400DEFC2C /* Aptabase in Frameworks */,
 				354F2B152AB9F189002516F1 /* SwiftUIIntrospect in Frameworks */,
 				354716842B45C4C8009BEEC0 /* WishKit in Frameworks */,
-				359094AB2AAE365900428B39 /* ExpensaroUIKit in Frameworks */,
-				3589BC272AD899BA00BA8289 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,7 +542,6 @@
 			children = (
 				359094B62AAE575D00428B39 /* View+Extensions.swift */,
 				353E5C2E2ACA01D400430978 /* Date+Extension.swift */,
-				3510F6E12AFD542D000B5532 /* ScrollView+Extensions.swift */,
 				358978D52AFEBF6400E8C378 /* Double+Extension.swift */,
 				35B25D2E2B3DDB58001417F9 /* Realm+Extensions.swift */,
 			);
@@ -689,15 +684,14 @@
 			);
 			name = Expensaro;
 			packageProductDependencies = (
-				359094AA2AAE365900428B39 /* ExpensaroUIKit */,
 				354F2B142AB9F189002516F1 /* SwiftUIIntrospect */,
 				351D3D602AD0D5C00022E696 /* PopupView */,
-				3589BC262AD899BA00BA8289 /* Realm */,
-				3589BC282AD899BA00BA8289 /* RealmSwift */,
 				35002A202B44FC0D00DEF27B /* Algorithms */,
 				354716832B45C4C8009BEEC0 /* WishKit */,
 				35BD86232B4DBC8A009BC2D7 /* Shimmer */,
 				353B833D2B62136400DEFC2C /* Aptabase */,
+				35E5089A2E300FD8006E159D /* ExpensaroUIKit */,
+				35E5089D2E30102D006E159D /* RealmSwift */,
 			);
 			productName = Expensaro;
 			productReference = 3590948B2AAD3EC300428B39 /* Expensaro.app */;
@@ -728,14 +722,14 @@
 			);
 			mainGroup = 359094822AAD3EC300428B39;
 			packageReferences = (
-				359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */,
 				354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
 				351D3D5F2AD0D5C00022E696 /* XCRemoteSwiftPackageReference "PopupView" */,
-				3589BC252AD899BA00BA8289 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				35002A1F2B44FC0D00DEF27B /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				354716822B45C4C8009BEEC0 /* XCRemoteSwiftPackageReference "wishkit-ios" */,
 				35BD86222B4DBC8A009BC2D7 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				353B833C2B62136400DEFC2C /* XCRemoteSwiftPackageReference "aptabase-swift" */,
+				35E508992E300FD8006E159D /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */,
+				35E5089C2E30102D006E159D /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 3590948C2AAD3EC300428B39 /* Products */;
 			projectDirPath = "";
@@ -787,7 +781,6 @@
 				35BDE3E12B6850DC002A9D93 /* OnboardingPage.swift in Sources */,
 				358900E12B375E78009509FC /* MonthRecapOverviewView.swift in Sources */,
 				359094A22AAE341E00428B39 /* NavigationViewBuilder.swift in Sources */,
-				3510F6E22AFD542D000B5532 /* ScrollView+Extensions.swift in Sources */,
 				35BEF35D2AB378DB005D1138 /* Source.swift in Sources */,
 				357562AE2B2A182A002082A0 /* EXCircleProgressView.swift in Sources */,
 				353E5C322ACA1F6600430978 /* RecurrentPayment.swift in Sources */,
@@ -986,7 +979,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1022,7 +1015,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1104,28 +1097,28 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		3589BC252AD899BA00BA8289 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.43.0;
-			};
-		};
-		359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mireabot/ExpensaroUIKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 		35BD86222B4DBC8A009BC2D7 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.4.0;
+			};
+		};
+		35E508992E300FD8006E159D /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mireabot/ExpensaroUIKit";
+			requirement = {
+				kind = exactVersion;
+				version = 1.3.2;
+			};
+		};
+		35E5089C2E30102D006E159D /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1156,25 +1149,20 @@
 			package = 354F2B132AB9F189002516F1 /* XCRemoteSwiftPackageReference "swiftui-introspect" */;
 			productName = SwiftUIIntrospect;
 		};
-		3589BC262AD899BA00BA8289 /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3589BC252AD899BA00BA8289 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
-		};
-		3589BC282AD899BA00BA8289 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3589BC252AD899BA00BA8289 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
-		};
-		359094AA2AAE365900428B39 /* ExpensaroUIKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 359094A92AAE365900428B39 /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */;
-			productName = ExpensaroUIKit;
-		};
 		35BD86232B4DBC8A009BC2D7 /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 35BD86222B4DBC8A009BC2D7 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
+		};
+		35E5089A2E300FD8006E159D /* ExpensaroUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35E508992E300FD8006E159D /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */;
+			productName = ExpensaroUIKit;
+		};
+		35E5089D2E30102D006E159D /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35E5089C2E30102D006E159D /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

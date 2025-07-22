@@ -1,12 +1,13 @@
 {
+  "originHash" : "f5259523b9ea61341909379070b162fd30d6188f5e916764588e716a0ecc1a1b",
   "pins" : [
     {
       "identity" : "aptabase-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/aptabase/aptabase-swift.git",
       "state" : {
-        "revision" : "42c21750321d4204003cc65055e5bae0bb62f4cd",
-        "version" : "0.3.7"
+        "revision" : "cfd67fac2a228d448d9d2ac92ffc71589cc3ef00",
+        "version" : "0.3.11"
       }
     },
     {
@@ -23,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/exyte/PopupView",
       "state" : {
-        "revision" : "f71f08f1675d8edacdd341282da539ebbf8c1339",
-        "version" : "2.9.0"
+        "revision" : "038f37d281a61842f96fffeb8903fa5c5e35ecf9",
+        "version" : "2.10.6"
       }
     },
     {
@@ -32,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core.git",
       "state" : {
-        "revision" : "a5e87a39cffdcc591f3203c11cfca68100d0b9a6",
-        "version" : "13.26.0"
+        "revision" : "cccb3ca9e26ec452a29f2f0d4050d1e38b8a3d43",
+        "version" : "14.14.0"
       }
     },
     {
@@ -41,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-swift.git",
       "state" : {
-        "revision" : "55466ae0fb29c5f21866792f05c1fc0c590d7c29",
-        "version" : "10.47.0"
+        "branch" : "master",
+        "revision" : "5fcba6408c99eb3596bf5ae148bfc1a33b5adebd"
       }
     },
     {
@@ -50,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-algorithms.git",
       "state" : {
-        "revision" : "f6919dfc309e7f1b56224378b11e28bab5bccc42",
-        "version" : "1.2.0"
+        "revision" : "87e50f483c54e6efd60e885f7f5aa946cee68023",
+        "version" : "1.2.1"
       }
     },
     {
@@ -59,8 +60,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-numerics.git",
       "state" : {
-        "revision" : "0a5bc04095a675662cf24757cc0640aa2204253b",
-        "version" : "1.0.2"
+        "revision" : "e0ec0f5f3af6f3e4d5e7a19d2af26b481acb6ba8",
+        "version" : "1.0.3"
       }
     },
     {
@@ -68,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/siteline/swiftui-introspect",
       "state" : {
-        "revision" : "0cd2a5a5895306bc21d54a2254302d24a9a571e4",
-        "version" : "1.1.3"
+        "revision" : "807f73ce09a9b9723f12385e592b4e0aaebd3336",
+        "version" : "1.3.0"
       }
     },
     {
@@ -77,8 +78,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/markiv/SwiftUI-Shimmer",
       "state" : {
-        "revision" : "5659a623567cefe258d1e3e67cb65585fbb6ecb6",
-        "version" : "1.4.2"
+        "revision" : "0226e21f9bf355d40e07e5f5e1c33679d50e167f",
+        "version" : "1.5.1"
       }
     },
     {
@@ -86,8 +87,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/wishkit/wishkit-ios.git",
       "state" : {
-        "revision" : "dad332bcab0bba1ae61c914f5fe84a78510ae759",
-        "version" : "4.1.0"
+        "revision" : "951b17b6b683c72d36627de77e8e26afcfbde6ae",
+        "version" : "4.7.0"
       }
     },
     {
@@ -95,10 +96,10 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/wishkit/wishkit-ios-shared.git",
       "state" : {
-        "revision" : "118c9c482e4ad57c65d664283516425b98616483",
-        "version" : "1.4.3"
+        "revision" : "cd184932bcdbdc8766137ef8ecac63c424be93a7",
+        "version" : "1.5.0"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

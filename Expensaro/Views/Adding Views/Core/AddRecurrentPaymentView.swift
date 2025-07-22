@@ -69,7 +69,7 @@ struct AddRecurrentPaymentView: View {
           }
           .padding(.top, 20)
         }
-        .applyBounce()
+        .scrollBounceBehavior(.basedOnSize)
         
         VStack {
           HStack {

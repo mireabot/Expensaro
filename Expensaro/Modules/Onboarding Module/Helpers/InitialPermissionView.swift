@@ -146,7 +146,7 @@ extension InitialPermissionView {
         .padding(.top, 16)
         .applyMargins()
       }
-      .applyBounce()
+      .scrollBounceBehavior(.basedOnSize)
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {

@@ -56,7 +56,7 @@ struct RecurrentPaymentsListView: View {
         .applyMargins()
         .padding(.bottom, 10)
       }
-      .applyBounce()
+      .scrollBounceBehavior(.basedOnSize)
       .navigationBarTitleDisplayMode(.inline)
       .fullScreenCover(isPresented: $showAddPayment, content: {
         AddRecurrentPaymentView(recurringPayment: RecurringTransaction(), budget: budget)

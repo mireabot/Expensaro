@@ -49,7 +49,7 @@ struct AddDailyTransactionView: View {
           }
           .padding(.top, 20)
         }
-        .applyBounce()
+        .scrollBounceBehavior(.basedOnSize)
         EXNumberKeyboard(textValue: $amountValue) {
           validateBudget()
         }

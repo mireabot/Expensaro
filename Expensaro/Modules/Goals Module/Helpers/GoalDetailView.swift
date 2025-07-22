@@ -31,7 +31,7 @@ struct GoalDetailView: View {
           goalInfo()
           transactionList()
         }
-        .applyBounce()
+        .scrollBounceBehavior(.basedOnSize)
         .applyMargins()
         
         bottomActionButton().padding(16)

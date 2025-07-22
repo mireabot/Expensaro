@@ -72,7 +72,7 @@ struct RemindersSettingsView: View {
         }
         .padding(.top, 20)
       }
-      .applyBounce()
+      .scrollBounceBehavior(.basedOnSize)
       .applyMargins()
       .sheet(isPresented: $showDangerSheet, content: {
         dangerSheet()

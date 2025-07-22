@@ -98,7 +98,7 @@ struct TopCategoryOverviewView: View {
         .applyMargins()
         .padding(.bottom, 10)
       }
-      .applyBounce()
+      .scrollBounceBehavior(.basedOnSize)
       .fullScreenCover(isPresented: $showFeedback, content: {
         ContactSettingsView(topic: "Top Category Overview", isCalled: true)
       })

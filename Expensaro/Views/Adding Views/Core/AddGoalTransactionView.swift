@@ -36,7 +36,7 @@ struct AddGoalTransactionView: View {
           }
           .padding(.top, 20)
         }
-        .applyBounce()
+        .scrollBounceBehavior(.basedOnSize)
         
         EXNumberKeyboard(textValue: $amountValue, submitAction: {
           validate {

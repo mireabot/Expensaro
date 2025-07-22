@@ -76,7 +76,7 @@ struct SettingsView: View {
           WishView()
         }
       }
-      .applyBounce()
+      .scrollBounceBehavior(.basedOnSize)
       .navigationBarTitleDisplayMode(.inline)
       .toolbarBackground(.white, for: .bottomBar)
       .toolbar {

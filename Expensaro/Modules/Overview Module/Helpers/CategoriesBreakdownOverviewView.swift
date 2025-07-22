@@ -63,7 +63,7 @@ struct CategoriesBreakdownOverviewView: View {
       .padding(.top, 10)
       
     }
-    .applyBounce()
+    .scrollBounceBehavior(.basedOnSize)
   }
 }
 

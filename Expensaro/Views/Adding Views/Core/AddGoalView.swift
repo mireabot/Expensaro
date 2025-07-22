@@ -57,7 +57,7 @@ struct AddGoalView: View {
           }
           .padding(.top, 25)
         }
-        .applyBounce()
+        .scrollBounceBehavior(.basedOnSize)
         
         EXNumberKeyboard(textValue: $amountValue) {
           validateGoal()

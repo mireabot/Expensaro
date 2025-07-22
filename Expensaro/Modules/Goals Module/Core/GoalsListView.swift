@@ -54,7 +54,7 @@ struct GoalsListView: View {
           }
         }
       }
-      .applyBounce()
+      .scrollBounceBehavior(.basedOnSize)
       .navigationBarTitleDisplayMode(.inline)
       .fullScreenCover(isPresented: $showAddGoalView, content: {
         AddGoalView(goal: Goal())

@@ -64,7 +64,7 @@ struct AddTransactionView: View {
           }
           .padding(.top, 20)
         }
-        .applyBounce()
+        .scrollBounceBehavior(.basedOnSize)
         EXNumberKeyboard(textValue: $amountValue) {
           if Double(amountValue) == transaction.amount && isUpdating {
             makeDismiss()

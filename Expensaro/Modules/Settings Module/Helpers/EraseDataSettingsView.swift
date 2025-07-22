@@ -35,7 +35,7 @@ struct EraseDataSettingsView: View {
         .padding(.top, 20)
         .applyMargins()
       }
-      .applyBounce()
+      .scrollBounceBehavior(.basedOnSize)
       .sheet(isPresented: $showSheet, content: {
         dangerSheet()
           .fixedSize(horizontal: false, vertical: true)

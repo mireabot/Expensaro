@@ -35,7 +35,7 @@ struct MonthRecapOverviewView: View {
           .applyMargins()
           .padding(.vertical, 10)
       }
-      .applyBounce()
+      .scrollBounceBehavior(.basedOnSize)
       .scrollIndicators(.hidden)
       .fullScreenCover(isPresented: $showFeedback, content: {
         ContactSettingsView(topic: "Month Recap", isCalled: true)

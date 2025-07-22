@@ -88,7 +88,7 @@ struct TransactionDetailView: View {
             DailyTransactionInsightsView()
           }
         }
-        .applyBounce()
+        .scrollBounceBehavior(.basedOnSize)
         bottomActionButton()
           .padding(.bottom, 16)
       })

@@ -719,10 +719,12 @@ enum Source {
     }
   }
   
-  static let wishKEY = "1279B306-A1C9-4CB0-8D14-4A2413F72075"
-  static let aptaBaseKEY = "A-US-4693844111"
-  static let adminMode = false
-  
+// MARK: - API Keys and admin mode toggle
+  static let wishKEY = "wishkit-key"
+  static let aptaBaseKEY = "aptabse-key"
+  static let adminMode = true
+    
+// MARK: - Default data for previews and creating demo profiles
   enum DefaultData {
     // Sample transactions for analytics
     static let sampleTransactions: [Transaction] = [

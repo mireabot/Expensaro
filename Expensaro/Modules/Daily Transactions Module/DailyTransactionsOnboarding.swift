@@ -43,7 +43,7 @@ struct DailyTransactionsOnboarding: View {
       }
       .applyMargins()
     }
-    .applyBounce()
+    .scrollBounceBehavior(.basedOnSize)
     .safeAreaInset(edge: .bottom) {
       VStack {
         Button(action: {

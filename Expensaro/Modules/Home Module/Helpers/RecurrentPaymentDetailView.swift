@@ -102,7 +102,7 @@ struct RecurrentPaymentDetailView: View {
                        ))
           .padding(.top, 5)
         }
-        .applyBounce()
+        .scrollBounceBehavior(.basedOnSize)
         bottomActionButton().padding(.bottom, 16)
         
       })
