@@ -9,7 +9,6 @@ import SwiftUI
 import Dependencies
 import ExpensaroUIKit
 import SwiftData
-import PopupView
 
 struct GoalDetailView: View {
   // MARK: Essential
@@ -20,38 +19,14 @@ struct GoalDetailView: View {
   @Bindable var goal: Goal
   
   // MARK: Presentation
-  @State private var showDeleteAlert = false
-  
   @State private var showAnalytics = false
   var body: some View {
-    ZStack(alignment: .bottomTrailing, content: {
-      ScrollView {
-        goalInfo()
-        transactionList()
-      }
-      .scrollBounceBehavior(.basedOnSize)
-      .applyMargins()
-      
-      bottomActionButton().padding(16)
-    })
-    .popup(isPresented: $showDeleteAlert) {
-      EXAlert<EmptyView>(config: (Source.Strings.AlertType.deleteGoal.title,
-                       Source.Strings.AlertType.deleteGoal.subTitle,
-                       Source.Strings.AlertType.deleteGoal.secondaryButtonText,
-                       Source.Strings.AlertType.deleteGoal.primaryButtonText
-                      ),
-              primaryAction: { deleteGoal() },
-              secondaryAction: { showDeleteAlert.toggle() })
-      .applyMargins()
-    } customize: {
-      $0
-        .animation(.spring())
-        .position(.bottom)
-        .type(.floater(useSafeAreaInset: true))
-        .closeOnTapOutside(false)
-        .backgroundColor(.black.opacity(0.3))
-        .isOpaque(true)
+    ScrollView {
+      goalInfo()
+      transactionList()
     }
+    .scrollBounceBehavior(.basedOnSize)
+    .applyMargins()
     .navigationBarTitleDisplayMode(.inline)
     .toolbar {
       ToolbarItem(placement: .principal) {
@@ -169,50 +144,5 @@ extension GoalDetailView {
       Text(text)
         .font(.system(.subheadline, weight: .regular))
     }
-  }
-  
-  @ViewBuilder
-  func bottomActionButton() -> some View {
-    VStack {
-      Menu {
-        if goal.isCompleted || goal.isFailed {
-          Button(role: .destructive, action: { showDeleteAlert.toggle() }) {
-            Label("Delete goal", image: "buttonDelete")
-          }
-          
-        } else {
-          Button(action: { router.presentFullScreenCover(for: .addGoalMoney(goal)) }) {
-            Label("Add money", image: "buttonTransaction")
-          }
-          
-          Button(action: { router.presentFullScreenCover(for: .editGoal(goal)) }) {
-            Label("Edit goal", image: "buttonEdit")
-          }
-          
-          Button(role: .destructive, action: { showDeleteAlert.toggle() }) {
-            Label("Delete goal", image: "buttonDelete")
-          }
-        }
-      } label: {
-        Source.Images.Navigation.menu
-          .foregroundColor(.primaryGreen)
-          .padding(20)
-          .background(Color.secondaryYellow)
-          .cornerRadius(40)
-      }
-      .font(.system(.subheadline, weight: .regular))
-      .menuOrder(.fixed)
-    }
-  }
-}
-
-// MARK: - Storage Functions
-extension GoalDetailView {
-  func deleteGoal() {
-    AnalyticsManager.shared.log(.deleteGoal)
-    showDeleteAlert.toggle()
-    // Goal transactions go with the goal through the cascade delete rule
-    try? goal.delete()
-    router.back()
   }
 }

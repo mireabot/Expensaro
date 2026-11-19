@@ -65,7 +65,7 @@
 		359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094B62AAE575D00428B39 /* View+Extensions.swift */; };
 		3592EFFB2AF32D10008138EE /* FirstAppear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3592EFFA2AF32D10008138EE /* FirstAppear.swift */; };
 		359CDC542AB4C69600DFFDC7 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC532AB4C69600DFFDC7 /* OnboardingView.swift */; };
-		359CDC5C2AB4DE3300DFFDC7 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC5B2AB4DE3300DFFDC7 /* TabBarView.swift */; };
+		359CDC5C2AB4DE3300DFFDC7 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC5B2AB4DE3300DFFDC7 /* RootTabView.swift */; };
 		359CDC602AB4DF4400DFFDC7 /* InitialPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC5F2AB4DF4400DFFDC7 /* InitialPermissionView.swift */; };
 		359CDC622AB50C0000DFFDC7 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CDC612AB50C0000DFFDC7 /* AddTransactionView.swift */; };
 		35ACB7E82AB3EDB800F7ECE5 /* OverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB7E72AB3EDB800F7ECE5 /* OverviewView.swift */; };
@@ -98,10 +98,11 @@
 		35F49FC62B80050F009F0C6E /* DailyTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F49FC52B80050F009F0C6E /* DailyTransaction.swift */; };
 		5FBFE0C6B12EDE1C9135A9D2 /* DailyTransaction+Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE369155737AC3531EDF83A /* DailyTransaction+Record.swift */; };
 		35FA687C2B4B04D80005A067 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FA687B2B4B04D80005A067 /* AnalyticsManager.swift */; };
-		3D01486D9036DB40A743EF63 /* HomeQuickActionsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19726FD9B00B6F38AC0054C7 /* HomeQuickActionsMenu.swift */; };
-		EA62B8569B098DA3BF5FC210 /* HomeQuickActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5425A2B2180ABBC57DECFF07 /* HomeQuickActions.swift */; };
+		3D01486D9036DB40A743EF63 /* TabAccessoryMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19726FD9B00B6F38AC0054C7 /* TabAccessoryMenu.swift */; };
 		630787E97E4BB222A0E6C557 /* RouterTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC3F080F660AC15981EB0BB /* RouterTab.swift */; };
 		D4E8062384D2D66C8D5C0B61 /* RouterDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF9207FC5E29E3550B4FD03 /* RouterDestination.swift */; };
+		6E380ED0591C3C0FAD2D6966 /* RouterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161C39F06A7BEDE9F87898A4 /* RouterSheet.swift */; };
+		47D3D8F72F84F133FDACE2F9 /* RouterCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952EFF3F615CD37DD0193D25 /* RouterCover.swift */; };
 		52D2AE581705DF399198DE62 /* RouterDependencyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44637D781677F0D4A163DB50 /* RouterDependencyKey.swift */; };
 		8DAEE835531A17853F793249 /* WithAppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B413CEF2A1BDC608E0D3694 /* WithAppRouter.swift */; };
 		25E81C1D005F9C270A98B585 /* WithSheetDestinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC4D6BA7B522018E33B2B02 /* WithSheetDestinations.swift */; };
@@ -109,10 +110,14 @@
 		5D7BAB5E54D822E75D4A2740 /* GoalsRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB184DB7C18C490A47A5C /* GoalsRootView.swift */; };
 		8C18F44DB7DFCBDAE0739EBB /* OverviewRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7FD8AD5692D9DF2F7F6AD1 /* OverviewRootView.swift */; };
 		595AD13F33E4F39E0D62B911 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = FD01A1B28E6A66D8E4A79B10 /* Dependencies */; };
+		796BB1BEB1796804AADF1068 /* AccessoryContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FB38C38692729CC24D4278 /* AccessoryContent.swift */; };
+		179BC84D7629BE6F82F885BD /* RouterAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B91916F1763A6263EE11D9A /* RouterAlert.swift */; };
+		0347F2484E25384503F15C40 /* WithRouterAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B95070E1E69CF5E75E08BAE /* WithRouterAlerts.swift */; };
+		7A3E5C1B9D2F48A6B0C4E1F3 /* RootTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E5C1B9D2F48A6B0C4E1F2 /* RootTabBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		19726FD9B00B6F38AC0054C7 /* HomeQuickActionsMenu.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HomeQuickActionsMenu.swift; sourceTree = "<group>"; };
+		19726FD9B00B6F38AC0054C7 /* TabAccessoryMenu.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TabAccessoryMenu.swift; sourceTree = "<group>"; };
 		3501CFB82B4EF3F600D13736 /* CurrencySelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySelectorView.swift; sourceTree = "<group>"; };
 		350D45812B22A03400E13008 /* TopCategoryOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCategoryOverviewView.swift; sourceTree = "<group>"; };
 		350DF5812B59756800AFAAFD /* GoalEstimatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalEstimatorView.swift; sourceTree = "<group>"; };
@@ -167,7 +172,7 @@
 		359094B62AAE575D00428B39 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		3592EFFA2AF32D10008138EE /* FirstAppear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstAppear.swift; sourceTree = "<group>"; };
 		359CDC532AB4C69600DFFDC7 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		359CDC5B2AB4DE3300DFFDC7 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		359CDC5B2AB4DE3300DFFDC7 /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
 		359CDC5F2AB4DF4400DFFDC7 /* InitialPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialPermissionView.swift; sourceTree = "<group>"; };
 		359CDC612AB50C0000DFFDC7 /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
 		35ACB7E72AB3EDB800F7ECE5 /* OverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewView.swift; sourceTree = "<group>"; };
@@ -199,15 +204,20 @@
 		35F49FC52B80050F009F0C6E /* DailyTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTransaction.swift; sourceTree = "<group>"; };
 		5CE369155737AC3531EDF83A /* DailyTransaction+Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DailyTransaction+Record.swift"; sourceTree = "<group>"; };
 		35FA687B2B4B04D80005A067 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
-		5425A2B2180ABBC57DECFF07 /* HomeQuickActions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HomeQuickActions.swift; sourceTree = "<group>"; };
 		1AC3F080F660AC15981EB0BB /* RouterTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterTab.swift; sourceTree = "<group>"; };
 		3CF9207FC5E29E3550B4FD03 /* RouterDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterDestination.swift; sourceTree = "<group>"; };
+		161C39F06A7BEDE9F87898A4 /* RouterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterSheet.swift; sourceTree = "<group>"; };
+		952EFF3F615CD37DD0193D25 /* RouterCover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterCover.swift; sourceTree = "<group>"; };
 		44637D781677F0D4A163DB50 /* RouterDependencyKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterDependencyKey.swift; sourceTree = "<group>"; };
 		9B413CEF2A1BDC608E0D3694 /* WithAppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithAppRouter.swift; sourceTree = "<group>"; };
 		4CC4D6BA7B522018E33B2B02 /* WithSheetDestinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithSheetDestinations.swift; sourceTree = "<group>"; };
 		F330123FD8B0D372B819416B /* HomeRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRootView.swift; sourceTree = "<group>"; };
 		5E8DB184DB7C18C490A47A5C /* GoalsRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsRootView.swift; sourceTree = "<group>"; };
 		CC7FD8AD5692D9DF2F7F6AD1 /* OverviewRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewRootView.swift; sourceTree = "<group>"; };
+		69FB38C38692729CC24D4278 /* AccessoryContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryContent.swift; sourceTree = "<group>"; };
+		8B91916F1763A6263EE11D9A /* RouterAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterAlert.swift; sourceTree = "<group>"; };
+		8B95070E1E69CF5E75E08BAE /* WithRouterAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithRouterAlerts.swift; sourceTree = "<group>"; };
+		7A3E5C1B9D2F48A6B0C4E1F2 /* RootTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -525,15 +535,29 @@
 			path = Roots;
 			sourceTree = "<group>";
 		};
+		D7224DC8DE5873256F934DBD /* Accessory */ = {
+			isa = PBXGroup;
+			children = (
+				69FB38C38692729CC24D4278 /* AccessoryContent.swift */,
+				19726FD9B00B6F38AC0054C7 /* TabAccessoryMenu.swift */,
+			);
+			path = Accessory;
+			sourceTree = "<group>";
+		};
 		3590949C2AAD404400428B39 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
 				3590949D2AAE33FD00428B39 /* Router.swift */,
 				1AC3F080F660AC15981EB0BB /* RouterTab.swift */,
 				3CF9207FC5E29E3550B4FD03 /* RouterDestination.swift */,
+				161C39F06A7BEDE9F87898A4 /* RouterSheet.swift */,
+				952EFF3F615CD37DD0193D25 /* RouterCover.swift */,
 				44637D781677F0D4A163DB50 /* RouterDependencyKey.swift */,
 				9B413CEF2A1BDC608E0D3694 /* WithAppRouter.swift */,
+				8B91916F1763A6263EE11D9A /* RouterAlert.swift */,
 				4CC4D6BA7B522018E33B2B02 /* WithSheetDestinations.swift */,
+				8B95070E1E69CF5E75E08BAE /* WithRouterAlerts.swift */,
+				D7224DC8DE5873256F934DBD /* Accessory */,
 				6BEE8EDDFC8255EF3918C2BE /* Roots */,
 			);
 			path = Navigation;
@@ -606,9 +630,8 @@
 		359CDC5A2AB4DE2100DFFDC7 /* Tab Bar Module */ = {
 			isa = PBXGroup;
 			children = (
-				359CDC5B2AB4DE3300DFFDC7 /* TabBarView.swift */,
-				5425A2B2180ABBC57DECFF07 /* HomeQuickActions.swift */,
-				19726FD9B00B6F38AC0054C7 /* HomeQuickActionsMenu.swift */,
+				359CDC5B2AB4DE3300DFFDC7 /* RootTabView.swift */,
+				7A3E5C1B9D2F48A6B0C4E1F2 /* RootTabBar.swift */,
 			);
 			path = "Tab Bar Module";
 			sourceTree = "<group>";
@@ -834,7 +857,8 @@
 				3540BEFA2AF586CC00F7E41F /* EXEmptyStates.swift in Sources */,
 				359CDC622AB50C0000DFFDC7 /* AddTransactionView.swift in Sources */,
 				350DF5822B59756800AFAAFD /* GoalEstimatorView.swift in Sources */,
-				359CDC5C2AB4DE3300DFFDC7 /* TabBarView.swift in Sources */,
+				359CDC5C2AB4DE3300DFFDC7 /* RootTabView.swift in Sources */,
+				7A3E5C1B9D2F48A6B0C4E1F3 /* RootTabBar.swift in Sources */,
 				358E6B7F2AC0840900ABA818 /* CategorySelectorView.swift in Sources */,
 				35F49FC32B8003B5009F0C6E /* AddDailyTransactionView.swift in Sources */,
 				359094AD2AAE390500428B39 /* HomeView.swift in Sources */,
@@ -844,9 +868,14 @@
 				3590949E2AAE33FD00428B39 /* Router.swift in Sources */,
 				630787E97E4BB222A0E6C557 /* RouterTab.swift in Sources */,
 				D4E8062384D2D66C8D5C0B61 /* RouterDestination.swift in Sources */,
+				6E380ED0591C3C0FAD2D6966 /* RouterSheet.swift in Sources */,
+				47D3D8F72F84F133FDACE2F9 /* RouterCover.swift in Sources */,
 				52D2AE581705DF399198DE62 /* RouterDependencyKey.swift in Sources */,
 				8DAEE835531A17853F793249 /* WithAppRouter.swift in Sources */,
 				25E81C1D005F9C270A98B585 /* WithSheetDestinations.swift in Sources */,
+				796BB1BEB1796804AADF1068 /* AccessoryContent.swift in Sources */,
+				179BC84D7629BE6F82F885BD /* RouterAlert.swift in Sources */,
+				0347F2484E25384503F15C40 /* WithRouterAlerts.swift in Sources */,
 				546802BC7AC57F70A94C196A /* HomeRootView.swift in Sources */,
 				5D7BAB5E54D822E75D4A2740 /* GoalsRootView.swift in Sources */,
 				8C18F44DB7DFCBDAE0739EBB /* OverviewRootView.swift in Sources */,
@@ -879,8 +908,7 @@
 				3590948F2AAD3EC300428B39 /* ExpensaroApp.swift in Sources */,
 				35E8743D2ACC899A002368DB /* Transaction.swift in Sources */,
 				7F0D93A08E3D82741D321740 /* Transaction+Record.swift in Sources */,
-				EA62B8569B098DA3BF5FC210 /* HomeQuickActions.swift in Sources */,
-				3D01486D9036DB40A743EF63 /* HomeQuickActionsMenu.swift in Sources */,
+				3D01486D9036DB40A743EF63 /* TabAccessoryMenu.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

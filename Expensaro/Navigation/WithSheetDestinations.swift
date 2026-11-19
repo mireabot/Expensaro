@@ -9,40 +9,38 @@ import SwiftUI
 import SwiftData
 
 extension View {
-  func withSheetDestinations(_ destination: Binding<RouterDestination?>) -> some View {
-    sheet(item: destination) { destination in
-      SheetDestinationView(destination: destination)
+  func withSheetDestinations(_ sheet: Binding<RouterSheet?>) -> some View {
+    self.sheet(item: sheet) { sheet in
+      SheetDestinationView(sheet: sheet)
     }
   }
 
-  func withFullScreenCoverDestinations(_ destination: Binding<RouterDestination?>) -> some View {
-    fullScreenCover(item: destination) { destination in
-      FullScreenCoverDestinationView(destination: destination)
+  func withFullScreenCoverDestinations(_ cover: Binding<RouterCover?>) -> some View {
+    fullScreenCover(item: cover) { cover in
+      FullScreenCoverDestinationView(cover: cover)
     }
   }
 }
 
 private struct SheetDestinationView: View {
-  let destination: RouterDestination
+  let sheet: RouterSheet
 
   var body: some View {
-    switch destination {
+    switch sheet {
     case .featuresHub:
       WishView()
-    default:
-      EmptyView()
     }
   }
 }
 
 /// Add and edit flows own their `NavigationStack` and close with `dismiss`,
 /// which clears the router's cover through `Router.fullScreenCoverBinding`.
-/// `.contact` is pushed from Settings and presented as a cover for in-context feedback.
+/// `.feedback` is the cover counterpart of the pushed `RouterDestination.contact`.
 private struct FullScreenCoverDestinationView: View {
-  let destination: RouterDestination
+  let cover: RouterCover
 
   var body: some View {
-    switch destination {
+    switch cover {
     case .addBudget:
       DraftModel(Budget()) { AddBudgetView(type: .addBudget, budget: $0) }
     case let .updateBudget(budget):
@@ -63,12 +61,10 @@ private struct FullScreenCoverDestinationView: View {
       EditGoalView(goal: goal)
     case let .addGoalMoney(goal):
       DraftModel(GoalTransaction()) { AddGoalTransactionView(goalTransaction: $0, goal: goal) }
-    case let .contact(topic):
+    case let .feedback(topic):
       NavigationStack {
         ContactSettingsView(topic: topic, isCalled: true)
       }
-    default:
-      EmptyView()
     }
   }
 }

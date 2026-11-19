@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Dependencies
 
 extension View {
   /// Registers every pushed `RouterDestination` on the enclosing `NavigationStack`.
@@ -19,22 +20,38 @@ extension View {
 }
 
 private struct RouterWrapper: View {
+  @Dependency(\.router) private var router
   let destination: RouterDestination
 
   var body: some View {
+    screen
+      .onDisappear { router.didRemove(destination) }
+  }
+
+  /// A screen whose model was deleted renders nothing: it can still be mounted for the rest of a pop
+  @ViewBuilder
+  private var screen: some View {
     switch destination {
     case .settings:
       SettingsView()
     case .transactionsList:
       TransactionsListView()
     case let .transactionDetail(transaction, budget):
-      TransactionDetailView(transaction: transaction, budget: budget)
+      if transaction.isLive, budget.isLive {
+        TransactionDetailView(transaction: transaction, budget: budget)
+      }
     case let .recurringPaymentsList(budget):
-      RecurrentPaymentsListView(budget: budget)
+      if budget.isLive {
+        RecurrentPaymentsListView(budget: budget)
+      }
     case let .recurringPaymentDetail(payment, budget):
-      RecurrentPaymentDetailView(transaction: payment, budget: budget)
+      if payment.isLive, budget.isLive {
+        RecurrentPaymentDetailView(transaction: payment, budget: budget)
+      }
     case let .goalDetail(goal):
-      GoalDetailView(goal: goal)
+      if goal.isLive {
+        GoalDetailView(goal: goal)
+      }
     case let .topCategoryOverview(summary):
       TopCategoryOverviewView(summary: summary)
     case let .monthRecap(recap):
@@ -51,13 +68,10 @@ private struct RouterWrapper: View {
       RemindersSettingsView()
     case .eraseData:
       EraseDataSettingsView()
-    case let .contact(topic):
-      ContactSettingsView(topic: topic, isCalled: false)
+    case .contact:
+      ContactSettingsView(topic: "General", isCalled: false)
     case .debugMenu:
       DebugMenuView()
-    default:
-      // Presented destinations, see WithSheetDestinations.swift
-      EmptyView()
     }
   }
 }

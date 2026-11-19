@@ -24,103 +24,81 @@ struct RecurrentPaymentDetailView: View {
   @State private var errorType = EXToasts.none
   
   // MARK: - Presentation
-  @State private var showDeleteAlert = false
   @State private var showNoteView = false
   @State private var showError = false
   var body: some View {
-    ZStack(alignment: .bottomTrailing, content: {
-      ScrollView {
-        // MARK: Transaction header
-        VStack(alignment: .leading, spacing: 3) {
-          Text(transaction.name)
-            .font(.title3Medium)
-          
-          Text("\(transaction.amount.formattedAsCurrency(with: currencySign))")
-            .font(.largeTitleBold)
-          
-          Text("Next payment date: \(transaction.isDue ? daysLeftString(for: transaction.daysLeftUntilDueDate) : Source.Functions.showString(from: transaction.dueDate))")
-            .font(.footnoteRegular)
-            .foregroundColor(.darkGrey)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.top, 16)
+    ScrollView {
+      // MARK: Transaction header
+      VStack(alignment: .leading, spacing: 3) {
+        Text(transaction.name)
+          .font(.title3Medium)
         
-        if transaction.isDue {
-          Button {
-            withAnimation(.easeOut) {
-              validateRenewal()
-            }
-          } label: {
-            Text("Renew now")
-              .font(.system(.subheadline, weight: .semibold))
-          }
-          .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
-        }
+        Text("\(transaction.amount.formattedAsCurrency(with: currencySign))")
+          .font(.largeTitleBold)
         
-        // MARK: Transaction info
-        HStack(spacing: 5) {
-          EXChip(icon: .imageName(transaction.categoryIcon), text: transaction.categoryName)
-          EXChip(icon: .imageName(""), text: transaction.schedule.title)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.top, 5)
-        
-        // MARK: Transaction detail
-        Button {
-          showNoteView.toggle()
-        } label: {
-          EXBaseCard {
-            HStack {
-              Source.Images.ButtonIcons.note
-                .padding(8)
-              VStack(alignment: .leading, spacing: 3) {
-                Text("Note")
-                  .font(.system(.footnote, weight: .regular))
-                  .foregroundColor(.darkGrey)
-                Text(transaction.note.isEmpty ? "Add note" : transaction.note)
-                  .font(.system(.subheadline, weight: .medium))
-                  .foregroundColor(.black)
-              }
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-          }
-        }
-        .buttonStyle(EXPlainButtonStyle())
-        .padding(.top, 5)
-        
-        // MARK: Transaction reminders
-        EXToggleCard(config: (Source.Strings.ToggleType.paymentReminder.title,
-                              Source.Strings.ToggleType.paymentReminder.text),
-                     isOn: Binding(
-                      get: { transaction.isReminder },
-                      set: { newValue in
-                        AnalyticsManager.shared.log(.modifiedReminder(transaction.name))
-                        updateNotification(with: newValue)
-                      }
-                     ))
-        .padding(.top, 5)
+        Text("Next payment date: \(transaction.isDue ? daysLeftString(for: transaction.daysLeftUntilDueDate) : Source.Functions.showString(from: transaction.dueDate))")
+          .font(.footnoteRegular)
+          .foregroundColor(.darkGrey)
       }
-      .scrollBounceBehavior(.basedOnSize)
-      bottomActionButton().padding(.bottom, 16)
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .padding(.top, 16)
       
-    })
-    .popup(isPresented: $showDeleteAlert) {
-      EXAlert<EmptyView>(config: (Source.Strings.AlertType.deletePayment.title,
-                       Source.Strings.AlertType.deletePayment.subTitle,
-                       Source.Strings.AlertType.deletePayment.secondaryButtonText,
-                       Source.Strings.AlertType.deletePayment.primaryButtonText),
-              primaryAction: { deletePayment() },
-              secondaryAction: {showDeleteAlert.toggle()})
-      .applyMargins()
-    } customize: {
-      $0
-        .animation(.spring())
-        .position(.bottom)
-        .type(.floater(useSafeAreaInset: true))
-        .closeOnTapOutside(false)
-        .backgroundColor(.black.opacity(0.3))
-        .isOpaque(true)
+      if transaction.isDue {
+        Button {
+          withAnimation(.easeOut) {
+            validateRenewal()
+          }
+        } label: {
+          Text("Renew now")
+            .font(.system(.subheadline, weight: .semibold))
+        }
+        .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
+      }
+      
+      // MARK: Transaction info
+      HStack(spacing: 5) {
+        EXChip(icon: .imageName(transaction.categoryIcon), text: transaction.categoryName)
+        EXChip(icon: .imageName(""), text: transaction.schedule.title)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .padding(.top, 5)
+      
+      // MARK: Transaction detail
+      Button {
+        showNoteView.toggle()
+      } label: {
+        EXBaseCard {
+          HStack {
+            Source.Images.ButtonIcons.note
+              .padding(8)
+            VStack(alignment: .leading, spacing: 3) {
+              Text("Note")
+                .font(.system(.footnote, weight: .regular))
+                .foregroundColor(.darkGrey)
+              Text(transaction.note.isEmpty ? "Add note" : transaction.note)
+                .font(.system(.subheadline, weight: .medium))
+                .foregroundColor(.black)
+            }
+          }
+          .frame(maxWidth: .infinity, alignment: .leading)
+        }
+      }
+      .buttonStyle(EXPlainButtonStyle())
+      .padding(.top, 5)
+      
+      // MARK: Transaction reminders
+      EXToggleCard(config: (Source.Strings.ToggleType.paymentReminder.title,
+                            Source.Strings.ToggleType.paymentReminder.text),
+                   isOn: Binding(
+                    get: { transaction.isReminder },
+                    set: { newValue in
+                      AnalyticsManager.shared.log(.modifiedReminder(transaction.name))
+                      updateNotification(with: newValue)
+                    }
+                   ))
+      .padding(.top, 5)
     }
+    .scrollBounceBehavior(.basedOnSize)
     .popup(isPresented: $showError, view: {
       EXToast(type: $errorType)
     }, customize: {
@@ -211,42 +189,9 @@ extension RecurrentPaymentDetailView {
     }
     .applyMargins()
   }
-  
-  @ViewBuilder
-  func bottomActionButton() -> some View {
-    VStack {
-      Menu {
-        Button(action: { router.presentFullScreenCover(for: .editRecurringPayment(transaction, budget)) }) {
-          Label("Edit payment", image: "buttonEdit")
-        }
-        
-        Button(role: .destructive, action: { showDeleteAlert.toggle() }) {
-          Label("Delete payment", image: "buttonDelete")
-        }
-      } label: {
-        Source.Images.Navigation.menu
-          .foregroundColor(.primaryGreen)
-          .padding(20)
-          .background(Color.secondaryYellow)
-          .cornerRadius(40)
-      }
-      .font(.system(.subheadline, weight: .regular))
-      .menuOrder(.fixed)
-    }
-  }
-  
 }
 // MARK: - Storage Functions
 extension RecurrentPaymentDetailView {
-  func deletePayment() {
-    AnalyticsManager.shared.log(.deletePayment)
-    showDeleteAlert.toggle()
-    
-    // Contributions go with the payment through the cascade delete rule
-    try? transaction.delete(refunding: budget)
-    router.back()
-  }
-  
   func updateNotification(with value: Bool) {
     try? transaction.setReminder(value)
   }

@@ -41,7 +41,7 @@ struct DailyTransactionInsightsView: View {
               Spacer()
               Menu {
                 Button("Provide feedback") {
-                  router.presentFullScreenCover(for: .contact(topic: "Daily Transactions Insights"))
+                  router.presentFullScreenCover(.feedback(topic: "Daily Transactions Insights"))
                 }
               } label: {
                 Image(systemName: "ellipsis")

@@ -7,9 +7,10 @@
 
 import Foundation
 
-/// Every screen the router pushes or presents, one case per screen carrying only that screen's input.
-/// Pushed cases render in `withAppRouter()`, presented ones in `WithSheetDestinations.swift`.
-enum RouterDestination: Hashable, Identifiable {
+/// Screens the router pushes onto a tab's `NavigationStack`, one case per screen carrying only that
+/// screen's input. Rendered by `withAppRouter()`. Presented screens are `RouterCover` and `RouterSheet`,
+/// so a modal can't be pushed and a pushed screen can't be presented.
+enum RouterDestination: Hashable {
   // MARK: Home
   case settings
   case transactionsList
@@ -31,25 +32,40 @@ enum RouterDestination: Hashable, Identifiable {
   case addCategory
   case remindersSettings
   case eraseData
-  case contact(topic: String)
+  case contact
   case debugMenu
+}
 
-  // MARK: Full-screen covers
-  case addBudget
-  case updateBudget(Budget)
-  case addTransaction(Budget)
-  case editTransaction(Transaction, Budget)
-  case addRecurringPayment(Budget)
-  case editRecurringPayment(RecurringTransaction, Budget)
-  case dailyTransactions
-  case addGoal
-  case editGoal(Goal)
-  case addGoalMoney(Goal)
+// MARK: - Identity
+/// Models are compared by reference, never through their SwiftData-backed `persistentModelID`: the path,
+/// `starts(with:)` and `Router.afterPop` keep comparing a destination after its model is deleted.
+extension RouterDestination {
+  static func == (lhs: Self, rhs: Self) -> Bool {
+    lhs.identity == rhs.identity
+  }
 
-  // MARK: Sheets
-  case featuresHub
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(identity)
+  }
 
-  var id: Self {
-    self
+  private var identity: [AnyHashable] {
+    switch self {
+    case .settings: ["settings"]
+    case .transactionsList: ["transactionsList"]
+    case let .transactionDetail(transaction, budget): ["transactionDetail", ObjectIdentifier(transaction), ObjectIdentifier(budget)]
+    case let .recurringPaymentsList(budget): ["recurringPaymentsList", ObjectIdentifier(budget)]
+    case let .recurringPaymentDetail(payment, budget): ["recurringPaymentDetail", ObjectIdentifier(payment), ObjectIdentifier(budget)]
+    case let .goalDetail(goal): ["goalDetail", ObjectIdentifier(goal)]
+    case let .topCategoryOverview(summary): ["topCategoryOverview", summary]
+    case let .monthRecap(recap): ["monthRecap", recap]
+    case .appSettings: ["appSettings"]
+    case .currencySelector: ["currencySelector"]
+    case .categoriesSettings: ["categoriesSettings"]
+    case .addCategory: ["addCategory"]
+    case .remindersSettings: ["remindersSettings"]
+    case .eraseData: ["eraseData"]
+    case .contact: ["contact"]
+    case .debugMenu: ["debugMenu"]
+    }
   }
 }

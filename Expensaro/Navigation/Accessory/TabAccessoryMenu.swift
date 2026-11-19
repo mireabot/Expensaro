@@ -1,24 +1,21 @@
 //
-//  HomeQuickActionsMenu.swift
+//  TabAccessoryMenu.swift
 //  Expensaro
 //
 //  Created by Mikhail Kolkov on 10/2/26.
 //
 
 import SwiftUI
-import SwiftData
 import ExpensaroUIKit
 
-/// Home's add menu on iOS 26.
-/// The tab bar's side button opens it, and the panel morphs out of that button as one glass
-/// surface and back into it after a choice.
+/// The button beside the root tab bar. Tapping it morphs a panel out of it as one surface, and the panel
+/// morphs back after a choice. Rows come from `AccessoryContent`; with none the button fades out in place,
+/// keeping its slot so the bar never relayouts. Glass on iOS 26, material below.
 /// Adapted from SwiftUX "Morphing Floating Action Menu"
-@available(iOS 26.0, *)
-struct HomeQuickActionsMenu: View {
-  @ObservedObject var coordinator: HomeQuickActionsCoordinator
+struct TabAccessoryMenu: View {
+  let content: AccessoryContent
+  @Binding var isExpanded: Bool
 
-  @Query(DailyTransaction.byDateCreated) private var dailyTransactions: [DailyTransaction]
-  @AppStorage("currencySign") private var currencySign = "USD"
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   // One haptic per tap: picking a row also closes the menu, so the close must not add its own
@@ -31,117 +28,89 @@ struct HomeQuickActionsMenu: View {
   }
 
   var body: some View {
-    ZStack(alignment: .bottomTrailing) {
-      scrim
-
-      MorphingActionMenuSurface(
-        alignment: .bottomTrailing,
-        progress: coordinator.isMenuExpanded ? 1 : 0,
-        labelSize: Appearance.shared.buttonSize,
-        cornerRadius: Appearance.shared.buttonSize.height / 2,
-        expandedCornerRadius: 28,
-        distortion: .trailingToLeading,
-        distortionScale: motion.distortionScale
-      ) {
-        panel()
-      } label: {
-        trigger()
+    // The slot is sized by the button alone; the surface grows in an overlay, outside the layout
+    Color.clear
+      .frame(width: Appearance.shared.buttonSize.width, height: Appearance.shared.buttonSize.height)
+      .overlay(alignment: .bottomTrailing) {
+        MorphingActionMenuSurface(
+          alignment: .bottomTrailing,
+          progress: isExpanded ? 1 : 0,
+          labelSize: Appearance.shared.buttonSize,
+          cornerRadius: Appearance.shared.buttonSize.height / 2,
+          expandedCornerRadius: 28,
+          distortion: .trailingToLeading,
+          distortionScale: motion.distortionScale,
+          glassTint: isItem ? .primaryGreen : nil
+        ) {
+          panel()
+        } label: {
+          trigger()
+        }
       }
-      // Collapsed, the system side button is the control; the surface only takes taps while open
-      .allowsHitTesting(coordinator.isMenuExpanded)
-      .padding(.trailing, Appearance.shared.buttonInsets.trailing)
-      .padding(.bottom, Appearance.shared.buttonInsets.bottom)
-    }
-    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-    .ignoresSafeArea(edges: .bottom)
-    .animation(motion.morph, value: coordinator.isMenuExpanded)
-    .sensoryFeedback(feedback, trigger: feedbackTick)
-    .onChange(of: coordinator.isMenuExpanded) {
-      if didSelect {
-        didSelect = false
-      } else {
-        play(.impact(weight: .light))
+      .opacity(content.isEmpty ? 0 : 1)
+      .scaleEffect(content.isEmpty ? 0.6 : 1)
+      .allowsHitTesting(!content.isEmpty)
+      .accessibilityHidden(content.isEmpty)
+      .animation(motion.morph, value: isExpanded)
+      .animation(.smooth(duration: 0.3), value: isItem)
+      .animation(.smooth(duration: 0.25), value: content.isEmpty)
+      .sensoryFeedback(feedback, trigger: feedbackTick)
+      .onChange(of: isExpanded) {
+        if didSelect {
+          didSelect = false
+        } else {
+          play(.impact(weight: .light))
+        }
       }
-    }
   }
 }
 
 // MARK: - Apperance
-@available(iOS 26.0, *)
-extension HomeQuickActionsMenu {
+extension TabAccessoryMenu {
   struct Appearance {
     static let shared = Appearance()
 
-    /// Matches the system side button so the morph starts and ends on top of it
-    let buttonSize = CGSize(width: 58, height: 58)
-    let buttonInsets = (trailing: CGFloat(20), bottom: CGFloat(22))
+    let buttonSize = CGSize(width: RootTabBar.Appearance.shared.height, height: RootTabBar.Appearance.shared.height)
     let panelWidth: CGFloat = 290
-    /// The morph can't scroll, so only the first few daily transactions get a quick row
-    let maxDailyRows = 4
   }
 }
 
 // MARK: - Helper Views
-@available(iOS 26.0, *)
-extension HomeQuickActionsMenu {
-  /// Tap-anywhere dismissal. The puck is gone a third of the way into the morph,
-  /// so without this the panel could only be closed by picking something
-  @ViewBuilder
-  var scrim: some View {
-    if coordinator.isMenuExpanded {
-      Color.black.opacity(0.001)
-        .ignoresSafeArea()
-        .contentShape(.rect)
-        .onTapGesture {
-          coordinator.isMenuExpanded = false
-        }
-    }
-  }
-
+extension TabAccessoryMenu {
   func trigger() -> some View {
-    Image(systemName: "plus")
-      .font(.system(size: 22, weight: .medium))
-      .foregroundStyle(.primary)
-      .rotationEffect(.degrees(coordinator.isMenuExpanded ? 45 : 0))
-      .frame(width: Appearance.shared.buttonSize.width, height: Appearance.shared.buttonSize.height)
+    Button {
+      isExpanded.toggle()
+    } label: {
+      Image(systemName: isItem ? "ellipsis" : "plus")
+        .font(.system(size: 22, weight: .medium))
+        .foregroundStyle(isItem ? AnyShapeStyle(Color.white) : AnyShapeStyle(.primary))
+        .contentTransition(.symbolEffect(.replace))
+        .rotationEffect(.degrees(isExpanded && !isItem ? 45 : 0))
+        .frame(width: Appearance.shared.buttonSize.width, height: Appearance.shared.buttonSize.height)
+        .contentShape(.circle)
+    }
+    .buttonStyle(.plain)
+    .accessibilityLabel(isItem ? "More actions" : "Add")
   }
 
   func panel() -> some View {
     VStack(alignment: .leading, spacing: 2) {
-      if !dailyTransactions.isEmpty {
-        Text("Daily transactions")
-          .font(.system(.footnote, weight: .regular))
-          .foregroundStyle(.secondary)
-          .padding(.bottom, 4)
-        ForEach(dailyTransactions.prefix(Appearance.shared.maxDailyRows)) { dailyTransaction in
-          actionRow(title: dailyTransaction.name,
-                    detail: dailyTransaction.amount.formattedAsCurrency(with: currencySign)) {
-            Text(dailyTransaction.categoryIcon)
-              .font(.system(size: 17))
-          } action: {
-            select(.addDailyTransaction(dailyTransaction))
+      ForEach(content.sections) { section in
+        VStack(alignment: .leading, spacing: 2) {
+          if section.id != content.sections.first?.id {
+            Divider()
+              .padding(.vertical, 6)
+          }
+          if let title = section.title {
+            Text(title)
+              .font(.system(.footnote, weight: .regular))
+              .foregroundStyle(.secondary)
+              .padding(.bottom, 4)
+          }
+          ForEach(section.actions, id: \.rowID) { action in
+            actionRow(action)
           }
         }
-      }
-      actionRow(title: "Manage daily transactions") {
-        Image(systemName: "plus")
-          .font(.system(size: 15, weight: .semibold))
-      } action: {
-        select(.manageDailyTransactions)
-      }
-
-      Divider()
-        .padding(.vertical, 6)
-
-      actionRow(title: "Add transaction") {
-        assetIcon("buttonTransaction")
-      } action: {
-        select(.addTransaction)
-      }
-      actionRow(title: "Add recurring payment") {
-        assetIcon("buttonRecurrent")
-      } action: {
-        select(.addRecurringPayment)
       }
     }
     .padding(.horizontal, 16)
@@ -151,22 +120,23 @@ extension HomeQuickActionsMenu {
     .frame(width: Appearance.shared.panelWidth)
   }
 
-  func actionRow<Icon: View>(title: String,
-                             detail: String? = nil,
-                             @ViewBuilder icon: () -> Icon,
-                             action: @escaping () -> Void) -> some View {
-    Button(action: action) {
+  func actionRow(_ action: AccessoryAction) -> some View {
+    let accent = action.role == .destructive ? Color.red : Color.primaryGreen
+
+    return Button {
+      select(action)
+    } label: {
       HStack(spacing: 12) {
-        icon()
-          .foregroundStyle(Color.primaryGreen)
+        icon(action.icon)
+          .foregroundStyle(accent)
           .frame(width: 38, height: 38)
-          .background(Color.primaryGreen.opacity(0.1), in: .circle)
-        Text(title)
+          .background(accent.opacity(0.1), in: .circle)
+        Text(action.title)
           .font(.system(.subheadline, weight: .medium))
-          .foregroundStyle(.primary)
+          .foregroundStyle(action.role == .destructive ? AnyShapeStyle(Color.red) : AnyShapeStyle(.primary))
           .lineLimit(1)
         Spacer(minLength: 8)
-        if let detail {
+        if let detail = action.detail {
           Text(detail)
             .font(.system(.footnote, weight: .regular))
             .foregroundStyle(.secondary)
@@ -179,22 +149,36 @@ extension HomeQuickActionsMenu {
     .buttonStyle(.plain)
   }
 
-  func assetIcon(_ name: String) -> some View {
-    Image(name)
-      .renderingMode(.template)
-      .resizable()
-      .scaledToFit()
-      .frame(width: 18, height: 18)
+  @ViewBuilder
+  func icon(_ icon: AccessoryAction.Icon) -> some View {
+    switch icon {
+    case let .asset(name):
+      Image(name)
+        .renderingMode(.template)
+        .resizable()
+        .scaledToFit()
+        .frame(width: 18, height: 18)
+    case let .symbol(name):
+      Image(systemName: name)
+        .font(.system(size: 15, weight: .semibold))
+    case let .emoji(emoji):
+      Text(emoji)
+        .font(.system(size: 17))
+    }
   }
 }
 
 // MARK: - Helper Functions
-@available(iOS 26.0, *)
-extension HomeQuickActionsMenu {
-  func select(_ action: HomeQuickAction) {
+extension TabAccessoryMenu {
+  var isItem: Bool {
+    content.style == .item
+  }
+
+  func select(_ action: AccessoryAction) {
     didSelect = true
     play(.selection)
-    coordinator.perform(action)
+    isExpanded = false
+    action.perform()
   }
 
   func play(_ next: SensoryFeedback) {
@@ -242,8 +226,7 @@ struct MorphingActionMenuMotion {
 /// One glass surface whose frame is interpolated between the puck and the panel.
 /// The glass is applied once over the interpolated shape, so it reads as one object
 /// rather than two views crossfading. `Animatable` on `progress` makes every curve below
-/// evaluate per frame instead of snapping between two layouts
-@available(iOS 26.0, *)
+/// evaluate per frame instead of snapping between two layouts. Glass on iOS 26, material below
 struct MorphingActionMenuSurface<Content: View, Label: View>: View, Animatable {
   var alignment: Alignment
   /// 0 collapsed, 1 expanded
@@ -254,6 +237,8 @@ struct MorphingActionMenuSurface<Content: View, Label: View>: View, Animatable {
   var expandedCornerRadius: CGFloat
   var distortion: MorphDistortion
   var distortionScale: CGFloat = 1
+  /// Fades out as the panel arrives, so the open panel reads as plain glass
+  var glassTint: Color? = nil
 
   @ViewBuilder var content: Content
   @ViewBuilder var label: Label
@@ -274,9 +259,7 @@ struct MorphingActionMenuSurface<Content: View, Label: View>: View, Animatable {
     }
     .compositingGroup()
     .clipShape(shape)
-    .glassEffect(.regular.interactive(), in: shape)
-    // Clipped again after the glass to drop the shadow `glassEffect` draws outside the shape
-    .clipShape(shape)
+    .floatingSurface(tint: glassTint?.opacity(1 - contentOpacity), in: shape, clipsGlassShadow: true)
     .scaleEffect(
       x: 1 + (distortion.scaleX * flight * distortionScale),
       y: 1 + (distortion.scaleY * flight * distortionScale),
@@ -286,8 +269,6 @@ struct MorphingActionMenuSurface<Content: View, Label: View>: View, Animatable {
       x: distortion.offset.width * flight * distortionScale,
       y: distortion.offset.height * flight * distortionScale
     )
-    // At rest the system side button underneath is the visible control
-    .opacity(min(progress / 0.08, 1))
   }
 
   private var panel: some View {

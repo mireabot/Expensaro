@@ -53,7 +53,7 @@ struct TransactionInsightsView: View {
               
               Menu {
                 Button("Provide feedback") {
-                  router.presentFullScreenCover(for: .contact(topic: "Transaction Insights"))
+                  router.presentFullScreenCover(.feedback(topic: "Transaction Insights"))
                 }
               } label: {
                 Image(systemName: "ellipsis")

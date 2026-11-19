@@ -69,7 +69,7 @@ struct TransactionsListView: View {
       
       ToolbarItem(placement: .navigationBarTrailing) {
         Button {
-          router.presentFullScreenCover(for: .addTransaction(currentBudget))
+          router.presentFullScreenCover(.addTransaction(currentBudget))
         } label: {
           Appearance.shared.addIcon
             .foregroundColor(.black)

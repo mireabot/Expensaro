@@ -117,7 +117,7 @@ struct TopCategoryOverviewView: View {
       ToolbarItem(placement: .topBarTrailing) {
         Menu {
           Button("Provide feedback") {
-            router.presentFullScreenCover(for: .contact(topic: "Top Category Overview"))
+            router.presentFullScreenCover(.feedback(topic: "Top Category Overview"))
           }
         } label: {
           Image(systemName: "ellipsis")

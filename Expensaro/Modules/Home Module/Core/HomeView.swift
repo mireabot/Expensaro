@@ -14,7 +14,6 @@ import PopupView
 struct HomeView: View {
   // MARK: Navigation
   @Dependency(\.router) private var router
-  @EnvironmentObject var quickActions: HomeQuickActionsCoordinator
   
   // MARK: Variables
   @AppStorage("currencySign") private var currencySign = "USD"
@@ -28,32 +27,17 @@ struct HomeView: View {
   @Query(Budget.thisMonth) private var budget: [Budget]
   @Query(Transaction.thisMonth) private var transactions: [Transaction]
   @Query(RecurringTransaction.byDueDate) private var recurringTransactions: [RecurringTransaction]
-  @Query(DailyTransaction.byDateCreated) private var dailyTransactions: [DailyTransaction]
   
   var body: some View {
-    ZStack(alignment: .bottomTrailing) {
-      ScrollView(.vertical, showsIndicators: false) {
-        VStack {
-          budgetSection()
-          recurrentPaymentsRow()
-          transactionsPreview()
-        }
-        .applyMargins()
-        .padding(.top, 5)
+    // Add actions live in the tab bar accessory, see AccessoryContent
+    ScrollView(.vertical, showsIndicators: false) {
+      VStack {
+        budgetSection()
+        recurrentPaymentsRow()
+        transactionsPreview()
       }
-      // iOS 26: actions live in the tab bar's side button, see HomeQuickActionsMenu
-      if #unavailable(iOS 26.0) {
-        bottomActionButton()
-          .padding(16)
-      }
-    }
-    .onChange(of: canAddTransactions, initial: true) { _, canAdd in
-      quickActions.isAvailable = canAdd
-    }
-    .onChange(of: quickActions.pendingAction) { _, action in
-      guard let action else { return }
-      quickActions.pendingAction = nil
-      handleQuickAction(action)
+      .applyMargins()
+      .padding(.top, 5)
     }
     .onFirstAppear {
       DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(600)) {
@@ -93,7 +77,6 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
   static var previews: some View {
     HomeView()
-      .environmentObject(HomeQuickActionsCoordinator())
       .modelContainer(AppModelStore.preview)
   }
 }
@@ -110,54 +93,8 @@ extension HomeView {
 
 // MARK: - Helper Views
 extension HomeView {
-  @ViewBuilder
-  func bottomActionButton() -> some View {
-    if canAddTransactions {
-      VStack {
-        Menu {
-          Menu("Daily Transactions") {
-            ForEach(dailyTransactions) { dailyTransaction in
-              Button(action: {
-                addDailyTransaction(with: dailyTransaction)
-              }) {
-                Label("\(dailyTransaction.categoryIcon) \(dailyTransaction.name)", systemImage: "")
-              }
-            }
-            // Add button for FT
-            Button(action: { router.presentFullScreenCover(for: .dailyTransactions) }) {
-              Label("Manage daily transactions", systemImage: "plus")
-            }
-          }
-          .menuOrder(.priority)
-          Button(action: { router.presentFullScreenCover(for: .addTransaction(currentBudget)) }) {
-            Label("Add transaction", image: "buttonTransaction")
-          }
-          
-          Button(action: { router.presentFullScreenCover(for: .addRecurringPayment(currentBudget)) }) {
-            Label("Add recurring payment", image: "buttonRecurrent")
-          }
-          
-        } label: {
-          ZStack {
-            Circle()
-              .fill(Color.secondaryYellow)
-              .frame(width: 60, height: 60)
-            Source.Images.ButtonIcons.add
-              .foregroundColor(.primaryGreen)
-          }
-        }
-        .font(.system(.subheadline, weight: .regular))
-        .menuOrder(.fixed)
-      }
-    }
-  }
-  
   var currentBudget: Budget {
     budget.first ?? Budget()
-  }
-  
-  var canAddTransactions: Bool {
-    currentBudget.amount != 0 && !transactions.isEmpty
   }
 }
 
@@ -175,7 +112,7 @@ extension HomeView {
           .foregroundColor(.black)
         
         Button {
-          router.presentFullScreenCover(for: .updateBudget(currentBudget))
+          router.presentFullScreenCover(.updateBudget(currentBudget))
         } label: {
           HStack {
             Source.Images.ButtonIcons.add
@@ -195,7 +132,7 @@ extension HomeView {
                         icon: Source.Images.EmptyStates.noBudget,
                         isActive: false,
                         action: {
-        router.presentFullScreenCover(for: .addBudget)
+        router.presentFullScreenCover(.addBudget)
       })
     }
   }
@@ -257,7 +194,7 @@ extension HomeView {
                                  Source.Strings.EmptyStateType.noRecurrentPayments.buttonText),
                         isActive: currentBudget.amount == 0,
                         action: {
-        router.presentFullScreenCover(for: .addRecurringPayment(currentBudget))
+        router.presentFullScreenCover(.addRecurringPayment(currentBudget))
       })
       .padding(.top, 15)
     }
@@ -324,7 +261,7 @@ extension HomeView {
                         icon: Source.Images.EmptyStates.noExpenses,
                         isActive: currentBudget.amount == 0,
                         action: {
-        router.presentFullScreenCover(for: .addTransaction(currentBudget))
+        router.presentFullScreenCover(.addTransaction(currentBudget))
       })
       .padding(.top, 15)
     }
@@ -351,29 +288,5 @@ extension HomeView {
     } else {
       return "\(difference) recurring payments"
     }
-  }
-}
-
-// MARK: - Quick Actions
-extension HomeView {
-  func handleQuickAction(_ action: HomeQuickAction) {
-    switch action {
-    case .addTransaction:
-      router.presentFullScreenCover(for: .addTransaction(currentBudget))
-    case .addRecurringPayment:
-      router.presentFullScreenCover(for: .addRecurringPayment(currentBudget))
-    case .manageDailyTransactions:
-      router.presentFullScreenCover(for: .dailyTransactions)
-    case .addDailyTransaction(let dailyTransaction):
-      addDailyTransaction(with: dailyTransaction)
-    }
-  }
-}
-
-// MARK: - Storage Functions
-extension HomeView {
-  func addDailyTransaction(with dailyTransaction: DailyTransaction) {
-    guard (try? dailyTransaction.spend(from: currentBudget)) == true else { return }
-    AnalyticsManager.shared.log(.dailyTransactionUsed)
   }
 }

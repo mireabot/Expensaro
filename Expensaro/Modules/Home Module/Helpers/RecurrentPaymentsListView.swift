@@ -74,7 +74,7 @@ struct RecurrentPaymentsListView: View {
       
       ToolbarItem(placement: .navigationBarTrailing) {
         Button {
-          router.presentFullScreenCover(for: .addRecurringPayment(budget))
+          router.presentFullScreenCover(.addRecurringPayment(budget))
         } label: {
           Appearance.shared.addIcon
             .foregroundColor(.black)

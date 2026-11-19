@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// App-wide navigation state: one push path per tab plus a single sheet and full-screen cover slot.
+/// App-wide navigation state: one push path per tab plus a single sheet, full-screen cover and alert slot.
 /// Shared through `@Dependency(\.router)`. State is read-only from outside: views push and present
 /// only through the methods below, and SwiftUI gets bindings that can pop or dismiss but never push.
 @Observable
@@ -21,14 +21,23 @@ final class Router {
   private(set) var overviewRootPath: [RouterDestination] = []
 
   // MARK: Presentation
-  private(set) var presentedSheet: RouterDestination?
-  private(set) var presentedFullScreenCover: RouterDestination?
+  private(set) var presentedSheet: RouterSheet?
+  private(set) var presentedFullScreenCover: RouterCover?
+  private(set) var presentedAlert: RouterAlert?
+
+  /// Work queued by `back(thenPerform:)`, keyed by the screen it waits on
+  @ObservationIgnored private var afterPop: [RouterDestination: @MainActor () -> Void] = [:]
 
   /// Nonisolated so the dependency key can create the shared instance from a static initializer
   nonisolated init() {}
 
   var isOnRootTab: Bool {
     selectedPath.isEmpty
+  }
+
+  /// Top of the selected tab's stack, nil at its root
+  var currentDestination: RouterDestination? {
+    selectedPath.last
   }
 
   // MARK: Push navigation
@@ -46,21 +55,51 @@ final class Router {
     selectedPath.removeAll()
   }
 
+  /// Pops the top screen and runs `work` once that screen has left the hierarchy, so deleting the model
+  /// it shows can't reach a view that is still on screen. `didRemove(_:)` normally fires it when the pop
+  /// transition ends; the timer covers a screen that never reports its disappearance.
+  func back(thenPerform work: @escaping @MainActor () -> Void) {
+    guard let popped = selectedPath.popLast() else {
+      work()
+      return
+    }
+    afterPop[popped] = work
+    Task { [weak self] in
+      try? await Task.sleep(for: .seconds(1))
+      self?.didRemove(popped)
+    }
+  }
+
+  /// Called by a pushed screen when it disappears; a no-op while it is still in a path
+  func didRemove(_ destination: RouterDestination) {
+    guard !isInAnyPath(destination), let work = afterPop.removeValue(forKey: destination) else { return }
+    work()
+  }
+
   // MARK: Sheets and covers
-  func presentSheet(for destination: RouterDestination) {
-    presentedSheet = destination
+  func presentSheet(_ sheet: RouterSheet) {
+    presentedSheet = sheet
   }
 
   func dismissSheet() {
     presentedSheet = nil
   }
 
-  func presentFullScreenCover(for destination: RouterDestination) {
-    presentedFullScreenCover = destination
+  func presentFullScreenCover(_ cover: RouterCover) {
+    presentedFullScreenCover = cover
   }
 
   func dismissFullScreenCover() {
     presentedFullScreenCover = nil
+  }
+
+  // MARK: Alerts
+  func presentAlert(_ alert: RouterAlert) {
+    presentedAlert = alert
+  }
+
+  func dismissAlert() {
+    presentedAlert = nil
   }
 
   // MARK: Bindings
@@ -77,7 +116,7 @@ final class Router {
   }
 
   /// For `.sheet(item:)`; only accepts the dismissal
-  var sheetBinding: Binding<RouterDestination?> {
+  var sheetBinding: Binding<RouterSheet?> {
     Binding {
       self.presentedSheet
     } set: { newValue in
@@ -86,11 +125,20 @@ final class Router {
   }
 
   /// For `.fullScreenCover(item:)`; only accepts the dismissal
-  var fullScreenCoverBinding: Binding<RouterDestination?> {
+  var fullScreenCoverBinding: Binding<RouterCover?> {
     Binding {
       self.presentedFullScreenCover
     } set: { newValue in
       if newValue == nil { self.dismissFullScreenCover() }
+    }
+  }
+
+  /// For `.popup(item:)`; only accepts the dismissal
+  var alertBinding: Binding<RouterAlert?> {
+    Binding {
+      self.presentedAlert
+    } set: { newValue in
+      if newValue == nil { self.dismissAlert() }
     }
   }
 
@@ -110,6 +158,8 @@ final class Router {
     overviewRootPath = []
     presentedSheet = nil
     presentedFullScreenCover = nil
+    presentedAlert = nil
+    afterPop = [:]
   }
 
   private var selectedPath: [RouterDestination] {
@@ -123,6 +173,10 @@ final class Router {
     case .goals: goalsRootPath
     case .overview: overviewRootPath
     }
+  }
+
+  private func isInAnyPath(_ destination: RouterDestination) -> Bool {
+    RouterTab.allCases.contains { path(of: $0).contains(destination) }
   }
 
   private func setPath(_ path: [RouterDestination], of tab: RouterTab) {

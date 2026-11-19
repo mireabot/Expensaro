@@ -132,9 +132,9 @@ extension SettingsView {
     case "Export Data": print("Navigation error")
     case "General Settings": router.navigate(to: .appSettings)
     case "Reset Data": router.navigate(to: .eraseData)
-    case "Contact": router.navigate(to: .contact(topic: "General"))
+    case "Contact": router.navigate(to: .contact)
     case "Rate App": requestReview()
-    case "Features Hub": router.presentSheet(for: .featuresHub)
+    case "Features Hub": router.presentSheet(.featuresHub)
     default: print("Navigation error")
     }
   }

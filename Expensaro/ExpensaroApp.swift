@@ -25,7 +25,7 @@ struct ContentView: View {
   @AppStorage("isUserLoggedIn") private var isUserLoggedIn = false
   var body: some View {
     if isUserLoggedIn {
-      TabBarView()
+      RootTabView()
     }
     else {
       OnboardingView()

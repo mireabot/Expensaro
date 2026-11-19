@@ -54,7 +54,7 @@ struct MonthRecapOverviewView: View {
       ToolbarItem(placement: .topBarTrailing) {
         Menu {
           Button("Provide feedback") {
-            router.presentFullScreenCover(for: .contact(topic: "Month Recap"))
+            router.presentFullScreenCover(.feedback(topic: "Month Recap"))
           }
         } label: {
           Image(systemName: "ellipsis")
