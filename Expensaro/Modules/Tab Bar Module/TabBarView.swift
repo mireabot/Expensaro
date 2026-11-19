@@ -8,12 +8,16 @@
 import SwiftUI
 import SwiftUIIntrospect
 import ExpensaroUIKit
+import Dependencies
 
 struct TabBarView: View {
-  let nav = NavigationControllers()
-  let router = EXNavigationViewsRouter()
+  @State private var router: Router
   @StateObject private var quickActions = HomeQuickActionsCoordinator()
-  @State private var selection: TabBarTab = .home
+
+  init() {
+    @Dependency(\.router) var shared
+    _router = State(initialValue: shared)
+  }
 
   var body: some View {
     Group {
@@ -24,6 +28,8 @@ struct TabBarView: View {
       }
     }
     .tint(.primaryGreen)
+    .withSheetDestinations(router.sheetBinding)
+    .withFullScreenCoverDestinations(router.fullScreenCoverBinding)
     .onAppear() {
       // iOS 26 uses system Liquid Glass bars with scroll edge effects;
       // opaque custom appearances would disable them
@@ -54,41 +60,9 @@ struct TabBarView_Previews: PreviewProvider {
 // MARK: - Tabs
 extension TabBarView {
   enum TabBarTab: Hashable {
-    case home
-    case goals
-    case overview
+    case root(RouterTab)
     /// Side button. Never becomes the selection, it opens the quick actions menu instead
     case quickAdd
-  }
-
-  func homeTab() -> some View {
-    // Injected on the root view itself: it lives in its own hosting controller, and environment
-    // set on the representable isn't there yet when HomeView's body first reads the coordinator
-    RootNavigationController(nav: nav.homeModuleNavigationController,
-                             rootView: HomeView().environmentObject(quickActions))
-      .ignoresSafeArea()
-      .environmentObject(router)
-      .onAppear {
-        router.nav = nav.homeModuleNavigationController
-      }
-  }
-
-  func goalsTab() -> some View {
-    RootNavigationController(nav: nav.goalsModuleNavigationController, rootView: GoalsListView())
-      .ignoresSafeArea()
-      .environmentObject(router)
-      .onAppear {
-        router.nav = nav.goalsModuleNavigationController
-      }
-  }
-
-  func overviewTab() -> some View {
-    RootNavigationController(nav: nav.overviewModuleNavigationController, rootView: OverviewView())
-      .ignoresSafeArea()
-      .environmentObject(router)
-      .onAppear {
-        router.nav = nav.overviewModuleNavigationController
-      }
   }
 }
 
@@ -99,14 +73,15 @@ extension TabBarView {
   @available(iOS 26.0, *)
   func liquidGlassTabView() -> some View {
     TabView(selection: tabSelection) {
-      Tab("Home", image: Source.Images.Tabs.home, value: TabBarTab.home) {
-        homeTab()
+      Tab("Home", image: Source.Images.Tabs.home, value: TabBarTab.root(.home)) {
+        HomeRootView()
+          .environmentObject(quickActions)
       }
-      Tab("Goals", image: Source.Images.Tabs.goals, value: TabBarTab.goals) {
-        goalsTab()
+      Tab("Goals", image: Source.Images.Tabs.goals, value: TabBarTab.root(.goals)) {
+        GoalsRootView()
       }
-      Tab("Overview", image: Source.Images.Tabs.overview, value: TabBarTab.overview) {
-        overviewTab()
+      Tab("Overview", image: Source.Images.Tabs.overview, value: TabBarTab.root(.overview)) {
+        OverviewRootView()
       }
       if showsQuickAdd {
         Tab("Add", systemImage: "plus", value: TabBarTab.quickAdd, role: .search) {
@@ -126,19 +101,23 @@ extension TabBarView {
   }
 
   func legacyTabView() -> some View {
-    TabView {
-      homeTab()
+    TabView(selection: tabSelection) {
+      HomeRootView()
+        .environmentObject(quickActions)
         .tabItem {
           Label("Home", image: Source.Images.Tabs.home)
         }
-      goalsTab()
+        .tag(TabBarTab.root(.home))
+      GoalsRootView()
         .tabItem {
           Label("Goals", image: Source.Images.Tabs.goals)
         }
-      overviewTab()
+        .tag(TabBarTab.root(.goals))
+      OverviewRootView()
         .tabItem {
           Label("Overview", image: Source.Images.Tabs.overview)
         }
+        .tag(TabBarTab.root(.overview))
     }
     .introspect(.tabView, on: .iOS(.v16,.v17), customize: { tabView in
       tabView.tabBar.unselectedItemTintColor = UIColor(.border)
@@ -150,18 +129,22 @@ extension TabBarView {
 extension TabBarView {
   /// Same visibility rule as the old Home FAB
   var showsQuickAdd: Bool {
-    selection == .home && quickActions.isAvailable
+    router.selectedRootTab == .home && quickActions.isAvailable
   }
 
-  /// Tapping the side button toggles the menu and keeps the current tab selected
+  /// Tapping the side button toggles the menu and keeps the current tab selected;
+  /// re-tapping the selected tab pops it to its root
   var tabSelection: Binding<TabBarTab> {
     Binding {
-      selection
+      .root(router.selectedRootTab)
     } set: { newValue in
-      if newValue == .quickAdd {
+      switch newValue {
+      case .quickAdd:
         quickActions.isMenuExpanded.toggle()
-      } else {
-        selection = newValue
+      case let .root(tab) where tab == router.selectedRootTab:
+        router.tabBarActions()
+      case let .root(tab):
+        router.selectedRootTab = tab
       }
     }
   }

@@ -61,10 +61,6 @@
 		359094932AAD3EC400428B39 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 359094922AAD3EC400428B39 /* Assets.xcassets */; };
 		359094962AAD3EC400428B39 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 359094952AAD3EC400428B39 /* Preview Assets.xcassets */; };
 		3590949E2AAE33FD00428B39 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590949D2AAE33FD00428B39 /* Router.swift */; };
-		359094A02AAE340D00428B39 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3590949F2AAE340D00428B39 /* RootNavigationController.swift */; };
-		359094A22AAE341E00428B39 /* NavigationViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094A12AAE341E00428B39 /* NavigationViewBuilder.swift */; };
-		359094A42AAE342F00428B39 /* NavigationControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094A32AAE342F00428B39 /* NavigationControllers.swift */; };
-		359094A62AAE344000428B39 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094A52AAE344000428B39 /* HostingController.swift */; };
 		359094AD2AAE390500428B39 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094AC2AAE390500428B39 /* HomeView.swift */; };
 		359094B72AAE575D00428B39 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359094B62AAE575D00428B39 /* View+Extensions.swift */; };
 		3592EFFB2AF32D10008138EE /* FirstAppear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3592EFFA2AF32D10008138EE /* FirstAppear.swift */; };
@@ -104,6 +100,15 @@
 		35FA687C2B4B04D80005A067 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FA687B2B4B04D80005A067 /* AnalyticsManager.swift */; };
 		3D01486D9036DB40A743EF63 /* HomeQuickActionsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19726FD9B00B6F38AC0054C7 /* HomeQuickActionsMenu.swift */; };
 		EA62B8569B098DA3BF5FC210 /* HomeQuickActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5425A2B2180ABBC57DECFF07 /* HomeQuickActions.swift */; };
+		630787E97E4BB222A0E6C557 /* RouterTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC3F080F660AC15981EB0BB /* RouterTab.swift */; };
+		D4E8062384D2D66C8D5C0B61 /* RouterDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF9207FC5E29E3550B4FD03 /* RouterDestination.swift */; };
+		52D2AE581705DF399198DE62 /* RouterDependencyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44637D781677F0D4A163DB50 /* RouterDependencyKey.swift */; };
+		8DAEE835531A17853F793249 /* WithAppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B413CEF2A1BDC608E0D3694 /* WithAppRouter.swift */; };
+		25E81C1D005F9C270A98B585 /* WithSheetDestinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC4D6BA7B522018E33B2B02 /* WithSheetDestinations.swift */; };
+		546802BC7AC57F70A94C196A /* HomeRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F330123FD8B0D372B819416B /* HomeRootView.swift */; };
+		5D7BAB5E54D822E75D4A2740 /* GoalsRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB184DB7C18C490A47A5C /* GoalsRootView.swift */; };
+		8C18F44DB7DFCBDAE0739EBB /* OverviewRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7FD8AD5692D9DF2F7F6AD1 /* OverviewRootView.swift */; };
+		595AD13F33E4F39E0D62B911 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = FD01A1B28E6A66D8E4A79B10 /* Dependencies */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -158,10 +163,6 @@
 		359094922AAD3EC400428B39 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		359094952AAD3EC400428B39 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3590949D2AAE33FD00428B39 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
-		3590949F2AAE340D00428B39 /* RootNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
-		359094A12AAE341E00428B39 /* NavigationViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewBuilder.swift; sourceTree = "<group>"; };
-		359094A32AAE342F00428B39 /* NavigationControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllers.swift; sourceTree = "<group>"; };
-		359094A52AAE344000428B39 /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 		359094AC2AAE390500428B39 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		359094B62AAE575D00428B39 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		3592EFFA2AF32D10008138EE /* FirstAppear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstAppear.swift; sourceTree = "<group>"; };
@@ -199,6 +200,14 @@
 		5CE369155737AC3531EDF83A /* DailyTransaction+Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DailyTransaction+Record.swift"; sourceTree = "<group>"; };
 		35FA687B2B4B04D80005A067 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		5425A2B2180ABBC57DECFF07 /* HomeQuickActions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HomeQuickActions.swift; sourceTree = "<group>"; };
+		1AC3F080F660AC15981EB0BB /* RouterTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterTab.swift; sourceTree = "<group>"; };
+		3CF9207FC5E29E3550B4FD03 /* RouterDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterDestination.swift; sourceTree = "<group>"; };
+		44637D781677F0D4A163DB50 /* RouterDependencyKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterDependencyKey.swift; sourceTree = "<group>"; };
+		9B413CEF2A1BDC608E0D3694 /* WithAppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithAppRouter.swift; sourceTree = "<group>"; };
+		4CC4D6BA7B522018E33B2B02 /* WithSheetDestinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithSheetDestinations.swift; sourceTree = "<group>"; };
+		F330123FD8B0D372B819416B /* HomeRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRootView.swift; sourceTree = "<group>"; };
+		5E8DB184DB7C18C490A47A5C /* GoalsRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsRootView.swift; sourceTree = "<group>"; };
+		CC7FD8AD5692D9DF2F7F6AD1 /* OverviewRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewRootView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +222,7 @@
 				353B833E2B62136400DEFC2C /* Aptabase in Frameworks */,
 				354F2B152AB9F189002516F1 /* SwiftUIIntrospect in Frameworks */,
 				354716842B45C4C8009BEEC0 /* WishKit in Frameworks */,
+				595AD13F33E4F39E0D62B911 /* Dependencies in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,14 +515,26 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		6BEE8EDDFC8255EF3918C2BE /* Roots */ = {
+			isa = PBXGroup;
+			children = (
+				F330123FD8B0D372B819416B /* HomeRootView.swift */,
+				5E8DB184DB7C18C490A47A5C /* GoalsRootView.swift */,
+				CC7FD8AD5692D9DF2F7F6AD1 /* OverviewRootView.swift */,
+			);
+			path = Roots;
+			sourceTree = "<group>";
+		};
 		3590949C2AAD404400428B39 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
 				3590949D2AAE33FD00428B39 /* Router.swift */,
-				3590949F2AAE340D00428B39 /* RootNavigationController.swift */,
-				359094A12AAE341E00428B39 /* NavigationViewBuilder.swift */,
-				359094A32AAE342F00428B39 /* NavigationControllers.swift */,
-				359094A52AAE344000428B39 /* HostingController.swift */,
+				1AC3F080F660AC15981EB0BB /* RouterTab.swift */,
+				3CF9207FC5E29E3550B4FD03 /* RouterDestination.swift */,
+				44637D781677F0D4A163DB50 /* RouterDependencyKey.swift */,
+				9B413CEF2A1BDC608E0D3694 /* WithAppRouter.swift */,
+				4CC4D6BA7B522018E33B2B02 /* WithSheetDestinations.swift */,
+				6BEE8EDDFC8255EF3918C2BE /* Roots */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -701,6 +723,7 @@
 				35BD86232B4DBC8A009BC2D7 /* Shimmer */,
 				353B833D2B62136400DEFC2C /* Aptabase */,
 				35E5089A2E300FD8006E159D /* ExpensaroUIKit */,
+				FD01A1B28E6A66D8E4A79B10 /* Dependencies */,
 			);
 			productName = Expensaro;
 			productReference = 3590948B2AAD3EC300428B39 /* Expensaro.app */;
@@ -738,6 +761,7 @@
 				35BD86222B4DBC8A009BC2D7 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				353B833C2B62136400DEFC2C /* XCRemoteSwiftPackageReference "aptabase-swift" */,
 				35E508992E300FD8006E159D /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */,
+				12917F831609A7A10C0D9384 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
 			);
 			productRefGroup = 3590948C2AAD3EC300428B39 /* Products */;
 			projectDirPath = "";
@@ -780,7 +804,6 @@
 				354F2B0B2AB8D24B002516F1 /* DateSelectorView.swift in Sources */,
 				35DA3A332B7FE45A0042A470 /* DailyTransactionsListView.swift in Sources */,
 				3538822C2B4E4B7500EB57D1 /* AppSettingsView.swift in Sources */,
-				359094A42AAE342F00428B39 /* NavigationControllers.swift in Sources */,
 				351061282AD74AEB006E6DF4 /* Budget.swift in Sources */,
 				9EFBD4ADB277B2AAF1F41122 /* Budget+Record.swift in Sources */,
 				35825BFD2AC9E71700713AD8 /* RecurrentPaymentsListView.swift in Sources */,
@@ -789,7 +812,6 @@
 				356EB7AA2AEC119F001E6FD6 /* TransactionInsightsView.swift in Sources */,
 				35BDE3E12B6850DC002A9D93 /* OnboardingPage.swift in Sources */,
 				358900E12B375E78009509FC /* MonthRecapOverviewView.swift in Sources */,
-				359094A22AAE341E00428B39 /* NavigationViewBuilder.swift in Sources */,
 				35BEF35D2AB378DB005D1138 /* Source.swift in Sources */,
 				357562AE2B2A182A002082A0 /* EXCircleProgressView.swift in Sources */,
 				353E5C322ACA1F6600430978 /* RecurrentPayment.swift in Sources */,
@@ -799,7 +821,6 @@
 				A9C9CF4432B1C6015B9D722F /* ActiveRecord.swift in Sources */,
 				35CE33E62AE18CEB00BC93C2 /* EXGoalTransactionCell.swift in Sources */,
 				35BEF3602AB37AA6005D1138 /* AddBudgetView.swift in Sources */,
-				359094A02AAE340D00428B39 /* RootNavigationController.swift in Sources */,
 				3501CFB92B4EF3F600D13736 /* CurrencySelectorView.swift in Sources */,
 				350D45822B22A03400E13008 /* TopCategoryOverviewView.swift in Sources */,
 				3558FBC12ACA415500624EBD /* Goal.swift in Sources */,
@@ -816,12 +837,19 @@
 				359CDC5C2AB4DE3300DFFDC7 /* TabBarView.swift in Sources */,
 				358E6B7F2AC0840900ABA818 /* CategorySelectorView.swift in Sources */,
 				35F49FC32B8003B5009F0C6E /* AddDailyTransactionView.swift in Sources */,
-				359094A62AAE344000428B39 /* HostingController.swift in Sources */,
 				359094AD2AAE390500428B39 /* HomeView.swift in Sources */,
 				354A7C0B2ABDE57900934E4E /* CategoriesSettingsView.swift in Sources */,
 				3538822E2B4E4C5E00EB57D1 /* Currency.swift in Sources */,
 				358978D62AFEBF6400E8C378 /* Double+Extension.swift in Sources */,
 				3590949E2AAE33FD00428B39 /* Router.swift in Sources */,
+				630787E97E4BB222A0E6C557 /* RouterTab.swift in Sources */,
+				D4E8062384D2D66C8D5C0B61 /* RouterDestination.swift in Sources */,
+				52D2AE581705DF399198DE62 /* RouterDependencyKey.swift in Sources */,
+				8DAEE835531A17853F793249 /* WithAppRouter.swift in Sources */,
+				25E81C1D005F9C270A98B585 /* WithSheetDestinations.swift in Sources */,
+				546802BC7AC57F70A94C196A /* HomeRootView.swift in Sources */,
+				5D7BAB5E54D822E75D4A2740 /* GoalsRootView.swift in Sources */,
+				8C18F44DB7DFCBDAE0739EBB /* OverviewRootView.swift in Sources */,
 				3558FBBE2ACA3F8E00624EBD /* EXGoalCell.swift in Sources */,
 				358978D92AFEC0FF00E8C378 /* DebugMenuView.swift in Sources */,
 				35CE33E42AE1891A00BC93C2 /* AddGoalTransactionView.swift in Sources */,
@@ -1125,6 +1153,14 @@
 				version = 1.3.2;
 			};
 		};
+		12917F831609A7A10C0D9384 /* XCRemoteSwiftPackageReference "swift-dependencies" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-dependencies";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.17.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1162,6 +1198,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 35E508992E300FD8006E159D /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */;
 			productName = ExpensaroUIKit;
+		};
+		FD01A1B28E6A66D8E4A79B10 /* Dependencies */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 12917F831609A7A10C0D9384 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			productName = Dependencies;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

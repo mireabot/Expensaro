@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 import PopupView
 import SwiftData
 
 struct RemindersSettingsView: View {
   // MARK: Essential
-  @EnvironmentObject var router: EXNavigationViewsRouter
+  @Dependency(\.router) private var router
   @State private var reminderOn = UserDefaults.standard.bool(forKey: "notificationsEnabled")
   @State private var sheetHeight: CGFloat = .zero
   
@@ -21,84 +22,82 @@ struct RemindersSettingsView: View {
   @State private var showLoader = false
   @State private var showDangerSheet = false
   var body: some View {
-    NavigationView {
-      ScrollView {
-        VStack(spacing: 20) {
-          VStack(alignment: .leading, spacing: 15) {
-            Text("General")
-              .foregroundColor(.darkGrey)
-              .font(.system(.footnote, weight: .regular))
-            EXToggleCard(config: (Source.Strings.ToggleType.notifications.title, 
-                                  Source.Strings.ToggleType.notifications.text),
-                         isOn: $reminderOn)
-              .onChange(of: reminderOn, perform: { value in
-                if value {
-                  print("Notifications granted!")
-                  DispatchQueue.main.async {
-                    UIApplication.shared.registerForRemoteNotifications()
-                    UserDefaults.standard.setValue(true, forKey: "notificationsEnabled")
-                    UserDefaults.standard.synchronize()
-                  }
-                } else {
-                  print("Notifications not granted!")
-                  DispatchQueue.main.async {
-                    UIApplication.shared.unregisterForRemoteNotifications()
-                    UserDefaults.standard.setValue(false, forKey: "notificationsEnabled")
-                    UserDefaults.standard.synchronize()
-                  }
+    ScrollView {
+      VStack(spacing: 20) {
+        VStack(alignment: .leading, spacing: 15) {
+          Text("General")
+            .foregroundColor(.darkGrey)
+            .font(.system(.footnote, weight: .regular))
+          EXToggleCard(config: (Source.Strings.ToggleType.notifications.title, 
+                                Source.Strings.ToggleType.notifications.text),
+                       isOn: $reminderOn)
+            .onChange(of: reminderOn, perform: { value in
+              if value {
+                print("Notifications granted!")
+                DispatchQueue.main.async {
+                  UIApplication.shared.registerForRemoteNotifications()
+                  UserDefaults.standard.setValue(true, forKey: "notificationsEnabled")
+                  UserDefaults.standard.synchronize()
                 }
-              })
-          }
-          
-          VStack(alignment: .leading, spacing: 15) {
-            Text("In-app notifications")
-              .foregroundColor(.darkGrey)
-              .font(.system(.footnote, weight: .regular))
-            EXDialog(config: (Source.Strings.DialogType.deleteReminders.title, 
-                              Source.Strings.DialogType.deleteReminders.text)) {
-              Button(action: {
-                showDangerSheet.toggle()
-              }, label: {
-                Text("Delete all reminders")
-                  .font(.system(.subheadline, weight: .semibold))
-              })
-              .buttonStyle(EXPrimaryButtonStyle(showLoader: $showLoader))
-            }
+              } else {
+                print("Notifications not granted!")
+                DispatchQueue.main.async {
+                  UIApplication.shared.unregisterForRemoteNotifications()
+                  UserDefaults.standard.setValue(false, forKey: "notificationsEnabled")
+                  UserDefaults.standard.synchronize()
+                }
+              }
+            })
+        }
+        
+        VStack(alignment: .leading, spacing: 15) {
+          Text("In-app notifications")
+            .foregroundColor(.darkGrey)
+            .font(.system(.footnote, weight: .regular))
+          EXDialog(config: (Source.Strings.DialogType.deleteReminders.title, 
+                            Source.Strings.DialogType.deleteReminders.text)) {
+            Button(action: {
+              showDangerSheet.toggle()
+            }, label: {
+              Text("Delete all reminders")
+                .font(.system(.subheadline, weight: .semibold))
+            })
+            .buttonStyle(EXPrimaryButtonStyle(showLoader: $showLoader))
           }
         }
-        .padding(.top, 20)
       }
-      .scrollBounceBehavior(.basedOnSize)
-      .applyMargins()
-      .sheet(isPresented: $showDangerSheet, content: {
-        dangerSheet()
-          .fixedSize(horizontal: false, vertical: true)
-          .modifier(GetHeightModifier(height: $sheetHeight))
-          .presentationDetents([.height(sheetHeight)])
-      })
-      .popup(isPresented: $showToast, view: {
-        EXToast(type: .constant(.remindersDeleted))
-      }, customize: {
-        $0
-          .isOpaque(true)
-          .type(.floater())
-          .position(.top)
-          .autohideIn(1.5)
-      })
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          Text(Appearance.shared.title)
-            .font(.system(.headline, weight: .medium))
-        }
-        ToolbarItem(placement: .navigationBarLeading) {
-          Button {
-            router.nav?.popViewController(animated: true)
-          } label: {
-            Appearance.shared.backIcon
-              .font(.callout)
-              .foregroundColor(.black)
-          }
+      .padding(.top, 20)
+    }
+    .scrollBounceBehavior(.basedOnSize)
+    .applyMargins()
+    .sheet(isPresented: $showDangerSheet, content: {
+      dangerSheet()
+        .fixedSize(horizontal: false, vertical: true)
+        .modifier(GetHeightModifier(height: $sheetHeight))
+        .presentationDetents([.height(sheetHeight)])
+    })
+    .popup(isPresented: $showToast, view: {
+      EXToast(type: .constant(.remindersDeleted))
+    }, customize: {
+      $0
+        .isOpaque(true)
+        .type(.floater())
+        .position(.top)
+        .autohideIn(1.5)
+    })
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .principal) {
+        Text(Appearance.shared.title)
+          .font(.system(.headline, weight: .medium))
+      }
+      ToolbarItem(placement: .navigationBarLeading) {
+        Button {
+          router.back()
+        } label: {
+          Appearance.shared.backIcon
+            .font(.callout)
+            .foregroundColor(.black)
         }
       }
     }

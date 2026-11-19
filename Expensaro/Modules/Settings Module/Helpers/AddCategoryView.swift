@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 import SwiftData
 import UIKit
 
 struct AddCategoryView: View {
   // MARK: Essential
-  @EnvironmentObject var router: EXNavigationViewsRouter
+  @Dependency(\.router) private var router
   @Environment(\.dismiss) var makeDismiss
   @FocusState var isFocused: Bool
   var isSheet: Bool
@@ -26,76 +27,74 @@ struct AddCategoryView: View {
   // MARK: Presentation
   @State private var showSelector = false
   var body: some View {
-    NavigationView {
-      ScrollView {
-        VStack(spacing: 15) {
-          EXEmojiKeyboard(text: $category.icon)
-            .focused($isFocused)
-            .padding(12)
-          
-          EXTextField(text: $category.name, header: "Category name", placeholder: "Ex. Metrocard")
-            .focused($isFocused)
-          
-          Button(action: {
-            showSelector.toggle()
-          }, label: {
-            EXLargeSelector(text: .constant(category.section.header), icon: .constant(.imageName("")), header: "Category section", rightIcon: "swipeDown")
-          })
-          .buttonStyle(EXPlainButtonStyle())
-        }
-        .padding(.top, 20)
+    ScrollView {
+      VStack(spacing: 15) {
+        EXEmojiKeyboard(text: $category.icon)
+          .focused($isFocused)
+          .padding(12)
         
+        EXTextField(text: $category.name, header: "Category name", placeholder: "Ex. Metrocard")
+          .focused($isFocused)
+        
+        Button(action: {
+          showSelector.toggle()
+        }, label: {
+          EXLargeSelector(text: .constant(category.section.header), icon: .constant(.imageName("")), header: "Category section", rightIcon: "swipeDown")
+        })
+        .buttonStyle(EXPlainButtonStyle())
       }
-      .applyMargins()
-      .onTapGesture {
-        isFocused = false
+      .padding(.top, 20)
+      
+    }
+    .applyMargins()
+    .onTapGesture {
+      isFocused = false
+    }
+    .sheet(isPresented: $showSelector, content: {
+      selectorView()
+        .modifier(GetHeightModifier(height: $sheetHeight))
+        .presentationDetents([.height(sheetHeight)])
+    })
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .principal) {
+        Text(Appearance.shared.title)
+          .font(.system(.headline, weight: .medium))
       }
-      .sheet(isPresented: $showSelector, content: {
-        selectorView()
-          .modifier(GetHeightModifier(height: $sheetHeight))
-          .presentationDetents([.height(sheetHeight)])
-      })
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          Text(Appearance.shared.title)
-            .font(.system(.headline, weight: .medium))
-        }
-        ToolbarItem(placement: .navigationBarLeading) {
-          if isSheet {
-            Button {
-              makeDismiss()
-            } label: {
-              Appearance.shared.closeIcon
-                .font(.callout)
-                .foregroundColor(.black)
-            }
-          } else {
-            Button {
-              router.nav?.popViewController(animated: true)
-            } label: {
-              Appearance.shared.backIcon
-                .font(.callout)
-                .foregroundColor(.black)
-            }
-          }
-        }
-        ToolbarItem(placement: .navigationBarTrailing) {
+      ToolbarItem(placement: .navigationBarLeading) {
+        if isSheet {
           Button {
-            if isSheet {
-              saveCategory()
-              makeDismiss()
-            } else {
-              saveCategory()
-              router.nav?.popViewController(animated: true)
-            }
+            makeDismiss()
           } label: {
-            Appearance.shared.submitIcon
+            Appearance.shared.closeIcon
               .font(.callout)
-              .foregroundColor(category.name.isEmpty ? .border : .black)
+              .foregroundColor(.black)
           }
-          .disabled(category.name.isEmpty || category.icon.isEmpty)
+        } else {
+          Button {
+            router.back()
+          } label: {
+            Appearance.shared.backIcon
+              .font(.callout)
+              .foregroundColor(.black)
+          }
         }
+      }
+      ToolbarItem(placement: .navigationBarTrailing) {
+        Button {
+          if isSheet {
+            saveCategory()
+            makeDismiss()
+          } else {
+            saveCategory()
+            router.back()
+          }
+        } label: {
+          Appearance.shared.submitIcon
+            .font(.callout)
+            .foregroundColor(category.name.isEmpty ? .border : .black)
+        }
+        .disabled(category.name.isEmpty || category.icon.isEmpty)
       }
     }
   }

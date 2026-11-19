@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 import PopupView
 import SwiftData
 
 struct RecurrentPaymentDetailView: View {
   // MARK: - Essential
-  @EnvironmentObject var router: EXNavigationViewsRouter
+  @Dependency(\.router) private var router
   @AppStorage("currencySign") private var currencySign = "USD"
   
   // MARK: - Storage
@@ -24,131 +25,125 @@ struct RecurrentPaymentDetailView: View {
   
   // MARK: - Presentation
   @State private var showDeleteAlert = false
-  @State private var showEditPayment = false
   @State private var showNoteView = false
   @State private var showError = false
   var body: some View {
-    NavigationView {
-      ZStack(alignment: .bottomTrailing, content: {
-        ScrollView {
-          // MARK: Transaction header
-          VStack(alignment: .leading, spacing: 3) {
-            Text(transaction.name)
-              .font(.title3Medium)
-            
-            Text("\(transaction.amount.formattedAsCurrency(with: currencySign))")
-              .font(.largeTitleBold)
-            
-            Text("Next payment date: \(transaction.isDue ? daysLeftString(for: transaction.daysLeftUntilDueDate) : Source.Functions.showString(from: transaction.dueDate))")
-              .font(.footnoteRegular)
-              .foregroundColor(.darkGrey)
-          }
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.top, 16)
+    ZStack(alignment: .bottomTrailing, content: {
+      ScrollView {
+        // MARK: Transaction header
+        VStack(alignment: .leading, spacing: 3) {
+          Text(transaction.name)
+            .font(.title3Medium)
           
-          if transaction.isDue {
-            Button {
-              withAnimation(.easeOut) {
-                validateRenewal()
-              }
-            } label: {
-              Text("Renew now")
-                .font(.system(.subheadline, weight: .semibold))
-            }
-            .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
-          }
+          Text("\(transaction.amount.formattedAsCurrency(with: currencySign))")
+            .font(.largeTitleBold)
           
-          // MARK: Transaction info
-          HStack(spacing: 5) {
-            EXChip(icon: .imageName(transaction.categoryIcon), text: transaction.categoryName)
-            EXChip(icon: .imageName(""), text: transaction.schedule.title)
-          }
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.top, 5)
-          
-          // MARK: Transaction detail
-          Button {
-            showNoteView.toggle()
-          } label: {
-            EXBaseCard {
-              HStack {
-                Source.Images.ButtonIcons.note
-                  .padding(8)
-                VStack(alignment: .leading, spacing: 3) {
-                  Text("Note")
-                    .font(.system(.footnote, weight: .regular))
-                    .foregroundColor(.darkGrey)
-                  Text(transaction.note.isEmpty ? "Add note" : transaction.note)
-                    .font(.system(.subheadline, weight: .medium))
-                    .foregroundColor(.black)
-                }
-              }
-              .frame(maxWidth: .infinity, alignment: .leading)
-            }
-          }
-          .buttonStyle(EXPlainButtonStyle())
-          .padding(.top, 5)
-          
-          // MARK: Transaction reminders
-          EXToggleCard(config: (Source.Strings.ToggleType.paymentReminder.title,
-                                Source.Strings.ToggleType.paymentReminder.text),
-                       isOn: Binding(
-                        get: { transaction.isReminder },
-                        set: { newValue in
-                          AnalyticsManager.shared.log(.modifiedReminder(transaction.name))
-                          updateNotification(with: newValue)
-                        }
-                       ))
-          .padding(.top, 5)
+          Text("Next payment date: \(transaction.isDue ? daysLeftString(for: transaction.daysLeftUntilDueDate) : Source.Functions.showString(from: transaction.dueDate))")
+            .font(.footnoteRegular)
+            .foregroundColor(.darkGrey)
         }
-        .scrollBounceBehavior(.basedOnSize)
-        bottomActionButton().padding(.bottom, 16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.top, 16)
         
-      })
-      .popup(isPresented: $showDeleteAlert) {
-        EXAlert<EmptyView>(config: (Source.Strings.AlertType.deletePayment.title,
-                         Source.Strings.AlertType.deletePayment.subTitle,
-                         Source.Strings.AlertType.deletePayment.secondaryButtonText,
-                         Source.Strings.AlertType.deletePayment.primaryButtonText),
-                primaryAction: { deletePayment() },
-                secondaryAction: {showDeleteAlert.toggle()})
-        .applyMargins()
-      } customize: {
-        $0
-          .animation(.spring())
-          .position(.bottom)
-          .type(.floater(useSafeAreaInset: true))
-          .closeOnTapOutside(false)
-          .backgroundColor(.black.opacity(0.3))
-          .isOpaque(true)
-      }
-      .popup(isPresented: $showError, view: {
-        EXToast(type: $errorType)
-      }, customize: {
-        $0
-          .isOpaque(true)
-          .type(.floater())
-          .position(.top)
-          .autohideIn(1.5)
-      })
-      .fullScreenCover(isPresented: $showEditPayment, content: {
-        AddRecurrentPaymentView(recurringPayment: transaction, budget: budget)
-      })
-      .sheet(isPresented: $showNoteView, content: {
-        noteView()
-          .presentationDetents([.fraction(0.95)])
-      })
-      .applyMargins()
-      .scrollDisabled(true)
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .navigationBarLeading) {
+        if transaction.isDue {
           Button {
-            router.nav?.popViewController(animated: true)
+            withAnimation(.easeOut) {
+              validateRenewal()
+            }
           } label: {
-            Appearance.shared.closeIcon
-              .foregroundColor(.black)
+            Text("Renew now")
+              .font(.system(.subheadline, weight: .semibold))
           }
+          .buttonStyle(EXPrimaryButtonStyle(showLoader: .constant(false)))
+        }
+        
+        // MARK: Transaction info
+        HStack(spacing: 5) {
+          EXChip(icon: .imageName(transaction.categoryIcon), text: transaction.categoryName)
+          EXChip(icon: .imageName(""), text: transaction.schedule.title)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.top, 5)
+        
+        // MARK: Transaction detail
+        Button {
+          showNoteView.toggle()
+        } label: {
+          EXBaseCard {
+            HStack {
+              Source.Images.ButtonIcons.note
+                .padding(8)
+              VStack(alignment: .leading, spacing: 3) {
+                Text("Note")
+                  .font(.system(.footnote, weight: .regular))
+                  .foregroundColor(.darkGrey)
+                Text(transaction.note.isEmpty ? "Add note" : transaction.note)
+                  .font(.system(.subheadline, weight: .medium))
+                  .foregroundColor(.black)
+              }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+          }
+        }
+        .buttonStyle(EXPlainButtonStyle())
+        .padding(.top, 5)
+        
+        // MARK: Transaction reminders
+        EXToggleCard(config: (Source.Strings.ToggleType.paymentReminder.title,
+                              Source.Strings.ToggleType.paymentReminder.text),
+                     isOn: Binding(
+                      get: { transaction.isReminder },
+                      set: { newValue in
+                        AnalyticsManager.shared.log(.modifiedReminder(transaction.name))
+                        updateNotification(with: newValue)
+                      }
+                     ))
+        .padding(.top, 5)
+      }
+      .scrollBounceBehavior(.basedOnSize)
+      bottomActionButton().padding(.bottom, 16)
+      
+    })
+    .popup(isPresented: $showDeleteAlert) {
+      EXAlert<EmptyView>(config: (Source.Strings.AlertType.deletePayment.title,
+                       Source.Strings.AlertType.deletePayment.subTitle,
+                       Source.Strings.AlertType.deletePayment.secondaryButtonText,
+                       Source.Strings.AlertType.deletePayment.primaryButtonText),
+              primaryAction: { deletePayment() },
+              secondaryAction: {showDeleteAlert.toggle()})
+      .applyMargins()
+    } customize: {
+      $0
+        .animation(.spring())
+        .position(.bottom)
+        .type(.floater(useSafeAreaInset: true))
+        .closeOnTapOutside(false)
+        .backgroundColor(.black.opacity(0.3))
+        .isOpaque(true)
+    }
+    .popup(isPresented: $showError, view: {
+      EXToast(type: $errorType)
+    }, customize: {
+      $0
+        .isOpaque(true)
+        .type(.floater())
+        .position(.top)
+        .autohideIn(1.5)
+    })
+    .sheet(isPresented: $showNoteView, content: {
+      noteView()
+        .presentationDetents([.fraction(0.95)])
+    })
+    .applyMargins()
+    .scrollDisabled(true)
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .navigationBarLeading) {
+        Button {
+          router.back()
+        } label: {
+          Appearance.shared.closeIcon
+            .foregroundColor(.black)
         }
       }
     }
@@ -221,7 +216,7 @@ extension RecurrentPaymentDetailView {
   func bottomActionButton() -> some View {
     VStack {
       Menu {
-        Button(action: { showEditPayment.toggle() }) {
+        Button(action: { router.presentFullScreenCover(for: .editRecurringPayment(transaction, budget)) }) {
           Label("Edit payment", image: "buttonEdit")
         }
         
@@ -249,7 +244,7 @@ extension RecurrentPaymentDetailView {
     
     // Contributions go with the payment through the cascade delete rule
     try? transaction.delete(refunding: budget)
-    router.nav?.popViewController(animated: true)
+    router.back()
   }
   
   func updateNotification(with value: Bool) {

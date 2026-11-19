@@ -44,7 +44,7 @@ struct AddRecurrentPaymentView: View {
   @State private var showReminderAlert = false
   @State private var showError = false
   var body: some View {
-    NavigationView {
+    NavigationStack {
       ZStack(alignment: .bottom, content: {
         ScrollView {
           EXSegmentControl(currentTab: $recurringPayment.type,

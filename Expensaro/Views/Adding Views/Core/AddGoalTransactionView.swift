@@ -26,7 +26,7 @@ struct AddGoalTransactionView: View {
   // MARK: Presentation
   @State private var showError = false
   var body: some View {
-    NavigationView {
+    NavigationStack {
       ZStack(alignment: .bottom, content: {
         ScrollView {
           VStack(alignment: .leading, spacing: 10) {

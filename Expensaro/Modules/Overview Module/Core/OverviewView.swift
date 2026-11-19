@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 import PopupView
 import SwiftData
 
 struct OverviewView: View {
   // MARK: Essential
-  @EnvironmentObject var router: EXNavigationViewsRouter
+  @Dependency(\.router) private var router
   @AppStorage("currencySign") private var currencySign = "USD"
   
   // MARK: Variables
@@ -29,80 +30,78 @@ struct OverviewView: View {
   @State private var showSpendingsInfoSheet = false
   @State private var showTopCategoryInfoSheet = false
   var body: some View {
-    NavigationView {
-      ScrollView(.vertical, showsIndicators: false) {
-        VStack(spacing: 16) {
-          topCategorySection()
-          monthRecapSection()
-          EXInfoCard(config: (Source.Strings.InfoCardType.overviewUpdates.title,
-                              Source.Strings.InfoCardType.overviewUpdates.text))
-        }
-        .padding(.top, 16)
+    ScrollView(.vertical, showsIndicators: false) {
+      VStack(spacing: 16) {
+        topCategorySection()
+        monthRecapSection()
+        EXInfoCard(config: (Source.Strings.InfoCardType.overviewUpdates.title,
+                            Source.Strings.InfoCardType.overviewUpdates.text))
       }
-      .popup(isPresented: $showTopCategoryInfoSheet) {
-        EXBottomInfoView(config: (Source.Strings.BottomPreviewType.topCategory.title,
-                                  Source.Strings.BottomPreviewType.topCategory.text,
-                                  Source.Strings.BottomPreviewType.topCategory.isButton,
-                                  Source.Strings.BottomPreviewType.topCategory.buttonText),
-                         action: {
-          DispatchQueue.main.async {
-            showTopCategoryInfoSheet.toggle()
-          }
-          AnalyticsManager.shared.log(.openTopCategoryPreview)
-          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(summary: topCategory)))
-        }, bottomView: {
-          Source.Images.Previews.topCategoryPreview
-            .frame(maxWidth: .infinity)
-            .background(Color.white)
-            .cornerRadius(10)
-        })
-        .applyMargins()
-        .background(.white)
-        .cornerRadius(16)
-        .applyMargins()
-      } customize: {
-        $0
-          .animation(.spring())
-          .position(.bottom)
-          .type(.floater(useSafeAreaInset: true))
-          .closeOnTapOutside(false)
-          .backgroundColor(.black.opacity(0.3))
-          .isOpaque(true)
-      }
-      .popup(isPresented: $showSpendingsInfoSheet) {
-        EXBottomInfoView(config: (Source.Strings.BottomPreviewType.spendings.title,
-                                  Source.Strings.BottomPreviewType.spendings.text,
-                                  Source.Strings.BottomPreviewType.spendings.isButton,
-                                  Source.Strings.BottomPreviewType.spendings.buttonText),
-                         action: {
-          DispatchQueue.main.async {
-            showSpendingsInfoSheet.toggle()
-          }
-          AnalyticsManager.shared.log(.openMonthRecapPreview)
-          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView(recap: monthRecap)))
-        }, bottomView: {
-          Source.Images.Previews.monthRecapPreview
-            .frame(maxWidth: .infinity)
-            .background(Color.white)
-            .cornerRadius(10)
-        })
-        .applyMargins()
-        .background(.white)
-        .cornerRadius(16)
-        .applyMargins()
-      } customize: {
-        $0
-          .animation(.spring())
-          .position(.bottom)
-          .type(.floater(useSafeAreaInset: true))
-          .closeOnTapOutside(false)
-          .backgroundColor(.black.opacity(0.3))
-          .isOpaque(true)
-      }
-      .applyMargins()
-      .scrollDisabled(true)
-      .rootNavigationTitle(Appearance.shared.title)
+      .padding(.top, 16)
     }
+    .popup(isPresented: $showTopCategoryInfoSheet) {
+      EXBottomInfoView(config: (Source.Strings.BottomPreviewType.topCategory.title,
+                                Source.Strings.BottomPreviewType.topCategory.text,
+                                Source.Strings.BottomPreviewType.topCategory.isButton,
+                                Source.Strings.BottomPreviewType.topCategory.buttonText),
+                       action: {
+        DispatchQueue.main.async {
+          showTopCategoryInfoSheet.toggle()
+        }
+        AnalyticsManager.shared.log(.openTopCategoryPreview)
+        router.navigate(to: .topCategoryOverview(topCategory))
+      }, bottomView: {
+        Source.Images.Previews.topCategoryPreview
+          .frame(maxWidth: .infinity)
+          .background(Color.white)
+          .cornerRadius(10)
+      })
+      .applyMargins()
+      .background(.white)
+      .cornerRadius(16)
+      .applyMargins()
+    } customize: {
+      $0
+        .animation(.spring())
+        .position(.bottom)
+        .type(.floater(useSafeAreaInset: true))
+        .closeOnTapOutside(false)
+        .backgroundColor(.black.opacity(0.3))
+        .isOpaque(true)
+    }
+    .popup(isPresented: $showSpendingsInfoSheet) {
+      EXBottomInfoView(config: (Source.Strings.BottomPreviewType.spendings.title,
+                                Source.Strings.BottomPreviewType.spendings.text,
+                                Source.Strings.BottomPreviewType.spendings.isButton,
+                                Source.Strings.BottomPreviewType.spendings.buttonText),
+                       action: {
+        DispatchQueue.main.async {
+          showSpendingsInfoSheet.toggle()
+        }
+        AnalyticsManager.shared.log(.openMonthRecapPreview)
+        router.navigate(to: .monthRecap(monthRecap))
+      }, bottomView: {
+        Source.Images.Previews.monthRecapPreview
+          .frame(maxWidth: .infinity)
+          .background(Color.white)
+          .cornerRadius(10)
+      })
+      .applyMargins()
+      .background(.white)
+      .cornerRadius(16)
+      .applyMargins()
+    } customize: {
+      $0
+        .animation(.spring())
+        .position(.bottom)
+        .type(.floater(useSafeAreaInset: true))
+        .closeOnTapOutside(false)
+        .backgroundColor(.black.opacity(0.3))
+        .isOpaque(true)
+    }
+    .applyMargins()
+    .scrollDisabled(true)
+    .rootNavigationTitle(Appearance.shared.title)
   }
 }
 
@@ -135,7 +134,7 @@ extension OverviewView {
     let topCategory = self.topCategory
     if !topCategory.isLocked {
       Button(action: {
-        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(summary: topCategory)))
+        router.navigate(to: .topCategoryOverview(topCategory))
         AnalyticsManager.shared.log(.openTopCategory)
       }, label: {
         EXOverviewCard(header: "Top Category", title: topCategory.topCategory.0, icon: Source.Images.Navigation.redirect, subHeader: "You have spent \(topCategory.topCategory.1.formattedAsCurrencySolid(with: currencySign)) on this category")
@@ -154,7 +153,7 @@ extension OverviewView {
     }
     else {
       Button(action: {
-        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView(recap: monthRecap)))
+        router.navigate(to: .monthRecap(monthRecap))
         AnalyticsManager.shared.log(.openMonthRecap)
       }, label: {
         EXOverviewCard(header: "Month recap", title: monthRecap.recapMonth, icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")

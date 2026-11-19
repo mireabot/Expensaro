@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 
 struct CurrencySelectorView: View {
   // MARK: Essential
-  @EnvironmentObject var router: EXNavigationViewsRouter
+  @Dependency(\.router) private var router
   @State private var searchQuery = ""
   @AppStorage("currencySign") private var currencySign = "USD"
   var filteredCurrencies: [Currency] {
@@ -21,35 +22,33 @@ struct CurrencySelectorView: View {
     }
   }
   var body: some View {
-    NavigationView {
-      ScrollView {
-        LazyVGrid(columns: Array(repeating: .init(.flexible()), count: 2)) {
-          ForEach(Currency.allCurrencies, id: \.symbol) { currency in
-            Button {
-              currencySign = currency.code
-            } label: {
-              EXSelectCell(title: currency.symbol, text: currency.name, condition: currencySign == currency.code)
-            }
-          }
-        }
-        .padding(.vertical, 16)
-        .applyMargins()
-      }
-      .scrollBounceBehavior(.basedOnSize)
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          Text(Appearance.shared.title)
-            .font(.system(.headline, weight: .medium))
-        }
-        ToolbarItem(placement: .navigationBarLeading) {
+    ScrollView {
+      LazyVGrid(columns: Array(repeating: .init(.flexible()), count: 2)) {
+        ForEach(Currency.allCurrencies, id: \.symbol) { currency in
           Button {
-            router.nav?.popViewController(animated: true)
+            currencySign = currency.code
           } label: {
-            Appearance.shared.backIcon
-              .font(.callout)
-              .foregroundColor(.black)
+            EXSelectCell(title: currency.symbol, text: currency.name, condition: currencySign == currency.code)
           }
+        }
+      }
+      .padding(.vertical, 16)
+      .applyMargins()
+    }
+    .scrollBounceBehavior(.basedOnSize)
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .principal) {
+        Text(Appearance.shared.title)
+          .font(.system(.headline, weight: .medium))
+      }
+      ToolbarItem(placement: .navigationBarLeading) {
+        Button {
+          router.back()
+        } label: {
+          Appearance.shared.backIcon
+            .font(.callout)
+            .foregroundColor(.black)
         }
       }
     }

@@ -6,16 +6,17 @@
 //
 
 import SwiftUI
+import Dependencies
 import PopupView
 import ExpensaroUIKit
 import Charts
 import SwiftData
 
 struct DailyTransactionInsightsView: View {
+  @Dependency(\.router) private var router
   @State private var showAnalyticsDemo = false
   @Query(Transaction.dailyThisWeek) private var dailyTransactions: [Transaction]
   
-  @State private var showFeedback = false
   var body: some View {
     Group {
       // At least 4 daily transactions this week before the chart unlocks
@@ -40,7 +41,7 @@ struct DailyTransactionInsightsView: View {
               Spacer()
               Menu {
                 Button("Provide feedback") {
-                  showFeedback.toggle()
+                  router.presentFullScreenCover(for: .contact(topic: "Daily Transactions Insights"))
                 }
               } label: {
                 Image(systemName: "ellipsis")
@@ -70,9 +71,6 @@ struct DailyTransactionInsightsView: View {
         }
       }
     }
-    .fullScreenCover(isPresented: $showFeedback, content: {
-      ContactSettingsView(topic: "Daily Transactions Insights", isCalled: true)
-    })
     .popup(isPresented: $showAnalyticsDemo) {
       EXBottomInfoView(config: (Source.Strings.BottomPreviewType.dailyTransactions.title,
                                 Source.Strings.BottomPreviewType.dailyTransactions.text,

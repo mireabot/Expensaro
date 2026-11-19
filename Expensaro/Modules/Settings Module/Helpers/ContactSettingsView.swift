@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 import PopupView
 
@@ -13,7 +14,7 @@ struct ContactSettingsView: View {
   var topic: String
   var isCalled: Bool
   @Environment(\.dismiss) var makeDismiss
-  @EnvironmentObject var router: EXNavigationViewsRouter
+  @Dependency(\.router) private var router
   @State private var message: String = ""
   @State private var email: String = ""
   @FocusState private var isFocused: Bool
@@ -21,85 +22,83 @@ struct ContactSettingsView: View {
   // MARK: Presentation
   @State private var showToast = false
   var body: some View {
-    NavigationView {
-      ScrollView {
-        VStack(spacing: 40) {
-          VStack(alignment: .leading, spacing: 0) {
-            Text("What's on your mind?")
-              .font(.system(.headline, weight: .regular))
-              .foregroundColor(.black)
-            EXResizableTextField(message: $message, characterLimit: 1500)
-              .focused($isFocused)
-              .multilineSubmitEnabled(for: $message)
-          }
-          
-          VStack(alignment: .leading, spacing: 5) {
-            EXTextField(text: $email, header: "Contact email", placeholder: "What's your email")
-              .keyboardType(.emailAddress)
-              .focused($isFocused)
-            Text("Just so we can get back to you. We won't use your email for anything else.")
-              .font(.system(.footnote, weight: .regular))
-              .foregroundColor(.darkGrey)
-          }
+    ScrollView {
+      VStack(spacing: 40) {
+        VStack(alignment: .leading, spacing: 0) {
+          Text("What's on your mind?")
+            .font(.system(.headline, weight: .regular))
+            .foregroundColor(.black)
+          EXResizableTextField(message: $message, characterLimit: 1500)
+            .focused($isFocused)
+            .multilineSubmitEnabled(for: $message)
         }
-        .padding(.top, 20)
-        .applyMargins()
-        .popup(isPresented: $showToast, view: {
-          EXToast(type: .constant(.feebackSent))
-        }, customize: {
-          $0
-            .isOpaque(true)
-            .type(.floater())
-            .position(.top)
-            .autohideIn(1.5)
-            .dismissCallback {
-              AnalyticsManager.shared.log(.sendFeedback(message, email, topic))
-              if isCalled {
-                makeDismiss()
-              } else {
-                router.nav?.popViewController(animated: true)
-              }
-            }
-        })
-      }
-      .onTapGesture {
-        isFocused = false
-      }
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          Text(Appearance.shared.title)
-            .font(.system(.headline, weight: .medium))
+        
+        VStack(alignment: .leading, spacing: 5) {
+          EXTextField(text: $email, header: "Contact email", placeholder: "What's your email")
+            .keyboardType(.emailAddress)
+            .focused($isFocused)
+          Text("Just so we can get back to you. We won't use your email for anything else.")
+            .font(.system(.footnote, weight: .regular))
+            .foregroundColor(.darkGrey)
         }
-        ToolbarItem(placement: .navigationBarLeading) {
-          if isCalled {
-            Button {
+      }
+      .padding(.top, 20)
+      .applyMargins()
+      .popup(isPresented: $showToast, view: {
+        EXToast(type: .constant(.feebackSent))
+      }, customize: {
+        $0
+          .isOpaque(true)
+          .type(.floater())
+          .position(.top)
+          .autohideIn(1.5)
+          .dismissCallback {
+            AnalyticsManager.shared.log(.sendFeedback(message, email, topic))
+            if isCalled {
               makeDismiss()
-            } label: {
-              Appearance.shared.closeIcon
-                .font(.callout)
-                .foregroundColor(.black)
-            }
-          } else {
-            Button {
-              router.nav?.popViewController(animated: true)
-            } label: {
-              Appearance.shared.backIcon
-                .font(.callout)
-                .foregroundColor(.black)
+            } else {
+              router.back()
             }
           }
-        }
-        ToolbarItem(placement: .navigationBarTrailing) {
+      })
+    }
+    .onTapGesture {
+      isFocused = false
+    }
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .principal) {
+        Text(Appearance.shared.title)
+          .font(.system(.headline, weight: .medium))
+      }
+      ToolbarItem(placement: .navigationBarLeading) {
+        if isCalled {
           Button {
-            showToast.toggle()
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            makeDismiss()
           } label: {
-            Appearance.shared.submitIcon
-              .foregroundColor(message.isEmpty || email.isEmpty ? .darkGrey : .primaryGreen)
+            Appearance.shared.closeIcon
+              .font(.callout)
+              .foregroundColor(.black)
           }
-          .disabled(message.isEmpty || email.isEmpty)
+        } else {
+          Button {
+            router.back()
+          } label: {
+            Appearance.shared.backIcon
+              .font(.callout)
+              .foregroundColor(.black)
+          }
         }
+      }
+      ToolbarItem(placement: .navigationBarTrailing) {
+        Button {
+          showToast.toggle()
+          UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        } label: {
+          Appearance.shared.submitIcon
+            .foregroundColor(message.isEmpty || email.isEmpty ? .darkGrey : .primaryGreen)
+        }
+        .disabled(message.isEmpty || email.isEmpty)
       }
     }
   }

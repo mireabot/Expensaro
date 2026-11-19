@@ -32,25 +32,10 @@ extension View {
     modifier(FirstAppear(action: action))
   }
   
-  /// Title for tab root screens.
-  /// iOS 26: native large leading title at rest, collapses into the glass bar on scroll.
-  /// Earlier: compact leading title.
-  @ViewBuilder
+  /// Title for tab root screens: native large title that collapses into the bar on scroll.
   func rootNavigationTitle(_ title: String) -> some View {
-    if #available(iOS 26.0, *) {
-      self
-        .navigationTitle(title)
-        .navigationBarTitleDisplayMode(.large)
-    } else {
-      self
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-          ToolbarItem(placement: .navigationBarLeading) {
-            Text(title)
-              .font(.system(.title2, weight: .semibold))
-          }
-        }
-    }
+    navigationTitle(title)
+      .navigationBarTitleDisplayMode(.large)
   }
 
   /// Specific corner radius

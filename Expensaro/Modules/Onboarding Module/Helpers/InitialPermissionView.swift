@@ -125,7 +125,7 @@ extension InitialPermissionView {
 extension InitialPermissionView {
   @ViewBuilder
   func currencySelector() -> some View {
-    NavigationView {
+    NavigationStack {
       ScrollView {
         LazyVGrid(columns: Array(repeating: .init(.flexible()), count: 2)) {
           ForEach(Currency.allCurrencies, id: \.symbol) { currency in

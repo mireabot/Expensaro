@@ -21,7 +21,7 @@ struct CategorySelectorView: View {
   @State private var showAddCategory = false
   
   var body: some View {
-    NavigationView {
+    NavigationStack {
       ScrollView(showsIndicators: false) {
         Button {
           showAddCategory.toggle()
@@ -61,7 +61,9 @@ struct CategorySelectorView: View {
       }
       .applyMargins()
       .sheet(isPresented: $showAddCategory, content: {
-        AddCategoryView(isSheet: true, category: Category())
+        NavigationStack {
+          DraftModel(Category()) { AddCategoryView(isSheet: true, category: $0) }
+        }
       })
       .navigationBarTitleDisplayMode(.inline)
       .toolbarBackground(.white, for: .navigationBar)

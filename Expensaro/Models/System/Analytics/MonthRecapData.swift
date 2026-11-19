@@ -27,13 +27,16 @@ var sampleStorageDetails: [SampleCategoriesBreakdown] = [
 // MARK: Previous month recap
 /// Recap of the previous month from the rows the view queried with the `lastMonth` descriptors.
 /// Without a budget for that month it shows demo figures and stays locked.
-struct MonthRecap {
+struct MonthRecap: Hashable {
   /// Initial budget, added funds, total spent, budget left
   private(set) var budgetData: (Double, Double, Double, Double) = (0, 0, 0, 0)
   private(set) var goalTotalContribution: Double = 0
   private(set) var goalContributionBreakdown: [GoalSummary] = []
   private(set) var groupedTransactions: [GroupedTransactionsBySection] = []
   let isLocked: Bool
+  /// Identity of this snapshot. The figures hold tuples, which can't be Hashable,
+  /// so equality is per computed snapshot; that's all a navigation route needs
+  private let snapshotID = UUID()
 
   var recapMonth: String {
     Source.Functions.currentMonth(date: Source.Functions.getPastMonthDates().0)
@@ -110,4 +113,14 @@ struct GoalSummary: Identifiable {
   var id = UUID()
   var name: String
   var totalAmount: Double
+}
+
+extension MonthRecap {
+  static func == (lhs: Self, rhs: Self) -> Bool {
+    lhs.snapshotID == rhs.snapshotID
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(snapshotID)
+  }
 }

@@ -6,40 +6,39 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 
 struct AppSettingsView: View {
   // MARK: Essential
-  @EnvironmentObject var router: EXNavigationViewsRouter
+  @Dependency(\.router) private var router
   var body: some View {
-    NavigationView {
-      ScrollView(content: {
-        VStack(spacing: 15) {
-          Button {
-            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(CurrencySelectorView()))
-          } label: {
-            settingsRow(icon: Source.Images.EmptyStates.noBudget, title: "Currency")
-          }
-          .buttonStyle(EXPlainButtonStyle())
+    ScrollView(content: {
+      VStack(spacing: 15) {
+        Button {
+          router.navigate(to: .currencySelector)
+        } label: {
+          settingsRow(icon: Source.Images.EmptyStates.noBudget, title: "Currency")
         }
-        .padding(.top, 16)
-        .applyMargins()
-      })
-      .scrollBounceBehavior(.basedOnSize)
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          Text(Appearance.shared.title)
-            .font(.system(.headline, weight: .medium))
-        }
-        ToolbarItem(placement: .navigationBarLeading) {
-          Button {
-            router.nav?.popViewController(animated: true)
-          } label: {
-            Appearance.shared.backIcon
-              .font(.callout)
-              .foregroundColor(.black)
-          }
+        .buttonStyle(EXPlainButtonStyle())
+      }
+      .padding(.top, 16)
+      .applyMargins()
+    })
+    .scrollBounceBehavior(.basedOnSize)
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .principal) {
+        Text(Appearance.shared.title)
+          .font(.system(.headline, weight: .medium))
+      }
+      ToolbarItem(placement: .navigationBarLeading) {
+        Button {
+          router.back()
+        } label: {
+          Appearance.shared.backIcon
+            .font(.callout)
+            .foregroundColor(.black)
         }
       }
     }
