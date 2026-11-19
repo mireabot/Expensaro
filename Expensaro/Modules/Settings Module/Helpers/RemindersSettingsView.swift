@@ -8,17 +8,13 @@
 import SwiftUI
 import ExpensaroUIKit
 import PopupView
-import RealmSwift
+import SwiftData
 
 struct RemindersSettingsView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   @State private var reminderOn = UserDefaults.standard.bool(forKey: "notificationsEnabled")
-  let notificationManager: NotificationManager = NotificationManager.shared
   @State private var sheetHeight: CGFloat = .zero
-  
-  // MARK: Realm
-  @Environment(\.realm) var realm
   
   // MARK: Presentation
   @State private var showToast = false
@@ -112,7 +108,7 @@ struct RemindersSettingsView: View {
 struct RemindersSettingsView_Previews: PreviewProvider {
   static var previews: some View {
     RemindersSettingsView()
-      .environment(\.realmConfiguration, RealmMigrator.configuration)
+      .modelContainer(AppModelStore.preview)
   }
 }
 
@@ -164,16 +160,11 @@ extension RemindersSettingsView {
   }
 }
 
-// MARK: - Realm Functions
+// MARK: - Storage Functions
 extension RemindersSettingsView {
   func deleteReminders() {
     showLoader.toggle()
-    let payments = realm.objects(RecurringTransaction.self)
-    
-    try? realm.write {
-      payments.setValue(false, forKey: "isReminder")
-    }
-    notificationManager.deleteNotifications()
+    try? RecurringTransaction.disableAllReminders()
     AnalyticsManager.shared.log(.removeReminders)
     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
       showLoader.toggle()

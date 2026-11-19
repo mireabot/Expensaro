@@ -7,7 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 import Aptabase
 
 @main
@@ -16,7 +16,7 @@ struct ExpensaroApp: SwiftUI.App {
   var body: some Scene {
     WindowGroup {
       ContentView()
-        .environment(\.realmConfiguration, RealmMigrator.configuration)
+        .modelContainer(AppModelStore.container)
     }
   }
 }

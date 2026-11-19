@@ -7,7 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 import PopupView
 
 struct AddDailyTransactionView: View {
@@ -16,9 +16,8 @@ struct AddDailyTransactionView: View {
   @FocusState private var isFieldFocused: Bool
   @AppStorage("currencySign") private var currencySign = "USD"
   
-  // MARK: Realm
-  @Environment(\.realm) var realm
-  @ObservedRealmObject var dailyTransaction: DailyTransaction
+  // MARK: Storage
+  @Bindable var dailyTransaction: DailyTransaction
   
   // MARK: Variables
   @State var amountValue: String = "0.0"
@@ -97,7 +96,7 @@ struct AddDailyTransactionView: View {
 
 #Preview(body: {
   AddDailyTransactionView(dailyTransaction: DailyTransaction())
-    .environment(\.realmConfiguration, RealmMigrator.configuration)
+    .modelContainer(AppModelStore.preview)
 })
 
 // MARK: - Apperance
@@ -111,14 +110,11 @@ extension AddDailyTransactionView {
   }
 }
 
-// MARK: - Realm Functions
+// MARK: - Storage Functions
 extension AddDailyTransactionView {
   func createTransaction() {
     AnalyticsManager.shared.log(.dailyTransactionCreated(dailyTransaction.name))
-    dailyTransaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
-    try? realm.write {
-      realm.add(dailyTransaction)
-    }
+    try? dailyTransaction.create(amount: Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0)
   }
 }
 

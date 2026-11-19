@@ -10,7 +10,7 @@ import Charts
 import ExpensaroUIKit
 
 struct CategoriesBreakdownOverviewView: View {
-  @ObservedObject var service: MonthRecapService
+  let recap: MonthRecap
   @AppStorage("currencySign") private var currencySign = "USD"
   var body: some View {
     ScrollView {
@@ -26,7 +26,7 @@ struct CategoriesBreakdownOverviewView: View {
       .frame(maxWidth: .infinity, alignment: .leading)
       
       Chart {
-        ForEach(service.groupedTransactions, id: \.section) { data in
+        ForEach(recap.groupedTransactions, id: \.section) { data in
           
           BarMark(
             x: .value("", data.totalAmount),
@@ -42,7 +42,7 @@ struct CategoriesBreakdownOverviewView: View {
       .applyMargins()
       
       VStack(alignment: .leading) {
-        ForEach(service.groupedTransactions, id: \.section) { data in
+        ForEach(recap.groupedTransactions, id: \.section) { data in
           Section {
             HStack {
               Text(data.section.header)
@@ -68,5 +68,5 @@ struct CategoriesBreakdownOverviewView: View {
 }
 
 #Preview {
-  CategoriesBreakdownOverviewView(service: .init())
+  CategoriesBreakdownOverviewView(recap: MonthRecap(budgets: [], transactions: [], goalTransactions: []))
 }

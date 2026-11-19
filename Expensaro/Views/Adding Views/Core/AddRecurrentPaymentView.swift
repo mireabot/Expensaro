@@ -7,22 +7,20 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 import PopupView
 
 struct AddRecurrentPaymentView: View {
   // MARK: Essential
   @Environment(\.dismiss) var makeDismiss
   @FocusState private var isFieldFocused: Bool
-  let notificationManager: NotificationManager = NotificationManager.shared
   @AppStorage("currencySign") private var currencySign = "USD"
   
-  // MARK: Realm
-  @Environment(\.realm) var realm
-  @ObservedRealmObject var recurringPayment: RecurringTransaction
-  @ObservedRealmObject var budget: Budget
+  // MARK: Storage
+  @Bindable var recurringPayment: RecurringTransaction
+  @Bindable var budget: Budget
   var isUpdating: Bool {
-    recurringPayment.realm != nil
+    recurringPayment.modelContext != nil
   }
   
   // MARK: Variables
@@ -165,7 +163,6 @@ struct AddRecurrentPaymentView: View {
             recurringPayment.isReminder = true
             AnalyticsManager.shared.log(.createdReminder(recurringPayment.name))
             createPayment()
-            notificationManager.scheduleTriggerNotification(for: recurringPayment, withDelay: recurringPayment.reminderType.delay)
             DispatchQueue.main.async {
               showReminderAlert.toggle()
               makeDismiss()
@@ -214,7 +211,7 @@ struct AddRecurrentPaymentView: View {
 struct AddRecurrentPaymentView_Previews: PreviewProvider {
   static var previews: some View {
     AddRecurrentPaymentView(recurringPayment: RecurringTransaction(), budget: Budget())
-      .environment(\.realmConfiguration, RealmMigrator.configuration)
+      .modelContainer(AppModelStore.preview)
   }
 }
 
@@ -285,38 +282,16 @@ extension AddRecurrentPaymentView {
   }
 }
 
-// MARK: - Realm Functions
+// MARK: - Storage Functions
 extension AddRecurrentPaymentView {
   func createPayment() {
     AnalyticsManager.shared.log(.createPayment(recurringPayment.name, Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0))
-    recurringPayment.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
-    try? realm.write {
-      realm.add(recurringPayment)
-    }
-    
-    if let newBudget = budget.thaw(), let realm = newBudget.realm {
-      try? realm.write {
-        newBudget.amount -= recurringPayment.amount
-      }
-    }
+    try? recurringPayment.create(amount: Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, charging: budget)
   }
   
   func updatePayment() {
     AnalyticsManager.shared.log(.editPayment)
-    var difference: Double = 0
-    if let newTransaction = recurringPayment.thaw(), let realm = newTransaction.realm {
-      try? realm.write {
-        difference = newTransaction.amount - (Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0)
-        newTransaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
-      }
-    }
-    print(difference)
-    
-    if let newBudget = budget.thaw(), let realm = newBudget.realm {
-      try? realm.write {
-        newBudget.amount += difference
-      }
-    }
+    try? recurringPayment.update(amount: Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, in: budget)
   }
 }
 
@@ -344,18 +319,12 @@ extension AddRecurrentPaymentView {
       showError.toggle()
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       if isUpdating {
-        if let newPayment = recurringPayment.thaw(), let realm = newPayment.realm {
-          try? realm.write {
-            newPayment.dueDate = savedDate
-          }
-        }
+        recurringPayment.dueDate = savedDate
       }
       return
     } else {
       if isUpdating {
-        notificationManager.deleteNotification(for: recurringPayment)
         updatePayment()
-        notificationManager.scheduleTriggerNotification(for: recurringPayment, withDelay: recurringPayment.reminderType.delay)
         makeDismiss()
       } else {
         showReminderAlert.toggle()

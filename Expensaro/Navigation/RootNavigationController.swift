@@ -20,8 +20,8 @@ struct RootNavigationController<RootView: View>: UIViewControllerRepresentable {
   
   func makeUIViewController(context: Context) -> UINavigationController {
     let vc = CustomHostingController(rootView: rootView)
-    nav.navigationBar.isHidden = true
-    nav.navigationBar.isTranslucent = false
+    // SwiftUI screens own their navigation bar; hide UIKit's one without reserving layout space for it
+    nav.setNavigationBarHidden(true, animated: false)
     nav.addChild(vc)
     return nav
   }

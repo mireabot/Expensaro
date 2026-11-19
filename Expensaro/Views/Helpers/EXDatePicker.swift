@@ -7,13 +7,12 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
 
 struct EXDatePicker: View {
   @Binding var currentDate: Date
   @State var currentMonth: Int = 0
   
-  var recurringTransactions: Results<RecurringTransaction>
+  var recurringTransactions: [RecurringTransaction]
   var body: some View {
     VStack(spacing: 15){
       HStack(alignment: .center, spacing: 20){

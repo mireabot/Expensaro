@@ -7,18 +7,19 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 import Algorithms
 
 struct TransactionsListView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   @AppStorage("currencySign") private var currencySign = "USD"
   
-  @ObservedResults(Transaction.self, filter: NSPredicate(format: "date >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var transactions
-  @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
+  @Query(Transaction.thisMonth) private var transactions: [Transaction]
+  @Query(Budget.thisMonth) private var budget: [Budget]
   
   @State private var showAddTransaction = false
   @State private var showTransactionDetail = false
+
   var body: some View {
     NavigationView {
       ScrollView(showsIndicators: false) {
@@ -115,7 +116,7 @@ struct TransactionsListView: View {
 struct TransactionsListView_Previews: PreviewProvider {
   static var previews: some View {
     TransactionsListView()
-      .environment(\.realmConfiguration, RealmMigrator.configuration)
+      .modelContainer(AppModelStore.preview)
   }
 }
 
@@ -147,10 +148,7 @@ private extension TransactionsListView {
   
   var totalSpent: Double {
     var total: Double = 0
-    for i in transactions.where({$0.categoryName != "Added funds"}) {
-      total += i.amount
-    }
-    return total
+    return transactions.spendings.totalAmount
   }
   
   @ViewBuilder

@@ -7,7 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 import PopupView
 
 struct AddBudgetView: View {
@@ -15,9 +15,8 @@ struct AddBudgetView: View {
   @Environment(\.dismiss) var makeDismiss
   let type: ScreenType
   
-  // MARK: Realm
-  @Environment(\.realm) var realm
-  @ObservedRealmObject var budget: Budget
+  // MARK: Storage
+  @Bindable var budget: Budget
   
   // MARK: Variables
   @State private var amountValue: String = "0.0"
@@ -109,7 +108,7 @@ struct AddBudgetView: View {
 struct AddBudgetView_Previews: PreviewProvider {
   static var previews: some View {
     AddBudgetView(type: .addBudget, budget: Budget())
-      .environment(\.realmConfiguration, RealmMigrator.configuration)
+      .modelContainer(AppModelStore.preview)
   }
 }
 
@@ -153,28 +152,18 @@ extension AddBudgetView {
   }
 }
 
-// MARK: - Realm Functions
+// MARK: - Storage Functions
 extension AddBudgetView {
   /// Creates new copy of budget objects and saves in memory
   func addBudget() {
-    budget.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
-    budget.initialAmount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
     AnalyticsManager.shared.log(.createdBudget(Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, .now))
-    try? realm.write {
-      realm.add(budget)
-    }
+    try? budget.start(with: Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0)
   }
   
   /// Gets freezed copy of budget object and updates amount field
   func updateBudget() {
-    let incomeTransaction = Source.Realm.createTransaction(name: "Budget deposit", date: Date(), category: ("Added funds", "💵", .other), amount: Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, type: "Refill", note: "")
     AnalyticsManager.shared.log(.updatedBudget(Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0))
-    if let newBudget = budget.thaw(), let realm = newBudget.realm {
-      try? realm.write {
-        newBudget.amount += Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
-        realm.add(incomeTransaction)
-      }
-    }
+    try? budget.addFunds(Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0)
   }
 }
 

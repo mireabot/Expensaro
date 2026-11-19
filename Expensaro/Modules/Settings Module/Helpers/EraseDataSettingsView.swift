@@ -7,7 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 
 struct EraseDataSettingsView: View {
   // MARK: Essential
@@ -116,14 +116,11 @@ extension EraseDataSettingsView {
   }
 }
 
-// MARK: - Realm Functions
+// MARK: - Storage Functions
 extension EraseDataSettingsView {
   func deleteAllData() {
     AnalyticsManager.shared.log(.deleteAccount)
-    let realm = try! Realm()
-    try! realm.write {
-      realm.deleteAll()
-    }
+    AppModelStore.eraseAllData()
     showLoader = false
     showSheet.toggle()
     DispatchQueue.main.async {

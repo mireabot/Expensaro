@@ -7,7 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 
 struct GoalsListView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
@@ -15,56 +15,14 @@ struct GoalsListView: View {
   @AppStorage("currencySign") private var currencySign = "USD"
   
   @State private var showListAnimation = false
-  @ObservedResults(Goal.self, sortDescriptor: SortDescriptor(keyPath: \Goal.dueDate, ascending: true)) var goals
+  @Query(Goal.byDueDate) private var goals: [Goal]
   var body: some View {
     NavigationView {
-      ScrollView {
-        LazyVStack(spacing: 10, pinnedViews: [.sectionHeaders]) {
-          Section {
-            if goals.isEmpty {
-              EXEmptyStateView(type: .noGoals, isCard: false).padding(.top, 30)
-            } else {
-              ZStack {
-                if showListAnimation {
-                  VStack(spacing: 10) {
-                    ForEach(goals) { goal in
-                      Button {
-                        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(GoalDetailView(goal: goal)))
-                      } label: {
-                        EXGoalCell(goal: goal)
-                      }
-                      .buttonStyle(EXPlainButtonStyle())
-                    }
-                  }
-                } else {
-                  EXGoalCellLoading()
-                }
-              }
-              .applyMargins()
-            }
-          } header: {
-            goalOverviewHeader()
-          }
-        }
-        .onFirstAppear {
-          DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(900)) {
-            withAnimation(.smooth) {
-              showListAnimation.toggle()
-            }
-          }
-        }
-      }
-      .scrollBounceBehavior(.basedOnSize)
-      .navigationBarTitleDisplayMode(.inline)
-      .fullScreenCover(isPresented: $showAddGoalView, content: {
-        AddGoalView(goal: Goal())
-      })
-      .toolbar {
-        ToolbarItem(placement: .navigationBarLeading) {
-          Text(Appearance.shared.title)
-            .font(.system(.title2, weight: .semibold))
-        }
-      }
+      goalsScrollView()
+        .fullScreenCover(isPresented: $showAddGoalView, content: {
+          AddGoalView(goal: Goal())
+        })
+        .rootNavigationTitle(Appearance.shared.title)
     }
   }
 }
@@ -72,7 +30,7 @@ struct GoalsListView: View {
 struct GoalsListView_Previews: PreviewProvider {
   static var previews: some View {
     GoalsListView()
-      .environment(\.realmConfiguration, RealmMigrator.configuration)
+      .modelContainer(AppModelStore.preview)
   }
 }
 
@@ -87,7 +45,76 @@ extension GoalsListView {
 // MARK: - Helper Views
 extension GoalsListView {
   @ViewBuilder
+  func goalsScrollView() -> some View {
+    if #available(iOS 26.0, *) {
+      // Header sits in a safe area bar so goals scroll under it with the system edge effect
+      ScrollView {
+        goalsList()
+      }
+      .scrollBounceBehavior(.basedOnSize)
+      .safeAreaBar(edge: .top) {
+        goalOverviewContent()
+      }
+    } else {
+      ScrollView {
+        LazyVStack(spacing: 10, pinnedViews: [.sectionHeaders]) {
+          Section {
+            goalsList()
+          } header: {
+            goalOverviewHeader()
+          }
+        }
+      }
+      .scrollBounceBehavior(.basedOnSize)
+    }
+  }
+  
+  @ViewBuilder
+  func goalsList() -> some View {
+    Group {
+      if goals.isEmpty {
+        EXEmptyStateView(type: .noGoals, isCard: false).padding(.top, 30)
+      } else {
+        ZStack {
+          if showListAnimation {
+            VStack(spacing: 10) {
+              ForEach(goals) { goal in
+                Button {
+                  router.pushTo(view: EXNavigationViewBuilder.builder.makeView(GoalDetailView(goal: goal)))
+                } label: {
+                  EXGoalCell(goal: goal)
+                }
+                .buttonStyle(EXPlainButtonStyle())
+              }
+            }
+          } else {
+            EXGoalCellLoading()
+          }
+        }
+        .applyMargins()
+      }
+    }
+    .onFirstAppear {
+      DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(900)) {
+        withAnimation(.smooth) {
+          showListAnimation.toggle()
+        }
+      }
+    }
+  }
+  
+  @ViewBuilder
   func goalOverviewHeader() -> some View {
+    goalOverviewContent()
+      .background(
+        Rectangle()
+          .fill(Color.white)
+          .cornerRadius(12)
+          .shadowXS()
+      )
+  }
+  
+  func goalOverviewContent() -> some View {
     HStack {
       HStack {
         VStack(alignment: .leading, spacing: 3) {
@@ -114,12 +141,6 @@ extension GoalsListView {
       .padding(.bottom, 15)
       .applyMargins()
     }
-    .background(
-      Rectangle()
-        .fill(Color.white)
-        .cornerRadius(12)
-        .shadowXS()
-    )
   }
 }
 

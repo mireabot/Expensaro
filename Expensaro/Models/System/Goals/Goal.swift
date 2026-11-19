@@ -7,27 +7,36 @@
 
 import Foundation
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 import SwiftUI
 
-final class Goal: Object, ObjectKeyIdentifiable {
-  @Persisted(primaryKey: true) var id: ObjectId
-  @Persisted var name: String
-  @Persisted var finalAmount: Double
-  @Persisted var currentAmount: Double
-  @Persisted var dueDate: Date
-  @Persisted var dateCreated: Date
-  
-  @Persisted var transactions: RealmSwift.List<GoalTransaction> = RealmSwift.List<GoalTransaction>()
-}
+extension ExpensaroSchemaV1 {
+  @Model
+  final class Goal {
+    @Attribute(.unique) var id: String = UUID().uuidString
+    var name: String = ""
+    var finalAmount: Double = 0
+    var currentAmount: Double = 0
+    var dueDate: Date = Date()
+    var dateCreated: Date = Date()
 
-class GoalTransaction: Object, ObjectKeyIdentifiable {
-  @Persisted(primaryKey: true) var id: ObjectId
-  @Persisted var amount: Double
-  @Persisted var note: String = ""
-  @Persisted var date: Date = Date()
-  
-  @Persisted(originProperty: "transactions") var goal: LinkingObjects<Goal>
+    // The inverse is declared on this side only; GoalTransaction.goal is the plain to-one end
+    @Relationship(deleteRule: .cascade, inverse: \GoalTransaction.goal)
+    var transactions: [GoalTransaction] = []
+
+    init() {}
+  }
+
+  @Model
+  final class GoalTransaction {
+    @Attribute(.unique) var id: String = UUID().uuidString
+    var amount: Double = 0
+    var note: String = ""
+    var date: Date = Date()
+    var goal: Goal?
+
+    init() {}
+  }
 }
 
 // MARK: Computed properties for goal
@@ -74,6 +83,76 @@ extension Goal {
     }
     else {
       return .primaryGreen
+    }
+  }
+}
+
+// MARK: Goal success estimate
+/// Chance of reaching a goal on time, from the month's initial budget spread over the days left
+struct GoalSuccessEstimate {
+  let successRate: Double
+
+  init(monthlyExpensesBudget: Double, goalAmount: Double, daysToGoal: Int, daysInMonth: Int = 30) {
+    let totalBudgetForExpenses = monthlyExpensesBudget * (Double(daysToGoal) / Double(daysInMonth))
+    successRate = (totalBudgetForExpenses / goalAmount) * 100
+  }
+
+  var rateInformation: GoalSuccessRate {
+    switch successRate {
+    case 0..<35:
+      return .highRisk
+    case 35..<60:
+      return .moderateRisk
+    case let rate where rate >= 60:
+      return .noRisk
+    default:
+      return .noData
+    }
+  }
+}
+
+enum GoalSuccessRate {
+  case noRisk
+  case moderateRisk
+  case highRisk
+  case noData
+  
+  var title: String {
+    switch self {
+    case .noRisk:
+      return "No risk"
+    case .moderateRisk:
+      return "Moderate risk"
+    case .highRisk:
+      return "High risk"
+    case .noData:
+      return "N/A"
+    }
+  }
+  
+  var text: String {
+    switch self {
+    case .noRisk:
+      return "Your financials are looking healthy for this goal. It's a favorable time to get started!"
+    case .moderateRisk:
+      return "With careful budgeting and planning, initiating this goal could be feasible"
+    case .highRisk:
+      return "Starting this goal now will be challenging. It may be wise to wait until your situation improves"
+    case .noData:
+      return "N/A"
+    }
+  }
+  
+  var color: Color {
+    switch self {
+    case .noRisk:
+      return .green
+    case .moderateRisk:
+      return .yellow
+    case .highRisk:
+      return .red
+    case .noData:
+      return .black
     }
   }
 }

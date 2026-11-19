@@ -7,12 +7,11 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 import UserNotifications
 
 struct InitialPermissionView: View {
   // MARK: Essential
-  @Environment(\.realm) var realm
   let notificationManager: NotificationManager = NotificationManager.shared
   
   // MARK: Storage
@@ -111,18 +110,14 @@ struct InitialPermissionView: View {
 struct InitialPermissionView_Previews: PreviewProvider {
   static var previews: some View {
     InitialPermissionView()
-      .environment(\.realmConfiguration, RealmMigrator.configuration)
+      .modelContainer(AppModelStore.preview)
   }
 }
 
-// MARK: - Realm Functions
+// MARK: - Storage Functions
 extension InitialPermissionView {
   func writeCategories() {
-    let realm = try! Realm()
-    
-    try? realm.write({
-      realm.add(Source.DefaultData.loadedCategories)
-    })
+    DemoSeeder.seedBaseCategories()
   }
 }
 

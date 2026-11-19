@@ -7,13 +7,12 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 
 struct CategoriesSettingsView: View {
-  @Environment(\.realm) var realm
   @EnvironmentObject var router: EXNavigationViewsRouter
   
-  @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: \Category.name, ascending: true)) var categories
+  @Query(Category.byName) private var categories: [Category]
   var body: some View {
     NavigationView {
       VStack {
@@ -82,7 +81,7 @@ struct CategoriesSettingsView: View {
 struct CategoriesSettingsView_Previews: PreviewProvider {
   static var previews: some View {
     CategoriesSettingsView()
-      .environment(\.realmConfiguration, RealmMigrator.configuration)
+      .modelContainer(AppModelStore.preview)
   }
 }
 
@@ -98,9 +97,9 @@ extension CategoriesSettingsView {
   }
 }
 
-// MARK: - Realm Functions
+// MARK: - Storage Functions
 extension CategoriesSettingsView {
   func deleteCategory(category: Category) {
-    $categories.remove(category)
+    try? category.delete()
   }
 }

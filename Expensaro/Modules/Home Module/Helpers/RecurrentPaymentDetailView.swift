@@ -8,17 +8,16 @@
 import SwiftUI
 import ExpensaroUIKit
 import PopupView
-import RealmSwift
+import SwiftData
 
 struct RecurrentPaymentDetailView: View {
   // MARK: - Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
-  let notificationManager: NotificationManager = NotificationManager.shared
   @AppStorage("currencySign") private var currencySign = "USD"
   
-  // MARK: - Realm
-  @ObservedRealmObject var transaction: RecurringTransaction
-  @ObservedRealmObject var budget: Budget
+  // MARK: - Storage
+  @Bindable var transaction: RecurringTransaction
+  @Bindable var budget: Budget
   
   // MARK: - Variables
   @State private var errorType = EXToasts.none
@@ -170,7 +169,7 @@ struct RecurrentPaymentDetailView: View {
 struct RecurrentPaymentDetailView_Previews: PreviewProvider {
   static var previews: some View {
     RecurrentPaymentDetailView(transaction: Source.DefaultData.sampleRecurringPayments[0], budget: Budget())
-      .environment(\.realmConfiguration, RealmMigrator.configuration)
+      .modelContainer(AppModelStore.preview)
   }
 }
 
@@ -242,84 +241,19 @@ extension RecurrentPaymentDetailView {
   }
   
 }
-// MARK: - Realm Functions
+// MARK: - Storage Functions
 extension RecurrentPaymentDetailView {
   func deletePayment() {
     AnalyticsManager.shared.log(.deletePayment)
     showDeleteAlert.toggle()
     
-    if let newTransaction = transaction.thaw(), let realm = newTransaction.realm {
-      if let newBudget = budget.thaw(), let realm = newBudget.realm {
-        if !newTransaction.isDue {
-          try? realm.write {
-            newBudget.amount += newTransaction.amount
-          }
-        }
-      }
-      notificationManager.deleteNotification(for: newTransaction)
-      try? realm.write {
-        realm.delete(newTransaction.contributions)
-        realm.delete(newTransaction)
-      }
-    }
+    // Contributions go with the payment through the cascade delete rule
+    try? transaction.delete(refunding: budget)
     router.nav?.popViewController(animated: true)
   }
   
-  func addContribution() {
-    if let payment = transaction.thaw(), let realm = payment.realm {
-      AnalyticsManager.shared.log(.paymentRenewed(payment.name, payment.amount))
-      let contribution = Source.Realm.createPaymentContribution(amount: payment.amount, date: Date())
-      try? realm.write {
-        payment.contributions.append(contribution)
-      }
-    }
-  }
-  
   func updateNotification(with value: Bool) {
-    if let newTransaction = transaction.thaw(), let newRealm = newTransaction.realm {
-      if value {
-        notificationManager.scheduleTriggerNotification(for: newTransaction, withDelay: newTransaction.reminderType.delay)
-      }
-      else {
-        notificationManager.deleteNotification(for: newTransaction)
-      }
-      try? newRealm.write {
-        newTransaction.isReminder = value
-      }
-    }
-  }
-  
-  func renewPayment() {
-    var newDate = Date()
-    switch transaction.schedule {
-    case .everyWeek:
-      print("Now date: \(Source.Functions.showString(from: transaction.dueDate)) -> Next date \(Source.Functions.showString(from: getSampleDate(offset: 7, date: transaction.dueDate)))")
-      newDate = getSampleDate(offset: 7, date: transaction.dueDate)
-    case .everyMonth:
-      print("Now date: \(Source.Functions.showString(from: transaction.dueDate)) -> Next date \(Source.Functions.showString(from: getSampleDate(offset: 31, date: transaction.dueDate)))")
-      newDate = getSampleDate(offset: 31, date: transaction.dueDate)
-    case .every3Month:
-      print("Now date: \(Source.Functions.showString(from: transaction.dueDate)) -> Next date \(Source.Functions.showString(from: getSampleDate(offset: 90, date: transaction.dueDate)))")
-      newDate = getSampleDate(offset: 90, date: transaction.dueDate)
-    case .everyYear:
-      print("Now date: \(Source.Functions.showString(from: transaction.dueDate)) -> Next date \(Source.Functions.showString(from: getSampleDate(offset: 365, date: transaction.dueDate)))")
-      newDate = getSampleDate(offset: 365, date: transaction.dueDate)
-    }
-    // Set new due date
-    if let newPayment = transaction.thaw(), let paymentRealm = newPayment.realm {
-      try? paymentRealm.write {
-        newPayment.dueDate = newDate
-      }
-      if newPayment.isReminder {
-        notificationManager.scheduleTriggerNotification(for: newPayment, withDelay: newPayment.reminderType.delay)
-      }
-      // Update budget
-      if let newBudget = budget.thaw(), let budgetRealm = newBudget.realm {
-        try? budgetRealm.write {
-          newBudget.amount -= newPayment.amount
-        }
-      }
-    }
+    try? transaction.setReminder(value)
   }
   
   func validateRenewal() {
@@ -328,8 +262,8 @@ extension RecurrentPaymentDetailView {
       showError.toggle()
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     } else {
-      renewPayment()
-      addContribution()
+      AnalyticsManager.shared.log(.paymentRenewed(transaction.name, transaction.amount))
+      try? transaction.renew(from: budget)
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     }
   }

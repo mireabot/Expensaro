@@ -611,8 +611,8 @@ enum Source {
     }
   }
   
-  enum Realm {
-    /// Function which creates Transaction realm object
+  enum Factory {
+    /// Function which creates Transaction object
     /// - Parameters:
     ///   - name: name of Transaction
     ///   - date: date of Transaction
@@ -634,7 +634,7 @@ enum Source {
       return transaction
     }
     
-    /// Function which creates Category realm object
+    /// Function which creates Category object
     /// - Parameters:
     ///   - icon: icon of Category
     ///   - name: name of Category
@@ -651,7 +651,7 @@ enum Source {
       return category
     }
     
-    /// Fuction creates RecurringTransaction realm object
+    /// Fuction creates RecurringTransaction object
     /// - Parameters:
     ///   - name: payment name
     ///   - amount: payment amount
@@ -672,7 +672,7 @@ enum Source {
       return transaction
     }
     
-    /// Function creates Goal realm object
+    /// Function creates Goal object
     /// - Parameters:
     ///   - name: goal name
     ///   - amount: goal amount to save
@@ -725,95 +725,96 @@ enum Source {
   static let adminMode = true
     
 // MARK: - Default data for previews and creating demo profiles
+  // Computed so every access returns fresh, unmanaged models: a SwiftData model must never be inserted twice
   enum DefaultData {
     // Sample transactions for analytics
-    static let sampleTransactions: [Transaction] = [
-      Source.Realm.createTransaction(name: "Supermarket Grocery Shopping", date: randomDateInCurrentMonth(), category: ("Food", "🛒", .food), amount: 150, type: "Debit", note: "Weekly groceries including fresh produce, meats, and household items"),
-      Source.Realm.createTransaction(name: "Monthly Rent", date: randomDateInCurrentMonth(), category: ("Housing", "🏠", .other), amount: 800, type: "Debit", note: "Monthly rent for apartment"),
-      Source.Realm.createTransaction(name: "Electricity Bill", date: randomDateInCurrentMonth(), category: ("Utilities", "💡", .other), amount: 100, type: "Debit", note: "Monthly electricity bill"),
-      Source.Realm.createTransaction(name: "Water Bill", date: randomDateInCurrentMonth(), category: ("Utilities", "🚿", .other), amount: 40, type: "Debit", note: "Monthly water service"),
-      Source.Realm.createTransaction(name: "Internet Service", date: randomDateInCurrentMonth(), category: ("Utilities", "🌐", .other), amount: 60, type: "Debit", note: "High-speed internet service"),
-      Source.Realm.createTransaction(name: "Mobile Phone Bill", date: randomDateInCurrentMonth(), category: ("Telecom", "📱", .lifestyle), amount: 70, type: "Debit", note: "Family plan mobile service"),
-      Source.Realm.createTransaction(name: "Fuel for Car", date: randomDateInCurrentMonth(), category: ("Car", "⛽️", .transportation), amount: 120, type: "Debit", note: "Monthly fuel for commuting"),
-      Source.Realm.createTransaction(name: "Car Insurance", date: randomDateInCurrentMonth(), category: ("Insurance", "📄", .other), amount: 100, type: "Debit", note: "Monthly car insurance premium"),
-      Source.Realm.createTransaction(name: "Dining Out", date: randomDateInCurrentMonth(), category: ("Food", "🍽️", .food), amount: 90, type: "Debit", note: "Dinner at a restaurant with family"),
-      Source.Realm.createTransaction(name: "Gym Membership", date: randomDateInCurrentMonth(), category: ("Fitness", "🏋️", .lifestyle), amount: 50, type: "Debit", note: "Monthly gym membership fee"),
-      Source.Realm.createTransaction(name: "Streaming Service Subscription", date: randomDateInCurrentMonth(), category: ("Entertainment", "🎵", .entertainment), amount: 15, type: "Debit", note: "Monthly subscription for music and movies"),
-      Source.Realm.createTransaction(name: "Coffee Shop Visits", date: randomDateInCurrentMonth(), category: ("Take out", "☕️", .food), amount: 25, type: "Credit", note: "Weekly coffee treats"),
-      Source.Realm.createTransaction(name: "Pharmacy Essentials", date: randomDateInCurrentMonth(), category: ("Medicine", "💊", .other), amount: 30, type: "Debit", note: "Medications and health supplies"),
-      Source.Realm.createTransaction(name: "Pet Food and Supplies", date: randomDateInCurrentMonth(), category: ("Pets", "🐾", .other), amount: 60, type: "Debit", note: "Monthly supplies for pet care"),
-      Source.Realm.createTransaction(name: "Online Shopping for Clothing", date: randomDateInCurrentMonth(), category: ("Clothing", "👕", .lifestyle), amount: 120, type: "Credit", note: "Seasonal wardrobe update"),
-    ]
+    static var sampleTransactions: [Transaction] { [
+      Source.Factory.createTransaction(name: "Supermarket Grocery Shopping", date: randomDateInCurrentMonth(), category: ("Food", "🛒", .food), amount: 150, type: "Debit", note: "Weekly groceries including fresh produce, meats, and household items"),
+      Source.Factory.createTransaction(name: "Monthly Rent", date: randomDateInCurrentMonth(), category: ("Housing", "🏠", .other), amount: 800, type: "Debit", note: "Monthly rent for apartment"),
+      Source.Factory.createTransaction(name: "Electricity Bill", date: randomDateInCurrentMonth(), category: ("Utilities", "💡", .other), amount: 100, type: "Debit", note: "Monthly electricity bill"),
+      Source.Factory.createTransaction(name: "Water Bill", date: randomDateInCurrentMonth(), category: ("Utilities", "🚿", .other), amount: 40, type: "Debit", note: "Monthly water service"),
+      Source.Factory.createTransaction(name: "Internet Service", date: randomDateInCurrentMonth(), category: ("Utilities", "🌐", .other), amount: 60, type: "Debit", note: "High-speed internet service"),
+      Source.Factory.createTransaction(name: "Mobile Phone Bill", date: randomDateInCurrentMonth(), category: ("Telecom", "📱", .lifestyle), amount: 70, type: "Debit", note: "Family plan mobile service"),
+      Source.Factory.createTransaction(name: "Fuel for Car", date: randomDateInCurrentMonth(), category: ("Car", "⛽️", .transportation), amount: 120, type: "Debit", note: "Monthly fuel for commuting"),
+      Source.Factory.createTransaction(name: "Car Insurance", date: randomDateInCurrentMonth(), category: ("Insurance", "📄", .other), amount: 100, type: "Debit", note: "Monthly car insurance premium"),
+      Source.Factory.createTransaction(name: "Dining Out", date: randomDateInCurrentMonth(), category: ("Food", "🍽️", .food), amount: 90, type: "Debit", note: "Dinner at a restaurant with family"),
+      Source.Factory.createTransaction(name: "Gym Membership", date: randomDateInCurrentMonth(), category: ("Fitness", "🏋️", .lifestyle), amount: 50, type: "Debit", note: "Monthly gym membership fee"),
+      Source.Factory.createTransaction(name: "Streaming Service Subscription", date: randomDateInCurrentMonth(), category: ("Entertainment", "🎵", .entertainment), amount: 15, type: "Debit", note: "Monthly subscription for music and movies"),
+      Source.Factory.createTransaction(name: "Coffee Shop Visits", date: randomDateInCurrentMonth(), category: ("Take out", "☕️", .food), amount: 25, type: "Credit", note: "Weekly coffee treats"),
+      Source.Factory.createTransaction(name: "Pharmacy Essentials", date: randomDateInCurrentMonth(), category: ("Medicine", "💊", .other), amount: 30, type: "Debit", note: "Medications and health supplies"),
+      Source.Factory.createTransaction(name: "Pet Food and Supplies", date: randomDateInCurrentMonth(), category: ("Pets", "🐾", .other), amount: 60, type: "Debit", note: "Monthly supplies for pet care"),
+      Source.Factory.createTransaction(name: "Online Shopping for Clothing", date: randomDateInCurrentMonth(), category: ("Clothing", "👕", .lifestyle), amount: 120, type: "Credit", note: "Seasonal wardrobe update"),
+    ] }
     // Sample transactions for selected analytics
-    static let selectedTransactions: [Transaction] = [
-      Source.Realm.createTransaction(name: "Dinner and Show", date: .now, category: ("","",.other), amount: 120, type: "", note: ""),
-      Source.Realm.createTransaction(name: "Concert Extravaganza", date: .now, category: ("","",.other), amount: 80, type: "", note: ""),
-      Source.Realm.createTransaction(name: "Amusement Park", date: .now, category: ("","",.other), amount: 75, type: "", note: ""),
-      Source.Realm.createTransaction(name: "Movie Night", date: .now, category: ("","",.other), amount: 45, type: "", note: ""),
-      Source.Realm.createTransaction(name: "Gaming Galore", date: .now, category: ("","",.other), amount: 60, type: "", note: ""),
-      Source.Realm.createTransaction(name: "Escape Room", date: .now, category: ("","",.other), amount: 30, type: "", note: ""),
-    ]
+    static var selectedTransactions: [Transaction] { [
+      Source.Factory.createTransaction(name: "Dinner and Show", date: .now, category: ("","",.other), amount: 120, type: "", note: ""),
+      Source.Factory.createTransaction(name: "Concert Extravaganza", date: .now, category: ("","",.other), amount: 80, type: "", note: ""),
+      Source.Factory.createTransaction(name: "Amusement Park", date: .now, category: ("","",.other), amount: 75, type: "", note: ""),
+      Source.Factory.createTransaction(name: "Movie Night", date: .now, category: ("","",.other), amount: 45, type: "", note: ""),
+      Source.Factory.createTransaction(name: "Gaming Galore", date: .now, category: ("","",.other), amount: 60, type: "", note: ""),
+      Source.Factory.createTransaction(name: "Escape Room", date: .now, category: ("","",.other), amount: 30, type: "", note: ""),
+    ] }
     // Sample transactions to add in account
-    static let loadedTransactions: [Transaction] = [
-      Source.Realm.createTransaction(name: "Snack Vending", date: .now, category: ("Food", "🥡", .food), amount: 10, type: "Debit", note: ""),
-      Source.Realm.createTransaction(name: "Bookstore Buy", date: .now, category: ("Books", "📕", .lifestyle), amount: 78.66, type: "Credit", note: ""),
-      Source.Realm.createTransaction(name: "Gas Station", date: .now, category: ("Car", "🚗", .transportation), amount: 56, type: "Debit", note: ""),
-      Source.Realm.createTransaction(name: "Coffee", date: .now, category: ("Take out", "☕️", .food), amount: 7.88, type: "Credit", note: ""),
-      Source.Realm.createTransaction(name: "Movie Ticket", date: .now, category: ("Tickets", "🎫", .entertainment), amount: 18, type: "Debit", note: ""),
-      Source.Realm.createTransaction(name: "Lunch Order", date: .now, category: ("Food", "🥡", .food), amount: 17, type: "Credit", note: ""),
-      Source.Realm.createTransaction(name: "Parking Fee", date: .now, category: ("Car", "🚗", .transportation), amount: 99, type: "Credit", note: ""),
-      Source.Realm.createTransaction(name: "Pharmacy", date: .now, category: ("Medicine", "🩹", .other), amount: 9.99, type: "Debit", note: ""),
-      Source.Realm.createTransaction(name: "Taxi Ride", date: .now, category: ("Taxi", "🚕", .lifestyle), amount: 55, type: "Credit", note: "")
-    ]
+    static var loadedTransactions: [Transaction] { [
+      Source.Factory.createTransaction(name: "Snack Vending", date: .now, category: ("Food", "🥡", .food), amount: 10, type: "Debit", note: ""),
+      Source.Factory.createTransaction(name: "Bookstore Buy", date: .now, category: ("Books", "📕", .lifestyle), amount: 78.66, type: "Credit", note: ""),
+      Source.Factory.createTransaction(name: "Gas Station", date: .now, category: ("Car", "🚗", .transportation), amount: 56, type: "Debit", note: ""),
+      Source.Factory.createTransaction(name: "Coffee", date: .now, category: ("Take out", "☕️", .food), amount: 7.88, type: "Credit", note: ""),
+      Source.Factory.createTransaction(name: "Movie Ticket", date: .now, category: ("Tickets", "🎫", .entertainment), amount: 18, type: "Debit", note: ""),
+      Source.Factory.createTransaction(name: "Lunch Order", date: .now, category: ("Food", "🥡", .food), amount: 17, type: "Credit", note: ""),
+      Source.Factory.createTransaction(name: "Parking Fee", date: .now, category: ("Car", "🚗", .transportation), amount: 99, type: "Credit", note: ""),
+      Source.Factory.createTransaction(name: "Pharmacy", date: .now, category: ("Medicine", "🩹", .other), amount: 9.99, type: "Debit", note: ""),
+      Source.Factory.createTransaction(name: "Taxi Ride", date: .now, category: ("Taxi", "🚕", .lifestyle), amount: 55, type: "Credit", note: "")
+    ] }
     // Sample transactions to add in account
-    static let sampleTransactionsWithCategory: [Transaction] = [
-      Source.Realm.createTransaction(name: "Uber to Max", date: .now, category: ("Taxi", "🚕", .transportation), amount: 10, type: "Debit", note: ""),
-      Source.Realm.createTransaction(name: "Lyft to work", date: .now, category: ("Taxi", "🚕", .transportation), amount: 78.66, type: "Credit", note: ""),
-      Source.Realm.createTransaction(name: "Taxi after bar", date: .now, category: ("Taxi", "🚕", .transportation), amount: 56, type: "Debit", note: ""),
-      Source.Realm.createTransaction(name: "Alex ride cut", date: .now, category: ("Taxi", "🚕", .transportation), amount: 7.88, type: "Credit", note: ""),
-      Source.Realm.createTransaction(name: "Airport trip", date: .now, category: ("Taxi", "🚕", .transportation), amount: 18, type: "Debit", note: ""),
-    ]
+    static var sampleTransactionsWithCategory: [Transaction] { [
+      Source.Factory.createTransaction(name: "Uber to Max", date: .now, category: ("Taxi", "🚕", .transportation), amount: 10, type: "Debit", note: ""),
+      Source.Factory.createTransaction(name: "Lyft to work", date: .now, category: ("Taxi", "🚕", .transportation), amount: 78.66, type: "Credit", note: ""),
+      Source.Factory.createTransaction(name: "Taxi after bar", date: .now, category: ("Taxi", "🚕", .transportation), amount: 56, type: "Debit", note: ""),
+      Source.Factory.createTransaction(name: "Alex ride cut", date: .now, category: ("Taxi", "🚕", .transportation), amount: 7.88, type: "Credit", note: ""),
+      Source.Factory.createTransaction(name: "Airport trip", date: .now, category: ("Taxi", "🚕", .transportation), amount: 18, type: "Debit", note: ""),
+    ] }
     // Default categories which loading when setup
-    static let loadedCategories: [Category] = [
-      Source.Realm.createCategory(icon: "🔄", name: "Subscription", tag: .base, section: .entertainment),
-      Source.Realm.createCategory(icon: "🎫", name: "Entertainment", tag: .base, section: .entertainment),
-      Source.Realm.createCategory(icon: "🎨", name: "Hobby", tag: .base, section: .entertainment),
+    static var loadedCategories: [Category] { [
+      Source.Factory.createCategory(icon: "🔄", name: "Subscription", tag: .base, section: .entertainment),
+      Source.Factory.createCategory(icon: "🎫", name: "Entertainment", tag: .base, section: .entertainment),
+      Source.Factory.createCategory(icon: "🎨", name: "Hobby", tag: .base, section: .entertainment),
       
-      Source.Realm.createCategory(icon: "🥡", name: "Going out", tag: .base, section: .food),
-      Source.Realm.createCategory(icon: "🛒", name: "Groceries", tag: .base, section: .food),
+      Source.Factory.createCategory(icon: "🥡", name: "Going out", tag: .base, section: .food),
+      Source.Factory.createCategory(icon: "🛒", name: "Groceries", tag: .base, section: .food),
       
-      Source.Realm.createCategory(icon: "🧾", name: "Bills", tag: .base, section: .housing),
-      Source.Realm.createCategory(icon: "🏠", name: "Utilities", tag: .base, section: .housing),
+      Source.Factory.createCategory(icon: "🧾", name: "Bills", tag: .base, section: .housing),
+      Source.Factory.createCategory(icon: "🏠", name: "Utilities", tag: .base, section: .housing),
       
-      Source.Realm.createCategory(icon: "🚈", name: "Public transport", tag: .base, section: .transportation),
-      Source.Realm.createCategory(icon: "🚘", name: "Car", tag: .base, section: .transportation),
+      Source.Factory.createCategory(icon: "🚈", name: "Public transport", tag: .base, section: .transportation),
+      Source.Factory.createCategory(icon: "🚘", name: "Car", tag: .base, section: .transportation),
       
-      Source.Realm.createCategory(icon: "📚", name: "Education", tag: .base, section: .lifestyle),
-      Source.Realm.createCategory(icon: "🛩️", name: "Travel", tag: .base, section: .lifestyle),
-      Source.Realm.createCategory(icon: "🛍️", name: "Shopping", tag: .base, section: .lifestyle),
-      Source.Realm.createCategory(icon: "📦", name: "Delivery", tag: .base, section: .lifestyle),
-      Source.Realm.createCategory(icon: "🎮", name: "Gaming", tag: .base, section: .lifestyle),
-      Source.Realm.createCategory(icon: "🐾", name: "Animals", tag: .base, section: .lifestyle),
+      Source.Factory.createCategory(icon: "📚", name: "Education", tag: .base, section: .lifestyle),
+      Source.Factory.createCategory(icon: "🛩️", name: "Travel", tag: .base, section: .lifestyle),
+      Source.Factory.createCategory(icon: "🛍️", name: "Shopping", tag: .base, section: .lifestyle),
+      Source.Factory.createCategory(icon: "📦", name: "Delivery", tag: .base, section: .lifestyle),
+      Source.Factory.createCategory(icon: "🎮", name: "Gaming", tag: .base, section: .lifestyle),
+      Source.Factory.createCategory(icon: "🐾", name: "Animals", tag: .base, section: .lifestyle),
       
-      Source.Realm.createCategory(icon: "👕", name: "Clothes", tag: .base, section: .other),
-      Source.Realm.createCategory(icon: "📔", name: "Other", tag: .base, section: .other),
-      Source.Realm.createCategory(icon: "🩹", name: "Healthcare", tag: .base, section: .other),
-    ]
+      Source.Factory.createCategory(icon: "👕", name: "Clothes", tag: .base, section: .other),
+      Source.Factory.createCategory(icon: "📔", name: "Other", tag: .base, section: .other),
+      Source.Factory.createCategory(icon: "🩹", name: "Healthcare", tag: .base, section: .other),
+    ] }
     // Sample recurring payments
-    static let sampleRecurringPayments: [RecurringTransaction] = [
-      Source.Realm.createRecurringPayment(name: "Netflix", amount: 12.99, dueDate: Calendar.current.date(byAdding: .day, value: 7, to: Date()) ?? Date(), type: "Debit", category: ("Subscription", "🔄"), isReminder: false),
-      Source.Realm.createRecurringPayment(name: "Gym Membership", amount: 130, dueDate: Date(), type: "Credit", category: ("Subscription", "🔄"), isReminder: true)
-    ]
+    static var sampleRecurringPayments: [RecurringTransaction] { [
+      Source.Factory.createRecurringPayment(name: "Netflix", amount: 12.99, dueDate: Calendar.current.date(byAdding: .day, value: 7, to: Date()) ?? Date(), type: "Debit", category: ("Subscription", "🔄"), isReminder: false),
+      Source.Factory.createRecurringPayment(name: "Gym Membership", amount: 130, dueDate: Date(), type: "Credit", category: ("Subscription", "🔄"), isReminder: true)
+    ] }
     // Sample budget
-    static let sampleBudget: Budget = Source.Realm.createBudget(amount: 1200, date: Date(), initialAmount: 3000)
+    static var sampleBudget: Budget { Source.Factory.createBudget(amount: 1200, date: Date(), initialAmount: 3000) }
     // Sample past budget
-    static let samplePreviousBudget: Budget = Source.Realm.createBudget(amount: 3200, date: randomDateInPreviousMonth(), initialAmount: 5300)
+    static var samplePreviousBudget: Budget { Source.Factory.createBudget(amount: 3200, date: randomDateInPreviousMonth(), initialAmount: 5300) }
     // Sample goals
-    static let sampleGoals: [Goal] = [
-      Source.Realm.createGoal(name: "Vacation Fund", amount: 1000, currentAmount: 500, dueDate: Date().addingTimeInterval(60 * 60 * 24 * 90)),
-      Source.Realm.createGoal(name: "New Laptop", amount: 1500, currentAmount: 1500, dueDate: Date().addingTimeInterval(60 * 60 * 24 * 90)),
-      Source.Realm.createGoal(name: "Failed Goal", amount: 1000, currentAmount: 100, dueDate: Date().addingTimeInterval(-60 * 60 * 24 * 30)),
-    ]
+    static var sampleGoals: [Goal] { [
+      Source.Factory.createGoal(name: "Vacation Fund", amount: 1000, currentAmount: 500, dueDate: Date().addingTimeInterval(60 * 60 * 24 * 90)),
+      Source.Factory.createGoal(name: "New Laptop", amount: 1500, currentAmount: 1500, dueDate: Date().addingTimeInterval(60 * 60 * 24 * 90)),
+      Source.Factory.createGoal(name: "Failed Goal", amount: 1000, currentAmount: 100, dueDate: Date().addingTimeInterval(-60 * 60 * 24 * 30)),
+    ] }
   }
 }
 

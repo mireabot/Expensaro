@@ -7,7 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 import PopupView
 
 struct AddTransactionView: View {
@@ -16,12 +16,11 @@ struct AddTransactionView: View {
   @FocusState private var isFieldFocused: Bool
   @AppStorage("currencySign") private var currencySign = "USD"
   
-  // MARK: Realm
-  @Environment(\.realm) var realm
-  @ObservedRealmObject var transaction: Transaction
-  @ObservedRealmObject var budget: Budget
+  // MARK: Storage
+  @Bindable var transaction: Transaction
+  @Bindable var budget: Budget
   var isUpdating: Bool {
-    transaction.realm != nil
+    transaction.modelContext != nil
   }
   
   // MARK: Variables
@@ -125,7 +124,7 @@ struct AddTransactionView: View {
 
 #Preview(body: {
   AddTransactionView(transaction: Transaction(), budget: Budget())
-    .environment(\.realmConfiguration, RealmMigrator.configuration)
+    .modelContainer(AppModelStore.preview)
 })
 
 // MARK: - Apperance
@@ -143,38 +142,17 @@ extension AddTransactionView {
   }
 }
 
-// MARK: - Realm Functions
+// MARK: - Storage Functions
 extension AddTransactionView {
   func createTransaction() {
     AnalyticsManager.shared.log(.createTransaction(transaction.name, Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, transaction.categoryName))
     transaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
-    try? realm.write {
-      realm.add(transaction)
-    }
-    
-    if let newBudget = budget.thaw(), let realm = newBudget.realm {
-      try? realm.write {
-        newBudget.amount -= transaction.amount
-      }
-    }
+    try? transaction.spend(from: budget)
   }
   
   func updateTransaction() {
     AnalyticsManager.shared.log(.editTransaction)
-    var difference: Double = 0
-    if let newTransaction = transaction.thaw(), let realm = newTransaction.realm {
-      try? realm.write {
-        difference = newTransaction.amount - (Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0)
-        newTransaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
-      }
-    }
-    print(difference)
-    
-    if let newBudget = budget.thaw(), let realm = newBudget.realm {
-      try? realm.write {
-        newBudget.amount += difference
-      }
-    }
+    try? transaction.changeAmount(to: Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, in: budget)
   }
 }
 

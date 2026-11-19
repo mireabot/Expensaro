@@ -8,14 +8,13 @@
 import SwiftUI
 import ExpensaroUIKit
 import Charts
-import RealmSwift
 
 struct MonthRecapOverviewView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   @AppStorage("currencySign") private var currencySign = "USD"
   
-  @ObservedObject var service: MonthRecapService
+  let recap: MonthRecap
   // MARK: Presentation
   @State private var showCategoriesBreakdown = false
   @State private var showFeedback = false
@@ -41,7 +40,7 @@ struct MonthRecapOverviewView: View {
         ContactSettingsView(topic: "Month Recap", isCalled: true)
       })
       .sheet(isPresented: $showCategoriesBreakdown, content: {
-        CategoriesBreakdownOverviewView(service: service)
+        CategoriesBreakdownOverviewView(recap: recap)
           .presentationDetents([.fraction(0.95)])
           .presentationDragIndicator(.visible)
       })
@@ -92,7 +91,7 @@ extension MonthRecapOverviewView {
       Text("Your month recap for")
         .font(.headlineRegular)
         .foregroundColor(.darkGrey)
-      Text(service.recapMonth)
+      Text(recap.recapMonth)
         .font(.largeTitleBold)
     }
     .frame(maxWidth: .infinity, alignment: .leading)
@@ -109,7 +108,7 @@ extension MonthRecapOverviewView {
       }
       EXBaseCard {
         VStack(alignment: .leading) {
-          Chart(service.budgetSet) {
+          Chart(recap.budgetSet) {
             BarMark(x: .value("", $0.amount),
                     y: .value("", $0.tag),
                     
@@ -124,7 +123,7 @@ extension MonthRecapOverviewView {
           .chartLegend(.hidden)
           
           VStack(alignment: .leading) {
-            ForEach(service.budgetSet) { data in
+            ForEach(recap.budgetSet) { data in
               HStack {
                 HStack(spacing: 5) {
                   RoundedRectangle(cornerRadius: 2)
@@ -144,7 +143,7 @@ extension MonthRecapOverviewView {
       }
       EXBaseCard {
         VStack(alignment: .leading, spacing: 3) {
-          Text("\(service.budgetData.3.formattedAsCurrency(with: currencySign))")
+          Text("\(recap.budgetData.3.formattedAsCurrency(with: currencySign))")
             .font(.headlineBold)
           Text("Unused Budget")
             .font(.footnoteRegular)
@@ -170,14 +169,14 @@ extension MonthRecapOverviewView {
             .foregroundColor(.primaryGreen)
             .font(.footnoteMedium)
         })
-        .disabled(service.groupedTransactions.isEmpty)
-        .opacity(service.groupedTransactions.isEmpty ? 0 : 1)
+        .disabled(recap.groupedTransactions.isEmpty)
+        .opacity(recap.groupedTransactions.isEmpty ? 0 : 1)
       }
-      if !service.groupedTransactions.isEmpty {
+      if !recap.groupedTransactions.isEmpty {
         EXBaseCard {
           VStack(alignment: .leading) {
             Chart {
-              ForEach(service.groupedTransactions, id: \.section) { data in
+              ForEach(recap.groupedTransactions, id: \.section) { data in
                 
                 BarMark(
                   x: .value("", data.totalAmount),
@@ -193,7 +192,7 @@ extension MonthRecapOverviewView {
             .frame(maxWidth: .infinity)
             ScrollView(.horizontal, showsIndicators: false) {
               HStack(spacing: 10) {
-                ForEach(service.groupedTransactions, id: \.section) { data in
+                ForEach(recap.groupedTransactions, id: \.section) { data in
                   HStack(spacing: 3) {
                     RoundedRectangle(cornerRadius: 2)
                       .fill(data.section.progressColor)
@@ -223,12 +222,12 @@ extension MonthRecapOverviewView {
           .foregroundColor(.black)
         Spacer()
       }
-      if service.goalTotalContribution != 0 {
+      if recap.goalTotalContribution != 0 {
         EXBaseCard {
           VStack {
             HStack {
               VStack(alignment: .leading, spacing: 3, content: {
-                Text("\(service.goalTotalContribution.formattedAsCurrencySolid(with: currencySign))")
+                Text("\(recap.goalTotalContribution.formattedAsCurrencySolid(with: currencySign))")
                   .font(.title3Bold)
                 Text("You contributed towards goals")
                   .font(.footnoteRegular)
@@ -240,7 +239,7 @@ extension MonthRecapOverviewView {
             }
             Divider().padding(.vertical, 5)
             VStack(spacing: 5) {
-              ForEach(service.goalContributionBreakdown) { goalData in
+              ForEach(recap.goalContributionBreakdown) { goalData in
                 HStack {
                   Text(goalData.name)
                     .font(.footnote)
@@ -260,6 +259,5 @@ extension MonthRecapOverviewView {
 }
 
 #Preview {
-  MonthRecapOverviewView(service: .init())
-    .environment(\.realmConfiguration, RealmMigrator.configuration)
+  MonthRecapOverviewView(recap: MonthRecap(budgets: [], transactions: [], goalTransactions: []))
 }

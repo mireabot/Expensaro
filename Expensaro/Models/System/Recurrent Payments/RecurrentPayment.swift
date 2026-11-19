@@ -6,33 +6,52 @@
 //
 
 import SwiftUI
-import RealmSwift
+import SwiftData
 
-final class RecurringTransaction: Object, ObjectKeyIdentifiable {
-  @Persisted(primaryKey: true) var id: ObjectId
-  @Persisted var name: String
-  @Persisted var amount: Double
-  @Persisted var dueDate: Date
-  @Persisted var type: String
-  @Persisted var categoryName: String = "Other"
-  @Persisted var categoryIcon: String = "📔"
-  @Persisted var schedule: RecurringSchedule = RecurringSchedule.everyWeek
-  @Persisted var reminderType: ReminderType = .day
-  @Persisted var note: String = ""
-  @Persisted var isReminder: Bool = false
-  
-  @Persisted var contributions: RealmSwift.List<PaymentContributions> = RealmSwift.List<PaymentContributions>()
+extension ExpensaroSchemaV1 {
+  @Model
+  final class RecurringTransaction {
+    // LocalNotificationsManager builds reminder identifiers from this string
+    @Attribute(.unique) var id: String = UUID().uuidString
+    var name: String = ""
+    var amount: Double = 0
+    var dueDate: Date = Date()
+    var type: String = ""
+    var categoryName: String = "Other"
+    var categoryIcon: String = "📔"
+    var scheduleRaw: String = RecurringSchedule.everyWeek.rawValue
+    var reminderTypeRaw: String = ReminderType.day.rawValue
+    var note: String = ""
+    var isReminder: Bool = false
+
+    @Relationship(deleteRule: .cascade, inverse: \PaymentContributions.payment)
+    var contributions: [PaymentContributions] = []
+
+    init() {}
+
+    var schedule: RecurringSchedule {
+      get { RecurringSchedule(rawValue: scheduleRaw) ?? .everyWeek }
+      set { scheduleRaw = newValue.rawValue }
+    }
+
+    var reminderType: ReminderType {
+      get { ReminderType(rawValue: reminderTypeRaw) ?? .day }
+      set { reminderTypeRaw = newValue.rawValue }
+    }
+  }
+
+  @Model
+  final class PaymentContributions {
+    @Attribute(.unique) var id: String = UUID().uuidString
+    var amount: Double = 0
+    var date: Date = Date()
+    var payment: RecurringTransaction?
+
+    init() {}
+  }
 }
 
-class PaymentContributions: Object, ObjectKeyIdentifiable {
-  @Persisted(primaryKey: true) var id: ObjectId
-  @Persisted var amount: Double
-  @Persisted var date: Date = Date()
-  
-  @Persisted(originProperty: "contributions") var payment: LinkingObjects<RecurringTransaction>
-}
-
-enum RecurringSchedule: String, CaseIterable, PersistableEnum {
+enum RecurringSchedule: String, CaseIterable {
   case everyWeek
   case everyMonth
   case every3Month
@@ -52,7 +71,7 @@ enum RecurringSchedule: String, CaseIterable, PersistableEnum {
   }
 }
 
-enum ReminderType: String, PersistableEnum {
+enum ReminderType: String, CaseIterable {
   case day
   case week
   
