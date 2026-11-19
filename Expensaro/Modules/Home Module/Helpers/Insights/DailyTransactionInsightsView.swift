@@ -9,15 +9,17 @@ import SwiftUI
 import PopupView
 import ExpensaroUIKit
 import Charts
+import SwiftData
 
 struct DailyTransactionInsightsView: View {
   @State private var showAnalyticsDemo = false
-  @StateObject var manager = DailyTransactionsAnalyticsManager()
+  @Query(Transaction.dailyThisWeek) private var dailyTransactions: [Transaction]
   
   @State private var showFeedback = false
   var body: some View {
     Group {
-      if manager.isLocked {
+      // At least 4 daily transactions this week before the chart unlocks
+      if dailyTransactions.count < 4 {
         Button(action: {
           showAnalyticsDemo.toggle()
         }, label: {
@@ -45,7 +47,7 @@ struct DailyTransactionInsightsView: View {
                   .foregroundStyle(.black)
               }
             }
-            Chart(manager.groupedTransactions) { chartData in
+            Chart(dailyTransactions.weekdayTotals) { chartData in
               BarMark(x: .value("Day", chartData.weekday), y: .value("$", chartData.totalAmount))
                 .foregroundStyle(Color.primaryGreen)
                 .cornerRadius(5)
@@ -103,4 +105,5 @@ struct DailyTransactionInsightsView: View {
 
 #Preview {
   DailyTransactionInsightsView()
+    .modelContainer(AppModelStore.preview)
 }

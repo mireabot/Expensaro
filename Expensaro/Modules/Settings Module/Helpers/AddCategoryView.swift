@@ -7,19 +7,18 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 import UIKit
 
 struct AddCategoryView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
-  @Environment(\.realm) var realm
   @Environment(\.dismiss) var makeDismiss
   @FocusState var isFocused: Bool
   var isSheet: Bool
   
-  // MARK: Realm
-  @ObservedRealmObject var category: Category
+  // MARK: Storage
+  @Bindable var category: Category
   
   // MARK: Variables
   @State private var sheetHeight: CGFloat = .zero
@@ -135,7 +134,7 @@ struct AddCategoryView: View {
 struct AddCategory_Previews: PreviewProvider {
   static var previews: some View {
     AddCategoryView(isSheet: false, category: Category())
-      .environment(\.realmConfiguration, RealmMigrator.configuration)
+      .modelContainer(AppModelStore.preview)
   }
 }
 
@@ -159,13 +158,11 @@ extension AddCategoryView {
   }
 }
 
-// MARK: - Realm Functions
+// MARK: - Storage Functions
 extension AddCategoryView {
   func saveCategory() {
     AnalyticsManager.shared.log(.createCategory(category.name, category.section.header))
     category.tag = .custom
-    try? realm.write {
-      realm.add(category)
-    }
+    try? category.addIfMissing()
   }
 }

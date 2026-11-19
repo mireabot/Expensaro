@@ -7,7 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 
 struct RecurrentPaymentsListView: View {
   // MARK: Essential
@@ -19,9 +19,9 @@ struct RecurrentPaymentsListView: View {
   @State private var showAddPayment = false
   @State private var showPaymentDetail = false
   
-  // MARK: Realm
-  @ObservedResults(RecurringTransaction.self) var recurringTransactions
-  @ObservedRealmObject var budget: Budget
+  // MARK: Storage
+  @Query(RecurringTransaction.byDueDate) private var recurringTransactions: [RecurringTransaction]
+  @Bindable var budget: Budget
   var body: some View {
     NavigationView {
       ScrollView {
@@ -92,7 +92,7 @@ struct RecurrentPaymentsListView: View {
 struct RecurrentPaymentsListView_Previews: PreviewProvider {
   static var previews: some View {
     RecurrentPaymentsListView(budget: Budget())
-      .environment(\.realmConfiguration, RealmMigrator.configuration)
+      .modelContainer(AppModelStore.preview)
   }
 }
 

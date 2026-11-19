@@ -7,18 +7,27 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
 import PopupView
+import SwiftData
 
 struct TransactionInsightsView: View {
   @State private var showAnalyticsDemo = false
-  @ObservedObject var service : SelectedCategoryAnalyticsManager
+  @Query private var transactions: [Transaction]
   @AppStorage("currencySign") private var currencySign = "USD"
   
   @State private var showFeedback = false
+  
+  init(categoryName: String) {
+    _transactions = Query(Transaction.inCategoryThisMonth(categoryName))
+  }
+  
+  private var isLocked: Bool {
+    transactions.count < 5
+  }
+  
   var body: some View {
     Group {
-      if service.isLocked {
+      if isLocked {
         Button(action: {
           showAnalyticsDemo.toggle()
         }, label: {
@@ -31,7 +40,7 @@ struct TransactionInsightsView: View {
           VStack(alignment: .leading) {
             HStack(alignment: .firstTextBaseline) {
               VStack(alignment: .leading, spacing: 0) {
-                Text("\(service.averageSpent.formattedAsCurrency(with: currencySign))")
+                Text("\(transactions.averageAmount.formattedAsCurrency(with: currencySign))")
                   .font(.title3Bold)
                   .foregroundColor(.black)
                 Text("Avg. transaction amount")
@@ -55,7 +64,7 @@ struct TransactionInsightsView: View {
                 .font(.footnoteMedium)
                 .foregroundColor(.black)
               VStack(spacing: 10) {
-                ForEach(service.transactionsList.prefix(3), id: \.name) { transaction in
+                ForEach(transactions.prefix(3), id: \.name) { transaction in
                   HStack(alignment: .center) {
                     Text(transaction.name)
                       .font(.footnoteRegular)
@@ -79,9 +88,6 @@ struct TransactionInsightsView: View {
           .frame(maxWidth: .infinity, alignment: .leading)
         }
       }
-    }
-    .onFirstAppear {
-      service.calculateAverage()
     }
     .fullScreenCover(isPresented: $showFeedback, content: {
       ContactSettingsView(topic: "Transaction Insights", isCalled: true)
@@ -117,6 +123,7 @@ struct TransactionInsightsView: View {
 }
 
 #Preview {
-  TransactionInsightsView(service: .init(selectedCategory: "Shopping")).applyMargins()
+  TransactionInsightsView(categoryName: "Shopping").applyMargins()
+    .modelContainer(AppModelStore.preview)
 }
 

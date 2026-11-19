@@ -8,6 +8,7 @@
 import SwiftUI
 import ExpensaroUIKit
 import PopupView
+import SwiftData
 
 struct OverviewView: View {
   // MARK: Essential
@@ -16,8 +17,13 @@ struct OverviewView: View {
   
   // MARK: Variables
   @State private var sheetHeight: CGFloat = .zero
-  @StateObject var topCategoryService = TopCategoryManager.init()
-  @StateObject var monthRecapService = MonthRecapService.init()
+  
+  // MARK: Storage
+  @Query(Transaction.thisMonth) private var transactions: [Transaction]
+  @Query(Budget.thisMonth) private var budget: [Budget]
+  @Query(Transaction.lastMonth) private var lastMonthTransactions: [Transaction]
+  @Query(Budget.lastMonth) private var lastMonthBudget: [Budget]
+  @Query(GoalTransaction.lastMonth) private var lastMonthGoalTransactions: [GoalTransaction]
   
   // MARK: Presentation
   @State private var showSpendingsInfoSheet = false
@@ -33,9 +39,6 @@ struct OverviewView: View {
         }
         .padding(.top, 16)
       }
-      .onFirstAppear {
-        topCategoryService.groupAndFindMaxAmountCategory()
-      }
       .popup(isPresented: $showTopCategoryInfoSheet) {
         EXBottomInfoView(config: (Source.Strings.BottomPreviewType.topCategory.title,
                                   Source.Strings.BottomPreviewType.topCategory.text,
@@ -46,7 +49,7 @@ struct OverviewView: View {
             showTopCategoryInfoSheet.toggle()
           }
           AnalyticsManager.shared.log(.openTopCategoryPreview)
-          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(service: topCategoryService)))
+          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(summary: topCategory)))
         }, bottomView: {
           Source.Images.Previews.topCategoryPreview
             .frame(maxWidth: .infinity)
@@ -76,7 +79,7 @@ struct OverviewView: View {
             showSpendingsInfoSheet.toggle()
           }
           AnalyticsManager.shared.log(.openMonthRecapPreview)
-          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView(service: monthRecapService)))
+          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView(recap: monthRecap)))
         }, bottomView: {
           Source.Images.Previews.monthRecapPreview
             .frame(maxWidth: .infinity)
@@ -98,13 +101,7 @@ struct OverviewView: View {
       }
       .applyMargins()
       .scrollDisabled(true)
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .navigationBarLeading) {
-          Text(Appearance.shared.title)
-            .font(.system(.title2, weight: .semibold))
-        }
-      }
+      .rootNavigationTitle(Appearance.shared.title)
     }
   }
 }
@@ -112,6 +109,7 @@ struct OverviewView: View {
 struct OverviewView_Previews: PreviewProvider {
   static var previews: some View {
     OverviewView()
+      .modelContainer(AppModelStore.preview)
   }
 }
 
@@ -124,14 +122,23 @@ extension OverviewView {
 }
 
 extension OverviewView {
+  var topCategory: TopCategorySummary {
+    TopCategorySummary(transactions: transactions, budget: budget.first)
+  }
+  
+  var monthRecap: MonthRecap {
+    MonthRecap(budgets: lastMonthBudget, transactions: lastMonthTransactions, goalTransactions: lastMonthGoalTransactions)
+  }
+  
   @ViewBuilder
   func topCategorySection() -> some View {
-    if topCategoryService.transactions.count >= 15 {
+    let topCategory = self.topCategory
+    if !topCategory.isLocked {
       Button(action: {
-        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(service: topCategoryService)))
+        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TopCategoryOverviewView(summary: topCategory)))
         AnalyticsManager.shared.log(.openTopCategory)
       }, label: {
-        EXOverviewCard(header: "Top Category", title: topCategoryService.topCategory.0, icon: Source.Images.Navigation.redirect, subHeader: "You have spent \(topCategoryService.topCategory.1.formattedAsCurrencySolid(with: currencySign)) on this category")
+        EXOverviewCard(header: "Top Category", title: topCategory.topCategory.0, icon: Source.Images.Navigation.redirect, subHeader: "You have spent \(topCategory.topCategory.1.formattedAsCurrencySolid(with: currencySign)) on this category")
       })
       .buttonStyle(EXPlainButtonStyle())
     } else {
@@ -141,15 +148,16 @@ extension OverviewView {
   
   @ViewBuilder
   func monthRecapSection() -> some View {
-    if monthRecapService.isLocked {
+    let monthRecap = self.monthRecap
+    if monthRecap.isLocked {
       EXInfoCardWithButton(config: (Source.Strings.InfoCardType.monthToMonth.title, Source.Strings.InfoCardType.monthToMonth.text), icon: .image(Source.Images.InfoCardIcon.month2month), buttonIcon: Source.Images.ButtonIcons.how, buttonAction: {showSpendingsInfoSheet.toggle()})
     }
     else {
       Button(action: {
-        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView(service: monthRecapService)))
+        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(MonthRecapOverviewView(recap: monthRecap)))
         AnalyticsManager.shared.log(.openMonthRecap)
       }, label: {
-        EXOverviewCard(header: "Month recap", title: monthRecapService.recapMonth, icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")
+        EXOverviewCard(header: "Month recap", title: monthRecap.recapMonth, icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")
       })
       .buttonStyle(EXPlainButtonStyle())
     }

@@ -7,12 +7,12 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 
 struct DailyTransactionsListView: View {
   // MARK: Essential
   @Environment(\.dismiss) var makeDismiss
-  @ObservedResults(DailyTransaction.self) var dailyTransactions
+  @Query(DailyTransaction.byDateCreated) private var dailyTransactions: [DailyTransaction]
   @AppStorage("currencySign") private var currencySign = "USD"
   @AppStorage("dailyTransactionsONB") private var isShownOnboarding = false
   
@@ -47,7 +47,7 @@ struct DailyTransactionsListView: View {
                   .listRowSeparator(.hidden)
               }
               .onDelete(perform: { indexSet in
-                $dailyTransactions.remove(atOffsets: indexSet)
+                indexSet.map { dailyTransactions[$0] }.forEach { try? $0.delete() }
                 AnalyticsManager.shared.log(.dailyTransactionDeleted)
               })
             }
@@ -107,7 +107,7 @@ extension DailyTransactionsListView {
 
 #Preview {
   DailyTransactionsListView()
-    .environment(\.realmConfiguration, RealmMigrator.configuration)
+    .modelContainer(AppModelStore.preview)
 }
 
 extension DailyTransactionsListView {

@@ -7,7 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 import UserNotifications
 
 struct DebugMenuView: View {
@@ -15,15 +15,19 @@ struct DebugMenuView: View {
   let notificationManager: NotificationManager = NotificationManager.shared
   @AppStorage("currencySign") private var currencySign = "USD"
   
-  // MARK: - Realm
-  @ObservedResults(Budget.self) var budgets
-  @ObservedResults(Transaction.self) var transactions
+  // MARK: - Storage
+  @Query(Budget.all) private var budgets: [Budget]
+  @Query(Transaction.all) private var transactions: [Transaction]
   
   @State private var notifications : [String] = []
+  @State private var rowCounts: [(name: String, count: Int)] = []
+  @State private var showEraseConfirmation = false
   var body: some View {
     NavigationView {
       VStack {
         List {
+          storageSection()
+          
           Section(header: Text("Budgets")) {
             ForEach(budgets) { budget in
               HStack {
@@ -44,7 +48,7 @@ struct DebugMenuView: View {
           }
           
           Section(header: Text("Spendings")) {
-            ForEach(Array(groupTransactionsByMonth(transactions: transactions.toArray())), id: \.0) { month, transactions in
+            ForEach(Array(groupTransactionsByMonth(transactions: transactions)), id: \.0) { month, transactions in
               Text("Total for \(month): \(transactions.reduce(0) { $0 + $1.amount })")
             }
           }
@@ -85,6 +89,15 @@ struct DebugMenuView: View {
           notifications = result
         }
       }
+      .onAppear {
+        refreshCounts()
+      }
+      .confirmationDialog("Erase all stored data?", isPresented: $showEraseConfirmation, titleVisibility: .visible) {
+        Button("Erase all data", role: .destructive) {
+          AppModelStore.eraseAllData()
+          refreshCounts()
+        }
+      }
       .navigationBarTitleDisplayMode(.inline)
       .toolbarBackground(.white, for: .bottomBar)
       .toolbar {
@@ -114,64 +127,27 @@ struct DebugMenuView: View {
   }
   
   private func writeCategories() {
-    let loadedCategories: [Category] = [
-      Source.Realm.createCategory(icon: "🔄", name: "Subscription", tag: .base, section: .entertainment),
-      Source.Realm.createCategory(icon: "🎫", name: "Entertainment", tag: .base, section: .entertainment),
-      Source.Realm.createCategory(icon: "🎨", name: "Hobby", tag: .base, section: .entertainment),
-      
-      Source.Realm.createCategory(icon: "🥡", name: "Going out", tag: .base, section: .food),
-      Source.Realm.createCategory(icon: "🛒", name: "Groceries", tag: .base, section: .food),
-      
-      Source.Realm.createCategory(icon: "🧾", name: "Bills", tag: .base, section: .housing),
-      Source.Realm.createCategory(icon: "🏠", name: "Utilities", tag: .base, section: .housing),
-      
-      Source.Realm.createCategory(icon: "🚈", name: "Public transport", tag: .base, section: .transportation),
-      Source.Realm.createCategory(icon: "🚘", name: "Car", tag: .base, section: .transportation),
-      
-      Source.Realm.createCategory(icon: "📚", name: "Education", tag: .base, section: .lifestyle),
-      Source.Realm.createCategory(icon: "🛩️", name: "Travel", tag: .base, section: .lifestyle),
-      Source.Realm.createCategory(icon: "🛍️", name: "Shopping", tag: .base, section: .lifestyle),
-      Source.Realm.createCategory(icon: "📦", name: "Delivery", tag: .base, section: .lifestyle),
-      Source.Realm.createCategory(icon: "🎮", name: "Gaming", tag: .base, section: .lifestyle),
-      Source.Realm.createCategory(icon: "🐾", name: "Animals", tag: .base, section: .lifestyle),
-      
-      Source.Realm.createCategory(icon: "👕", name: "Clothes", tag: .base, section: .other),
-      Source.Realm.createCategory(icon: "📔", name: "Other", tag: .base, section: .other),
-      Source.Realm.createCategory(icon: "🩹", name: "Healthcare", tag: .base, section: .other),
-    ]
-    let realm = try! Realm()
-    
-    try? realm.write({
-      realm.add(loadedCategories)
-    })
+    DemoSeeder.seedBaseCategories()
+    refreshCounts()
   }
   
   private func createDemoProfile() {
-    let realm = try! Realm()
-    
-    try? realm.write({
-      realm.add(Source.DefaultData.sampleBudget)
-      realm.add(Source.DefaultData.samplePreviousBudget)
-      realm.add(Source.DefaultData.sampleTransactions)
-      realm.add(Source.DefaultData.sampleRecurringPayments)
-      realm.add(Source.DefaultData.sampleGoals)
-    })
+    DemoSeeder.seedDemoProfile()
+    refreshCounts()
   }
   
   private func addSameCategoryTransactions() {
-    let realm = try! Realm()
-    
-    try? realm.write({
-      realm.add(Source.DefaultData.sampleTransactionsWithCategory)
-    })
+    DemoSeeder.seedSameCategoryTransactions()
+    refreshCounts()
   }
   
   private func loadTransactions() {
-    let realm = try! Realm()
-    
-    try? realm.write({
-      realm.add(Source.DefaultData.loadedTransactions)
-    })
+    DemoSeeder.seedLoadedTransactions()
+    refreshCounts()
+  }
+  
+  private func refreshCounts() {
+    rowCounts = AppModelStore.rowCounts()
   }
   
   private func testNotification() {
@@ -193,7 +169,7 @@ struct DebugMenuView: View {
 
 #Preview {
   DebugMenuView()
-    .environment(\.realmConfiguration, RealmMigrator.configuration)
+    .modelContainer(AppModelStore.preview)
 }
 
 // MARK: - Appearance
@@ -208,8 +184,37 @@ extension DebugMenuView {
   }
 }
 
-extension Results {
-  func toArray() -> [Element] {
-    return self.map { $0 }
+// MARK: - Storage check
+extension DebugMenuView {
+  @ViewBuilder
+  func storageSection() -> some View {
+    Section {
+      LabeledContent("Schema version", value: schemaVersion)
+      VStack(alignment: .leading, spacing: 3) {
+        Text("Store URL")
+        Text(AppModelStore.storeURL?.path() ?? "In memory")
+          .font(.caption)
+          .foregroundColor(.darkGrey)
+          .textSelection(.enabled)
+      }
+      ForEach(rowCounts, id: \.name) { row in
+        LabeledContent(row.name, value: "\(row.count)")
+      }
+      Button("Seed demo data") {
+        DemoSeeder.seedBaseCategories()
+        DemoSeeder.seedDemoProfile()
+        refreshCounts()
+      }
+      Button("Erase all data", role: .destructive) {
+        showEraseConfirmation = true
+      }
+    } header: {
+      Text("Storage")
+    }
+  }
+  
+  private var schemaVersion: String {
+    let version = CurrentSchema.versionIdentifier
+    return "\(version.major).\(version.minor).\(version.patch)"
   }
 }

@@ -8,16 +8,16 @@
 import SwiftUI
 import ExpensaroUIKit
 import PopupView
-import RealmSwift
+import SwiftData
 
 struct TransactionDetailView: View {
   // MARK: Essential
   @EnvironmentObject var router: EXNavigationViewsRouter
   @AppStorage("currencySign") private var currencySign = "USD"
   
-  // MARK: Realm
-  @ObservedRealmObject var transaction: Transaction
-  @ObservedRealmObject var budget: Budget
+  // MARK: Storage
+  @Bindable var transaction: Transaction
+  @Bindable var budget: Budget
   
   // MARK: Presentation
   @State private var showTransactionDeleteAlert = false
@@ -82,7 +82,7 @@ struct TransactionDetailView: View {
           
           // MARK: Analytics
           if transaction.type == "Debit" || transaction.type == "Credit" {
-            TransactionInsightsView(service: .init(selectedCategory: transaction.categoryName))
+            TransactionInsightsView(categoryName: transaction.categoryName)
           } 
           else if transaction.type == "Daily transaction" {
             DailyTransactionInsightsView()
@@ -203,29 +203,13 @@ private extension TransactionDetailView {
     }
   }
 }
-// MARK: - Realm Functions
+// MARK: - Storage Functions
 extension TransactionDetailView {
   func deleteTransaction() {
     AnalyticsManager.shared.log(.deleteTransaction)
     showTransactionDeleteAlert.toggle()
     
-    if let newBudget = budget.thaw(), let realm = newBudget.realm {
-      if transaction.categoryName == "Added funds" {
-        try? realm.write {
-          newBudget.amount -= transaction.amount
-        }
-      } else {
-        try? realm.write {
-          newBudget.amount += transaction.amount
-        }
-      }
-    }
-    
-    if let transaction = transaction.thaw(), let realm = transaction.realm {
-      try? realm.write {
-        realm.delete(transaction)
-      }
-    }
+    try? transaction.delete(restoring: budget)
     router.nav?.popViewController(animated: true)
   }
 }

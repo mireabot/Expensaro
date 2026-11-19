@@ -7,16 +7,26 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 
-final class Transaction: Object, ObjectKeyIdentifiable {
-  @Persisted(primaryKey: true) var id: ObjectId
-  @Persisted var name: String
-  @Persisted var amount: Double
-  @Persisted var type: String
-  @Persisted var date: Date
-  @Persisted var categoryName: String = "Other"
-  @Persisted var categoryIcon: String = "📔"
-  @Persisted var categorySection: CategoriesSection = .other
-  @Persisted var note: String
+extension ExpensaroSchemaV1 {
+  @Model
+  final class Transaction {
+    @Attribute(.unique) var id: String = UUID().uuidString
+    var name: String = ""
+    var amount: Double = 0
+    var type: String = ""
+    var date: Date = Date()
+    var categoryName: String = "Other"
+    var categoryIcon: String = "📔"
+    var categorySectionRaw: String = CategoriesSection.other.rawValue
+    var note: String = ""
+
+    init() {}
+
+    var categorySection: CategoriesSection {
+      get { CategoriesSection(rawValue: categorySectionRaw) ?? .other }
+      set { categorySectionRaw = newValue.rawValue }
+    }
+  }
 }

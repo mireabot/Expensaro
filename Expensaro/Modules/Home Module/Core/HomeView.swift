@@ -7,12 +7,13 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 import PopupView
 
 struct HomeView: View {
   // MARK: Navigation
   @EnvironmentObject var router: EXNavigationViewsRouter
+  @EnvironmentObject var quickActions: HomeQuickActionsCoordinator
   
   // MARK: Variables
   @State private var showAddBudget = false
@@ -27,12 +28,11 @@ struct HomeView: View {
   @State private var showPaymentAnimation = false
   @State private var showTransactionAnimation = false
   
-  // MARK: Realm
-  @Environment(\.realm) var realm
-  @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
-  @ObservedResults(Transaction.self, filter: NSPredicate(format: "date >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var transactions
-  @ObservedResults(RecurringTransaction.self, sortDescriptor: SortDescriptor(keyPath: \RecurringTransaction.dueDate, ascending: true)) var recurringTransactions
-  @ObservedResults(DailyTransaction.self) var dailyTransactions
+  // MARK: Storage
+  @Query(Budget.thisMonth) private var budget: [Budget]
+  @Query(Transaction.thisMonth) private var transactions: [Transaction]
+  @Query(RecurringTransaction.byDueDate) private var recurringTransactions: [RecurringTransaction]
+  @Query(DailyTransaction.byDateCreated) private var dailyTransactions: [DailyTransaction]
   
   var body: some View {
     NavigationView {
@@ -46,8 +46,19 @@ struct HomeView: View {
           .applyMargins()
           .padding(.top, 5)
         }
-        bottomActionButton()
-          .padding(16)
+        // iOS 26: actions live in the tab bar's side button, see HomeQuickActionsMenu
+        if #unavailable(iOS 26.0) {
+          bottomActionButton()
+            .padding(16)
+        }
+      }
+      .onChange(of: canAddTransactions, initial: true) { _, canAdd in
+        quickActions.isAvailable = canAdd
+      }
+      .onChange(of: quickActions.pendingAction) { _, action in
+        guard let action else { return }
+        quickActions.pendingAction = nil
+        handleQuickAction(action)
       }
       .onFirstAppear {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(600)) {
@@ -82,13 +93,8 @@ struct HomeView: View {
       .fullScreenCover(isPresented: $showAddDailyTransaction, content: {
         DailyTransactionsListView()
       })
-      .navigationBarTitleDisplayMode(.inline)
+      .rootNavigationTitle(Appearance.shared.title)
       .toolbar {
-        ToolbarItem(placement: .navigationBarLeading) {
-          Text(Appearance.shared.title)
-            .font(.system(.title2, weight: .semibold))
-        }
-        
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
             router.pushTo(view: EXNavigationViewBuilder.builder.makeView(SettingsView()))
@@ -105,7 +111,8 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
   static var previews: some View {
     HomeView()
-      .environment(\.realmConfiguration, RealmMigrator.configuration)
+      .environmentObject(HomeQuickActionsCoordinator())
+      .modelContainer(AppModelStore.preview)
   }
 }
 
@@ -123,7 +130,7 @@ extension HomeView {
 extension HomeView {
   @ViewBuilder
   func bottomActionButton() -> some View {
-    if currentBudget.amount != 0, !transactions.isEmpty {
+    if canAddTransactions {
       VStack {
         Menu {
           Menu("Daily Transactions") {
@@ -165,6 +172,10 @@ extension HomeView {
   
   var currentBudget: Budget {
     budget.first ?? Budget()
+  }
+  
+  var canAddTransactions: Bool {
+    currentBudget.amount != 0 && !transactions.isEmpty
   }
 }
 
@@ -365,22 +376,26 @@ extension HomeView {
   }
 }
 
-// MARK: - Realm Functions
+// MARK: - Quick Actions
+extension HomeView {
+  func handleQuickAction(_ action: HomeQuickAction) {
+    switch action {
+    case .addTransaction:
+      showAddTransaction.toggle()
+    case .addRecurringPayment:
+      showAddRecurrentPayment.toggle()
+    case .manageDailyTransactions:
+      showAddDailyTransaction.toggle()
+    case .addDailyTransaction(let dailyTransaction):
+      addDailyTransaction(with: dailyTransaction)
+    }
+  }
+}
+
+// MARK: - Storage Functions
 extension HomeView {
   func addDailyTransaction(with dailyTransaction: DailyTransaction) {
-    if dailyTransaction.amount > currentBudget.amount {
-      return
-    }
-    let transaction = Source.Realm.createTransaction(name: dailyTransaction.name, date: Date(), category: (dailyTransaction.categoryName, dailyTransaction.categoryIcon, dailyTransaction.categorySection), amount: dailyTransaction.amount, type: "Daily transaction", note: "")
-    try? realm.write {
-      realm.add(transaction)
-      AnalyticsManager.shared.log(.dailyTransactionUsed)
-    }
-    
-    if let newBudget = currentBudget.thaw(), let realm = newBudget.realm {
-      try? realm.write {
-        newBudget.amount -= transaction.amount
-      }
-    }
+    guard (try? dailyTransaction.spend(from: currentBudget)) == true else { return }
+    AnalyticsManager.shared.log(.dailyTransactionUsed)
   }
 }

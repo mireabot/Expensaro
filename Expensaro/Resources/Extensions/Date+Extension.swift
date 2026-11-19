@@ -8,6 +8,11 @@
 import SwiftUI
 
 extension Date{
+  /// First moment of the current month. `#Predicate` cannot call functions, so capture this in a local first
+  static var startOfCurrentMonth: Date {
+    Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))!
+  }
+  
   /// Getting all dates in month
   func getAllDates() -> [Date] {
     let calendar = Calendar.current

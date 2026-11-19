@@ -7,7 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 import PopupView
 
 struct GoalDetailView: View {
@@ -15,8 +15,8 @@ struct GoalDetailView: View {
   @EnvironmentObject var router: EXNavigationViewsRouter
   @AppStorage("currencySign") private var currencySign = "USD"
   
-  // MARK: Realm
-  @ObservedRealmObject var goal: Goal
+  // MARK: Storage
+  @Bindable var goal: Goal
   
   // MARK: Presentation
   @State private var showAddMoney = false
@@ -140,7 +140,7 @@ struct GoalDetailView: View {
         EXEmptyStateView(type: .noTransactionForGoal)
       } else {
         LazyVStack(spacing: 10) {
-          ForEach(goal.transactions.reversed()) { goalTransaction in
+          ForEach(goal.transactionsNewestFirst) { goalTransaction in
             EXGoalTransactionCell(goalTransaction: goalTransaction)
           }
         }
@@ -153,7 +153,7 @@ struct GoalDetailView: View {
 struct GoalDetailView_Previews: PreviewProvider {
   static var previews: some View {
     GoalDetailView(goal: Source.DefaultData.sampleGoals[0])
-      .environment(\.realmConfiguration, RealmMigrator.configuration)
+      .modelContainer(AppModelStore.preview)
   }
 }
 
@@ -215,17 +215,13 @@ extension GoalDetailView {
   }
 }
 
-// MARK: - Realm Functions
+// MARK: - Storage Functions
 extension GoalDetailView {
   func deleteGoal() {
     AnalyticsManager.shared.log(.deleteGoal)
     showDeleteAlert.toggle()
-    if let newGoal = goal.thaw(), let realm = newGoal.realm {
-      try? realm.write {
-        realm.delete(newGoal.transactions)
-        realm.delete(newGoal)
-      }
-      router.nav?.popViewController(animated: true)
-    }
+    // Goal transactions go with the goal through the cascade delete rule
+    try? goal.delete()
+    router.nav?.popViewController(animated: true)
   }
 }

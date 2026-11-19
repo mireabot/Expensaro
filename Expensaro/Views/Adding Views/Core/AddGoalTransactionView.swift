@@ -7,7 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 import PopupView
 
 struct AddGoalTransactionView: View {
@@ -15,10 +15,9 @@ struct AddGoalTransactionView: View {
   @Environment(\.dismiss) var makeDismiss
   @AppStorage("currencySign") private var currencySign = "USD"
   
-  // MARK: Realm
-  @Environment(\.realm) var realm
-  @ObservedRealmObject var goalTransaction: GoalTransaction
-  @ObservedRealmObject var goal: Goal
+  // MARK: Storage
+  @Bindable var goalTransaction: GoalTransaction
+  @Bindable var goal: Goal
   
   // MARK: Variables
   @State private var amountValue: String = "0.0"
@@ -148,17 +147,12 @@ extension AddGoalTransactionView {
   }
 }
 
-// MARK: - Realm Functions
+// MARK: - Storage Functions
 extension AddGoalTransactionView {
   func createGoalTransaction() {
     AnalyticsManager.shared.log(.addMoneyToGoal(Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0))
     goalTransaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
-    if let newGoal = goal.thaw(), let realm = newGoal.realm {
-      try? realm.write {
-        newGoal.currentAmount += Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
-        newGoal.transactions.append(goalTransaction)
-      }
-    }
+    try? goal.contribute(goalTransaction)
   }
 }
 
@@ -167,6 +161,6 @@ extension AddGoalTransactionView {
 struct AddGoalTransactionView_Previews: PreviewProvider {
   static var previews: some View {
     AddGoalTransactionView(goalTransaction: GoalTransaction(), goal: Goal())
-      .environment(\.realmConfiguration, RealmMigrator.configuration)
+      .modelContainer(AppModelStore.preview)
   }
 }

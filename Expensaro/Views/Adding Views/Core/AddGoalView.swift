@@ -7,7 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 import PopupView
 
 struct AddGoalView: View {
@@ -17,10 +17,9 @@ struct AddGoalView: View {
   @State private var amountValue: String = "0.0"
   @AppStorage("currencySign") private var currencySign = "USD"
   
-  //MARK: Realm
-  @Environment(\.realm) var realm
-  @ObservedRealmObject var goal: Goal
-  @ObservedResults(Budget.self, filter: NSPredicate(format: "dateCreated >= %@", Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))! as CVarArg)) var budget
+  //MARK: Storage
+  @Bindable var goal: Goal
+  @Query(Budget.thisMonth) private var budget: [Budget]
   
   var currentBudget: Budget {
     budget.first ?? Budget()
@@ -52,7 +51,7 @@ struct AddGoalView: View {
             .buttonStyle(EXPlainButtonStyle())
             
             if currentBudget.initialAmount != 0 {
-              GoalEstimatorView(goalManager: .init(), goalInfo: (currentBudget.initialAmount, Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, goal.daysLeft))
+              GoalEstimatorView(goalInfo: (currentBudget.initialAmount, Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, goal.daysLeft))
             }
           }
           .padding(.top, 25)
@@ -106,7 +105,7 @@ struct AddGoalView: View {
 struct AddGoalView_Previews: PreviewProvider {
   static var previews: some View {
     AddGoalView(goal: Goal())
-      .environment(\.realmConfiguration, RealmMigrator.configuration)
+      .modelContainer(AppModelStore.preview)
   }
 }
 
@@ -161,15 +160,11 @@ extension AddGoalView {
   }
 }
 
-// MARK: - Realm Functions
+// MARK: - Storage Functions
 extension AddGoalView {
   func createGoal(completion: @escaping() -> Void) {
     AnalyticsManager.shared.log(.createGoal(goal.name, Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0))
-    goal.finalAmount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
-    goal.dateCreated = .now
-    try? realm.write {
-      realm.add(goal)
-    }
+    try? goal.create(finalAmount: Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0)
     completion()
   }
 }

@@ -6,26 +6,41 @@
 //
 
 import SwiftUI
-import RealmSwift
+import SwiftData
 
-final class Category: Object, ObjectKeyIdentifiable {
-  @Persisted(primaryKey: true) var id: ObjectId
-  @Persisted var icon: String = "📔"
-  @Persisted var name: String
-  @Persisted var tag: CategoriesTag = .base
-  @Persisted var section: CategoriesSection = .other
+extension ExpensaroSchemaV1 {
+  @Model
+  final class Category {
+    @Attribute(.unique) var id: String = UUID().uuidString
+    var icon: String = "📔"
+    var name: String = ""
+    var tagRaw: String = CategoriesTag.base.rawValue
+    var sectionRaw: String = CategoriesSection.other.rawValue
+
+    init() {}
+
+    var tag: CategoriesTag {
+      get { CategoriesTag(rawValue: tagRaw) ?? .base }
+      set { tagRaw = newValue.rawValue }
+    }
+
+    var section: CategoriesSection {
+      get { CategoriesSection(rawValue: sectionRaw) ?? .other }
+      set { sectionRaw = newValue.rawValue }
+    }
+  }
 }
 
 /// Tag for categories
 /// base for pre-loaded
 /// custom for added by user
-enum CategoriesTag: String, CaseIterable, PersistableEnum {
+enum CategoriesTag: String, CaseIterable {
   case base
   case custom
 }
 
 /// Section for categories
-enum CategoriesSection: String, CaseIterable, PersistableEnum {
+enum CategoriesSection: String, CaseIterable {
   case food
   case housing
   case transportation

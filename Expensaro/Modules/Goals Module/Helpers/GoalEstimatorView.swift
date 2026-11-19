@@ -10,13 +10,20 @@ import ExpensaroUIKit
 import Shimmer
 
 struct GoalEstimatorView: View {
-  @ObservedObject var goalManager : GoalManager
+  /// Month's initial budget, goal amount, days left
   var goalInfo: (Double, Double, Int)
+  @State private var isCalculated = false
+  @State private var isLoading = false
+  
+  private var estimate: GoalSuccessEstimate {
+    GoalSuccessEstimate(monthlyExpensesBudget: goalInfo.0, goalAmount: goalInfo.1, daysToGoal: goalInfo.2)
+  }
+  
   var body: some View {
     VStack {
-      if goalManager.successRate == 0 {
+      if !isCalculated || estimate.successRate == 0 {
         emptyState()
-      } else if goalManager.isLoading {
+      } else if isLoading {
         EXBaseCard {
           VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .top, spacing: 0, content: {
@@ -24,25 +31,25 @@ struct GoalEstimatorView: View {
                 Text("Goal success rate")
                   .font(.footnoteRegular)
                   .foregroundColor(.darkGrey)
-                Text("\(goalManager.successRate.clean)%")
+                Text("\(estimate.successRate.clean)%")
                   .font(.title2Bold)
                   .redacted(reason: .placeholder)
-                  .shimmering(active: goalManager.isLoading)
+                  .shimmering(active: isLoading)
               }
               Spacer()
             })
             Divider()
             VStack(alignment: .leading, spacing: 3, content: {
-              Text(goalManager.rateInformation.title)
+              Text(estimate.rateInformation.title)
                 .font(.headlineBold)
-                .foregroundColor(goalManager.rateInformation.color)
+                .foregroundColor(estimate.rateInformation.color)
                 .redacted(reason: .placeholder)
-                .shimmering(active: goalManager.isLoading)
-              Text(goalManager.rateInformation.text)
+                .shimmering(active: isLoading)
+              Text(estimate.rateInformation.text)
                 .font(.footnoteRegular)
                 .foregroundColor(.darkGrey)
                 .redacted(reason: .placeholder)
-                .shimmering(active: goalManager.isLoading)
+                .shimmering(active: isLoading)
             })
           }
           .frame(maxWidth: .infinity)
@@ -55,17 +62,17 @@ struct GoalEstimatorView: View {
                 Text("Goal success rate")
                   .font(.footnoteRegular)
                   .foregroundColor(.darkGrey)
-                Text("\(goalManager.successRate.clean)%")
+                Text("\(estimate.successRate.clean)%")
                   .font(.title2Bold)
               }
               Spacer()
             })
             Divider()
             VStack(alignment: .leading, spacing: 3, content: {
-              Text(goalManager.rateInformation.title)
+              Text(estimate.rateInformation.title)
                 .font(.headlineBold)
-                .foregroundColor(goalManager.rateInformation.color)
-              Text(goalManager.rateInformation.text)
+                .foregroundColor(estimate.rateInformation.color)
+              Text(estimate.rateInformation.text)
                 .font(.footnoteRegular)
                 .foregroundColor(.darkGrey)
             })
@@ -74,11 +81,16 @@ struct GoalEstimatorView: View {
         }
       }
     }
+    .task(id: isLoading) {
+      guard isLoading else { return }
+      try? await Task.sleep(for: .seconds(1))
+      isLoading = false
+    }
   }
 }
 
 #Preview {
-  GoalEstimatorView(goalManager: .init(), goalInfo: (1500, 780, 34))
+  GoalEstimatorView(goalInfo: (1500, 780, 34))
     .applyMargins()
 }
 
@@ -96,7 +108,10 @@ extension GoalEstimatorView {
             .foregroundColor(.darkGrey)
         })
         Button(action: {
-          goalManager.calculateSuccessRate(monthlyExpensesBudget: goalInfo.0, goalAmount: goalInfo.1, daysToGoal: goalInfo.2)
+          isCalculated = true
+          withAnimation(.interactiveSpring) {
+            isLoading = true
+          }
         }, label: {
           Text("Calculate")
             .font(.subheadlineSemibold)

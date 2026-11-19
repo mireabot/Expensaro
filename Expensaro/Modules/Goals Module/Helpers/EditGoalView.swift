@@ -7,7 +7,7 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 import PopupView
 
 struct EditGoalView: View {
@@ -16,8 +16,8 @@ struct EditGoalView: View {
   @State private var amountValue: String = "0.0"
   @AppStorage("currencySign") private var currencySign = "USD"
   
-  // MARK: Realm
-  @ObservedRealmObject var goal: Goal
+  // MARK: Storage
+  @Bindable var goal: Goal
   
   // MARK: Variables
   @State private var savedDate = Date()
@@ -141,15 +141,12 @@ extension EditGoalView {
   }
 }
 
-// MARK: - Realm Functions
+// MARK: - Storage Functions
 extension EditGoalView {
   func updateGoal() {
     AnalyticsManager.shared.log(.editGoal)
-    if let newGoal = goal.thaw(), let realm = newGoal.realm {
-      try? realm.write {
-        newGoal.finalAmount = Double(amountValue) ?? 0
-      }
-    }
+    goal.finalAmount = Double(amountValue) ?? 0
+    try? goal.save()
   }
 }
 
@@ -160,11 +157,7 @@ extension EditGoalView {
       errorType = .pastDate
       showError.toggle()
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-      if let newGoal = goal.thaw(), let goalRealm = newGoal.realm {
-        try? goalRealm.write {
-          newGoal.dueDate = savedDate
-        }
-      }
+      goal.dueDate = savedDate
       return
     } else if Double(amountValue) == 0 {
       errorType = .zeroAmount

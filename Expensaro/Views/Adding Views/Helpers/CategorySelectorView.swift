@@ -7,12 +7,12 @@
 
 import SwiftUI
 import ExpensaroUIKit
-import RealmSwift
+import SwiftData
 
 struct CategorySelectorView: View {
   @Binding var presentation: Bool
   
-  @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: \Category.name, ascending: true)) var categories
+  @Query(Category.byName) private var categories: [Category]
   
   @Binding var title: String
   @Binding var icon: String
@@ -99,7 +99,7 @@ struct CategorySelectorView_Previews: PreviewProvider {
   static var previews: some View {
     ScrollView {
       CategorySelectorView(presentation: .constant(false), title: .constant(""), icon: .constant(""), section: .constant(.other))
-        .environment(\.realmConfiguration, RealmMigrator.configuration)
+        .modelContainer(AppModelStore.preview)
     }
   }
 }
