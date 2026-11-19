@@ -113,7 +113,6 @@ extension AddDailyTransactionView {
 // MARK: - Storage Functions
 extension AddDailyTransactionView {
   func createTransaction() {
-    AnalyticsManager.shared.log(.dailyTransactionCreated(dailyTransaction.name))
     try? dailyTransaction.create(amount: Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0)
   }
 }

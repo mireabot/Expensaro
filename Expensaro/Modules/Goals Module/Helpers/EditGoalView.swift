@@ -144,7 +144,6 @@ extension EditGoalView {
 // MARK: - Storage Functions
 extension EditGoalView {
   func updateGoal() {
-    AnalyticsManager.shared.log(.editGoal)
     goal.finalAmount = Double(amountValue) ?? 0
     try? goal.save()
   }

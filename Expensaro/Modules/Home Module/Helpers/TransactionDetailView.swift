@@ -139,7 +139,6 @@ private extension TransactionDetailView {
         .multilineSubmitEnabled(for: $transaction.note)
       Button {
         showNoteView.toggle()
-        AnalyticsManager.shared.log(.madeNote(transaction.note))
       } label: {
         Text("Add note")
           .font(.system(.headline, weight: .semibold))

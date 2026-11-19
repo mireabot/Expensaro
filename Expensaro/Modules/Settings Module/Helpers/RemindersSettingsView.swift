@@ -164,7 +164,6 @@ extension RemindersSettingsView {
   func deleteReminders() {
     showLoader.toggle()
     try? RecurringTransaction.disableAllReminders()
-    AnalyticsManager.shared.log(.removeReminders)
     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
       showLoader.toggle()
       showToast.toggle()

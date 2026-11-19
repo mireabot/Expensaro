@@ -118,7 +118,6 @@ extension EraseDataSettingsView {
 // MARK: - Storage Functions
 extension EraseDataSettingsView {
   func deleteAllData() {
-    AnalyticsManager.shared.log(.deleteAccount)
     AppModelStore.eraseAllData()
     showLoader = false
     showSheet.toggle()

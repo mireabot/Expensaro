@@ -150,7 +150,6 @@ extension AddGoalTransactionView {
 // MARK: - Storage Functions
 extension AddGoalTransactionView {
   func createGoalTransaction() {
-    AnalyticsManager.shared.log(.addMoneyToGoal(Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0))
     goalTransaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
     try? goal.contribute(goalTransaction)
   }

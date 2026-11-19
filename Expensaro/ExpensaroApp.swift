@@ -8,7 +8,6 @@
 import SwiftUI
 import ExpensaroUIKit
 import SwiftData
-import Aptabase
 
 @main
 struct ExpensaroApp: SwiftUI.App {
@@ -36,7 +35,6 @@ struct ContentView: View {
 class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    Aptabase.shared.initialize(appKey: Source.aptaBaseKEY)
     return true
   }
   

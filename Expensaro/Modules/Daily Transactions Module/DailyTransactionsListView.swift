@@ -48,7 +48,6 @@ struct DailyTransactionsListView: View {
               }
               .onDelete(perform: { indexSet in
                 indexSet.map { dailyTransactions[$0] }.forEach { try? $0.delete() }
-                AnalyticsManager.shared.log(.dailyTransactionDeleted)
               })
             }
             .listStyle(.plain)
