@@ -36,7 +36,7 @@ struct AddGoalView: View {
   @State private var showDateSheet = false
   @State private var showError = false
   var body: some View {
-    NavigationView {
+    NavigationStack {
       ZStack(alignment: .bottom, content: {
         ScrollView {
           VStack(spacing: 20) {

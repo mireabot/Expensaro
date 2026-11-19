@@ -21,7 +21,7 @@ struct DailyTransactionsListView: View {
   @State private var showOnboarding = false
   
   var body: some View {
-    NavigationView {
+    NavigationStack {
       VStack {
         Button(action: {
           showAddDailyTransactionScreen.toggle()

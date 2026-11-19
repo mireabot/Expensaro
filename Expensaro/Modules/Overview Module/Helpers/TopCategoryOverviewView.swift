@@ -6,127 +6,122 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 import Charts
 
 struct TopCategoryOverviewView: View {
   // MARK: Essential
-  @EnvironmentObject var router: EXNavigationViewsRouter
+  @Dependency(\.router) private var router
   @AppStorage("currencySign") private var currencySign = "USD"
   let summary: TopCategorySummary
   
-  @State private var showFeedback = false
   var body: some View {
-    NavigationView {
-      ScrollView {
+    ScrollView {
+      EXBaseCard {
+        VStack(alignment: .leading, spacing: 5) {
+          Text(summary.topCategory.0)
+            .font(.title2Bold)
+            .foregroundColor(.black)
+          Text("Your top category for \(Appearance.shared.currentMonth)")
+            .font(.footnoteRegular)
+            .foregroundColor(.darkGrey)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+      }
+      .applyMargins()
+      .padding(.top, 20)
+      
+      // MARK: Top Category breakdown
+      HStack {
         EXBaseCard {
-          VStack(alignment: .leading, spacing: 5) {
-            Text(summary.topCategory.0)
-              .font(.title2Bold)
+          VStack(alignment: .leading, spacing: 3) {
+            Text("\(summary.topCategory.1.formattedAsCurrencySolid(with: currencySign))")
+              .font(.title3Bold)
               .foregroundColor(.black)
-            Text("Your top category for \(Appearance.shared.currentMonth)")
+            Text("Total amount spent")
               .font(.footnoteRegular)
               .foregroundColor(.darkGrey)
           }
           .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .applyMargins()
-        .padding(.top, 20)
-        
-        // MARK: Top Category breakdown
-        HStack {
-          EXBaseCard {
-            VStack(alignment: .leading, spacing: 3) {
-              Text("\(summary.topCategory.1.formattedAsCurrencySolid(with: currencySign))")
-                .font(.title3Bold)
-                .foregroundColor(.black)
-              Text("Total amount spent")
-                .font(.footnoteRegular)
-                .foregroundColor(.darkGrey)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-          }
-          EXBaseCard {
-            VStack(alignment: .leading, spacing: 3) {
-              Text("\(summary.topCategory.2)")
-                .font(.title3Bold)
-                .foregroundColor(.black)
-              Text("Transactions made")
-                .font(.footnoteRegular)
-                .foregroundColor(.darkGrey)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-          }
-        }
-        .applyMargins()
-        .padding(.top, 5)
-        
-        EXBaseCard(content: {
-          VStack(alignment: .leading, spacing: 5) {
-            VStack(alignment: .leading, spacing: 0, content: {
-              Text("\(summary.topCategoryCut.clean)%")
-                .font(.title3Bold)
-              Text("Based on combined monthly budget")
-                .font(.footnoteRegular)
-                .foregroundColor(.darkGrey)
-            })
-            EXChartBar(value: summary.topCategory.1, maxValue: Int(summary.combinedBudget), height: 15, radius: 5, margin: 56)
-          }
-        })
-        .padding(.top, 5)
-        
-        // MARK: Other categories
-        Text("Check other categories")
-          .font(.headlineSemibold)
-          .foregroundColor(.black)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .applyMargins()
-          .padding(.top, 5)
-        
-        VStack(alignment: .leading, spacing: 10) {
-          ForEach(summary.otherCategories, id: \.0) { data in
-            TopCategoryBar(total: Int(summary.combinedBudget), category: data)
-          }
-        }
-        
         EXBaseCard {
-          Text("Percentages shown are based on your combined monthly budget")
-            .font(.footnoteRegular)
-            .foregroundColor(.darkGrey)
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .applyMargins()
-        .padding(.bottom, 10)
-      }
-      .scrollBounceBehavior(.basedOnSize)
-      .fullScreenCover(isPresented: $showFeedback, content: {
-        ContactSettingsView(topic: "Top Category Overview", isCalled: true)
-      })
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          Text(Appearance.shared.title)
-            .font(.headlineMedium)
-        }
-        
-        ToolbarItem(placement: .navigationBarLeading) {
-          Button {
-            router.nav?.popViewController(animated: true)
-          } label: {
-            Appearance.shared.backIcon
+          VStack(alignment: .leading, spacing: 3) {
+            Text("\(summary.topCategory.2)")
+              .font(.title3Bold)
               .foregroundColor(.black)
+            Text("Transactions made")
+              .font(.footnoteRegular)
+              .foregroundColor(.darkGrey)
           }
+          .frame(maxWidth: .infinity, alignment: .leading)
         }
-        
-        ToolbarItem(placement: .topBarTrailing) {
-          Menu {
-            Button("Provide feedback") {
-              showFeedback.toggle()
-            }
-          } label: {
-            Image(systemName: "ellipsis")
-              .foregroundStyle(.black)
+      }
+      .applyMargins()
+      .padding(.top, 5)
+      
+      EXBaseCard(content: {
+        VStack(alignment: .leading, spacing: 5) {
+          VStack(alignment: .leading, spacing: 0, content: {
+            Text("\(summary.topCategoryCut.clean)%")
+              .font(.title3Bold)
+            Text("Based on combined monthly budget")
+              .font(.footnoteRegular)
+              .foregroundColor(.darkGrey)
+          })
+          EXChartBar(value: summary.topCategory.1, maxValue: Int(summary.combinedBudget), height: 15, radius: 5, margin: 56)
+        }
+      })
+      .padding(.top, 5)
+      
+      // MARK: Other categories
+      Text("Check other categories")
+        .font(.headlineSemibold)
+        .foregroundColor(.black)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .applyMargins()
+        .padding(.top, 5)
+      
+      VStack(alignment: .leading, spacing: 10) {
+        ForEach(summary.otherCategories, id: \.0) { data in
+          TopCategoryBar(total: Int(summary.combinedBudget), category: data)
+        }
+      }
+      
+      EXBaseCard {
+        Text("Percentages shown are based on your combined monthly budget")
+          .font(.footnoteRegular)
+          .foregroundColor(.darkGrey)
+          .frame(maxWidth: .infinity, alignment: .leading)
+      }
+      .applyMargins()
+      .padding(.bottom, 10)
+    }
+    .scrollBounceBehavior(.basedOnSize)
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .principal) {
+        Text(Appearance.shared.title)
+          .font(.headlineMedium)
+      }
+      
+      ToolbarItem(placement: .navigationBarLeading) {
+        Button {
+          router.back()
+        } label: {
+          Appearance.shared.backIcon
+            .foregroundColor(.black)
+        }
+      }
+      
+      ToolbarItem(placement: .topBarTrailing) {
+        Menu {
+          Button("Provide feedback") {
+            router.presentFullScreenCover(.feedback(topic: "Top Category Overview"))
           }
+        } label: {
+          Image(systemName: "ellipsis")
+            .foregroundStyle(.black)
         }
       }
     }

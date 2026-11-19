@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 import SwiftData
 
 struct EraseDataSettingsView: View {
   // MARK: Essential
-  @EnvironmentObject var router: EXNavigationViewsRouter
+  @Dependency(\.router) private var router
   @AppStorage("isUserLoggedIn") private var isUserLoggedIn = false
   
   // MARK: Variables
@@ -19,43 +20,41 @@ struct EraseDataSettingsView: View {
   @State private var showSheet = false
   @State private var showLoader = false
   var body: some View {
-    NavigationView {
-      ScrollView {
-        EXDialog(config: (Source.Strings.DialogType.eraseData.title,
-                          Source.Strings.DialogType.eraseData.text),
-                 bottomView: {
-          Button(action: {
-            showSheet.toggle()
-          }, label: {
-            Text("Reset account")
-              .font(.system(.subheadline, weight: .semibold))
-          })
-          .buttonStyle(EXDestructiveButtonStyle(showLoader: .constant(false)))
+    ScrollView {
+      EXDialog(config: (Source.Strings.DialogType.eraseData.title,
+                        Source.Strings.DialogType.eraseData.text),
+               bottomView: {
+        Button(action: {
+          showSheet.toggle()
+        }, label: {
+          Text("Reset account")
+            .font(.system(.subheadline, weight: .semibold))
         })
-        .padding(.top, 20)
-        .applyMargins()
-      }
-      .scrollBounceBehavior(.basedOnSize)
-      .sheet(isPresented: $showSheet, content: {
-        dangerSheet()
-          .fixedSize(horizontal: false, vertical: true)
-          .modifier(GetHeightModifier(height: $sheetHeight))
-          .presentationDetents([.height(sheetHeight)])
+        .buttonStyle(EXDestructiveButtonStyle(showLoader: .constant(false)))
       })
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          Text(Appearance.shared.title)
-            .font(.system(.headline, weight: .medium))
-        }
-        ToolbarItem(placement: .navigationBarLeading) {
-          Button {
-            router.nav?.popViewController(animated: true)
-          } label: {
-            Appearance.shared.backIcon
-              .font(.callout)
-              .foregroundColor(.black)
-          }
+      .padding(.top, 20)
+      .applyMargins()
+    }
+    .scrollBounceBehavior(.basedOnSize)
+    .sheet(isPresented: $showSheet, content: {
+      dangerSheet()
+        .fixedSize(horizontal: false, vertical: true)
+        .modifier(GetHeightModifier(height: $sheetHeight))
+        .presentationDetents([.height(sheetHeight)])
+    })
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .principal) {
+        Text(Appearance.shared.title)
+          .font(.system(.headline, weight: .medium))
+      }
+      ToolbarItem(placement: .navigationBarLeading) {
+        Button {
+          router.back()
+        } label: {
+          Appearance.shared.backIcon
+            .font(.callout)
+            .foregroundColor(.black)
         }
       }
     }
@@ -127,6 +126,7 @@ extension EraseDataSettingsView {
       UIApplication.shared.unregisterForRemoteNotifications()
       UserDefaults.standard.setValue(false, forKey: "notificationsEnabled")
       UserDefaults.standard.synchronize()
+      router.reset()
       withAnimation {
         isUserLoggedIn = false
       }

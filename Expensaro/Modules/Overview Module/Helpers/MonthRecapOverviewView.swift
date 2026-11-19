@@ -6,64 +6,59 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 import Charts
 
 struct MonthRecapOverviewView: View {
   // MARK: Essential
-  @EnvironmentObject var router: EXNavigationViewsRouter
+  @Dependency(\.router) private var router
   @AppStorage("currencySign") private var currencySign = "USD"
   
   let recap: MonthRecap
   // MARK: Presentation
   @State private var showCategoriesBreakdown = false
-  @State private var showFeedback = false
   var body: some View {
-    NavigationView {
-      ScrollView {
-        header()
-          .applyMargins()
-          .padding(.top, 16)
-        budgetSection()
-          .applyMargins()
-          .padding(.top, 5)
-        categoriesSection()
-          .applyMargins()
-          .padding(.top, 10)
-        goalsSection()
-          .applyMargins()
-          .padding(.vertical, 10)
-      }
-      .scrollBounceBehavior(.basedOnSize)
-      .scrollIndicators(.hidden)
-      .fullScreenCover(isPresented: $showFeedback, content: {
-        ContactSettingsView(topic: "Month Recap", isCalled: true)
-      })
-      .sheet(isPresented: $showCategoriesBreakdown, content: {
-        CategoriesBreakdownOverviewView(recap: recap)
-          .presentationDetents([.fraction(0.95)])
-          .presentationDragIndicator(.visible)
-      })
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .navigationBarLeading) {
-          Button {
-            router.nav?.popViewController(animated: true)
-          } label: {
-            Appearance.shared.backIcon
-              .foregroundColor(.black)
-          }
+    ScrollView {
+      header()
+        .applyMargins()
+        .padding(.top, 16)
+      budgetSection()
+        .applyMargins()
+        .padding(.top, 5)
+      categoriesSection()
+        .applyMargins()
+        .padding(.top, 10)
+      goalsSection()
+        .applyMargins()
+        .padding(.vertical, 10)
+    }
+    .scrollBounceBehavior(.basedOnSize)
+    .scrollIndicators(.hidden)
+    .sheet(isPresented: $showCategoriesBreakdown, content: {
+      CategoriesBreakdownOverviewView(recap: recap)
+        .presentationDetents([.fraction(0.95)])
+        .presentationDragIndicator(.visible)
+    })
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .navigationBarLeading) {
+        Button {
+          router.back()
+        } label: {
+          Appearance.shared.backIcon
+            .foregroundColor(.black)
         }
-        
-        ToolbarItem(placement: .topBarTrailing) {
-          Menu {
-            Button("Provide feedback") {
-              showFeedback.toggle()
-            }
-          } label: {
-            Image(systemName: "ellipsis")
-              .foregroundStyle(.black)
+      }
+      
+      ToolbarItem(placement: .topBarTrailing) {
+        Menu {
+          Button("Provide feedback") {
+            router.presentFullScreenCover(.feedback(topic: "Month Recap"))
           }
+        } label: {
+          Image(systemName: "ellipsis")
+            .foregroundStyle(.black)
         }
       }
     }

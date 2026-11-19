@@ -55,7 +55,7 @@ typealias PaymentContributions = CurrentSchema.PaymentContributions
 // MARK: - Container
 @MainActor
 enum AppModelStore {
-  /// The one container for the app. Injected at the app root and in `CustomHostingController`,
+  /// The one container for the app. Injected once at the app root,
   /// and used directly by managers that run outside the view tree.
   static let container: ModelContainer = makeContainer(inMemory: false)
 

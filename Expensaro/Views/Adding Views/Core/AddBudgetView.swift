@@ -26,7 +26,7 @@ struct AddBudgetView: View {
   @State private var showError = false
   @State private var confirmBudget = false
   var body: some View {
-    NavigationView {
+    NavigationStack {
       ZStack(alignment: .bottom, content: {
         ScrollView {
           VStack(alignment: .leading, spacing: 10) {

@@ -6,24 +6,19 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 import SwiftData
 import PopupView
 
 struct HomeView: View {
   // MARK: Navigation
-  @EnvironmentObject var router: EXNavigationViewsRouter
-  @EnvironmentObject var quickActions: HomeQuickActionsCoordinator
+  @Dependency(\.router) private var router
   
   // MARK: Variables
-  @State private var showAddBudget = false
-  @State private var showAddRecurrentPayment = false
-  @State private var showAddTransaction = false
-  @State private var showAddDailyTransaction = false
   @AppStorage("currencySign") private var currencySign = "USD"
   
   // MARK: Presentation
-  @State private var showUpdateBudget = false
   @State private var showAlert = false
   @State private var showPaymentAnimation = false
   @State private var showTransactionAnimation = false
@@ -32,76 +27,47 @@ struct HomeView: View {
   @Query(Budget.thisMonth) private var budget: [Budget]
   @Query(Transaction.thisMonth) private var transactions: [Transaction]
   @Query(RecurringTransaction.byDueDate) private var recurringTransactions: [RecurringTransaction]
-  @Query(DailyTransaction.byDateCreated) private var dailyTransactions: [DailyTransaction]
   
   var body: some View {
-    NavigationView {
-      ZStack(alignment: .bottomTrailing) {
-        ScrollView(.vertical, showsIndicators: false) {
-          VStack {
-            budgetSection()
-            recurrentPaymentsRow()
-            transactionsPreview()
-          }
-          .applyMargins()
-          .padding(.top, 5)
-        }
-        // iOS 26: actions live in the tab bar's side button, see HomeQuickActionsMenu
-        if #unavailable(iOS 26.0) {
-          bottomActionButton()
-            .padding(16)
-        }
+    // Add actions live in the tab bar accessory, see AccessoryContent
+    ScrollView(.vertical, showsIndicators: false) {
+      VStack {
+        budgetSection()
+        recurrentPaymentsRow()
+        transactionsPreview()
       }
-      .onChange(of: canAddTransactions, initial: true) { _, canAdd in
-        quickActions.isAvailable = canAdd
-      }
-      .onChange(of: quickActions.pendingAction) { _, action in
-        guard let action else { return }
-        quickActions.pendingAction = nil
-        handleQuickAction(action)
-      }
-      .onFirstAppear {
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(600)) {
-          withAnimation(.smooth) {
-            showPaymentAnimation.toggle()
-          }
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(900)) {
-          withAnimation(.smooth) {
-            showTransactionAnimation.toggle()
-          }
+      .applyMargins()
+      .padding(.top, 5)
+    }
+    .onFirstAppear {
+      DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(600)) {
+        withAnimation(.smooth) {
+          showPaymentAnimation.toggle()
         }
       }
-      .popup(isPresented: $showAlert, view: {
-        EXToast(type: .constant(.zeroBudget))
-      }, customize: {
-        $0
-          .isOpaque(true)
-          .position(.top)
-          .type(.floater())
-          .autohideIn(1.5)
-      })
-      .fullScreenCover(isPresented: $showAddBudget, content: {
-        AddBudgetView(type: .addBudget, budget: Budget())
-      })
-      .fullScreenCover(isPresented: $showAddTransaction, content: {
-        AddTransactionView(transaction: Transaction(), budget: currentBudget)
-      })
-      .fullScreenCover(isPresented: $showAddRecurrentPayment, content: {
-        AddRecurrentPaymentView(recurringPayment: RecurringTransaction(), budget: currentBudget)
-      })
-      .fullScreenCover(isPresented: $showAddDailyTransaction, content: {
-        DailyTransactionsListView()
-      })
-      .rootNavigationTitle(Appearance.shared.title)
-      .toolbar {
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button {
-            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(SettingsView()))
-          } label: {
-            Appearance.shared.settingsIcon
-              .foregroundColor(.black)
-          }
+      DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(900)) {
+        withAnimation(.smooth) {
+          showTransactionAnimation.toggle()
+        }
+      }
+    }
+    .popup(isPresented: $showAlert, view: {
+      EXToast(type: .constant(.zeroBudget))
+    }, customize: {
+      $0
+        .isOpaque(true)
+        .position(.top)
+        .type(.floater())
+        .autohideIn(1.5)
+    })
+    .rootNavigationTitle(Appearance.shared.title)
+    .toolbar {
+      ToolbarItem(placement: .navigationBarTrailing) {
+        Button {
+          router.navigate(to: .settings)
+        } label: {
+          Appearance.shared.settingsIcon
+            .foregroundColor(.black)
         }
       }
     }
@@ -111,7 +77,6 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
   static var previews: some View {
     HomeView()
-      .environmentObject(HomeQuickActionsCoordinator())
       .modelContainer(AppModelStore.preview)
   }
 }
@@ -128,54 +93,8 @@ extension HomeView {
 
 // MARK: - Helper Views
 extension HomeView {
-  @ViewBuilder
-  func bottomActionButton() -> some View {
-    if canAddTransactions {
-      VStack {
-        Menu {
-          Menu("Daily Transactions") {
-            ForEach(dailyTransactions) { dailyTransaction in
-              Button(action: {
-                addDailyTransaction(with: dailyTransaction)
-              }) {
-                Label("\(dailyTransaction.categoryIcon) \(dailyTransaction.name)", systemImage: "")
-              }
-            }
-            // Add button for FT
-            Button(action: { showAddDailyTransaction.toggle() }) {
-              Label("Manage daily transactions", systemImage: "plus")
-            }
-          }
-          .menuOrder(.priority)
-          Button(action: { showAddTransaction.toggle() }) {
-            Label("Add transaction", image: "buttonTransaction")
-          }
-          
-          Button(action: { showAddRecurrentPayment.toggle() }) {
-            Label("Add recurring payment", image: "buttonRecurrent")
-          }
-          
-        } label: {
-          ZStack {
-            Circle()
-              .fill(Color.secondaryYellow)
-              .frame(width: 60, height: 60)
-            Source.Images.ButtonIcons.add
-              .foregroundColor(.primaryGreen)
-          }
-        }
-        .font(.system(.subheadline, weight: .regular))
-        .menuOrder(.fixed)
-      }
-    }
-  }
-  
   var currentBudget: Budget {
     budget.first ?? Budget()
-  }
-  
-  var canAddTransactions: Bool {
-    currentBudget.amount != 0 && !transactions.isEmpty
   }
 }
 
@@ -193,7 +112,7 @@ extension HomeView {
           .foregroundColor(.black)
         
         Button {
-          showUpdateBudget.toggle()
+          router.presentFullScreenCover(.updateBudget(currentBudget))
         } label: {
           HStack {
             Source.Images.ButtonIcons.add
@@ -206,10 +125,6 @@ extension HomeView {
         .buttonStyle(EXSmallButtonStyle())
         .padding(.top, 16)
       }
-      .fullScreenCover(isPresented: $showUpdateBudget) {
-        AddBudgetView(type: .updateBudget, budget: currentBudget)
-          .presentationDetents([.large])
-      }
     } else {
       EXLargeEmptyState(config: (Source.Strings.EmptyStateType.noBudget.title,
                                  Source.Strings.EmptyStateType.noBudget.text,
@@ -217,7 +132,7 @@ extension HomeView {
                         icon: Source.Images.EmptyStates.noBudget,
                         isActive: false,
                         action: {
-        showAddBudget.toggle()
+        router.presentFullScreenCover(.addBudget)
       })
     }
   }
@@ -232,7 +147,7 @@ extension HomeView {
             .foregroundColor(.black)
           Spacer()
           Button(action: {
-            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentsListView(budget: currentBudget)))
+            router.navigate(to: .recurringPaymentsList(currentBudget))
           }) {
             Text("View all")
               .font(.system(.subheadline, weight: .semibold))
@@ -246,7 +161,7 @@ extension HomeView {
               HStack {
                 ForEach(recurringTransactions.prefix(2)) { payment in
                   Button {
-                    router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(transaction: payment, budget: currentBudget)))
+                    router.navigate(to: .recurringPaymentDetail(payment, currentBudget))
                   } label: {
                     EXRecurringTransactionCell(payment: payment)
                   }
@@ -279,7 +194,7 @@ extension HomeView {
                                  Source.Strings.EmptyStateType.noRecurrentPayments.buttonText),
                         isActive: currentBudget.amount == 0,
                         action: {
-        showAddRecurrentPayment.toggle()
+        router.presentFullScreenCover(.addRecurringPayment(currentBudget))
       })
       .padding(.top, 15)
     }
@@ -299,7 +214,7 @@ extension HomeView {
           }
           Spacer()
           Button(action: {
-            router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionsListView()))
+            router.navigate(to: .transactionsList)
           }) {
             Text("View all")
               .font(.system(.subheadline, weight: .semibold))
@@ -311,7 +226,7 @@ extension HomeView {
             VStack {
               ForEach(transactions.reversed().prefix(3)) { transaction in
                 Button {
-                  router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionDetailView(transaction: transaction, budget: currentBudget)))
+                  router.navigate(to: .transactionDetail(transaction, currentBudget))
                 } label: {
                   EXTransactionCell(transaction: transaction)
                 }
@@ -346,7 +261,7 @@ extension HomeView {
                         icon: Source.Images.EmptyStates.noExpenses,
                         isActive: currentBudget.amount == 0,
                         action: {
-        showAddTransaction.toggle()
+        router.presentFullScreenCover(.addTransaction(currentBudget))
       })
       .padding(.top, 15)
     }
@@ -373,29 +288,5 @@ extension HomeView {
     } else {
       return "\(difference) recurring payments"
     }
-  }
-}
-
-// MARK: - Quick Actions
-extension HomeView {
-  func handleQuickAction(_ action: HomeQuickAction) {
-    switch action {
-    case .addTransaction:
-      showAddTransaction.toggle()
-    case .addRecurringPayment:
-      showAddRecurrentPayment.toggle()
-    case .manageDailyTransactions:
-      showAddDailyTransaction.toggle()
-    case .addDailyTransaction(let dailyTransaction):
-      addDailyTransaction(with: dailyTransaction)
-    }
-  }
-}
-
-// MARK: - Storage Functions
-extension HomeView {
-  func addDailyTransaction(with dailyTransaction: DailyTransaction) {
-    guard (try? dailyTransaction.spend(from: currentBudget)) == true else { return }
-    AnalyticsManager.shared.log(.dailyTransactionUsed)
   }
 }

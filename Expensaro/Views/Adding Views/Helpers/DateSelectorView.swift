@@ -13,7 +13,7 @@ struct DateSelectorView: View {
   let type: SelectorType
   @Binding var selectedDate: Date
   var body: some View {
-    NavigationView(content: {
+    NavigationStack(root: {
       VStack {
         DatePicker(
           "Start Date",

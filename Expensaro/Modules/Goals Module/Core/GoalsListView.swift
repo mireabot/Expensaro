@@ -6,24 +6,18 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 import SwiftData
 
 struct GoalsListView: View {
-  @EnvironmentObject var router: EXNavigationViewsRouter
-  @State private var showAddGoalView = false
+  @Dependency(\.router) private var router
   @AppStorage("currencySign") private var currencySign = "USD"
   
-  @State private var showListAnimation = false
   @Query(Goal.byDueDate) private var goals: [Goal]
   var body: some View {
-    NavigationView {
-      goalsScrollView()
-        .fullScreenCover(isPresented: $showAddGoalView, content: {
-          AddGoalView(goal: Goal())
-        })
-        .rootNavigationTitle(Appearance.shared.title)
-    }
+    goalsScrollView()
+      .rootNavigationTitle(Appearance.shared.title)
   }
 }
 
@@ -44,103 +38,47 @@ extension GoalsListView {
 
 // MARK: - Helper Views
 extension GoalsListView {
-  @ViewBuilder
   func goalsScrollView() -> some View {
-    if #available(iOS 26.0, *) {
-      // Header sits in a safe area bar so goals scroll under it with the system edge effect
-      ScrollView {
+    ScrollView {
+      VStack(spacing: 10) {
+        goalOverviewContent()
         goalsList()
       }
-      .scrollBounceBehavior(.basedOnSize)
-      .safeAreaBar(edge: .top) {
-        goalOverviewContent()
-      }
-    } else {
-      ScrollView {
-        LazyVStack(spacing: 10, pinnedViews: [.sectionHeaders]) {
-          Section {
-            goalsList()
-          } header: {
-            goalOverviewHeader()
-          }
-        }
-      }
-      .scrollBounceBehavior(.basedOnSize)
     }
+    .scrollBounceBehavior(.basedOnSize)
   }
   
   @ViewBuilder
   func goalsList() -> some View {
-    Group {
-      if goals.isEmpty {
-        EXEmptyStateView(type: .noGoals, isCard: false).padding(.top, 30)
-      } else {
-        ZStack {
-          if showListAnimation {
-            VStack(spacing: 10) {
-              ForEach(goals) { goal in
-                Button {
-                  router.pushTo(view: EXNavigationViewBuilder.builder.makeView(GoalDetailView(goal: goal)))
-                } label: {
-                  EXGoalCell(goal: goal)
-                }
-                .buttonStyle(EXPlainButtonStyle())
-              }
-            }
-          } else {
-            EXGoalCellLoading()
+    if goals.isEmpty {
+      EXEmptyStateView(type: .noGoals, isCard: false).padding(.top, 30)
+    } else {
+      VStack(spacing: 10) {
+        ForEach(goals) { goal in
+          Button {
+            router.navigate(to: .goalDetail(goal))
+          } label: {
+            EXGoalCell(goal: goal)
           }
-        }
-        .applyMargins()
-      }
-    }
-    .onFirstAppear {
-      DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(900)) {
-        withAnimation(.smooth) {
-          showListAnimation.toggle()
+          .buttonStyle(EXPlainButtonStyle())
         }
       }
+      .applyMargins()
     }
-  }
-  
-  @ViewBuilder
-  func goalOverviewHeader() -> some View {
-    goalOverviewContent()
-      .background(
-        Rectangle()
-          .fill(Color.white)
-          .cornerRadius(12)
-          .shadowXS()
-      )
   }
   
   func goalOverviewContent() -> some View {
-    HStack {
-      HStack {
-        VStack(alignment: .leading, spacing: 3) {
-          Text("You saved in total")
-            .font(.system(.subheadline, weight: .regular))
-            .foregroundColor(.darkGrey)
-          Text("\(totalSavings.formattedAsCurrencySolid(with: currencySign))")
-            .font(.system(.title3, weight: .medium))
-        }
-        Spacer()
-        
-        Button {
-          showAddGoalView.toggle()
-        } label: {
-          HStack {
-            Source.Images.ButtonIcons.add
-            Text("Add goal")
-              .font(.headlineSemibold)
-          }
-        }.buttonStyle(EXSmallButtonStyle())
-        
-      }
-      .padding(.top, 5)
-      .padding(.bottom, 15)
-      .applyMargins()
+    VStack(alignment: .leading, spacing: 3) {
+      Text("You saved in total")
+        .font(.system(.subheadline, weight: .regular))
+        .foregroundColor(.darkGrey)
+      Text("\(totalSavings.formattedAsCurrencySolid(with: currencySign))")
+        .font(.system(.title3, weight: .medium))
     }
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .padding(.top, 5)
+    .padding(.bottom, 15)
+    .applyMargins()
   }
 }
 

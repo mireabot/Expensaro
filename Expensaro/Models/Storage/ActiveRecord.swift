@@ -37,3 +37,11 @@ extension ActiveRecord {
     try context.save()
   }
 }
+
+extension PersistentModel {
+  /// False once the model is deleted or detached from its context. Check before reading properties of a
+  /// model that may outlive its row (a screen mid-pop, a route still holding it): SwiftData traps on those reads.
+  var isLive: Bool {
+    modelContext != nil && !isDeleted
+  }
+}

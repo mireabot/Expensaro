@@ -6,83 +6,78 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 import SwiftData
 
 struct RecurrentPaymentsListView: View {
   // MARK: Essential
-  @EnvironmentObject var router: EXNavigationViewsRouter
+  @Dependency(\.router) private var router
   @State var currentDate: Date = Date()
   @AppStorage("currencySign") private var currencySign = "USD"
   
   // MARK: Presentation
-  @State private var showAddPayment = false
   @State private var showPaymentDetail = false
   
   // MARK: Storage
   @Query(RecurringTransaction.byDueDate) private var recurringTransactions: [RecurringTransaction]
   @Bindable var budget: Budget
   var body: some View {
-    NavigationView {
-      ScrollView {
-        EXDatePicker(currentDate: $currentDate, recurringTransactions: recurringTransactions)
-          .padding(.top, 16)
-        
-        VStack {
-          if let payments = groupedRecurringPayments.first(where: { payment in
-            return isSameDay(date1: payment.paymentDueDate, date2: currentDate)
-          }){
-            VStack {
-              Text("Upcoming payments on \(Text("\(displayDate(date: currentDate))").foregroundColor(.primaryGreen).font(.system(.title3, weight: .bold)))")
-                .font(.system(.headline, weight: .semibold))
-                .foregroundColor(.black)
-                .frame(maxWidth: .infinity, alignment: .leading)
-              LazyVStack {
-                ForEach(payments.payments) { paymentData in
-                  Button {
-                    router.pushTo(view: EXNavigationViewBuilder.builder.makeView(RecurrentPaymentDetailView(transaction: paymentData, budget: budget)))
-                  } label: {
-                    EXRecurringTransactionCell(payment: paymentData)
-                  }
-                  .buttonStyle(EXPlainButtonStyle())
+    ScrollView {
+      EXDatePicker(currentDate: $currentDate, recurringTransactions: recurringTransactions)
+        .padding(.top, 16)
+      
+      VStack {
+        if let payments = groupedRecurringPayments.first(where: { payment in
+          return isSameDay(date1: payment.paymentDueDate, date2: currentDate)
+        }){
+          VStack {
+            Text("Upcoming payments on \(Text("\(displayDate(date: currentDate))").foregroundColor(.primaryGreen).font(.system(.title3, weight: .bold)))")
+              .font(.system(.headline, weight: .semibold))
+              .foregroundColor(.black)
+              .frame(maxWidth: .infinity, alignment: .leading)
+            LazyVStack {
+              ForEach(payments.payments) { paymentData in
+                Button {
+                  router.navigate(to: .recurringPaymentDetail(paymentData, budget))
+                } label: {
+                  EXRecurringTransactionCell(payment: paymentData)
                 }
+                .buttonStyle(EXPlainButtonStyle())
               }
             }
           }
-          else {
-            EXEmptyStateView(type: .noRecurringPayments)
-          }
         }
-        .applyMargins()
-        .padding(.bottom, 10)
+        else {
+          EXEmptyStateView(type: .noRecurringPayments)
+        }
       }
-      .scrollBounceBehavior(.basedOnSize)
-      .navigationBarTitleDisplayMode(.inline)
-      .fullScreenCover(isPresented: $showAddPayment, content: {
-        AddRecurrentPaymentView(recurringPayment: RecurringTransaction(), budget: budget)
-      })
-      .toolbar {
-        ToolbarItem(placement: .navigationBarLeading) {
-          Button {
-            router.nav?.popViewController(animated: true)
-          } label: {
-            Appearance.shared.backIcon
-              .foregroundColor(.black)
-          }
+      .applyMargins()
+      .padding(.bottom, 10)
+    }
+    .scrollBounceBehavior(.basedOnSize)
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .navigationBarLeading) {
+        Button {
+          router.back()
+        } label: {
+          Appearance.shared.backIcon
+            .foregroundColor(.black)
         }
-        
-        ToolbarItem(placement: .principal) {
-          Text(Appearance.shared.title)
-            .font(.system(.headline, weight: .medium))
-        }
-        
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button {
-            showAddPayment.toggle()
-          } label: {
-            Appearance.shared.addIcon
-              .foregroundColor(.black)
-          }
+      }
+      
+      ToolbarItem(placement: .principal) {
+        Text(Appearance.shared.title)
+          .font(.system(.headline, weight: .medium))
+      }
+      
+      ToolbarItem(placement: .navigationBarTrailing) {
+        Button {
+          router.presentFullScreenCover(.addRecurringPayment(budget))
+        } label: {
+          Appearance.shared.addIcon
+            .foregroundColor(.black)
         }
       }
     }

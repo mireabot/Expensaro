@@ -30,7 +30,7 @@ struct EditGoalView: View {
   @State private var showDateSelector = false
   @State private var showError = false
   var body: some View {
-    NavigationView {
+    NavigationStack {
       ZStack(alignment: .bottom, content: {
         ScrollView(showsIndicators: false) {
           VStack(spacing: 20) {

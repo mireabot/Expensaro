@@ -23,8 +23,11 @@ let topCategoriesData: [TopCategories] = [
 // MARK: Top category for the current month
 /// Top spending category from this month's transactions and budget, as queried by the view.
 /// Below `minimumSpendings` it shows the demo transactions instead.
-struct TopCategorySummary {
+struct TopCategorySummary: Hashable {
   static let minimumSpendings = 15
+  /// Identity of this snapshot. The figures hold tuples, which can't be Hashable,
+  /// so equality is per computed snapshot; that's all a navigation route needs
+  private let snapshotID = UUID()
 
   let spendingsCount: Int
   let topCategory: (name: String, amount: Double, count: Int)
@@ -57,5 +60,15 @@ struct TopCategorySummary {
       otherCategories = []
     }
     combinedBudget = (budget?.initialAmount ?? 0) + transactions.refills.totalAmount
+  }
+}
+
+extension TopCategorySummary {
+  static func == (lhs: Self, rhs: Self) -> Bool {
+    lhs.snapshotID == rhs.snapshotID
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(snapshotID)
   }
 }

@@ -11,7 +11,7 @@ import ExpensaroUIKit
 struct OnboardingView: View {
   @State private var showPermission = false
   var body: some View {
-    NavigationView {
+    NavigationStack {
       VStack {
         VStack(alignment: .leading, spacing: 0, content: {
           Text("Expensaro")

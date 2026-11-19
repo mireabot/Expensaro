@@ -6,16 +6,17 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 import PopupView
 import SwiftData
 
 struct TransactionInsightsView: View {
+  @Dependency(\.router) private var router
   @State private var showAnalyticsDemo = false
   @Query private var transactions: [Transaction]
   @AppStorage("currencySign") private var currencySign = "USD"
   
-  @State private var showFeedback = false
   
   init(categoryName: String) {
     _transactions = Query(Transaction.inCategoryThisMonth(categoryName))
@@ -52,7 +53,7 @@ struct TransactionInsightsView: View {
               
               Menu {
                 Button("Provide feedback") {
-                  showFeedback.toggle()
+                  router.presentFullScreenCover(.feedback(topic: "Transaction Insights"))
                 }
               } label: {
                 Image(systemName: "ellipsis")
@@ -89,9 +90,6 @@ struct TransactionInsightsView: View {
         }
       }
     }
-    .fullScreenCover(isPresented: $showFeedback, content: {
-      ContactSettingsView(topic: "Transaction Insights", isCalled: true)
-    })
     .popup(isPresented: $showAnalyticsDemo) {
       EXBottomInfoView(config: (Source.Strings.BottomPreviewType.transactions.title,
                                 Source.Strings.BottomPreviewType.transactions.text,

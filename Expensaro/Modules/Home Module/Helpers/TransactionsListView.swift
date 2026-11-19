@@ -6,78 +6,73 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 import SwiftData
 import Algorithms
 
 struct TransactionsListView: View {
-  @EnvironmentObject var router: EXNavigationViewsRouter
+  @Dependency(\.router) private var router
   @AppStorage("currencySign") private var currencySign = "USD"
   
   @Query(Transaction.thisMonth) private var transactions: [Transaction]
   @Query(Budget.thisMonth) private var budget: [Budget]
   
-  @State private var showAddTransaction = false
   @State private var showTransactionDetail = false
 
   var body: some View {
-    NavigationView {
-      ScrollView(showsIndicators: false) {
-        if chunkedTransactions.isEmpty {
-          EXEmptyStateView(type: .noTransactions, isCard: false).padding(.top, 30)
-        } else {
-          LazyVStack(alignment: .center, spacing: 0, pinnedViews: [.sectionHeaders]) {
-            Section {
-              LazyVStack(spacing: 10) {
-                ForEach(chunkedTransactions, id: \.self) { transactions in
-                  Section {
-                    ForEach(transactions) { transaction in
-                      Button {
-                        router.pushTo(view: EXNavigationViewBuilder.builder.makeView(TransactionDetailView(transaction: transaction, budget: currentBudget)))
-                      } label: {
-                        EXTransactionCell(transaction: transaction)
-                      }
-                      .buttonStyle(EXPlainButtonStyle())
+    ScrollView(showsIndicators: false) {
+      if chunkedTransactions.isEmpty {
+        EXEmptyStateView(type: .noTransactions, isCard: false).padding(.top, 30)
+      } else {
+        LazyVStack(alignment: .center, spacing: 0, pinnedViews: [.sectionHeaders]) {
+          Section {
+            LazyVStack(spacing: 10) {
+              ForEach(chunkedTransactions, id: \.self) { transactions in
+                Section {
+                  ForEach(transactions) { transaction in
+                    Button {
+                      router.navigate(to: .transactionDetail(transaction, currentBudget))
+                    } label: {
+                      EXTransactionCell(transaction: transaction)
                     }
-                  } header: {
-                    listHeader(transactions.first!.date)
+                    .buttonStyle(EXPlainButtonStyle())
                   }
+                } header: {
+                  listHeader(transactions.first!.date)
                 }
               }
-              .padding(.bottom, 10)
-              .applyMargins()
-            } header: {
-              headerView()
             }
+            .padding(.bottom, 10)
+            .applyMargins()
+          } header: {
+            headerView()
           }
         }
       }
-      .fullScreenCover(isPresented: $showAddTransaction, content: {
-        AddTransactionView(transaction: Transaction(), budget: currentBudget)
-      })
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .navigationBarLeading) {
-          Button {
-            router.nav?.popViewController(animated: true)
-          } label: {
-            Appearance.shared.backIcon
-              .foregroundColor(.black)
-          }
+    }
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .navigationBarLeading) {
+        Button {
+          router.back()
+        } label: {
+          Appearance.shared.backIcon
+            .foregroundColor(.black)
         }
-        
-        ToolbarItem(placement: .principal) {
-          Text(Appearance.shared.title)
-            .font(.system(.headline, weight: .medium))
-        }
-        
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button {
-            showAddTransaction.toggle()
-          } label: {
-            Appearance.shared.addIcon
-              .foregroundColor(.black)
-          }
+      }
+      
+      ToolbarItem(placement: .principal) {
+        Text(Appearance.shared.title)
+          .font(.system(.headline, weight: .medium))
+      }
+      
+      ToolbarItem(placement: .navigationBarTrailing) {
+        Button {
+          router.presentFullScreenCover(.addTransaction(currentBudget))
+        } label: {
+          Appearance.shared.addIcon
+            .foregroundColor(.black)
         }
       }
     }

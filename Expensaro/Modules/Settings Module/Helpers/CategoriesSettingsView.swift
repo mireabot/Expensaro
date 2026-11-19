@@ -6,72 +6,71 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 import SwiftData
 
 struct CategoriesSettingsView: View {
-  @EnvironmentObject var router: EXNavigationViewsRouter
+  @Dependency(\.router) private var router
   
   @Query(Category.byName) private var categories: [Category]
   var body: some View {
-    NavigationView {
-      VStack {
-        Button {
-          router.pushTo(view: EXNavigationViewBuilder.builder.makeView(AddCategoryView(isSheet: false, category: Category())))
-        } label: {
-          Text("Create new category")
-            .font(.subheadlineMedium)
-        }
-        .buttonStyle(EXStretchButtonStyle(icon: Appearance.shared.addIcon))
-        .padding(.top, 20)
-        .applyMargins()
-        
-        List {
-          ForEach(Dictionary(grouping: categories, by: { $0.section.header }).keys.sorted(), id: \.self) { sectionHeader in
-            Section {
-              ForEach(Dictionary(grouping: categories, by: { $0.section.header })[sectionHeader]!) { category in
-                EXCategoryCell(icon: category.icon, title: category.name)
-                  .swipeActions {
-                    Button("Delete", role: .destructive, action: {
-                      deleteCategory(category: category)
-                    })
-                  }
-              }
-              .listRowSeparator(.hidden)
-            } header: {
-              HStack {
-                Text(sectionHeader)
-                  .font(.footnoteRegular)
-                  .foregroundColor(.darkGrey)
-                  .padding(5)
-                Spacer()
-              }
-              .applyMargins()
-              .background(Color.white)
-              .listRowInsets(EdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: 0,
-                trailing: 0))
-            }
-          }
-        }
-        .listStyle(.plain)
+    VStack {
+      Button {
+        router.navigate(to: .addCategory)
+      } label: {
+        Text("Create new category")
+          .font(.subheadlineMedium)
       }
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          Text(Appearance.shared.title)
-            .font(.system(.headline, weight: .medium))
-        }
-        ToolbarItem(placement: .navigationBarLeading) {
-          Button {
-            router.nav?.popViewController(animated: true)
-          } label: {
-            Appearance.shared.backIcon
-              .font(.callout)
-              .foregroundColor(.black)
+      .buttonStyle(EXStretchButtonStyle(icon: Appearance.shared.addIcon))
+      .padding(.top, 20)
+      .applyMargins()
+      
+      List {
+        ForEach(Dictionary(grouping: categories, by: { $0.section.header }).keys.sorted(), id: \.self) { sectionHeader in
+          Section {
+            ForEach(Dictionary(grouping: categories, by: { $0.section.header })[sectionHeader]!) { category in
+              EXCategoryCell(icon: category.icon, title: category.name)
+                .swipeActions {
+                  Button("Delete", role: .destructive, action: {
+                    deleteCategory(category: category)
+                  })
+                }
+            }
+            .listRowSeparator(.hidden)
+          } header: {
+            HStack {
+              Text(sectionHeader)
+                .font(.footnoteRegular)
+                .foregroundColor(.darkGrey)
+                .padding(5)
+              Spacer()
+            }
+            .applyMargins()
+            .background(Color.white)
+            .listRowInsets(EdgeInsets(
+              top: 0,
+              leading: 0,
+              bottom: 0,
+              trailing: 0))
           }
+        }
+      }
+      .listStyle(.plain)
+    }
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .principal) {
+        Text(Appearance.shared.title)
+          .font(.system(.headline, weight: .medium))
+      }
+      ToolbarItem(placement: .navigationBarLeading) {
+        Button {
+          router.back()
+        } label: {
+          Appearance.shared.backIcon
+            .font(.callout)
+            .foregroundColor(.black)
         }
       }
     }

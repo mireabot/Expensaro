@@ -39,7 +39,7 @@ struct AddTransactionView: View {
   @State private var showCategoriesSelector = false
   @State private var showError = false
   var body: some View {
-    NavigationView {
+    NavigationStack {
       ZStack(alignment: .bottom, content: {
         ScrollView {
           EXSegmentControl(currentTab: $transaction.type, 

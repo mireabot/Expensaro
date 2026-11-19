@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import Dependencies
 import ExpensaroUIKit
 import SwiftData
 import UserNotifications
 
 struct DebugMenuView: View {
-  @EnvironmentObject var router: EXNavigationViewsRouter
+  @Dependency(\.router) private var router
   let notificationManager: NotificationManager = NotificationManager.shared
   @AppStorage("currencySign") private var currencySign = "USD"
   
@@ -23,97 +24,95 @@ struct DebugMenuView: View {
   @State private var rowCounts: [(name: String, count: Int)] = []
   @State private var showEraseConfirmation = false
   var body: some View {
-    NavigationView {
-      VStack {
-        List {
-          storageSection()
-          
-          Section(header: Text("Budgets")) {
-            ForEach(budgets) { budget in
-              HStack {
-                VStack(alignment: .leading, spacing: 3) {
-                  Text("Current amount $\(budget.amount.withDecimals)")
-                  Text("Initial amount $\(budget.initialAmount.withDecimals)")
-                }
-                Spacer()
-                Text("\(Source.Functions.showString(from: budget.dateCreated))")
+    VStack {
+      List {
+        storageSection()
+        
+        Section(header: Text("Budgets")) {
+          ForEach(budgets) { budget in
+            HStack {
+              VStack(alignment: .leading, spacing: 3) {
+                Text("Current amount $\(budget.amount.withDecimals)")
+                Text("Initial amount $\(budget.initialAmount.withDecimals)")
               }
+              Spacer()
+              Text("\(Source.Functions.showString(from: budget.dateCreated))")
             }
-          }
-          
-          Section(header: Text("Pending notifications")) {
-            ForEach(notifications, id: \.self) { data in
-              Text(data)
-            }
-          }
-          
-          Section(header: Text("Spendings")) {
-            ForEach(Array(groupTransactionsByMonth(transactions: transactions)), id: \.0) { month, transactions in
-              Text("Total for \(month): \(transactions.reduce(0) { $0 + $1.amount })")
-            }
-          }
-          
-          Section {
-            Button {
-              writeCategories()
-            } label: {
-              Text("Update categories")
-            }
-            Button {
-              createDemoProfile()
-            } label: {
-              Text("Create Demo Profile")
-            }
-            Button {
-              testNotification()
-            } label: {
-              Text("Test Notification")
-            }
-            Button {
-              loadTransactions()
-            } label: {
-              Text("Load Transactions")
-            }
-            Button {
-              addSameCategoryTransactions()
-            } label: {
-              Text("Add same category transactions")
-            }
-          } header: {
-            Text("Actions")
           }
         }
-      }
-      .onFirstAppear {
-        notificationManager.printNotifications { result in
-          notifications = result
+        
+        Section(header: Text("Pending notifications")) {
+          ForEach(notifications, id: \.self) { data in
+            Text(data)
+          }
+        }
+        
+        Section(header: Text("Spendings")) {
+          ForEach(Array(groupTransactionsByMonth(transactions: transactions)), id: \.0) { month, transactions in
+            Text("Total for \(month): \(transactions.reduce(0) { $0 + $1.amount })")
+          }
+        }
+        
+        Section {
+          Button {
+            writeCategories()
+          } label: {
+            Text("Update categories")
+          }
+          Button {
+            createDemoProfile()
+          } label: {
+            Text("Create Demo Profile")
+          }
+          Button {
+            testNotification()
+          } label: {
+            Text("Test Notification")
+          }
+          Button {
+            loadTransactions()
+          } label: {
+            Text("Load Transactions")
+          }
+          Button {
+            addSameCategoryTransactions()
+          } label: {
+            Text("Add same category transactions")
+          }
+        } header: {
+          Text("Actions")
         }
       }
-      .onAppear {
+    }
+    .onFirstAppear {
+      notificationManager.printNotifications { result in
+        notifications = result
+      }
+    }
+    .onAppear {
+      refreshCounts()
+    }
+    .confirmationDialog("Erase all stored data?", isPresented: $showEraseConfirmation, titleVisibility: .visible) {
+      Button("Erase all data", role: .destructive) {
+        AppModelStore.eraseAllData()
         refreshCounts()
       }
-      .confirmationDialog("Erase all stored data?", isPresented: $showEraseConfirmation, titleVisibility: .visible) {
-        Button("Erase all data", role: .destructive) {
-          AppModelStore.eraseAllData()
-          refreshCounts()
+    }
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbarBackground(.white, for: .bottomBar)
+    .toolbar {
+      ToolbarItem(placement: .navigationBarLeading) {
+        Button {
+          router.back()
+        } label: {
+          Appearance.shared.backIcon
+            .font(.callout)
+            .foregroundColor(.black)
         }
       }
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbarBackground(.white, for: .bottomBar)
-      .toolbar {
-        ToolbarItem(placement: .navigationBarLeading) {
-          Button {
-            router.nav?.popViewController(animated: true)
-          } label: {
-            Appearance.shared.backIcon
-              .font(.callout)
-              .foregroundColor(.black)
-          }
-        }
-        ToolbarItem(placement: .principal) {
-          Text(Appearance.shared.title)
-            .font(.system(.headline, weight: .medium))
-        }
+      ToolbarItem(placement: .principal) {
+        Text(Appearance.shared.title)
+          .font(.system(.headline, weight: .medium))
       }
     }
   }
