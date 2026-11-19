@@ -160,7 +160,6 @@ extension AddCategoryView {
 // MARK: - Storage Functions
 extension AddCategoryView {
   func saveCategory() {
-    AnalyticsManager.shared.log(.createCategory(category.name, category.section.header))
     category.tag = .custom
     try? category.addIfMissing()
   }

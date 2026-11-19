@@ -2,15 +2,6 @@
   "originHash" : "e1f42235cb146bda7fd624c1a5776ebafa0f779b0928dd504f9cf8ce10575acd",
   "pins" : [
     {
-      "identity" : "aptabase-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/aptabase/aptabase-swift.git",
-      "state" : {
-        "revision" : "cfd67fac2a228d448d9d2ac92ffc71589cc3ef00",
-        "version" : "0.3.11"
-      }
-    },
-    {
       "identity" : "combine-schedulers",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/combine-schedulers",

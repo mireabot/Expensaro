@@ -24,7 +24,6 @@ Expensaro helps users track day-to-day transactions, set budgets & goals, and an
 | **`NotificationManager`**                 | Thin wrapper around `UNUserNotificationCenter`. Requests permission, schedules payment-due reminders, deletes or lists pending notifications and handles foreground presentation via delegate. Implemented as a singleton because of the delegate requirement. |
 | **`TopCategoryManager`**                  | Analyses transactions for the current month to find the category with the highest spend, calculates its percentage of the budget and prepares a sorted list of “other categories”. Falls back to demo data if the sample size is too small. |
 | **`GoalManager`**                         | Provides a simple “success-rate” calculator for savings goals. Given budget, goal amount and days left, it derives a percentage risk level and returns descriptive text & colour for UI badges. |
-| **`AnalyticsManager`**                    | Centralised wrapper around **Aptabase**. Converts strongly-typed `AnalyticsEvents` into Aptabase event names & payloads. Runs in “print only” mode when `Source.adminMode` is enabled. |
 
 ---
 
@@ -101,7 +100,7 @@ A single, namespaced “bag of constants & helpers” used across the whole code
 | `Source.Realm`                   | Factory methods that create pre-populated Realm objects for tests, previews and demo data (`createTransaction`, `createGoal`, …). |
 | `Source.DefaultData`             | Ready-to-insert demo content: sample transactions, budgets, categories, goals and recurring payments. Used by Debug Menu and onboarding seeding. |
 | Global helpers                   | `randomDateInCurrentMonth()` / `randomDateInPreviousMonth()` – utility functions that create random dates for the demo transactions. |
-| Misc constants                   | `wishKEY`, `aptaBaseKEY`, `adminMode` feature flag. |
+| Misc constants                   | `wishKEY`; `adminMode` flag (on when launched with `-adminMode`). |
 
 Keeping these values in a single file avoids “stringly-typed” errors and makes localisation / asset swapping easier.
 

@@ -48,7 +48,6 @@ struct OverviewView: View {
         DispatchQueue.main.async {
           showTopCategoryInfoSheet.toggle()
         }
-        AnalyticsManager.shared.log(.openTopCategoryPreview)
         router.navigate(to: .topCategoryOverview(topCategory))
       }, bottomView: {
         Source.Images.Previews.topCategoryPreview
@@ -78,7 +77,6 @@ struct OverviewView: View {
         DispatchQueue.main.async {
           showSpendingsInfoSheet.toggle()
         }
-        AnalyticsManager.shared.log(.openMonthRecapPreview)
         router.navigate(to: .monthRecap(monthRecap))
       }, bottomView: {
         Source.Images.Previews.monthRecapPreview
@@ -135,7 +133,6 @@ extension OverviewView {
     if !topCategory.isLocked {
       Button(action: {
         router.navigate(to: .topCategoryOverview(topCategory))
-        AnalyticsManager.shared.log(.openTopCategory)
       }, label: {
         EXOverviewCard(header: "Top Category", title: topCategory.topCategory.0, icon: Source.Images.Navigation.redirect, subHeader: "You have spent \(topCategory.topCategory.1.formattedAsCurrencySolid(with: currencySign)) on this category")
       })
@@ -154,7 +151,6 @@ extension OverviewView {
     else {
       Button(action: {
         router.navigate(to: .monthRecap(monthRecap))
-        AnalyticsManager.shared.log(.openMonthRecap)
       }, label: {
         EXOverviewCard(header: "Month recap", title: monthRecap.recapMonth, icon: Source.Images.Navigation.redirect, subHeader: "Check your financial activity breakdown")
       })

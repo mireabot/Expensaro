@@ -721,8 +721,7 @@ enum Source {
   
 // MARK: - API Keys and admin mode toggle
   static let wishKEY = "wishkit-key"
-  static let aptaBaseKEY = "aptabse-key"
-  static let adminMode = true
+  static var adminMode: Bool { ProcessInfo.processInfo.arguments.contains("-adminMode") }
     
 // MARK: - Default data for previews and creating demo profiles
   // Computed so every access returns fresh, unmanaged models: a SwiftData model must never be inserted twice

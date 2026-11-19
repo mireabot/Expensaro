@@ -120,8 +120,7 @@ extension AccessoryContent {
                       title: dailyTransaction.name,
                       icon: .emoji(dailyTransaction.categoryIcon),
                       detail: dailyTransaction.amount.formattedAsCurrency(with: currencySign)) {
-        guard (try? dailyTransaction.spend(from: budget)) == true else { return }
-        AnalyticsManager.shared.log(.dailyTransactionUsed)
+        _ = try? dailyTransaction.spend(from: budget)
       }
     }
     let manage = AccessoryAction(id: "home.manage_daily_transactions",

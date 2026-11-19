@@ -83,6 +83,9 @@ struct AddTransactionView: View {
           budgetValue = budget.amount
         } else {
           budgetValue = budget.amount
+          if transaction.type.isEmpty {
+            transaction.type = Source.Strings.SegmentPickerType.transactionType.firstTab
+          }
         }
       }
       .applyMargins()
@@ -145,13 +148,11 @@ extension AddTransactionView {
 // MARK: - Storage Functions
 extension AddTransactionView {
   func createTransaction() {
-    AnalyticsManager.shared.log(.createTransaction(transaction.name, Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, transaction.categoryName))
     transaction.amount = Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0
     try? transaction.spend(from: budget)
   }
   
   func updateTransaction() {
-    AnalyticsManager.shared.log(.editTransaction)
     try? transaction.changeAmount(to: Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, in: budget)
   }
 }

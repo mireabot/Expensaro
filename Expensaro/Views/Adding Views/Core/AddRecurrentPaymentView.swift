@@ -161,7 +161,6 @@ struct AddRecurrentPaymentView: View {
           },
           primaryAction: {
             recurringPayment.isReminder = true
-            AnalyticsManager.shared.log(.createdReminder(recurringPayment.name))
             createPayment()
             DispatchQueue.main.async {
               showReminderAlert.toggle()
@@ -170,7 +169,6 @@ struct AddRecurrentPaymentView: View {
           },
           secondaryAction: {
             recurringPayment.isReminder = false
-            AnalyticsManager.shared.log(.createdReminder(recurringPayment.name))
             createPayment()
             DispatchQueue.main.async {
               showReminderAlert.toggle()
@@ -285,12 +283,10 @@ extension AddRecurrentPaymentView {
 // MARK: - Storage Functions
 extension AddRecurrentPaymentView {
   func createPayment() {
-    AnalyticsManager.shared.log(.createPayment(recurringPayment.name, Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0))
     try? recurringPayment.create(amount: Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, charging: budget)
   }
   
   func updatePayment() {
-    AnalyticsManager.shared.log(.editPayment)
     try? recurringPayment.update(amount: Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, in: budget)
   }
 }

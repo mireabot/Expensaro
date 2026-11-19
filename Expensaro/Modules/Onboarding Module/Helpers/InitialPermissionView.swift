@@ -79,7 +79,6 @@ struct InitialPermissionView: View {
           UserDefaults.standard.setValue(UIDevice.current.identifierForVendor?.uuidString, forKey: "DeviceID")
           UserDefaults.standard.synchronize()
           isUserLoggedIn = true
-          AnalyticsManager.shared.log(.profileCreated)
         }
       } label: {
         Text("Finish")

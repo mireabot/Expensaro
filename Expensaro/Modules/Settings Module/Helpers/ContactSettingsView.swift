@@ -53,7 +53,6 @@ struct ContactSettingsView: View {
           .position(.top)
           .autohideIn(1.5)
           .dismissCallback {
-            AnalyticsManager.shared.log(.sendFeedback(message, email, topic))
             if isCalled {
               makeDismiss()
             } else {
