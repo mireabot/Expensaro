@@ -1,0 +1,30 @@
+{
+  "name": "expensaro-collector",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "reflex": "./dist/reflex"
+  },
+  "scripts": {
+    "dev": "REFLEX_DEV=1 bun --hot src/cli.ts",
+    "build": "bun scripts/build.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.77.0",
+    "react": "18",
+    "react-dom": "18",
+    "tailwind-merge": "^3.7.1"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.5",
+    "@types/react": "18",
+    "@types/react-dom": "18",
+    "bun-plugin-tailwind": "^0.1.2",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^7.0.2"
+  }
+}
