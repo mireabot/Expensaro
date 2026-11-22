@@ -1,5 +1,4 @@
 ### SwiftPackageManager ###
-Packages
 .build/
 xcuserdata
 DerivedData/
@@ -22,3 +21,9 @@ xcuserdata/
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
+
+### Docs ###
+# Planning docs stay local; only READMEs are tracked
+*.md
+!README.md
+docs/analytics/reflex/
