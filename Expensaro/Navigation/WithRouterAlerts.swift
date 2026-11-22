@@ -47,20 +47,17 @@ private struct RouterAlertView: View {
     router.dismissAlert()
     switch alert {
     case let .deleteTransaction(transaction, budget):
-      AnalyticsManager.shared.log(.deleteTransaction)
       router.back {
         guard transaction.isLive, budget.isLive else { return }
         try? transaction.delete(restoring: budget)
       }
     case let .deleteRecurringPayment(payment, budget):
-      AnalyticsManager.shared.log(.deletePayment)
       router.back {
         guard payment.isLive, budget.isLive else { return }
         // Contributions go with the payment through the cascade delete rule
         try? payment.delete(refunding: budget)
       }
     case let .deleteGoal(goal):
-      AnalyticsManager.shared.log(.deleteGoal)
       router.back {
         guard goal.isLive else { return }
         // Goal transactions go with the goal through the cascade delete rule

@@ -163,7 +163,6 @@ extension AddGoalView {
 // MARK: - Storage Functions
 extension AddGoalView {
   func createGoal(completion: @escaping() -> Void) {
-    AnalyticsManager.shared.log(.createGoal(goal.name, Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0))
     try? goal.create(finalAmount: Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0)
     completion()
   }

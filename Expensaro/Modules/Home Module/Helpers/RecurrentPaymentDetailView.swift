@@ -92,7 +92,6 @@ struct RecurrentPaymentDetailView: View {
                    isOn: Binding(
                     get: { transaction.isReminder },
                     set: { newValue in
-                      AnalyticsManager.shared.log(.modifiedReminder(transaction.name))
                       updateNotification(with: newValue)
                     }
                    ))
@@ -202,7 +201,6 @@ extension RecurrentPaymentDetailView {
       showError.toggle()
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     } else {
-      AnalyticsManager.shared.log(.paymentRenewed(transaction.name, transaction.amount))
       try? transaction.renew(from: budget)
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     }

@@ -21,7 +21,6 @@
 		353311072ACD064100EEB64B /* TransactionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353311062ACD064100EEB64B /* TransactionsListView.swift */; };
 		3538822C2B4E4B7500EB57D1 /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3538822B2B4E4B7400EB57D1 /* AppSettingsView.swift */; };
 		3538822E2B4E4C5E00EB57D1 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3538822D2B4E4C5E00EB57D1 /* Currency.swift */; };
-		353B833E2B62136400DEFC2C /* Aptabase in Frameworks */ = {isa = PBXBuildFile; productRef = 353B833D2B62136400DEFC2C /* Aptabase */; };
 		353E5C2F2ACA01D400430978 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353E5C2E2ACA01D400430978 /* Date+Extension.swift */; };
 		353E5C322ACA1F6600430978 /* RecurrentPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353E5C312ACA1F6600430978 /* RecurrentPayment.swift */; };
 		1702787DE03DDE4085F54C1A /* RecurrentPayment+Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3335800BA4376D1FA3948C23 /* RecurrentPayment+Record.swift */; };
@@ -97,7 +96,6 @@
 		35F49FC32B8003B5009F0C6E /* AddDailyTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F49FC22B8003B5009F0C6E /* AddDailyTransactionView.swift */; };
 		35F49FC62B80050F009F0C6E /* DailyTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F49FC52B80050F009F0C6E /* DailyTransaction.swift */; };
 		5FBFE0C6B12EDE1C9135A9D2 /* DailyTransaction+Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE369155737AC3531EDF83A /* DailyTransaction+Record.swift */; };
-		35FA687C2B4B04D80005A067 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FA687B2B4B04D80005A067 /* AnalyticsManager.swift */; };
 		3D01486D9036DB40A743EF63 /* TabAccessoryMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19726FD9B00B6F38AC0054C7 /* TabAccessoryMenu.swift */; };
 		630787E97E4BB222A0E6C557 /* RouterTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC3F080F660AC15981EB0BB /* RouterTab.swift */; };
 		D4E8062384D2D66C8D5C0B61 /* RouterDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF9207FC5E29E3550B4FD03 /* RouterDestination.swift */; };
@@ -203,7 +201,6 @@
 		35F49FC22B8003B5009F0C6E /* AddDailyTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDailyTransactionView.swift; sourceTree = "<group>"; };
 		35F49FC52B80050F009F0C6E /* DailyTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTransaction.swift; sourceTree = "<group>"; };
 		5CE369155737AC3531EDF83A /* DailyTransaction+Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DailyTransaction+Record.swift"; sourceTree = "<group>"; };
-		35FA687B2B4B04D80005A067 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		1AC3F080F660AC15981EB0BB /* RouterTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterTab.swift; sourceTree = "<group>"; };
 		3CF9207FC5E29E3550B4FD03 /* RouterDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterDestination.swift; sourceTree = "<group>"; };
 		161C39F06A7BEDE9F87898A4 /* RouterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterSheet.swift; sourceTree = "<group>"; };
@@ -229,7 +226,6 @@
 				351D3D612AD0D5C00022E696 /* PopupView in Frameworks */,
 				35E5089B2E300FD8006E159D /* ExpensaroUIKit in Frameworks */,
 				35BD86242B4DBC8A009BC2D7 /* Shimmer in Frameworks */,
-				353B833E2B62136400DEFC2C /* Aptabase in Frameworks */,
 				354F2B152AB9F189002516F1 /* SwiftUIIntrospect in Frameworks */,
 				354716842B45C4C8009BEEC0 /* WishKit in Frameworks */,
 				595AD13F33E4F39E0D62B911 /* Dependencies in Frameworks */,
@@ -243,7 +239,6 @@
 			isa = PBXGroup;
 			children = (
 				3510F6E62AFD62F2000B5532 /* LocalNotificationsManager.swift */,
-				35FA687B2B4B04D80005A067 /* AnalyticsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -744,7 +739,6 @@
 				35002A202B44FC0D00DEF27B /* Algorithms */,
 				354716832B45C4C8009BEEC0 /* WishKit */,
 				35BD86232B4DBC8A009BC2D7 /* Shimmer */,
-				353B833D2B62136400DEFC2C /* Aptabase */,
 				35E5089A2E300FD8006E159D /* ExpensaroUIKit */,
 				FD01A1B28E6A66D8E4A79B10 /* Dependencies */,
 			);
@@ -782,7 +776,6 @@
 				35002A1F2B44FC0D00DEF27B /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				354716822B45C4C8009BEEC0 /* XCRemoteSwiftPackageReference "wishkit-ios" */,
 				35BD86222B4DBC8A009BC2D7 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
-				353B833C2B62136400DEFC2C /* XCRemoteSwiftPackageReference "aptabase-swift" */,
 				35E508992E300FD8006E159D /* XCRemoteSwiftPackageReference "ExpensaroUIKit" */,
 				12917F831609A7A10C0D9384 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
 			);
@@ -902,7 +895,6 @@
 				358B71F72B40F05300511E81 /* EXEmojiKeyboard.swift in Sources */,
 				3510F6E72AFD62F2000B5532 /* LocalNotificationsManager.swift in Sources */,
 				355BB4082ABCB1DE00A71834 /* AddCategoryView.swift in Sources */,
-				35FA687C2B4B04D80005A067 /* AnalyticsManager.swift in Sources */,
 				351839AF2AAF94C3008216F3 /* GoalsListView.swift in Sources */,
 				35ACB7E82AB3EDB800F7ECE5 /* OverviewView.swift in Sources */,
 				3590948F2AAD3EC300428B39 /* ExpensaroApp.swift in Sources */,
@@ -1141,14 +1133,6 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		353B833C2B62136400DEFC2C /* XCRemoteSwiftPackageReference "aptabase-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/aptabase/aptabase-swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.3.6;
-			};
-		};
 		354716822B45C4C8009BEEC0 /* XCRemoteSwiftPackageReference "wishkit-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/wishkit/wishkit-ios.git";
@@ -1201,11 +1185,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 351D3D5F2AD0D5C00022E696 /* XCRemoteSwiftPackageReference "PopupView" */;
 			productName = PopupView;
-		};
-		353B833D2B62136400DEFC2C /* Aptabase */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 353B833C2B62136400DEFC2C /* XCRemoteSwiftPackageReference "aptabase-swift" */;
-			productName = Aptabase;
 		};
 		354716832B45C4C8009BEEC0 /* WishKit */ = {
 			isa = XCSwiftPackageProductDependency;

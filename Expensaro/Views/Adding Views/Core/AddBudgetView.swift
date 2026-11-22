@@ -156,13 +156,11 @@ extension AddBudgetView {
 extension AddBudgetView {
   /// Creates new copy of budget objects and saves in memory
   func addBudget() {
-    AnalyticsManager.shared.log(.createdBudget(Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0, .now))
     try? budget.start(with: Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0)
   }
   
   /// Gets freezed copy of budget object and updates amount field
   func updateBudget() {
-    AnalyticsManager.shared.log(.updatedBudget(Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0))
     try? budget.addFunds(Double(amountValue.replacingOccurrences(of: ",", with: "")) ?? 0)
   }
 }
